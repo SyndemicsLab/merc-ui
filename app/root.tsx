@@ -29,7 +29,7 @@ export default function App() {
 		<div id="sidebar">
 		    <h1>RESPOND Simulation</h1>
 		    <p>
-			<b class="warn">NOTE:</b> Contents of this sidebar are subject to change.
+			<b className="warn">NOTE:</b> Contents of this sidebar are subject to change.
 		    </p>
 		    <ul>
 			<li></li>
@@ -41,7 +41,6 @@ export default function App() {
 		</div>
 		<ScrollRestoration />
 		<Scripts />
-		<LiveReload />
 	    </body>
 	</html>
     );
