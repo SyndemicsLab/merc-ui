@@ -1,0 +1,189 @@
+@import url('https://fonts.googleapis.com/css?family=Syne|IBM+Plex+Mono');
+
+:root {
+    --page-width: 100%;
+    --toc-width: 18rem;
+    --content-offset: 20px;
+    --syndemics-cyan: #3d9be9;
+    --syndemics-pink: #f0325f;
+    --syndemics-blue: #003771;
+}
+
+::-webkit-scrollbar {
+    display:none;
+}
+
+html {
+    height: 100%;
+    margin: 0;
+    background-image: url(./images/logo.png);
+    background-size: 300px;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-color: white;
+    background-position: left bottom;
+    overflow-x: hidden;
+    color: #777;
+    font-weight: 500;
+}
+
+body {
+    min-height: 100%;
+    font-family: "Syne";
+}
+
+.title {
+    margin-left: calc(var(--toc-width) + 3 * var(--content-offset));
+    width: calc(100% - var(--toc-width) - 3 * var(--content-offset));
+}
+
+#content {
+    min-width: 800px;
+    max-width: var(--page-width);
+    text-align: justify;
+    padding-bottom: 10px;
+    line-height: 1.5;
+    font-size: 14px;
+    margin-left: calc(var(--toc-width) + 3 * var(--content-offset));
+    width: calc(100% - var(--toc-width) - 3 * var(--content-offset));
+}
+
+#sidebar {
+    position: fixed;
+    width: var(--toc-width);
+    background-color: #eeeeee;
+    color: #444444;
+    height: calc(100vh - 300px);
+    padding-left: var(--content-offset);
+    padding-right: var(--content-offset);
+    font-size: smaller;
+    border-radius: 5px;
+    border: 1px solid #444;
+    line-height: 120%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+#sidebar h1 {
+    line-height: 1;
+}
+
+#sidebar ul {
+    padding-left: 12px;
+    list-style: none;
+    line-height: unset;
+}
+
+#sidebar ul li {
+    text-align: left;
+}
+
+#sidebar .timestamp {
+    display: none;
+}
+
+#sidebar a, #table-of-contents a:link {
+    color: #444;
+    text-decoration: none;
+}
+
+#sidebar a:hover {
+    color: var(--syndemics-cyan);
+    text-decoration: none;
+}
+
+#sidebar code {
+    line-height: unset;
+}
+
+a, a:link {
+    color: var(--syndemics-blue);
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--syndemics-cyan);
+    text-decoration: none;
+}
+
+code {
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    background-color: #f2f2f2;
+    padding: 0.25pt;
+    font-family: "IBM Plex Mono";
+    white-space: nowrap;
+}
+
+h1 code, h2 code, h3 code, h4 code, h5 code, h6 code {
+    font-weight: normal;
+}
+
+ul code, ol code, dl code {
+    line-height: 26px;
+}
+
+ol ::marker {
+    font-weight: bold;
+}
+
+pre {
+    font-family: "IBM Plex Mono";
+}
+
+img {
+    width: 100%;
+}
+
+.timestamp {
+    color: var(--syndemics-pink);
+    font-weight: bold;
+}
+
+.tag {
+    display: none;
+}
+
+blockquote {
+    border-left: 2px solid #bbb;
+    padding: 0px 0px 0px 5px;
+    margin: 0px;
+}
+
+blockquote p {
+    margin: 0px;
+    color: #555;
+}
+
+h1 {
+    font-size: 28px;
+}
+
+h2 {
+    font-size: 24px;
+}
+
+h3 {
+    font-size: 20px;
+}
+
+h4 {
+    font-size: 16px;
+}
+
+.warn {
+    color: var(--syndemics-pink);
+}
+
+.system {
+    height: calc(100vh - 300px);
+    display: block;
+    text-align: center;
+}
+
+.system img {
+    margin-left: auto;
+    margin-right: auto;
+    height: 100%;
+    width: auto;
+}
