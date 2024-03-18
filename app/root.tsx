@@ -3,6 +3,7 @@ import type {
 } from "@remix-run/node";
 import appStylesHref from "./app.css?url";
 import {
+    Link,
     Links,
     LiveReload,
     Meta,
@@ -27,12 +28,22 @@ export default function App() {
 	    </head>
 	    <body>
 		<div id="sidebar">
-		    <h1>RESPOND Simulation</h1>
+		    <h1><Link to={ `/` }>RESPOND Simulation</Link></h1>
 		    <p>
 			<b className="warn">NOTE:</b> Contents of this sidebar are subject to change.
 		    </p>
 		    <ul>
-			<li></li>
+			<li>
+			    <Link to="/about" prefetch="viewport">What is RESPOND?</Link>
+			</li>
+			<li>
+			    How to use RESPOND
+			</li>
+			<li>
+			    RESPOND Input Structure
+			</li>
+			<li>
+			</li>
 		    </ul>
 		</div>
 

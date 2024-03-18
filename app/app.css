@@ -2,7 +2,7 @@
 
 :root {
     --page-width: 100%;
-    --toc-width: 18rem;
+    --sidebar-width: 18rem;
     --content-offset: 20px;
     --syndemics-cyan: #3d9be9;
     --syndemics-pink: #f0325f;
@@ -20,6 +20,7 @@
 html {
     height: 100%;
     margin: 0;
+    padding: 0;
     background-image: url(./images/logo.png);
     background-size: 300px;
     background-attachment: fixed;
@@ -32,12 +33,13 @@ html {
 }
 
 body {
-    min-height: 100%;
+    min-height: 100vh;
+    padding: 8px;
 }
 
 .title {
-    margin-left: calc(var(--toc-width) + 3 * var(--content-offset));
-    width: calc(100% - var(--toc-width) - 3 * var(--content-offset));
+    margin-left: calc(var(--sidebar-width) + 3 * var(--content-offset));
+    width: calc(100% - var(--sidebar-width) - 3 * var(--content-offset));
 }
 
 #content {
@@ -47,13 +49,17 @@ body {
     padding-bottom: 10px;
     line-height: 1.5;
     font-size: 14px;
-    margin-left: calc(var(--toc-width) + 3 * var(--content-offset));
-    width: calc(100% - var(--toc-width) - 3 * var(--content-offset));
+    margin-left: calc(var(--sidebar-width) + 3 * var(--content-offset));
+    width: calc(100% - var(--sidebar-width) - 3 * var(--content-offset));
+}
+
+#content > div > h1:first-of-type {
+    margin-top: 0;
 }
 
 #sidebar {
     position: fixed;
-    width: var(--toc-width);
+    width: var(--sidebar-width);
     background-color: #eeeeee;
     color: #444444;
     height: calc(100vh - 300px);
@@ -65,10 +71,7 @@ body {
     line-height: 120%;
     overflow-x: hidden;
     overflow-y: scroll;
-}
-
-#sidebar h1 {
-    line-height: 1;
+    font-weight: 600;
 }
 
 #sidebar ul {
@@ -86,7 +89,7 @@ body {
 }
 
 #sidebar a, #table-of-contents a:link {
-    color: #444;
+    /* color: #444; */
     text-decoration: none;
 }
 
@@ -147,8 +150,7 @@ img {
     display: none;
 }
 
-blockquote {
-    border-left: 2px solid #bbb;
+blockquote {border-left: 2px solid #bbb;
     padding: 0px 0px 0px 5px;
     margin: 0px;
 }
@@ -201,12 +203,23 @@ h4 {
     opacity: 0.7;
 }
 
+.inputName {
+    text-align: left;
+    padding-left: 5%;
+    font-size: 16px;
+    font-weight: 600;
+}
+
 input[type="file"] {
     width: 90%;
     border: 1px solid #ccc;
     border-radius: 5px;
     height: 35px;
     overflow: hidden;
+}
+
+input[type=file]:hover {
+    cursor: pointer;
 }
 
 input[type="file"]::file-selector-button {
@@ -221,6 +234,7 @@ input[type="file"]::file-selector-button {
 input[type="file"]::file-selector-button:hover {
     background-color: #777;
     color: #ccc;
+    cursor: pointer;
 }
 
 input[type="range"] {
@@ -244,10 +258,39 @@ input[type="range"]::-webkit-slider-thumb {
     border-radius: 25px;
     border: 1px solid var(--syndemics-blue);
     cursor: pointer;
-    margin-top: -6px;
+    margin-top: -5px;
     -webkit-appearance: none;
 }
 
-input[type="range"]:hover::-webkit-slider-thumb {
-    background: var(--syndemics-cyan);
+input[type="range"]::-webkit-slider-thumb:hover {
+    background: var(--syndemics-pink);
+}
+
+.email-form {
+    margin-left: 5%;
+    margin-right: 5%;
+    height: 35px;
+    text-align: left;
+    border-radius: 5px;
+    width: 90%;
+    border: 1px solid #ccc;
+    overflow: hidden;
+}
+
+#email-check {
+    display: inline-block;
+    height: 100%;
+    width: 35px;
+    text-align: center;
+    vertical-align: middle;
+    border-right: 1px solid #ccc;
+    background: #efefef;
+}
+
+#email-check input[type=checkbox] {
+    vertical-align: middle;
+}
+
+.email-form input[type=text] {
+    border: 0;
 }

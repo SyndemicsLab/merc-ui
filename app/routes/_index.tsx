@@ -25,24 +25,35 @@ export default function Index() {
 		<h1>Inputs</h1>
 		<div id="sliders">
 		    <div className="value">
-			Initial Population Size<br/>
-			<input type="range" min="1" max="100" defaultValue="90" className="slider" id="initpop"/>
+			<div className="inputName">Initial Population Size</div>
+			<input type="range" min="1" max="100" defaultValue="90" className="slider"/>
 		    </div>
 		    <div className="value">
-			Uptake Per Week Count<br/>
+			<div className="inputName">Uptake Per Week Count</div>
 			<input type="range" min="1" max="100" defaultValue="50" className="slider"/>
 		    </div>
 		    <Form
 			id="overdose">
-			(Optional) Overdose Probability Per Week<br/>
+			<div className="inputName">(Optional) Overdose Probability Per Week</div>
 			<input type="file"/>
+		    </Form>
+		    <Form
+			id="email">
+			<div className="inputName">Email Results</div>
+			<div className="email-form">
+			    <div id="email-check">
+				<input
+				    type="checkbox"
+				/>
+			    </div>
+			    <input
+				type="text"
+				placeholder="Email Address"
+			    />
+			</div>
 		    </Form>
 		</div>
 	    </div>
-	    <hr/>
-	    <h1>RESPOND Simulation Model</h1>
-	    <b>R</b>esearching <b>E</b>ffective <b>S</b>trategies to <b>P</b>revent <b>O</b>pioid <b>D</b>eaths (RESPOND) is a simulation model of populations of high-risk opioid users made by the <a href="https://syndemicslab.org">Syndemics Lab's</a> at <a href="https://bmc.org">Boston Medical Center</a>.
-	    <h2>What is RESPOND?</h2>
 	    <hr/>
 	    <h3>Disclaimers</h3>
 	</div>
