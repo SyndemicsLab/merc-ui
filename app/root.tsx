@@ -30,11 +30,19 @@ export default function App() {
 		<div id="sidebar">
 		    <h1><Link to={ `/` }>RESPOND Simulation</Link></h1>
 		    <p>
-			<b className="warn">NOTE:</b> Contents of this sidebar are subject to change.
+			{/* <b className="warn">NOTE:</b> Contents of this sidebar are subject to change. */}
 		    </p>
+		    <h2>Simulation Controls</h2>
 		    <ul>
 			<li>
-			    <Link to="/about" prefetch="viewport">What is RESPOND?</Link>
+			    <Link to={`/#inputs`}>Inputs</Link>
+			</li>
+		    </ul>
+		    <hr/>
+		    <h2>More Information</h2>
+		    <ul>
+			<li>
+			    <Link to="/about" prefetch="viewport">About RESPOND</Link>
 			</li>
 			<li>
 			    How to use RESPOND
