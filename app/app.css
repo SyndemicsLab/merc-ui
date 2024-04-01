@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Syne|IBM+Plex+Mono');
+@import url('https://fonts.googleapis.com/css?family=Syne|IBM+Plex+Mono|Nunito');
 
 :root {
     --page-width: 100%;
@@ -8,10 +8,6 @@
     --syndemics-pink: #f0325f;
     --syndemics-blue: #003771;
     --syndemics-blue-semitrans: #0037712f;
-}
-
-* {
-    font-family: "Syne";
 }
 
 ::-webkit-scrollbar {
@@ -34,6 +30,7 @@ html {
 }
 
 body {
+    font-family: "Syne";
     min-height: 100vh;
     padding: 8px;
 }
@@ -120,6 +117,11 @@ code {
     padding: 0.25pt;
     font-family: "IBM Plex Mono";
     white-space: nowrap;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Nunito";
+    font-weight: 600;
 }
 
 h1 code, h2 code, h3 code, h4 code, h5 code, h6 code {
