@@ -1,10 +1,8 @@
 name: 'Deploy Web App to GitHub Pages'
-author: 'Dimitri Baptiste'
-description: 'Render the web app using Node.js Remix package, then deploy the generated folder to GitHub Pages'
-branding:
-  icon: 'upload-cloud'
-  color: 'red'
-  
+
+permissions:
+  contents: write
+
 on:
   push:
     branches:
@@ -18,7 +16,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Setup Node.js environment
         uses: actions/setup-node@v4.0.2
-          
+
       - name: Install dependencies
         run: npm install
         shell: bash
