@@ -3,7 +3,7 @@ import {
     Form,
     Outlet,
 } from "@remix-run/react";
-import modelStructure from "../images/model.png";
+import modelStructure from "../images/respond.png";
 import {
     useState,
 } from "react";
@@ -33,7 +33,6 @@ export default function Index() {
 		<img src={modelStructure} alt="RESPOND simulation structure"/>
 	    </div>
 	    <hr/>
-
 
 	    <h1>Inputs</h1>
 	    <div id="inputs">
@@ -70,7 +69,7 @@ export default function Index() {
 		    </div>
 		</Form>
 		<Form>
-		    <div className="inputName">Uptake Per Week (Count)</div>
+		    <div className="inputName">Change in Population Per Week (Count)</div>
 		    <div className="slider">
 			<input
 			    type="number"

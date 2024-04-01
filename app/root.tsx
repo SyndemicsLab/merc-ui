@@ -2,6 +2,7 @@ import type {
     LinksFunction,
 } from "@remix-run/node";
 import appStylesHref from "./app.css?url";
+import respondLogo from "./images/respondlogo.png";
 import {
     Link,
     Links,
@@ -28,10 +29,9 @@ export default function App() {
 	    </head>
 	    <body>
 		<div id="sidebar">
-		    <h1><Link to={ `/` }>RESPOND Simulation</Link></h1>
-		    <p>
-			{/* <b className="warn">NOTE:</b> Contents of this sidebar are subject to change. */}
-		    </p>
+		    <Link to={ `/` }>
+			<img src={respondLogo} alt="RESPOND Simulation"/>
+		    </Link>
 		    <h2>Simulation Controls</h2>
 		    <ul>
 			<li>
