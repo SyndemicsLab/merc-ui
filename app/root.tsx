@@ -18,6 +18,20 @@ export const links: LinksFunction = () => [
     { rel: "icon", sizes: "32x32", href: "./favicon.ico" },
 ];
 
+export const meta: MetaFunction = () => {
+    return [
+        {
+            rel: "icon",
+            href: "/favicon.ico",
+        },
+        { title: "RESPOND Simulation" },
+        {
+            name: "description",
+            content: "The Syndemics Lab at Boston Medical Center's RESPOND simulation as a web application."
+        },
+    ];
+};
+
 export default function App() {
     return (
 	<html lang="en">
@@ -34,13 +48,13 @@ export default function App() {
 		    </Link>
 		    <h2>Simulation Controls</h2>
 		    <ul>
-			<li>
-			    <Link to={`/#inputs`}>Inputs</Link>
-			</li>
+			<li><Link to={`/simulation`}>Simulation</Link></li>
+			<li><Link to={`/simulation#inputs`}>Inputs</Link></li>
 		    </ul>
 		    <hr/>
 		    <h2>More Information</h2>
 		    <ul>
+			<li><Link to={`/cookies`}>Cookies/Survey Example</Link></li>
 			<li>
 			    <Link to="/about" prefetch="viewport">About RESPOND</Link>
 			</li>
