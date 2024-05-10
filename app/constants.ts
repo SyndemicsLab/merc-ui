@@ -4,11 +4,11 @@ interface Intervention {
 }
 
 interface Simulation {
-    contents: Intervention[];
+    interventions: Intervention[];
 }
 
 const simulation: Simulation = {
-    contents: [
+    interventions: [
 	{
 	    id: 0,
 	    name: "No Treatment",
@@ -32,7 +32,7 @@ const simulation: Simulation = {
     ],
 
     getAll(): Promise<Intervention[]> {
-	return this.contents;
+	return this.interventions;
     },
 }
 
