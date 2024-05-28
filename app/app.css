@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Syne|IBM+Plex+Mono|Nunito|Tilt+Neon');
 
 :root {
-    --page-width: 100%;
+    --page-width: 100vw;
     --sidebar-width: 18rem;
     --content-offset: 20px;
     --syndemics-cyan: #3d9be9;
@@ -202,7 +202,6 @@ h4 {
 }
 
 #inputs {
-    width: 90%;
     margin-left: auto;
     margin-right: auto;
 }
@@ -385,6 +384,7 @@ input[type="range"]::-webkit-slider-thumb:hover {
 
 #email-address:hover,
 #email-address:focus {
+    border: none !important;
     background-color: var(--syndemics-blue-semitrans);
     outline: none;
 }
@@ -429,6 +429,11 @@ input[type="range"]::-webkit-slider-thumb:hover {
 #inputs form {
     margin-top: 1rem;
     margin-bottom: 1rem;
+}
+
+#inputs input[type="text"]:focus,
+#inputs input[type="text"]:hover {
+    border: 1px solid var(--syndemics-blue);
 }
 
 .interventionTabs {
@@ -544,4 +549,8 @@ input[type="range"]::-webkit-slider-thumb:hover {
     margin: auto;
     border: 1px solid #ccc;
     padding: 10px;
+}
+
+#branding {
+    padding: 1rem 4rem 4rem 4rem;
 }
