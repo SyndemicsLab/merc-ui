@@ -58,14 +58,6 @@ export default function App() {
 			<li>
 			    <Link to="/about" prefetch="viewport">About RESPOND</Link>
 			</li>
-			<li>
-			    How to use RESPOND
-			</li>
-			<li>
-			    RESPOND Input Structure
-			</li>
-			<li>
-			</li>
 		    </ul>
 		</div>
 		<div id="content">
