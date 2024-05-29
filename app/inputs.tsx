@@ -44,6 +44,30 @@ export function InputSlider({
     );
 }
 
+function CollapsibleMenu({
+    sectionName,
+    contents,
+    defaultState
+}): React.TSX.Element {
+    const [collapsed, setCollapsed] = useState(defaultState);
+
+    return(
+	<>
+	    <input id={`collapsed-${sectionName}`} type="checkbox"
+		   value={ collapsed }
+		   onChange={(event) => setCollapsed(event.target.checked)}
+	    />
+	    <label htmlFor={`collapsed-${sectionName}`}
+		   className={`collapse-toggle ${ collapsed ? "opened" : ""}`}>
+		{ sectionName }
+	    </label>
+	    <div className={ collapsed ? "" : "hidden" }>
+		{ contents }
+	    </div>
+	</>
+    );
+}
+
 export function Interventions() {
     const [interventions, setInterventions] = useState(getInterventions());
     const [numNewInterventions, setNumNewInterventions] = useState(1);
@@ -192,9 +216,11 @@ export function Interventions() {
 			    }
 			    return(
 				<>
-				    <div className="collapsible">
-					{oudTransitions}
-				    </div>
+				    <CollapsibleMenu
+					sectionName={"OUD Transitions"}
+					contents={oudTransitions}
+					defaultState={ false }
+				    />
 				</>
 			    );
 			})()
@@ -262,6 +288,7 @@ export function UploadForm({
 
 export function AdvancedInputs() {
     const [showAdvanced, setShowAdvanced] = useState(false);
+
     return(
 	<>
 	    <input
