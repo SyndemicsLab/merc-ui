@@ -134,26 +134,71 @@ export function Interventions() {
 			min={0} max={1} step={0.01}
 			defaultValue={0.8}
 		    />
-		    {(() => {
-			let transitionList = [];
-			for (let j = 0; j < interventions.length; j++) {
-			    if (j != i) {
-				transitionList.push(
-				    <InputSlider
-					inputName={`Proportion Transitioning to ${interventions[j].name}`}
-					min={0} max={1} step={0.01}
-					defaultValue={0.2/(interventions.length - 1)}
-				    />
-				);
+		    {
+			// render intervention transitions
+			(() => {
+			    let transitionList = [];
+			    for (let j = 0; j < interventions.length; j++) {
+				// exclude transition to the same state
+				if (j != i) {
+				    transitionList.push(
+					<InputSlider
+					    inputName={`Proportion Transitioning to ${interventions[j].name}`}
+					    min={0} max={1} step={0.01}
+					    defaultValue={0.2/(interventions.length - 1)}
+					/>
+				    );
+				}
 			    }
-			}
-			return(
-			    <>
-				{transitionList}
-			    </>
-			);
-		    })()}
+			    return(
+				<>
+				    {transitionList}
+				</>
+			    );
+			})()
+		    }
+		    {
+			(() => {
+			    let oudTransitions = [];
+			    let oudStates = [
+				"Active Injection",
+				"Active Non-Injection",
+				"Non-Active Injection",
+				"Non-Active Non-Injection",
+			    ];
+			    for (let j = 0; j < oudStates.length; j++) {
+				let from = oudStates[j];
+				for (let k = 0; k < oudStates.length; k++) {
+				    let to = oudStates[k];
+				    if (j != k) {
+					oudTransitions.push(
+					    <InputSlider
+						inputName={`Proportion Transitioning from ${from} to ${to}`}
+						min={0} max={1} step={0.01}
+						defaultValue={0.25}
+					    />
+					);
+				    } else {
+					oudTransitions.push(
+					    <InputSlider
+						inputName={`Proportion Retained in ${to}`}
+						min={0} max={1} step={0.01}
+						defaultValue={0.25}
+					    />
+					);
 
+				    }
+				}
+			    }
+			    return(
+				<>
+				    <div className="collapsible">
+					{oudTransitions}
+				    </div>
+				</>
+			    );
+			})()
+		    }
 	    </div>
 	    </>
         );
