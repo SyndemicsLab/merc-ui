@@ -276,16 +276,14 @@ input[type="file"]:hover::file-selector-button {
 
 input[type="range"] {
     -webkit-appearance: none;
+    background: #ccc;
+    border-radius: 8px;
+    height: 8px;
+    margin: auto;
 }
 
 input[type="range"]:focus {
     outline: none;
-}
-
-input[type="range"]::-webkit-slider-runnable-track {
-    background: #ccc;
-    border-radius: 8px;
-    height: 8px;
 }
 
 input[type="range"]::-webkit-slider-thumb {
@@ -295,11 +293,23 @@ input[type="range"]::-webkit-slider-thumb {
     border-radius: 25px;
     border: 1px solid var(--syndemics-blue);
     cursor: pointer;
-    margin-top: -5px;
     -webkit-appearance: none;
 }
 
+input[type="range"]::-moz-range-thumb {
+    background: var(--syndemics-blue);
+    height: 18px;
+    width: 18px;
+    border-radius: 25px;
+    border: 1px solid var(--syndemics-blue);
+    cursor: pointer;
+}
+
 input[type="range"]::-webkit-slider-thumb:hover {
+    background: var(--syndemics-pink);
+}
+
+input[type="range"]::-moz-range-thumb:hover {
     background: var(--syndemics-pink);
 }
 
