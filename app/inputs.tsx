@@ -61,7 +61,7 @@ function CollapsibleMenu({
 		   className={`collapse-toggle ${ collapsed ? "opened" : ""}`}>
 		{ sectionName }
 	    </label>
-	    <div className={ collapsed ? "" : "hidden" }>
+	    <div className={ collapsed ? "unhidden" : "hidden" }>
 		{ contents }
 	    </div>
 	</>
@@ -95,6 +95,16 @@ export function Interventions() {
     let interventionTabs = [];
     let interventionContents = [];
 
+    // adds the "Add Tab" tab
+    interventionTabs.push(
+ 	<>
+ 	    <button className="interventionTab addTab"
+ 		    key={ crypto.randomUUID() }
+ 		    onClick={ handleAdditionalIntervention }
+ 	    >+</button>
+ 	</>
+    );
+
     for (let i = 0; i < interventions.length; i++) {
  	let intervention = interventions[i];
 
@@ -109,7 +119,7 @@ export function Interventions() {
  			key={ crypto.randomUUID() }
  			onClick={(event) => {
 			    let tabs = document.getElementsByClassName("interventionTab");
-			    for (let i = 0; i < interventions.length; i++) {
+			    for (let i = 1; i <= interventions.length; i++) {
 				tabs[i].className = tabs[i].className.replace(" active", "");
 			    }
 
@@ -167,6 +177,7 @@ export function Interventions() {
 				if (j != i) {
 				    transitionList.push(
 					<InputSlider
+					    key={`${i}:${j}`}
 					    inputName={`Proportion Transitioning to ${interventions[j].name}`}
 					    min={0} max={1} step={0.01}
 					    defaultValue={0.2/(interventions.length - 1)}
@@ -230,16 +241,6 @@ export function Interventions() {
         );
     }
 
-    // adds the "Add Tab" tab
-    interventionTabs.push(
- 	<>
- 	    <button className="interventionTab addTab"
- 		    key="addTab"
- 		    onClick={ handleAdditionalIntervention }
- 	    >+</button>
- 	</>
-    );
-
     return (
  	<>
  	    <div className="interventionTabs">
@@ -301,7 +302,7 @@ export function AdvancedInputs() {
 		    Advanced Options
 		</div>
 	    </label>
-	    <div id="advanced" className={ showAdvanced ? "" : "hidden" }>
+	    <div id="advanced" className={ showAdvanced ? "unhidden" : "hidden" }>
 		<UploadForm
 		    id="sim-conf"
 		    inputName="General Configuration File (sim.conf)"

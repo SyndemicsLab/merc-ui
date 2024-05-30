@@ -3,6 +3,7 @@ import type {
 } from "@remix-run/node";
 import appStylesHref from "./app.css?url";
 import respondLogo from "./images/respondlogo.png";
+import BMCLogo from "./images/organization-logos/BMC Logos.png";
 import {
     Link,
     Links,
@@ -64,7 +65,12 @@ export default function App() {
 		    <Outlet />
 		    <hr/>
 		    <div id="branding">
-			This application is part of a collaboration between Weill Cornell Medicine, Boston Medical Center, and Brown University School of Public Health. RESPOND is funded by the National Institute on Drug Abuse (NIDA) R01DA046527. This web application is also funded by NIDA as a HEAL Data2Action Modeling and Economic Resource Center (HEAL D2A MERC) U24DA057650 project and by the Center for Health Economics of Treatment Interventions for Substance Use Disorder, HCV, and HIV (CHERISH) P30DA040500.
+			<div className="logos">
+			    <img src={ BMCLogo } alt="Boston Medical Center"/>
+			</div>
+			<span className="funding">
+				This application is part of a collaboration between Weill Cornell Medicine, Boston Medical Center, and Brown University School of Public Health. RESPOND is funded by the National Institute on Drug Abuse (NIDA) R01DA046527. This web application is also funded by NIDA as a HEAL Data2Action Modeling and Economic Resource Center (HEAL D2A MERC) U24DA057650 project and by the Center for Health Economics of Treatment Interventions for Substance Use Disorder, HCV, and HIV (CHERISH) P30DA040500.
+			</span>
 		    </div>
 		</div>
 		<ScrollRestoration />
