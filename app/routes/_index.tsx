@@ -8,8 +8,10 @@ function About({
     return(
 	<>
 	    <div className="welcome-about">
-		<h1>What is RESPOND?</h1>
-		{text}
+		<div className="welcome-about-contents">
+		    <h1>What is RESPOND?</h1>
+		    {text}
+		</div>
 	    </div>
 	</>
     );
