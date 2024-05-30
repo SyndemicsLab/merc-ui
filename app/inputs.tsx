@@ -46,6 +46,7 @@ export function InputSlider({
 
 function CollapsibleMenu({
     sectionName,
+    context,
     contents,
     defaultState
 }): React.TSX.Element {
@@ -53,11 +54,11 @@ function CollapsibleMenu({
 
     return(
 	<>
-	    <input id={`collapsed-${sectionName}`} type="checkbox"
+	    <input id={`collapsed-${context}`} type="checkbox"
 		   value={ collapsed }
 		   onChange={(event) => setCollapsed(event.target.checked)}
 	    />
-	    <label htmlFor={`collapsed-${sectionName}`}
+	    <label htmlFor={`collapsed-${context}`}
 		   className={`collapse-toggle ${ collapsed ? "opened" : ""}`}>
 		{ sectionName }
 	    </label>
@@ -194,8 +195,8 @@ export function Interventions() {
 		    }
 		    {
 			(() => {
-			    let oudTransitions = [];
-			    let oudStates = [
+			    const oudTransitions = [];
+			    const oudStates = [
 				"Active Injection",
 				"Active Non-Injection",
 				"Non-Active Injection",
@@ -229,6 +230,7 @@ export function Interventions() {
 				<>
 				    <CollapsibleMenu
 					sectionName={"OUD Transitions"}
+					context={ `oud-${intervention.name}` }
 					contents={oudTransitions}
 					defaultState={ false }
 				    />

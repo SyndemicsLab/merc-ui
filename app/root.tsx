@@ -33,6 +33,34 @@ export const meta: MetaFunction = () => {
     ];
 };
 
+function Sidebar() {
+    return(
+	<>
+	    <div id="sidebar">
+		<Link to={ `/` }>
+		    <img src={respondLogo} alt="RESPOND Simulation"/>
+		</Link>
+		<h2>Simulation Controls</h2>
+		<ul>
+		    <li><Link to={`/simulation`}>Simulation</Link></li>
+		    <li><Link to={`/simulation#inputs`}>Inputs</Link></li>
+		</ul>
+		<hr/>
+		<h2>More Information</h2>
+		<ul>
+		    <li><Link to={`/cookies`}>Cookies/Survey Example</Link></li>
+		    <li>
+			<Link to="/about" prefetch="viewport">About RESPOND</Link>
+		    </li>
+		</ul>
+	    </div>
+	</>
+    );
+}
+
+function CollapsibleSidebar() {
+}
+
 export default function App() {
     return (
 	<html lang="en">
@@ -43,24 +71,7 @@ export default function App() {
 		<Links />
 	    </head>
 	    <body>
-		<div id="sidebar">
-		    <Link to={ `/` }>
-			<img src={respondLogo} alt="RESPOND Simulation"/>
-		    </Link>
-		    <h2>Simulation Controls</h2>
-		    <ul>
-			<li><Link to={`/simulation`}>Simulation</Link></li>
-			<li><Link to={`/simulation#inputs`}>Inputs</Link></li>
-		    </ul>
-		    <hr/>
-		    <h2>More Information</h2>
-		    <ul>
-			<li><Link to={`/cookies`}>Cookies/Survey Example</Link></li>
-			<li>
-			    <Link to="/about" prefetch="viewport">About RESPOND</Link>
-			</li>
-		    </ul>
-		</div>
+		<Sidebar/>
 		<div id="content">
 		    <Outlet />
 		    <hr/>
@@ -69,7 +80,7 @@ export default function App() {
 			    <img src={ BMCLogo } alt="Boston Medical Center"/>
 			</div>
 			<span className="funding">
-				This application is part of a collaboration between Weill Cornell Medicine, Boston Medical Center, and Brown University School of Public Health. RESPOND is funded by the National Institute on Drug Abuse (NIDA) R01DA046527. This web application is also funded by NIDA as a HEAL Data2Action Modeling and Economic Resource Center (HEAL D2A MERC) U24DA057650 project and by the Center for Health Economics of Treatment Interventions for Substance Use Disorder, HCV, and HIV (CHERISH) P30DA040500.
+			    This application is part of a collaboration between Weill Cornell Medicine, Boston Medical Center, and Brown University School of Public Health. RESPOND is funded by the National Institute on Drug Abuse (NIDA) R01DA046527. This web application is also funded by NIDA as a HEAL Data2Action Modeling and Economic Resource Center (HEAL D2A MERC) U24DA057650 project and by the Center for Health Economics of Treatment Interventions for Substance Use Disorder, HCV, and HIV (CHERISH) P30DA040500.
 			</span>
 		    </div>
 		</div>
