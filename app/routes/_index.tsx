@@ -1,40 +1,49 @@
-import {
-    Link,
-} from "@remix-run/react";
+import { Link, useLocation } from "@remix-run/react";
+import respondLogo from "../images/respondlogo.png";
 
-function About({
-    text,
-}) {
-    return(
-	<>
-	    <div className="welcome-about">
-		<div className="welcome-about-contents">
-		    <h1>What is RESPOND?</h1>
-		    {text}
-		</div>
-	    </div>
-	</>
-    );
+interface MenuItemProps {
+  text: string;
+  link: string;
 }
 
-export default function Index() {
-    const aboutRESPOND = "RESPOND is a cohort-based model that simulates a population with high-risk opioid use and movement on and off medication for opioid use disorder, providing outcomes such as overdose and cost. This online tool is intended to allow users to explore the impact of various policies on these outcomes with a simplified, customizable interface.";
-    return(
-	<>
-	    <div id="welcome">
-		<div className="mainGreet">
-		    <span>Welcome to <Link to={`/simulation`}>RESPOND</Link>!</span>
-		</div>
-		<div className="additionalLinks">
-		    <ul>
-			<li>More about the <Link to="https://syndemicslab.org">Syndemics Lab</Link></li>
-			<li><Link to="https://syndemicslab.org/respond">Model Documentation</Link></li>
-		    </ul>
-		</div>
-	    </div>
-	    <About
-		text={aboutRESPOND}
-	    />
-	</>
-    );
+const NavigationMenu: React.FC = () => {
+  const menuItems: MenuItemProps[] = [
+    { text: 'Home', link: '/' },
+    { text: 'Simulation Model', link: '/simulation' },
+    { text: 'About us', link: '/about' },
+    { text: 'Model Materials', link: '/modelmaterials' },
+    { text: 'Publications', link: '/publications' },
+    { text: 'Contact us', link: '/contact' },
+  ];
+
+  const location = useLocation();
+
+  return (
+    <header className="header">
+      <img className="logo" loading="lazy" src={respondLogo} alt="RESPOND Simulation" />
+      <nav className="nav">
+        {menuItems.map((item, index) => (
+          <NavItem key={index} text={item.text} link={item.link} isActive={location.pathname === item.link} />
+        ))}
+      </nav>
+    </header>
+  );
 };
+
+const NavItem: React.FC<{ text: string; link: string; isActive: boolean }> = ({ text, link, isActive }) => {
+  return (
+    <Link to={link} className={`nav-button ${isActive ? 'active' : ''}`} tabIndex={0}>
+      {text}
+    </Link>
+  );
+};
+
+export default function Index() {
+  return (
+    <div>
+      <NavigationMenu />
+      <div id="welcome">
+      </div>
+    </div>
+  );
+}
