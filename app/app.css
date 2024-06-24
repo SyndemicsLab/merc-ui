@@ -1,180 +1,63 @@
-@import url('https://fonts.googleapis.com/css?family=Syne|IBM+Plex+Mono|Nunito|Tilt+Neon');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&display=swap');
 
 :root {
-    --page-width: 100vw;
-    --sidebar-width: 18rem;
-    --collapse-duration: 0.5s;
-    --content-offset: 20px;
-    --syndemics-cyan: #3d9be9;
-    --syndemics-pink: #f0325f;
-    --syndemics-blue: #003771;
-    --syndemics-overlap: #084b87;
-    --syndemics-blue-semitrans: #0037712f;
+  --primary-color: #3d9be9;
+  --secondary-color: #f0325f;
+  --font-family: 'IBM Plex Sans', sans-serif;
+  --font-size: 16px;
+  --line-height: 1.5;
+  --spacing: 20px;
 }
 
-::-webkit-scrollbar {
-    display:none;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-html {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    background-image: url(./images/logo.png);
-    background-size: 300px;
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-    background-color: white;
-    background-position: left bottom;
-    overflow-x: hidden;
-    color: #777;
-    font-weight: 500;
+html, body {
+  height: 100%;
+  font-family: var(--font-family);
+  font-size: var(--font-size);
+  line-height: var(--line-height);
+  color: #333;
 }
 
-body {
-    font-family: "Syne";
-    min-height: 100vh;
-    padding: 8px;
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing);
 }
 
-/* SIDEBAR */
-
-#sidebar {
-    position: fixed;
-    width: var(--sidebar-width);
-    background-color: #eeeeee;
-    color: #444444;
-    height: calc(100vh - 300px);
-    padding-left: var(--content-offset);
-    padding-right: var(--content-offset);
-    font-size: smaller;
-    border-radius: 5px;
-    border: 1px solid #444;
-    line-height: 120%;
-    overflow-x: hidden;
-    overflow-y: scroll;
-    font-weight: 600;
+.logo {
+  width: 150px;
+  max-width: 100%;
+  min-width: 100px;
 }
 
-#sidebar ul {
-    padding-left: 12px;
-    list-style: none;
-    line-height: unset;
+.nav {
+  display: flex;
+  flex-grow: 1;
+  justify-content: space-evenly;
 }
 
-#sidebar ul li {
-    text-align: left;
+.nav-button {
+  background: none;
+  border: none;
+  color: #404040;
+  font-family: var(--font-family);
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  padding: 0 var(--spacing);
 }
 
-#sidebar .timestamp {
-    display: none;
+.nav-button:hover, .nav-button:focus, .nav-button.active {
+  color: var(--secondary-color);
+  outline: none;
 }
 
-#sidebar a, #table-of-contents a:link {
-    /* color: #444; */
-    text-decoration: none;
-}
-
-#sidebar a:hover {
-    color: var(--syndemics-cyan);
-    text-decoration: none;
-}
-
-#sidebar code {
-    line-height: unset;
-}
-
-#sidebar img {
-    width: 100%;
-}
-
-/* GENERAL CONTENT */
-
-#content {
-    min-width: 800px;
-    max-width: var(--page-width);
-    text-align: justify;
-    line-height: 1.5;
-    font-size: 14px;
-    margin-left: calc(var(--sidebar-width) + 3 * var(--content-offset));
-    width: calc(100% - var(--sidebar-width) - 3 * var(--content-offset));
-}
-
-.logos {
-    text-align: center;
-}
-
-.logos img {
-    height: 150px;
-    width: auto;
-    margin: auto;
-}
-
-#branding {
-    font-weight: 600;
-}
-
-a, a:link {
-    color: var(--syndemics-blue);
-    text-decoration: none;
-    transition-duration: 0.3s;
-}
-
-a:hover {
-    color: var(--syndemics-cyan);
-    text-decoration: none;
-    transition-duration: 0.3s;
-}
-
-code {
-    border: 1px solid #e6e6e6;
-    border-radius: 3px;
-    background-color: #f2f2f2;
-    padding: 0.25pt;
-    font-family: "IBM Plex Mono";
-    white-space: nowrap;
-}
-
-h1, h2, h3, h4, h5, h6 {
-    font-family: "Nunito";
-    font-weight: 600;
-}
-
-h1 {
-    font-size: 28px;
-}
-
-h2 {
-    font-size: 24px;
-}
-
-h3 {
-    font-size: 20px;
-}
-
-h4 {
-    font-size: 16px;
-}
-
-h1 code, h2 code, h3 code, h4 code, h5 code, h6 code {
-    font-weight: normal;
-}
-
-ul code, ol code, dl code {
-    line-height: 26px;
-}
-
-ol ::marker {
-    font-weight: bold;
-}
-
-pre {
-    font-family: "IBM Plex Mono";
-}
-
-.warn {
-    color: var(--syndemics-pink);
-}
 
 /* SIMULATION */
 
