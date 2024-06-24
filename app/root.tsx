@@ -19,11 +19,11 @@ export const meta: MetaFunction = () => {
 const NavigationMenu = () => {
   const menuItems = [
     { text: "Home", link: "/" },
-    { text: "Simulation Model", link: "/simulationmodel" },
+    { text: "Simulation Model", link: "/simulation" },
     { text: "About Us", link: "/about" },
     { text: "Model Materials", link: "/modelmaterials" },
     { text: "Publications", link: "/publications" },
-    { text: "Contact Us", link: "/contactus" }
+    { text: "Contact Us", link: "/contact" }
   ];
 
   const location = useLocation();
