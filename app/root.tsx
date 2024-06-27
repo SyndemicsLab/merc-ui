@@ -17,25 +17,35 @@ export const meta: MetaFunction = () => {
 };
 
 const NavigationMenu = () => {
-  const menuItems = [
-    { text: "Home", link: "/" },
-    { text: "Simulation Model", link: "/simulationmodel" },
-    { text: "About Us", link: "/about" },
-    { text: "Model Materials", link: "/modelmaterials" },
-    { text: "Publications", link: "/publications" },
-    { text: "Contact Us", link: "/contactus" }
-  ];
-
   const location = useLocation();
+
+  const menuItems = [
+	{ text: "Home", link: "/" },
+	{ text: "Simulation Model", link: "/simulation" },
+	{ text: "About Us", link: "#about" }, // stuck with this routing, wondering how to use scrollIntoView
+	{ text: "Model Materials", link: "/modelmaterials" },
+	{ text: "Publications", link: "/publications" },
+	{ text: "Contact Us", link: "/contact" }
+	];
 
   return (
     <header className="header">
       <Link to="/">
-        <img className="logo" src={respondlogo} alt="RESPOND Simulation" />
+        <img className="navbarlogo" src={respondlogo} alt="RESPOND Simulation" />
       </Link>
       <nav className="nav">
         {menuItems.map((item, index) => (
-          <Link key={index} to={item.link} className={`nav-button ${location.pathname === item.link ? 'active' : ''}`}>
+          <Link
+            key={index}
+            to={item.link}
+            className={`nav-button ${location.hash === item.link ? 'active' : ''}`}
+            onClick={e => {
+              if (item.link.startsWith('#')) {
+                e.preventDefault();
+                document.querySelector(item.link)?.scrollIntoView({ behavior: 'smooth' });
+              }
+            }}
+          >
             {item.text}
           </Link>
         ))}
