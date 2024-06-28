@@ -5,7 +5,7 @@ const InputsSection = () => (
       <div className="inputs-container">
         <h2 className="inputs-title">Input Shortcuts</h2>
         <div className="inputs-list">
-          <Link to="/simulation" className="input-item fill">Buprenorphine</Link>
+          <Link to="/simulation" className="input-item fill">No Treatment</Link>
           <Link to="/simulation" className="input-item fill">Naltrexone</Link>
           <Link to="/simulation" className="input-item fill">Buprenorphine</Link>
           <Link to="/simulation" className="input-item fill">Methadone</Link>

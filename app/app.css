@@ -121,35 +121,53 @@ html, body {
     display: inline-flex; 
     justify-content: center;
     align-items: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
-  
+
 .simulation-button::after {
-    background-color: #fff;
-    border-radius: 13px;
     content: '';
-    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
     height: 100%;
     width: 100%;
-    position: absolute;
-    left: 0;
-    top: 0;
-    transform: translate(-100%, 0) rotate(10deg);
-    transform-origin: top left;
+    background-color: #fff;
+    border-radius: 13px;
+    transform: scaleX(0);
+    transform-origin: left center;
     transition: transform 0.3s ease-out;
-    will-change: transform;
     z-index: -1;
 }
-  
-.simulation-button:hover::after {
-    transform: translate(0, 0);
-}
-  
-.simulation-button:hover {
+
+.simulation-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
     border: 2px solid transparent;
+    border-radius: 13px;
+    box-sizing: border-box;
+    transition: border 0.3s ease-out;
+    z-index: 1;
+}
+
+.simulation-button:hover::after {
+    transform: scaleX(1);
+}
+
+.simulation-button:hover::before {
+    border-color: #003771; 
+}
+
+.simulation-button:hover {
     color: #003771;
     transform: scale(1.05);
     will-change: transform;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
 }
+
 
 .home-circle {
     height: 100%;
@@ -288,7 +306,6 @@ html, body {
     margin: 0 auto;
 }
   
-
 
 /* SIMULATION */
 
