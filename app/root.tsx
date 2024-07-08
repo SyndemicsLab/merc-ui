@@ -21,25 +21,14 @@ export const meta: MetaFunction = () => {
 const NavigationMenu = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
-  const navigate = useNavigate();
-
-  const handleAboutClick = (e) => {
-    e.preventDefault();
-    if (location.pathname !== "/") {
-      navigate("/", { state: { scrollTo: "about" } });
-    } else {
-      document.getElementById("about")?.scrollIntoView({ behavior: "smooth" });
-    }
-    setIsMenuOpen(false); 
-  };
 
   const menuItems = [
     { text: "Home", link: "/" },
     { text: "Simulation Model", link: "/simulation" },
-    { text: "About Us", link: "#about", onClick: handleAboutClick },
-    { text: "Model Materials", link: "/modelmaterials" },
-    { text: "Publications", link: "/publications" },
-    { text: "Contact Us", link: "/contact" }
+    { text: "About Us", link: "#about" },
+    { text: "Model Materials", link: "#modelmaterials" },
+    { text: "Publications", link: "#publications" },
+    { text: "Contact Us", link: "#contactus" }
   ];
 
   return (
@@ -59,7 +48,6 @@ const NavigationMenu = () => {
               key={index}
               to={item.link}
               className={`nav-button ${location.hash === item.link ? 'active' : ''}`}
-              onClick={item.link === "#about" ? handleAboutClick : undefined}
             >
               {item.text}
             </Link>
