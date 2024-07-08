@@ -1,4 +1,7 @@
-import aboutSvg from '../images/about.svg'; 
+import about1 from '../images/about1.svg'; 
+import about2 from '../images/about2.svg'; 
+import about3 from '../images/about3.svg'; 
+import about4 from '../images/about4.svg'; 
 
 const About = () => {
   return (
@@ -8,8 +11,11 @@ const About = () => {
         <p className="about-description">
           RESPOND is a population-based model that simulates a population with high-risk opioid use and movement on and off medication for opioid use disorder, providing outcomes such as overdose and cost. This online tool is intended to allow users to explore the impact of various policies on these outcomes with a simplified, customizable interface.
         </p>
-        <div className="about-svg">
-          <img src={aboutSvg} alt="RESPOND Features" />
+        <div className="about-svg-grid">
+          <img className="about-svg" src={about1} alt="RESPOND Feature 1" />
+          <img className="about-svg" src={about2} alt="RESPOND Feature 2" />
+          <img className="about-svg" src={about3} alt="RESPOND Feature 3" />
+          <img className="about-svg" src={about4} alt="RESPOND Feature 4" />
         </div>
       </section>
     </main>

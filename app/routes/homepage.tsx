@@ -2,6 +2,9 @@ import { Link } from "@remix-run/react";
 import InputsSection from "./inputsection";
 import homecircle from "../images/homecircle.svg"
 import About from "./about";
+import ModelMaterials from "./modelmaterials"
+import Publications from "./publications"
+import ContactUs from "./contactus"
 
 const Homepage = () => (
   <main className="main">
@@ -21,6 +24,9 @@ const Homepage = () => (
     </section>
     <InputsSection />
     <About />
+    <ModelMaterials />
+    <Publications />
+    <ContactUs />
   </main>
 );
 
