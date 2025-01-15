@@ -11,7 +11,7 @@ import {
     DialogTitle,
 } from "~/components/ui/dialog";
 
-const Cookies = () => {
+const Questionaire = () => {
     const [open, setOpen] = useState(true);
     return (
         <Dialog open={open} onOpenChange={setOpen}>
@@ -26,7 +26,7 @@ const Cookies = () => {
                         value="hidden" />
                     <button type="submit">Hide</button>
                 </Form>
-                <div className="cookies">
+                <div className="questionaire">
                     <Form id="visit">
                         <span className="cookieQuestion">
                             Purpose of Site Visit (Select all that apply)
@@ -120,4 +120,4 @@ const Cookies = () => {
     );
 };
 
-export default Cookies;
+export default Questionaire;

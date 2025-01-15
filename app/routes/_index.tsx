@@ -4,7 +4,7 @@ import type {
 } from "@remix-run/node";
 
 import Homepage from "./homepage";
-import Cookies from "./cookies";
+import Questionaire from "./questionaire";
 
 import { userPrefs } from "~/cookies.server";
 import { useLoaderData } from "@remix-run/react";
@@ -42,7 +42,7 @@ export default function Index() {
 
     return (
         <div>
-            {answeredQuestionaire ? null : (<Cookies />)}
+            {answeredQuestionaire ? null : (<Questionaire />)}
             < Homepage />
         </div>
     );
