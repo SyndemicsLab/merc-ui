@@ -3,19 +3,13 @@ import type {
     LoaderFunctionArgs,
 } from "@remix-run/node";
 
-import {
-    Dialog,
-    DialogContent,
-    DialogHeader,
-    DialogTitle,
-} from "~/components/ui/dialog";
-
 import Homepage from "./homepage";
 import Cookies from "./cookies";
 
 import { userPrefs } from "~/cookies.server";
-import { Form, useLoaderData } from "@remix-run/react";
-import { useState } from "react";
+import { useLoaderData } from "@remix-run/react";
+
+import { redirect } from "@remix-run/node";
 
 export async function loader({
     request,
@@ -45,27 +39,10 @@ export async function action({
 
 export default function Index() {
     const { answeredQuestionaire } = useLoaderData<typeof loader>();
-    const [open, setOpen] = useState(true);
 
     return (
         <div>
-            {answeredQuestionaire ? null : (
-                <Dialog open={open} onOpenChange={setOpen}>
-                    <DialogContent className="sm:max-w-[425px]">
-                        <DialogHeader>
-                            <DialogTitle>Questions</DialogTitle>
-                        </DialogHeader>
-                        <Form method="post">
-                            <input
-                                type="hidden"
-                                name="answeredQuestionaire"
-                                value="hidden" />
-                            <button type="submit">Hide</button>
-                        </Form>
-                        {Cookies()}
-                    </DialogContent>
-                </Dialog>
-            )}
+            {answeredQuestionaire ? null : (<Cookies />)}
             < Homepage />
         </div>
     );
