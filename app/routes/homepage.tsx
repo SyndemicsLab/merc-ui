@@ -1,9 +1,9 @@
 import { Link } from "@remix-run/react";
-import InputsSection from "./inputsection";
+import InputsSection from "../components/home/inputsection";
 import homecircle from "../images/homecircle.svg";
 import About from "./about";
-import ModelMaterials from "./modelmaterials";
-import Publications from "./publications";
+import ModelMaterials from "../components/home/modelmaterials";
+import Publications from "../components/home/publications";
 import ContactUs from "./contactus";
 
 const Homepage = () => (

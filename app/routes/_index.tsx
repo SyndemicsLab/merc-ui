@@ -4,7 +4,7 @@ import type {
 } from "@remix-run/node";
 
 import Homepage from "./homepage";
-import Questionaire from "./questionaire";
+import Questionaire from "../components/home/questionaire";
 
 import { userPrefs } from "~/cookies.server";
 import { useLoaderData } from "@remix-run/react";
