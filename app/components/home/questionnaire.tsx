@@ -16,7 +16,7 @@ import { Check, ChevronsUpDown } from "lucide-react";
 import { Button } from "../ui/button";
 import { cn } from "~/lib/utils";
 
-const Questionaire = () => {
+const Questionnaire = () => {
     const [open, setOpen] = useState(true);
 
     const [dropdownOpen, dropdownSetOpen] = useState(false);
@@ -229,35 +229,35 @@ const Questionaire = () => {
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogContent className="sm:max-w-[600px]">
                 <DialogHeader>
-                    <DialogTitle>Questionaire</DialogTitle>
+                    <DialogTitle>Questionnaire</DialogTitle>
                 </DialogHeader>
                 <div>
                     <span>Please help us continue our research by answering a few quick questions.</span>
                 </div>
-                <div className="questionaire">
-                    <Form id="visit">
+                <Form method="post">
+                    <div className="questionnaire">
                         <span className="dialog-question">
                             What is the purpose of your site visit? (Select all that apply)
                         </span>
                         <ul>
                             <li>
-                                <input type="checkbox" className="dialog-checkbox" />
+                                <input type="checkbox" className="dialog-checkbox" name="purpose" value="personal" />
                                 <span className="dialog-response">Personal research</span>
                             </li>
                             <li>
-                                <input type="checkbox" className="dialog-checkbox" />
+                                <input type="checkbox" className="dialog-checkbox" name="purpose" value="policy" />
                                 <span className="dialog-response">Policy development</span>
                             </li>
                             <li>
-                                <input type="checkbox" className="dialog-checkbox" />
+                                <input type="checkbox" className="dialog-checkbox" name="purpose" value="academic" />
                                 <span className="dialog-response">Academic research</span>
                             </li>
                             <li>
-                                <input type="checkbox" className="dialog-checkbox" />
+                                <input type="checkbox" className="dialog-checkbox" name="purpose" value="program" />
                                 <span className="dialog-response">Program development</span>
                             </li>
                             <li>
-                                <input type="checkbox" className="dialog-checkbox" />
+                                <input type="checkbox" className="dialog-checkbox" name="purpose" value="other" />
                                 <span className="dialog-response">
                                     Other:
                                     <input
@@ -268,8 +268,6 @@ const Questionaire = () => {
                                 </span>
                             </li>
                         </ul>
-                    </Form>
-                    <Form id="location">
                         <span className="dialog-question">
                             What US State are you most interested in researching?
                         </span>
@@ -316,46 +314,45 @@ const Questionaire = () => {
                                 </Command>
                             </PopoverContent>
                         </Popover>
-                    </Form>
-                    <Form id="occupation">
+                        <br />
                         <span className="dialog-question">
                             What is your occupation or field of work? (Select all that apply)
                         </span>
                         <ul>
                             <li>
-                                <input type="checkbox" className="dialog-checkbox" />
+                                <input type="checkbox" className="dialog-checkbox" name="occupation" value="healthcare" />
                                 <span className="dialog-response">Healthcare</span>
                             </li>
                             <li>
-                                <input type="checkbox" className="dialog-checkbox" />
+                                <input type="checkbox" className="dialog-checkbox" name="occupation" value="publichealth" />
                                 <span className="dialog-response">Public health</span>
                             </li>
                             <li>
-                                <input type="checkbox" className="dialog-checkbox" />
+                                <input type="checkbox" className="dialog-checkbox" name="occupation" value="research" />
                                 <span className="dialog-response">Research</span>
                             </li>
                             <li>
-                                <input type="checkbox" className="dialog-checkbox" />
+                                <input type="checkbox" className="dialog-checkbox" name="occupation" value="policy" />
                                 <span className="dialog-response">Policy</span>
                             </li>
                             <li>
-                                <input type="checkbox" className="dialog-checkbox" />
+                                <input type="checkbox" className="dialog-checkbox" name="occupation" value="government" />
                                 <span className="dialog-response">Government</span>
                             </li>
                             <li>
-                                <input type="checkbox" className="dialog-checkbox" />
+                                <input type="checkbox" className="dialog-checkbox" name="occupation" value="education" />
                                 <span className="dialog-response">Education</span>
                             </li>
                             <li>
-                                <input type="checkbox" className="dialog-checkbox" />
+                                <input type="checkbox" className="dialog-checkbox" name="occupation" value="nonprofit" />
                                 <span className="dialog-response">Non-profit/community organization</span>
                             </li>
                             <li>
-                                <input type="checkbox" className="dialog-checkbox" />
+                                <input type="checkbox" className="dialog-checkbox" name="occupation" value="media" />
                                 <span className="dialog-response">Media/communications</span>
                             </li>
                             <li>
-                                <input type="checkbox" className="dialog-checkbox" />
+                                <input type="checkbox" className="dialog-checkbox" name="occupation" value="other" />
                                 <span className="dialog-response">
                                     Other:
                                     <input
@@ -366,12 +363,10 @@ const Questionaire = () => {
                                 </span>
                             </li>
                         </ul>
-                    </Form>
-                </div>
-                <Form method="post">
+                    </div>
                     <input
                         type="hidden"
-                        name="answeredQuestionaire"
+                        name="answeredQuestionnaire"
                         value="hidden" />
                     <button type="submit">Submit</button>
                 </Form>
@@ -380,4 +375,4 @@ const Questionaire = () => {
     );
 };
 
-export default Questionaire;
+export default Questionnaire;

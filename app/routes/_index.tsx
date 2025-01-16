@@ -4,7 +4,7 @@ import type {
 } from "@remix-run/node";
 
 import Homepage from "./homepage";
-import Questionaire from "../components/home/questionaire";
+import Questionnaire from "../components/home/questionnaire";
 
 import { userPrefs } from "~/cookies.server";
 import { useLoaderData } from "@remix-run/react";
@@ -16,7 +16,7 @@ export async function loader({
 }: LoaderFunctionArgs) {
     const cookieHeader = request.headers.get("Cookie");
     const cookie = (await userPrefs.parse(cookieHeader)) || {};
-    return { answeredQuestionaire: cookie.answeredQuestionaire };
+    return { answeredQuestionnaire: cookie.answeredQuestionnaire };
 }
 
 export async function action({
@@ -24,11 +24,13 @@ export async function action({
 }: ActionFunctionArgs) {
     const cookieHeader = request.headers.get("Cookie");
     const cookie = (await userPrefs.parse(cookieHeader)) || {};
-    const bodyParams = await request.formData();
+    const formData = await request.formData();
 
-    if (bodyParams.get("answeredQuestionaire") === "hidden") {
-        cookie.answeredQuestionaire = true;
+    if (formData.get("answeredQuestionnaire") === "hidden") {
+        cookie.answeredQuestionnaire = true;
     }
+
+    console.log(formData.getAll("purpose"), formData.getAll("occupation"));
 
     return redirect("/", {
         headers: {
@@ -38,11 +40,11 @@ export async function action({
 }
 
 export default function Index() {
-    const { answeredQuestionaire } = useLoaderData<typeof loader>();
+    const { answeredQuestionnaire } = useLoaderData<typeof loader>();
 
     return (
         <div>
-            {answeredQuestionaire ? null : (<Questionaire />)}
+            {answeredQuestionnaire ? null : (<Questionnaire />)}
             < Homepage />
         </div>
     );
