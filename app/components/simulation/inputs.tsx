@@ -2,13 +2,10 @@ import { useState } from "react";
 import { Form, useFetcher } from "@remix-run/react";
 import { getInterventions } from "../constants";
 
-export function InputSlider({
-    inputName,
-    min,
-    max,
-    step,
-    defaultValue,
-}): React.TSX.Element {
+export function InputSlider(
+    { inputName, min, max, step, defaultValue }:
+        { inputName: string, min: number, max: number, step: number, defaultValue: any }
+) {
     const [value, setValue] = useState(defaultValue);
     const fetcher = useFetcher();
 
@@ -39,12 +36,10 @@ export function InputSlider({
     );
 }
 
-function CollapsibleMenu({
-    sectionName,
-    context,
-    contents,
-    defaultState,
-}): React.TSX.Element {
+function CollapsibleMenu(
+    { sectionName, context, contents, defaultState }:
+        { sectionName: string, context: string, contents: any, defaultState: any }
+) {
     const [collapsed, setCollapsed] = useState(defaultState);
 
     return (
@@ -82,7 +77,7 @@ export function Interventions() {
     }
 
     // Handle the deletion of an intervention
-    function handleDeleteIntervention(id) {
+    function handleDeleteIntervention(id: number) {
         setInterventions(interventions.filter((intervention) => intervention.id !== id));
     }
 
@@ -162,54 +157,12 @@ export function Interventions() {
     );
 }
 
-export function GeneralInputs({ population, uptake }) {
+export function GeneralInputs({ population, uptake }: { population: number, uptake: number }) {
     return (
         <div className="general-inputs">
             <InputSlider inputName={"Initial Population Size (Full Model)"} min={0} max={300000} step={500} defaultValue={population} />
             <InputSlider inputName={"Change in Population Per Week (Count)"} min={0} max={50000} step={100} defaultValue={uptake} />
             <Interventions />
-        </div>
-    );
-}
-
-export function UploadForm({ id, inputName }) {
-    const fetcher = useFetcher();
-
-    return (
-        <fetcher.Form id={id} className="upload-form">
-            <div className="inputName">{inputName}</div>
-            <input type="file" />
-        </fetcher.Form>
-    );
-}
-
-export function AdvancedInputs() {
-    const [showAdvanced, setShowAdvanced] = useState(false);
-
-    return (
-        <div className="advanced-inputs">
-            <input
-                id="show-advanced"
-                type="checkbox"
-                onChange={(event) => setShowAdvanced(event.target.checked)}
-            />
-            <label htmlFor="show-advanced" id="advanced-options">
-                <div className="advanced-options-text">
-                    Advanced Options
-                </div>
-            </label>
-            <div id="advanced" className={showAdvanced ? "unhidden" : "hidden"}>
-                <UploadForm id="sim-conf" inputName="General Configuration File (sim.conf)" />
-                <UploadForm id="overdose" inputName="All Types Overdose (all_types_overdose.csv)" />
-                <UploadForm id="mort" inputName="Background Mortality (background_mortality.csv)" />
-                <UploadForm id="smr" inputName="Standardized Mortality Ratio (SMR.csv)" />
-                <UploadForm id="init_effect" inputName="Treatment Initialization Effect (block_init_effect.csv)" />
-                <UploadForm id="block_trans" inputName="Treatment Transition Proportions (block_trans.csv)" />
-                <UploadForm id="entering" inputName="Entering Cohort (entering_cohort.csv)" />
-                <UploadForm id="fod" inputName="Fatal Overdose Proportions (fatal_overdose.csv)" />
-                <UploadForm id="initial" inputName="Initial Population (init_cohort.csv)" />
-                <UploadForm id="oud" inputName="Drug Use State Transitions (oud_trans.csv)" />
-            </div>
         </div>
     );
 }

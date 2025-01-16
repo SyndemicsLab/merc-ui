@@ -1,6 +1,7 @@
 import System from "../components/simulation/system";
-import { GeneralInputs, AdvancedInputs, EmailForm } from "../components/simulation/inputs";
+import { GeneralInputs, EmailForm } from "../components/simulation/inputs";
 import Disclaimers from "~/components/disclaimers";
+import AdvancedInputs from "~/components/simulation/advancedinputs";
 
 export default function Index() {
     const population = 214000;
