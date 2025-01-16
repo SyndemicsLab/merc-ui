@@ -209,7 +209,24 @@ body {
     }
 }
 
+/* QUESTIONAIRE */
 
+.dialog-question {
+    padding: 5px;
+}
+
+.dialog-response {
+    padding: 10px;
+}
+
+.dialog-input {
+    margin: 5px;
+    padding: 2px;
+}
+
+.dialog-checkbox {
+    margin-left: 5px;
+}
 
 /* HOMEPAGE */
 

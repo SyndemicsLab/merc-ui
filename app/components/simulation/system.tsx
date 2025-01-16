@@ -1,5 +1,5 @@
-import respond7 from "./images/diagram/7.png";
-import respond8 from "./images/diagram/8.png";
+import respond7 from "~/images/diagram/7.png";
+import respond8 from "~/images/diagram/8.png";
 
 const System = () => {
     return (
