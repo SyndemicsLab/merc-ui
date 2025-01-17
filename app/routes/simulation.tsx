@@ -1,7 +1,8 @@
 import System from "../components/simulation/system";
-import { GeneralInputs, EmailForm } from "../components/simulation/inputs";
+import { GeneralInputs } from "../components/simulation/inputs";
 import Disclaimers from "~/components/disclaimers";
 import AdvancedInputs from "~/components/simulation/advancedinputs";
+import EmailIntake from "~/components/ui/emailintake";
 
 export default function Index() {
     const population = 214000;
@@ -15,7 +16,7 @@ export default function Index() {
                 <h1>Inputs & Advanced Options</h1>
                 <GeneralInputs population={population} uptake={uptake} />
                 <AdvancedInputs />
-                <EmailForm />
+                <EmailIntake />
                 <label id="run">
                     <div className="run-text"><span>▶ RUN</span></div>
                 </label>
