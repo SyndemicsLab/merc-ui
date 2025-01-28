@@ -1,4 +1,4 @@
-import { Link } from "@remix-run/react";
+import { Link } from "react-router";
 import InputsSection from "../components/home/inputsection";
 import homecircle from "../images/homecircle.svg";
 import About from "./about";

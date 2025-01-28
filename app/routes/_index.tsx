@@ -1,15 +1,12 @@
-import type {
-    ActionFunctionArgs,
-    LoaderFunctionArgs,
-} from "@remix-run/node";
+import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
 
 import Homepage from "./homepage";
 import Questionnaire from "../components/home/questionnaire";
 
 import { userPrefs } from "~/cookies.server";
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "react-router";
 
-import { redirect } from "@remix-run/node";
+import { redirect } from "react-router";
 
 export async function loader({
     request,

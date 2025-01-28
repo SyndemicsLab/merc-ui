@@ -2,9 +2,18 @@
     "include": [
         "remix.env.d.ts",
         "**/*.ts",
-        "**/*.tsx"
+        "**/*.tsx",
+        ".react-router/types/**/*"
     ],
     "compilerOptions": {
+        "types": [
+            "@react-router/node",
+            "vite/client"
+        ],
+        "rootDirs": [
+            ".",
+            "./.react-router/types"
+        ],
         "lib": [
             "DOM",
             "DOM.Iterable",
