@@ -1,24 +1,11 @@
-import { Popover, PopoverContent, PopoverTrigger } from "@radix-ui/react-popover";
 import { Form } from "react-router";
 
-import { useState } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 
-import {
-    Dialog,
-    DialogContent,
-    DialogHeader,
-    DialogTitle,
-} from "~/components/ui/dialog";
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "../ui/command";
-import { Check, ChevronsUpDown } from "lucide-react";
-import { Button } from "../ui/button";
-import { cn } from "~/lib/utils";
+import React, { useState } from "react";
 
 const Questionnaire = () => {
     const [open, setOpen] = useState(true);
-
-    const [dropdownOpen, dropdownSetOpen] = useState(false);
-    const [value, setValue] = useState("")
 
     const states = [
         {
@@ -223,6 +210,7 @@ const Questionnaire = () => {
         },
 
     ]
+
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogContent className="sm:max-w-[600px]">
@@ -269,49 +257,7 @@ const Questionnaire = () => {
                         <span className="dialog-question">
                             What US State are you most interested in researching?
                         </span>
-                        <Popover open={dropdownOpen} onOpenChange={dropdownSetOpen}>
-                            <PopoverTrigger asChild>
-                                <Button
-                                    variant="secondary"
-                                    role="combobox"
-                                    aria-expanded={dropdownOpen}
-                                    className="w-[200px] justify-between"
-                                >
-                                    {value
-                                        ? states.find((state) => state.value === value)?.label
-                                        : "Select state..."}
-                                    <ChevronsUpDown className="opacity-50" />
-                                </Button>
-                            </PopoverTrigger>
-                            <PopoverContent className="w-[200px] p-0">
-                                <Command>
-                                    <CommandInput placeholder="Search state..." className="h-9" />
-                                    <CommandList>
-                                        <CommandEmpty>No state found.</CommandEmpty>
-                                        <CommandGroup>
-                                            {states.map((state) => (
-                                                <CommandItem
-                                                    key={state.value}
-                                                    value={state.value}
-                                                    onSelect={(currentValue) => {
-                                                        setValue(currentValue === value ? "" : currentValue)
-                                                        dropdownSetOpen(false)
-                                                    }}
-                                                >
-                                                    {state.label}
-                                                    <Check
-                                                        className={cn(
-                                                            "ml-auto",
-                                                            value === state.value ? "opacity-100" : "opacity-0"
-                                                        )}
-                                                    />
-                                                </CommandItem>
-                                            ))}
-                                        </CommandGroup>
-                                    </CommandList>
-                                </Command>
-                            </PopoverContent>
-                        </Popover>
+
                         <br />
                         <span className="dialog-question">
                             What is your occupation or field of work? (Select all that apply)
