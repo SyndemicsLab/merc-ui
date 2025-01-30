@@ -1,4 +1,4 @@
-import { Link } from "@remix-run/react";
+import { Link } from "react-router";
 
 // This is the inputsection that is a shortcut to the simulation page
 const InputsSection = () => (

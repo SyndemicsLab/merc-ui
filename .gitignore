@@ -1,5 +1,7 @@
 .DS_Store
 
+.react-router/
+
 *build/
 /packages/*/dist/
 /packages/*/LICENSE.md

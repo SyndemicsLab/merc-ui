@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { Form } from "@remix-run/react";
-import { getInterventions } from "../constants";
+import { Form } from "react-router";
+import { getInterventions } from "../../data";
 import NamedSlider from "../ui/namedslider";
-import CollapsibleMenu from "../ui/collapsiblemenu";
+// import CollapsibleMenu from "../ui/collapsiblemenu";
 
 
 export function Interventions() {
@@ -61,7 +61,7 @@ export function Interventions() {
             <NamedSlider inputName="Proportion Transitioning to Naltrexone" min={0} max={1} step={0.01} defaultValue={0.2} />
             <NamedSlider inputName="Proportion Transitioning to Methadone" min={0} max={1} step={0.01} defaultValue={0.2} />
             <NamedSlider inputName="Proportion Transitioning to Detox" min={0} max={1} step={0.01} defaultValue={0.2} />
-            <CollapsibleMenu
+            {/* <CollapsibleMenu
                 sectionName={"OUD Transitions"}
                 context={`oud-${intervention.name}`}
                 contents={
@@ -84,7 +84,7 @@ export function Interventions() {
                     </>
                 }
                 defaultState={false}
-            />
+            /> */}
         </div>
     ));
 

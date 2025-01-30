@@ -1,105 +1,84 @@
-import { useState } from 'react';
-import { LinksFunction, MetaFunction } from "@remix-run/node";
-import { Links, Meta, Outlet, Scripts, ScrollRestoration, Link, useLocation, useNavigate } from "@remix-run/react";
+import {
+    isRouteErrorResponse,
+    Outlet,
+    Scripts,
+    ScrollRestoration
+} from "react-router";
+
 import appStylesHref from "./app.css?url";
-import respondlogo from "./images/respondlogo.png";
-import Footer from "./components/footer"
+import Footer from "./components/ui/footer"
+import React from 'react';
 
-export const links: LinksFunction = () => [
-    { rel: "stylesheet", href: appStylesHref },
-    { rel: "icon", sizes: "32x32", href: "/favicon.ico" }
-];
+import { Navbar } from "./components/ui/navbar";
 
-export const meta: MetaFunction = () => {
-    return [
-        { rel: "icon", href: "/favicon.ico" },
-        { title: "RESPOND Simulation" },
-        { name: "description", content: "The Syndemics Lab at Boston Medical Center's RESPOND simulation as a web application." }
-    ];
-};
-
-const NavigationMenu = () => {
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const location = useLocation();
-
-    const menuItems = [
-        { text: "Home", link: "/" },
-        { text: "Simulation Model", link: "/simulation" },
-        { text: "About Us", link: "/#about" },
-        { text: "Model Materials", link: "/#modelmaterials" },
-        { text: "Publications", link: "/#publications" },
-        { text: "Contact Us", link: "/#contactus" }
-    ];
-
-    return (
-        <header className="header">
-            <Link to="/">
-                <img className="navbarlogo" src={respondlogo} alt="RESPOND Simulation" />
-            </Link>
-            <nav className="nav">
-                <div className={`menu-icon ${isMenuOpen ? 'change' : ''}`} onClick={() => setIsMenuOpen(!isMenuOpen)}>
-                    <div className="bar1"></div>
-                    <div className="bar2"></div>
-                    <div className="bar3"></div>
-                </div>
-                <div className={`nav-links ${isMenuOpen ? 'hidden' : ''}`}>
-                    {menuItems.map((item, index) => (
-                        <Link
-                            key={index}
-                            to={item.link}
-                            className={`nav-button ${location.hash === item.link ? 'active' : ''}`}
-                        >
-                            {item.text}
-                        </Link>
-                    ))}
-                </div>
-                {isMenuOpen && (
-                    <div className="overlay open">
-                        <div className={`menu-icon ${isMenuOpen ? 'change' : ''}`} onClick={() => setIsMenuOpen(!isMenuOpen)}>
-                            <div className="bar1"></div>
-                            <div className="bar2"></div>
-                            <div className="bar3"></div>
-                        </div>
-                        <div className="overlay-content">
-                            {menuItems.map((item, index) => (
-                                <Link
-                                    key={index}
-                                    to={item.link}
-                                    className="overlay-link"
-                                    onClick={(e) => {
-                                        setIsMenuOpen(false);
-                                        if (item.link === "#about") {
-                                            handleAboutClick(e);
-                                        }
-                                    }}
-                                >
-                                    {item.text}
-                                </Link>
-                            ))}
-                        </div>
-                    </div>
-                )}
-            </nav>
-        </header>
-    );
-};
+import type { Route } from "./+types/root";
 
 export default function App() {
+    return (
+        <>
+            <Navbar />
+            <Outlet />
+            <Footer />
+        </>
+    );
+}
+
+export function Layout({
+    children,
+}: {
+    children: React.ReactNode;
+}) {
     return (
         <html lang="en">
             <head>
                 <meta charSet="utf-8" />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
-                <Meta />
-                <Links />
+                <meta name="icon" content="/favicon.ico" />
+                <meta title="RESPOND Simulation" />
+                <meta name="description" content="The Syndemics Lab at Boston Medical Center's RESPOND simulation as a web application." />
+                <link rel="stylesheet" href={appStylesHref} />
+                <link rel="icon" sizes="32x32" href="/favicon.ico" />
+                <title>RESPOND | Syndemics Lab</title>
             </head>
             <body>
-                <NavigationMenu />
-                <Outlet />
-                <Footer />
+                {children}
                 <ScrollRestoration />
                 <Scripts />
             </body>
         </html>
+    )
+}
+
+export function ErrorBoundary({
+    error,
+}: Route.ErrorBoundaryProps) {
+    let message = "The devs are sorry about this!";
+    let details = "An unknown error occurred.";
+    let stack: string | undefined;
+
+    if (isRouteErrorResponse(error)) {
+        message = error.status === 404 ? "404" : "Error";
+        details = error.status === 404 ? "The requested page could not be found." : error.statusText || details;
+    }
+    return (
+        <main id="error-page">
+            <h1>{message}</h1>
+            <p>{details}</p>
+            {stack && (
+                <pre>
+                    <code>{stack}</code>
+                </pre>
+            )}
+        </main>
     );
 }
+
+export function HydrateFallback() {
+    return (
+        <div id="loading-splash">
+            <div id="loading-splash-spinner" />
+            <p>Loading, please wait...</p>
+        </div>
+    );
+}
+
