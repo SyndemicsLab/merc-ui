@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router";
 
-import respondlogo from "../images/respondlogo.png";
+import respondlogo from "../../images/respondlogo.png";
 
 export function Navbar() {
     const [menuOpen, setMenuOpen] = useState(false);
