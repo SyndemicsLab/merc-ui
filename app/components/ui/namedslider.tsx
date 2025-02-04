@@ -7,7 +7,7 @@ const NamedSlider = (
     const [value, setValue] = useState(defaultValue);
 
     return (
-        <div>
+        <>
             <div className="inputName">{inputName}</div>
             <div className="slider">
                 <input
@@ -29,7 +29,7 @@ const NamedSlider = (
                     onChange={(event) => setValue(event.target.value)}
                 />
             </div>
-        </div>
+        </>
     );
 }
 

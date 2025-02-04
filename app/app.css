@@ -63,12 +63,6 @@
         --chart-4: 280 65% 60%;
         --chart-5: 340 75% 55%;
     }
-
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
 }
 
 
@@ -264,6 +258,18 @@ body {
 
 /* QUESTIONNAIRE */
 
+.questionnaire {
+    display: flex;
+    font-size: 14px;
+    flex-direction: column;
+    margin-bottom: 1em;
+}
+
+.questionnaire input[type="text"] {
+    border: 1px solid #dedede;
+    margin: 0 0 0 5px;
+}
+
 .dialog-root {
     --spacing: 6px;
 }
@@ -273,6 +279,7 @@ body {
 }
 
 .dialog-question {
+    font-weight: 600;
     padding: 5px;
 }
 
@@ -817,12 +824,6 @@ body {
     --spacing-small: 10px;
     --spacing-medium: 20px;
     --spacing-large: 40px;
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
 }
 
 html,

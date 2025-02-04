@@ -47,14 +47,12 @@ export function Interventions() {
     // Create intervention contents for each intervention
     let interventionContents = interventions.map((intervention, index) => (
         <div key={index} className={`interventionContent ${intervention.name === "No Treatment" ? "defaultOpen" : ""}`}>
-            <Form id="intervention-name" method="post">
-                <div className="inputName">Intervention Name</div>
-                <input
-                    type="text"
-                    defaultValue={intervention.name}
-                    onChange={(e) => changeInterventionName(e.target.value, index)}
-                />
-            </Form>
+            <div className="inputName">Intervention Name</div>
+            <input
+                type="text"
+                defaultValue={intervention.name}
+                onChange={(e) => changeInterventionName(e.target.value, index)}
+            />
             <NamedSlider inputName="Intervention Population Size" min={0} max={4000} step={50} defaultValue={1500} />
             <NamedSlider inputName="Retention Rate" min={0} max={1} step={0.01} defaultValue={0.8} />
             <NamedSlider inputName="Proportion Transitioning to Buprenorphine" min={0} max={1} step={0.01} defaultValue={0.2} />
@@ -110,5 +108,3 @@ export function GeneralInputs({ population, uptake }: { population: number, upta
         </div>
     );
 }
-
-
