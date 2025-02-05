@@ -2,7 +2,7 @@ import { useState } from "react";
 
 const NamedSlider = (
     { inputName, min, max, step, defaultValue }:
-        { inputName: string, min: number, max: number, step: number, defaultValue: any }
+    { inputName: string, min: number, max: number, step: number, defaultValue: any }
 ) => {
     const [value, setValue] = useState(defaultValue);
 

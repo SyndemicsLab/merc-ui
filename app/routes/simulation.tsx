@@ -15,11 +15,11 @@ export default function Index() {
             <hr />
 		<div id="inputs">
                     <h1>Inputs & Advanced Options</h1>
-		    <Form method="post">
-			<GeneralInputs
-			    population={population}
-			    uptake={uptake} />
-		    </Form>
+		    {/* <Form method="post"> */}
+		    <GeneralInputs
+			population={population}
+			uptake={uptake} />
+		    {/* </Form> */}
                     <AdvancedInputs />
                     <EmailIntake />
                     <label id="run">
