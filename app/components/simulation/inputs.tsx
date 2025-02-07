@@ -56,10 +56,21 @@ export function Interventions() {
 
     // delete an intervention
     function deleteIntervention(id: number) {
+	let deletingActive: boolean = interventions[idToIndex(id)].active;
+	let newInterventions: Intervention[] = interventions.map(
+	    intervention => {
+		// open no treatment when deleting the active intervention tab
+		if (deletingActive) {
+		    if (intervention.id === 0) {
+			return {...intervention, active: true };
+		    }
+		}
+		return intervention;
+	    }
+	);
+	newInterventions = newInterventions.filter(i => i.id !== id);
 	setInterventions(
-	    interventions.filter(i =>
-		i.id !== id
-	    )
+	    newInterventions
 	);
     }
 

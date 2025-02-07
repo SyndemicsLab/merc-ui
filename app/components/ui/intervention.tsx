@@ -15,7 +15,11 @@ function InterventionTab(
 		{intervention.name}
 		{intervention.id > 0 && (
 		    <button className="delete-button"
-			    onClick={() => onDelete(intervention.id)}>
+			    onClick={(event) => {
+				onDelete(intervention.id);
+				// avoid also selecting the tab while closing
+				event.stopPropagation();
+			    }}>
 			×
 		    </button>
 		)}
