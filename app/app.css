@@ -979,7 +979,7 @@ button:hover {
     display: none;
 }
 
-.defaultOpen {
+.interventionContent.active {
     display: block;
 }
 
