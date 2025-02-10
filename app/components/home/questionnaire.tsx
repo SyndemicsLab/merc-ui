@@ -1,6 +1,12 @@
 import { Form } from "react-router";
 
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
+import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+    DialogDescription
+} from "../ui/dialog";
 
 import StateDropdown from "../ui/statedropdown";
 import { useState } from "react";
@@ -10,13 +16,11 @@ const Questionnaire = () => {
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
-            <DialogContent className="sm:max-w-[600px] bg-white dialog-root">
+            <DialogContent className="rounded-2xl text-left p-[20px] sm:max-w-[600px] bg-white dialog-root">
                 <DialogHeader>
                     <DialogTitle>Questionnaire</DialogTitle>
+		    <DialogDescription>Please help us serve you better by answering a few quick questions.</DialogDescription>
                 </DialogHeader>
-                <div className="questionnaire">
-                    <span className="dialog-question">Please help us continue our research by answering a few quick questions.</span>
-                </div>
                 <Form method="post">
                     <div className="questionnaire">
                         <span className="dialog-question">
@@ -44,7 +48,7 @@ const Questionnaire = () => {
                                 <span className="dialog-response">
                                     Other:
                                     <input
-                                        className="dialog-input"
+                                        className="dialog-input rounded-md"
                                         type="text"
                                         placeholder="Purpose"
                                     />
@@ -55,7 +59,6 @@ const Questionnaire = () => {
                             What US State are you most interested in researching?
                         </span>
                         <StateDropdown />
-                        <br />
                         <span className="dialog-question">
                             What is your occupation or field of work? (Select all that apply)
                         </span>
@@ -97,7 +100,7 @@ const Questionnaire = () => {
                                 <span className="dialog-response">
                                     Other:
                                     <input
-                                        className="dialog-input"
+                                        className="dialog-input rounded-md"
                                         type="text"
                                         placeholder="Occupation/Field of Work"
                                     />

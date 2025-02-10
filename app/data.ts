@@ -1,8 +1,9 @@
 // This is meant to be a temporary file replicating what would be held in a cloud data source
 
-interface Intervention {
+export interface Intervention {
     id: number;
     name: string;
+    active: boolean;
 }
 
 interface Simulation {
@@ -14,22 +15,27 @@ const simulation: Simulation = {
         {
             id: 0,
             name: "No Treatment",
+	    active: true,
         },
         {
             id: 1,
             name: "Buprenorphine",
+	    active: false,
         },
         {
             id: 2,
             name: "Naltrexone",
+	    active: false,
         },
         {
             id: 3,
             name: "Methadone",
+	    active: false,
         },
         {
             id: 4,
             name: "Detox",
+	    active: false,
         },
     ],
 

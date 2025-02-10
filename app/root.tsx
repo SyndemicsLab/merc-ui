@@ -32,7 +32,7 @@ export function Layout({
         <html lang="en">
             <head>
                 <meta charSet="utf-8" />
-                <meta name="viewport" content="width=device-width, initial-scale=1" />
+                <meta name="viewport" content="width=device-width, initial-scale=1.0" />
                 <meta name="icon" content="/favicon.ico" />
                 <meta title="RESPOND Simulation" />
                 <meta name="description" content="The Syndemics Lab at Boston Medical Center's RESPOND simulation as a web application." />
@@ -81,4 +81,3 @@ export function HydrateFallback() {
         </div>
     );
 }
-

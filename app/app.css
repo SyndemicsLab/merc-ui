@@ -63,12 +63,6 @@
         --chart-4: 280 65% 60%;
         --chart-5: 340 75% 55%;
     }
-
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
 }
 
 
@@ -181,7 +175,7 @@ body {
         top: 0;
         left: 0;
         background-color: rgba(0, 0, 0, 0.92);
-        transition: opacity 0.5s ease, visibility 0.5s ease;
+        transition: opacity 0.5s ease, visibility 0.2s ease;
         z-index: 9999;
         opacity: 0;
         visibility: hidden;
@@ -194,7 +188,7 @@ body {
         align-items: center;
         opacity: 1;
         visibility: visible;
-        animation: fadeIn 1.5s ease-in-out forwards;
+        animation: fadeIn 0.4s ease-in-out forwards;
     }
 
     .overlay .menu-icon {
@@ -225,10 +219,10 @@ body {
         color: #f0325f;
     }
 
-    .overlay-closing {
+    .overlay.closing {
         opacity: 0;
         visibility: hidden;
-        animation: fadeOut 1s ease-in-out forwards;
+        animation: fadeOut 0.8s ease-in-out forwards;
     }
 }
 
@@ -264,6 +258,18 @@ body {
 
 /* QUESTIONNAIRE */
 
+.questionnaire {
+    display: flex;
+    font-size: 14px;
+    flex-direction: column;
+    margin-bottom: 1em;
+}
+
+.questionnaire input[type="text"] {
+    border: 1px solid #dedede;
+    margin: 0 0 0 5px;
+}
+
 .dialog-root {
     --spacing: 6px;
 }
@@ -273,6 +279,7 @@ body {
 }
 
 .dialog-question {
+    font-weight: 600;
     padding: 5px;
 }
 
@@ -819,12 +826,6 @@ body {
     --spacing-large: 40px;
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 html,
 body {
     height: 100%;
@@ -940,10 +941,12 @@ button:hover {
 }
 
 .interventionTab .delete-button {
+    height: 20px;
+    width: 20px;
     position: absolute;
     top: -5px;
     right: -5px;
-    background-color: red;
+    background-color: black;
     border: none;
     border-radius: 50%;
     color: #fff;
@@ -954,7 +957,10 @@ button:hover {
 }
 
 .interventionTab:hover .delete-button {
-    display: block;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }
 
 .interventionContents {
@@ -973,7 +979,7 @@ button:hover {
     display: none;
 }
 
-.defaultOpen {
+.interventionContent.active {
     display: block;
 }
 

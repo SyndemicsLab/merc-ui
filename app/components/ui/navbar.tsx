@@ -8,7 +8,7 @@ export function Navbar() {
     const location = useLocation();
     return (
         <header className="header">
-            <Link to="home">
+            <Link to="/">
                 <img className="navbarlogo" src={respondlogo} alt="RESPOND Simulation" />
             </Link>
             <nav className="nav">
