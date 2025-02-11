@@ -1,4 +1,5 @@
-// This is meant to be a temporary file replicating what would be held in a cloud data source
+// This is meant to be a temporary file replicating what would be held in a
+// cloud data source
 
 export interface Intervention {
     id: number;
