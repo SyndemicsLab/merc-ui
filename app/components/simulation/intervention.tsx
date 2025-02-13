@@ -64,7 +64,7 @@ function InterventionTabs(
 
 function InterventionContent(
     { intervention, transitions, onNameChange }:
-    { intervention: Intervention, transitions: Transition[], onNameChange: any }
+    { intervention: Intervention, transitions: Transition[], onNameChange: Function }
 ) {
     return(
 	<>
@@ -96,7 +96,7 @@ function InterventionContent(
 
 function InterventionContents(
     { interventions, onInterventionNameChange }:
-    { interventions: Intervention[], onInterventionNameChange: any}
+    { interventions: Intervention[], onInterventionNameChange: Function}
 ) {
     return(
 	<>

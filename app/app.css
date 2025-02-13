@@ -294,7 +294,7 @@ body {
 
     .dialog-input {
 	margin: 0 0 0 5px;
-	padding: unset;
+	padding: 0 0 0 5px;
     }
 
     .dialog-checkbox {

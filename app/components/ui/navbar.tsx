@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router";
 
 import respondlogo from "~/images/respondlogo.png";
 
-export function Navbar() {
+export default function Navbar() {
     const [menuOpen, setMenuOpen] = useState(false);
     const location = useLocation();
     return (

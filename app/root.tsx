@@ -5,11 +5,11 @@ import {
     ScrollRestoration
 } from "react-router";
 
-import appStylesHref from "./app.css?url";
-import Footer from "./components/ui/footer"
+import appStylesHref from "~/app.css?url";
+import Footer from "@components/ui/footer"
 import React from 'react';
 
-import { Navbar } from "./components/ui/navbar";
+import Navbar from "@components/ui/navbar";
 
 import type { Route } from "./+types/root";
 

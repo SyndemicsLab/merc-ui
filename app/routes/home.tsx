@@ -1,14 +1,14 @@
 import { Link, redirect } from "react-router";
-import InputsSection from "../components/home/inputsection";
-import homecircle from "../images/homecircle.svg";
-import About from "../components/home/about";
-import ModelMaterials from "../components/home/modelmaterials";
-import Publications from "../components/home/publications";
-import ContactUs from "../components/home/contactus";
-import Questionnaire from "../components/home/questionnaire";
+import InputsSection from "@components/home/inputsection";
+import homecircle from "~/images/homecircle.svg";
+import About from "@components/home/about";
+import ModelMaterials from "@components/home/modelmaterials";
+import Publications from "@components/home/publications";
+import ContactUs from "@components/home/contactus";
+import Questionnaire from "@components/home/questionnaire";
 import type { Route } from "./+types/home";
 
-import { userPrefs } from "../cookies.server";
+import { userPrefs } from "~/cookies.server";
 
 export async function loader({ request }: Route.LoaderArgs) {
     const cookieHeader = request.headers.get("Cookie");
