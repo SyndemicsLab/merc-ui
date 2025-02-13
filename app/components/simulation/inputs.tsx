@@ -1,8 +1,5 @@
-import {
-    Interventions
-} from "../ui/intervention"
-import NamedSlider from "../ui/namedslider";
-// import CollapsibleMenu from "../ui/collapsiblemenu";
+import Interventions from "@components/ui/intervention"
+import NamedSlider from "@components/ui/namedslider";
 
 export function GeneralInputs({ population, uptake }: { population: number, uptake: number }) {
     return (

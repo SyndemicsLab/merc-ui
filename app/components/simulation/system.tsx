@@ -1,4 +1,4 @@
-import respond from "../../images/diagram/system.svg";
+import respond from "~/images/diagram/system.jpg";
 
 const System = () => {
     return (

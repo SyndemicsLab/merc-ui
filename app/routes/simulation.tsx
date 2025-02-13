@@ -14,7 +14,7 @@ export default function Index() {
             <System />
             <hr />
 		<div id="inputs">
-                    <h1>Inputs & Advanced Options</h1>
+                    <h1>Simulation Inputs</h1>
 		    {/* <Form method="post"> */}
 		    <GeneralInputs
 			population={population}

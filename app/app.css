@@ -8,6 +8,7 @@
         --secondary-color: #f0325f;
 	--tertiary-color: #003771;
 	--gray-accent: #ccc;
+	--darkgray-accent: #888;
         --font-family: 'IBM Plex Sans', sans-serif;
         --font-size: 16px;
         --line-height: 1.5;
@@ -269,6 +270,10 @@ body {
     font-size: 14px;
     flex-direction: column;
     margin-bottom: 1em;
+
+    input:focus-within {
+	outline: none;
+    }
 
     .dialog-root {
 	--spacing: 6px;
@@ -849,7 +854,6 @@ label {
     background-color: #fff;
     padding: calc(var(--spacing) * 3);
     border-radius: var(--border-radius);
-    box-shadow: 0px 4px 18px rgba(0, 0, 0, 0.1);
     margin-bottom: var(--spacing);
 }
 
@@ -974,6 +978,11 @@ button:hover {
     transform: scale(1.05);
 }
 
+#interventions {
+    margin-top: var(--spacing-large);
+    margin-bottom: var(--spacing-large);
+}
+
 .interventionTabs {
 }
 
@@ -1011,7 +1020,7 @@ button:hover {
     position: absolute;
     top: -5px;
     right: -5px;
-    background-color: black;
+    background-color: var(--darkgray-accent);
     border: none;
     border-radius: 50%;
     color: #fff;
@@ -1033,7 +1042,6 @@ button:hover {
     flex-direction: column;
     align-items: stretch;
     gap: var(--spacing-medium);
-    margin-bottom: var(--spacing-large);
 }
 
 .interventionContent {

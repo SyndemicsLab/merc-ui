@@ -7,6 +7,12 @@ export interface Intervention {
     active: boolean;
 }
 
+export interface Transition {
+    id: number;
+    name: string;
+    probability: number;
+}
+
 interface Simulation {
     interventions: Intervention[];
 }
@@ -46,6 +52,48 @@ const simulation: Simulation = {
 }
 
 export function getInterventions(): Intervention[] {
-    let interventions = simulation.getAll();
+    const interventions: Intervention[] = setTransitions(simulation.getAll());
     return interventions;
+}
+
+export function makeEmptyTransition(id: number, name: string): Transition {
+    return { id: id, name: name, probability: 0 };
+}
+
+function setTransitions(interventions: Intervention[]) {
+    let newInterventions = interventions.map((intervention) => {
+	if (Object.hasOwn(intervention, "transitions")) {
+	    return intervention.transitions;
+	} else {
+	    let other_interventions: Intervention[] = interventions.filter(
+		i => i.id != intervention.id
+	    );
+	    let transitions: Transition[] = other_interventions.map((i) => {
+		return {
+		    id: i.id,
+		    name: i.name,
+		    probability: 0.25 / other_interventions.length,
+		};
+	    })
+
+	    // id 0 is reserved for no treatment
+	    if (intervention.id === 0) {
+		return(
+		    {...intervention,
+		     transitions: transitions}
+		);
+	    } else {
+		return(
+		    {...intervention,
+		     transitions: [{
+			 id: intervention.id,
+			 name: `Post-${intervention.name}`,
+			 probability: 0.2
+		     }, ...transitions]
+		    }
+		);
+	    }
+	}
+    });
+    return newInterventions;
 }

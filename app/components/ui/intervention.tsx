@@ -1,13 +1,16 @@
-import type { Intervention } from "../../data";
-import NamedSlider from "../ui/namedslider";
 import { useState } from "react";
-import { getInterventions } from "../../data";
+import {
+    type Intervention,
+    type Transition,
+    getInterventions,
+    makeEmptyTransition
+} from "~/data";
+import NamedSlider from "@components/ui/namedslider";
 
 function InterventionTab(
     { intervention, onSelect, onDelete }:
-    { intervention: Intervention, onSelect: any, onDelete: any }
+    { intervention: Intervention, onSelect: Function, onDelete: Function }
 ) {
-
     return (
 	<>
 	    <div
@@ -19,7 +22,8 @@ function InterventionTab(
 		    <button className="delete-button"
 			    onClick={(event) => {
 				onDelete(intervention.id);
-				// avoid also selecting the tab while closing
+				// avoid also selecting the tab underneath while
+				// closing (selection overrides deletion)
 				event.stopPropagation();
 			    }}>
 			×
@@ -30,14 +34,14 @@ function InterventionTab(
     );
 }
 
-export function InterventionTabs(
+function InterventionTabs(
     { interventions, onSelectIntervention, onDeleteIntervention, addIntervention }:
-    { interventions: Intervention[], onSelectIntervention: any, onDeleteIntervention: any, addIntervention }
+    { interventions: Intervention[], onSelectIntervention: Function, onDeleteIntervention: Function, addIntervention: Function }
 ) {
     // handle bug where no intervention is selected on render; select no
     // treatment
     let noneSelected: boolean = interventions.every(i => i.active === false);
-    noneSelected ? onSelectIntervention(0): null;
+    noneSelected ? onSelectIntervention(0) : null;
 
     return(
 	<>
@@ -59,8 +63,8 @@ export function InterventionTabs(
 }
 
 function InterventionContent(
-    { intervention, onNameChange }:
-    { intervention: Intervention, onNameChange: any }
+    { intervention, transitions, onNameChange }:
+    { intervention: Intervention, transitions: Transition[], onNameChange: any }
 ) {
     return(
 	<>
@@ -82,24 +86,17 @@ function InterventionContent(
 		)}
 		<NamedSlider inputName="Intervention Population Size"
 			     min={0} max={4000} step={50} defaultValue={1500} />
-		<NamedSlider inputName="Retention Rate"
-			     min={0} max={1} step={0.01} defaultValue={0.8} readOnly={true} />
-		<NamedSlider inputName="Proportion Transitioning to Buprenorphine"
-			     min={0} max={1} step={0.01} defaultValue={0.2} />
-		<NamedSlider inputName="Proportion Transitioning to Naltrexone"
-			     min={0} max={1} step={0.01} defaultValue={0.2} />
-		<NamedSlider inputName="Proportion Transitioning to Methadone"
-			     min={0} max={1} step={0.01} defaultValue={0.2} />
-		<NamedSlider inputName="Proportion Transitioning to Detox"
-			     min={0} max={1} step={0.01} defaultValue={0.2} />
+		<InterventionTransitions
+		    transitions={transitions}
+		/>
 	    </div>
 	</>
     );
 }
 
-export function InterventionContents(
+function InterventionContents(
     { interventions, onInterventionNameChange }:
-    { interventions: Intervention[], onInterventionNameChange: any }
+    { interventions: Intervention[], onInterventionNameChange: any}
 ) {
     return(
 	<>
@@ -108,6 +105,7 @@ export function InterventionContents(
 		    <InterventionContent
 			key={intervention.id}
 			intervention={intervention}
+			transitions={intervention.transitions}
 			onNameChange={onInterventionNameChange}
 		    />
 		))}
@@ -116,7 +114,31 @@ export function InterventionContents(
     );
 }
 
-export function Interventions() {
+function InterventionTransitions(
+    { transitions }:
+    { transitions: Transition[] }
+) {
+    let sumProbs: number = transitions.reduce((accumulator, transition) =>
+	accumulator + transition.probability, 0);
+    return(
+	<>
+	    <NamedSlider inputName="Retention Rate"
+			 min={0} max={1} step={0.01}
+			 defaultValue={Math.max(1-sumProbs, 0)} readOnly={true}
+	    />
+	    {transitions.map((transition) => (
+		<NamedSlider
+		    key={transition.id}
+		    inputName={`Proportion Transitioning to ${transition.name}`}
+		    min={0} max={1} step={0.01}
+		    defaultValue={transition.probability}
+		/>
+	    ))}
+	</>
+    );
+}
+
+export default function Interventions() {
     const [interventions, setInterventions] = useState(getInterventions);
 
     // generate an ID for a new intervention, avoiding duplicates
@@ -136,17 +158,32 @@ export function Interventions() {
 	while (used.includes(`New Intervention ${num}`)) {
 	    num += 1;
 	}
-	return(`New Intervention ${num}`)
+	return(`New Intervention ${num}`);
     }
 
     // add a new intervention
     function addIntervention() {
+	let id: number = getInterventionID();
+	let name: string = getNewInterventionName();
+	let newInterventions: Intervention[] = interventions.map(i => {
+	    return(
+		{...i, transitions: [
+		    ...i.transitions, makeEmptyTransition(id, name)
+		]}
+	    );
+	});
 	setInterventions([
-	    ...interventions,
+	    ...newInterventions,
 	    {
-		id: getInterventionID(),
-		name: getNewInterventionName(),
-		active: false
+		id: id,
+		name: name,
+		active: false,
+		transitions: [
+		    makeEmptyTransition(id, `Post-${name}`),
+		    ...newInterventions.map(i => {
+			return makeEmptyTransition(i.id, i.name);
+		    })
+		]
 	    }
 	]);
     }
@@ -165,83 +202,74 @@ export function Interventions() {
 
     // delete an intervention
     function deleteIntervention(id: number) {
-	let deletingActive: boolean = interventions[idToIndex(id)].active;
+	let deletingActive: boolean = interventions.find(i => i.id === id).active;
 	let newInterventions: Intervention[] = interventions.map(
 	    intervention => {
+		// remove the transition associated with the intervention being
+		// deleted
+		let newIntervention: Intervention = {
+		    ...intervention,
+		    transitions: intervention.transitions.filter(t => t.id !== id)
+		};
 		// open no treatment when deleting the active intervention tab
 		if (deletingActive) {
-		    if (intervention.id === 0) {
-			return {...intervention, active: true };
+		    if (newIntervention.id === 0) {
+			return {...newIntervention, active: true };
 		    }
 		}
-		return intervention;
+		return newIntervention;
 	    }
 	);
 	newInterventions = newInterventions.filter(i => i.id !== id);
-	setInterventions(
-	    newInterventions
-	);
+	setInterventions(newInterventions);
     }
 
     // handle the change of intervention name
     function changeInterventionName(newName: string, id: number) {
+	// insert a placeholder for the intervention if the user leaves the name
+	// blank
+	let updatedName = newName === "" ? "<no name>" : newName;
         let newInterventions = interventions.map((intervention) => {
-	    // insert a placeholder for the intervention if the user leaves the
-	    // name blank
+	    let transitions = intervention.transitions.map(t => {
+		if (t.id === id) {
+		    if (intervention.id === id) {
+			return {...t, name: `Post-${updatedName}`};
+		    } else {
+			return {...t, name: updatedName};
+		    }
+		}
+		return t;
+	    });
 	    if (intervention.id === id) {
-		return {...intervention, name: (newName === "" ? "<no name>" : newName)};
+		return {...intervention, name: updatedName, transitions: transitions};
+	    } else {
+		return {...intervention, transitions: transitions};
 	    }
-	    return intervention;
 	});
         setInterventions(newInterventions);
     }
 
-    // get the array index of an intervention based on its id
-    function idToIndex(id: number) {
-	for (let i = 0; i < interventions.length; i++) {
-	    if (interventions[i].id == id) {
-		return(i);
-	    }
-	}
+    function constrainValues(values: number[], limit: number) {
+	let sumValues: number = values.reduce(
+	    (accumulator, value) => accumulator + value,
+	    0
+	);
     }
-
-            {/* <CollapsibleMenu
-                sectionName={"OUD Transitions"}
-                context={`oud-${intervention.name}`}
-                contents={
-                    <>
-                        {["Active Injection", "Active Non-Injection", "Non-Active Injection", "Non-Active Non-Injection"].map((state) =>
-                            ["Active Injection", "Active Non-Injection", "Non-Active Injection", "Non-Active Non-Injection"].map(
-                                (target) =>
-                                    state !== target && (
-                                        <NamedSlider
-                                            key={`${state}-to-${target}`}
-                                            inputName={`Proportion Transitioning from ${state} to ${target}`}
-                                            min={0}
-                                            max={1}
-                                            step={0.01}
-                                            defaultValue={0.25}
-                                        />
-                                    )
-                            )
-                        )}
-                    </>
-                }
-                defaultState={false}
-            /> */}
 
     return (
         <>
-	    <InterventionTabs
-		interventions={interventions}
-		onSelectIntervention={selectIntervention}
-		onDeleteIntervention={deleteIntervention}
-		addIntervention={addIntervention}
-	    />
-	    <InterventionContents
-		interventions={interventions}
-		onInterventionNameChange={changeInterventionName}
-	    />
+	    <div id="interventions">
+		<InterventionTabs
+		    interventions={interventions}
+		    onSelectIntervention={selectIntervention}
+		    onDeleteIntervention={deleteIntervention}
+		    addIntervention={addIntervention}
+		/>
+		<InterventionContents
+		    interventions={interventions}
+		    onInterventionNameChange={changeInterventionName}
+		/>
+	    </div>
         </>
     );
 }

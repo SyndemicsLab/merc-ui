@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { Popover, PopoverTrigger, PopoverContent } from "./popover";
-import { Button } from "./button";
-import { Command, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem } from "./command";
+import { Popover, PopoverTrigger, PopoverContent } from "@components/ui/popover";
+import { Button } from "@components/ui/button";
+import { Command, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem } from "@components/ui/command";
 import { Check, ChevronsUpDown } from "lucide-react";
-import { cn } from "../../lib/utils";
+import { cn } from "~/lib/utils";
 
 const StateDropdown = () => {
     const states = [
@@ -219,7 +219,7 @@ const StateDropdown = () => {
                     variant="secondary"
                     role="combobox"
                     aria-expanded={dropdownOpen}
-                    className="w-[200px] justify-between"
+                    className="w-[300px] justify-between"
                 >
                     {value
                         ? states.find((state) => state.value === value)?.label
@@ -227,7 +227,7 @@ const StateDropdown = () => {
                     <ChevronsUpDown className="opacity-50" />
                 </Button>
             </PopoverTrigger>
-            <PopoverContent className="max-w-[200px] p-0 bg-white">
+            <PopoverContent className="max-w-[300px] p-0 bg-white">
                 <Command>
                     <CommandInput placeholder="Search state..." className="h-2 p-2" />
                     <CommandList>
