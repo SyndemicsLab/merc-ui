@@ -6,137 +6,8 @@ import {
     makeEmptyTransition
 } from "~/data";
 import NamedSlider from "@components/ui/namedslider";
-
-function InterventionTab(
-    { intervention, onSelect, onDelete }:
-    { intervention: Intervention, onSelect: Function, onDelete: Function }
-) {
-    return (
-	<>
-	    <div
-		className={`interventionTab${intervention.active ? " active" : ""}`}
-		onClick={() => onSelect(intervention.id)}
-	    >
-		{intervention.name}
-		{intervention.id > 0 && (
-		    <button className="delete-button"
-			    onClick={(event) => {
-				onDelete(intervention.id);
-				// avoid also selecting the tab underneath while
-				// closing (selection overrides deletion)
-				event.stopPropagation();
-			    }}>
-			×
-		    </button>
-		)}
-	    </div>
-	</>
-    );
-}
-
-function InterventionTabs(
-    { interventions, onSelectIntervention, onDeleteIntervention, addIntervention }:
-    { interventions: Intervention[], onSelectIntervention: Function, onDeleteIntervention: Function, addIntervention: Function }
-) {
-    // handle bug where no intervention is selected on render; select no
-    // treatment
-    let noneSelected: boolean = interventions.every(i => i.active === false);
-    noneSelected ? onSelectIntervention(0) : null;
-
-    return(
-	<>
-	    <div className="interventionTabs">
-		{interventions.map(intervention => (
-			<InterventionTab
-			    key={intervention.id}
-			    intervention={intervention}
-			    onSelect={onSelectIntervention}
-			    onDelete={onDeleteIntervention}
-			/>
-		))}
-                <button className="interventionTab addTab" onClick={() => addIntervention()}>
-                    + New Intervention
-                </button>
-	    </div>
-	</>
-    );
-}
-
-function InterventionContent(
-    { intervention, transitions, onNameChange }:
-    { intervention: Intervention, transitions: Transition[], onNameChange: Function }
-) {
-    return(
-	<>
-	    <div
-		className={`interventionContent${intervention.active ? " active" : ""}`}>
-		<div className="inputName">Intervention Name</div>
-		{intervention.id > 0 ? (
-		    <input
-			type="text"
-			defaultValue={intervention.name}
-			onChange={(event) => onNameChange(event.target.value, intervention.id)}
-		    />
-		) : (
-			<input
-			    type="text"
-			    value={intervention.name}
-			    readOnly={true}
-			/>
-		)}
-		<NamedSlider inputName="Intervention Population Size"
-			     min={0} max={4000} step={50} defaultValue={1500} />
-		<InterventionTransitions
-		    transitions={transitions}
-		/>
-	    </div>
-	</>
-    );
-}
-
-function InterventionContents(
-    { interventions, onInterventionNameChange }:
-    { interventions: Intervention[], onInterventionNameChange: Function}
-) {
-    return(
-	<>
-	    <div className="interventionContents">
-		{interventions.map(intervention => (
-		    <InterventionContent
-			key={intervention.id}
-			intervention={intervention}
-			transitions={intervention.transitions}
-			onNameChange={onInterventionNameChange}
-		    />
-		))}
-	    </div>
-	</>
-    );
-}
-
-function InterventionTransitions(
-    { transitions }:
-    { transitions: Transition[] }
-) {
-    let sumProbs: number = transitions.reduce((accumulator, transition) =>
-	accumulator + transition.probability, 0);
-    return(
-	<>
-	    <NamedSlider inputName="Retention Rate"
-			 min={0} max={1} step={0.01}
-			 defaultValue={Math.max(1-sumProbs, 0)} readOnly={true}
-	    />
-	    {transitions.map((transition) => (
-		<NamedSlider
-		    key={transition.id}
-		    inputName={`Proportion Transitioning to ${transition.name}`}
-		    min={0} max={1} step={0.01}
-		    defaultValue={transition.probability}
-		/>
-	    ))}
-	</>
-    );
-}
+import Tabs from "@simulation/interventions/tabs";
+import Contents from "@simulation/interventions/contents";
 
 export default function Interventions() {
     const [interventions, setInterventions] = useState(getInterventions);
@@ -249,25 +120,58 @@ export default function Interventions() {
         setInterventions(newInterventions);
     }
 
-    function constrainValues(values: number[], limit: number) {
+    function constrainValues(values: number[], limit: number, decimals?: number = 2): boolean {
 	let sumValues: number = values.reduce(
-	    (accumulator, value) => accumulator + value,
+	    (accumulator, value) => accumulator + parseFloat(value),
 	    0
+	).toFixed(decimals);
+
+	if (sumValues > limit) {
+	    return(true);
+	}
+	return(false);
+    }
+
+    function changeTransition(value: number, interventionID: number, transitionID: number) {
+	let newInterventions = interventions.map(i => {
+	    if (i.id === interventionID) {
+		return {...i, transitions: i.transitions.map(t => {
+		    if (t.id === transitionID) {
+			return {...t, probability: value};
+		    }
+		    return t;
+		})};
+	    }
+	    return i;
+	});
+
+	let newTransitionProbabilities: number[] = newInterventions.find(
+	    i => i.id === interventionID
+	).transitions.map(
+	    t => t.probability
 	);
+
+	// check if the sum of the transition probabilities exceeds the limit
+	// and prevent the change if it would cause an excess of the limit
+	if (constrainValues(newTransitionProbabilities, 1.0000)) {
+	    return;
+	}
+	setInterventions(newInterventions);
     }
 
     return (
         <>
 	    <div id="interventions">
-		<InterventionTabs
+		<Tabs
 		    interventions={interventions}
 		    onSelectIntervention={selectIntervention}
 		    onDeleteIntervention={deleteIntervention}
 		    addIntervention={addIntervention}
 		/>
-		<InterventionContents
+		<Contents
 		    interventions={interventions}
 		    onInterventionNameChange={changeInterventionName}
+		    onInterventionChangeTransition={changeTransition}
 		/>
 	    </div>
         </>

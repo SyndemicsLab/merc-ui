@@ -1,8 +1,8 @@
 import { Form } from "react-router";
-import Interventions from "@components/simulation/intervention"
 import NamedSlider from "@components/ui/namedslider";
-import AdvancedInputs from "@components/simulation/advancedinputs";
-import EmailIntake from "@components/simulation/emailintake";
+import Interventions from "@simulation/interventions"
+import AdvancedInputs from "@simulation/advancedinputs";
+import EmailIntake from "@simulation/emailintake";
 
 function GeneralInputs({ population, uptake }: { population: number, uptake: number }) {
     return (

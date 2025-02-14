@@ -1,13 +1,10 @@
-import { useState } from "react";
-
-export default function NamedSlider(
-    { inputName, min, max, step, defaultValue, readOnly = false }:
-    { inputName: string, min: number, max: number, step: number, defaultValue: any, readOnly?: boolean }
+export default function ManagedSlider(
+    { name, min, max, step, value, managementFunction, readOnly = false }:
+    { name: string, min: number, max: number, step: number, value: any, managementFunction: Function, readOnly?: boolean }
 ) {
-    const [value, setValue] = useState(defaultValue);
-    return (
+    return(
         <>
-            <div className="inputName">{inputName}</div>
+            <div className="inputName">{name}</div>
 	    {readOnly ? (
 		<div className="slider">
                     <input
@@ -16,7 +13,7 @@ export default function NamedSlider(
 			max={max}
 			step={step}
 			value={value}
-			name={`${inputName}-num`}
+			name={`${name}-num`}
 			readOnly={readOnly}
                     />
                     <input
@@ -25,7 +22,7 @@ export default function NamedSlider(
 			max={max}
 			step={step}
 			value={value}
-			id={`${inputName}-slider`}
+			id={`${name}-slider`}
 			readOnly={readOnly}
                     />
 		</div>
@@ -37,8 +34,8 @@ export default function NamedSlider(
 			max={max}
 			step={step}
 			value={value}
-			name={`${inputName}-num`}
-			onChange={(event) => setValue(event.target.value)}
+			name={`${name}-num`}
+			onChange={(event) => managementFunction(event.target.value)}
                     />
                     <input
 			type="range"
@@ -46,8 +43,8 @@ export default function NamedSlider(
 			max={max}
 			step={step}
 			value={value}
-			id={`${inputName}-slider`}
-			onChange={(event) => setValue(event.target.value)}
+			id={`${name}-slider`}
+			onChange={(event) => managementFunction(event.target.value)}
                     />
 		</div>
 	    )}

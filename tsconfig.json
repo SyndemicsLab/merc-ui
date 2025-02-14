@@ -22,7 +22,8 @@
         "baseUrl": ".",
         "paths": {
             "~/*": [ "./app/*" ],
-	    "@components/*": [ "./app/components/*" ]
+	    "@components/*": [ "./app/components/*" ],
+	    "@simulation/*": [ "./app/components/simulation/*" ]
         },
         "esModuleInterop": true,
         "verbatimModuleSyntax": true,

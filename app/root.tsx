@@ -1,3 +1,7 @@
+import appStylesHref from "~/app.css?url";
+
+import React from 'react';
+import type { Route } from "./+types/root";
 import {
     isRouteErrorResponse,
     Outlet,
@@ -5,13 +9,10 @@ import {
     ScrollRestoration
 } from "react-router";
 
-import appStylesHref from "~/app.css?url";
-import Footer from "@components/ui/footer"
-import React from 'react';
 
 import Navbar from "@components/ui/navbar";
+import Footer from "@components/ui/footer"
 
-import type { Route } from "./+types/root";
 
 export default function App() {
     return (
@@ -23,11 +24,9 @@ export default function App() {
     );
 }
 
-export function Layout({
-    children,
-}: {
-    children: React.ReactNode;
-}) {
+export function Layout(
+    { children, }: { children: React.ReactNode }
+) {
     return (
         <html lang="en">
             <head>
@@ -38,7 +37,7 @@ export function Layout({
                 <meta name="description" content="The Syndemics Lab at Boston Medical Center's RESPOND simulation as a web application." />
                 <link rel="stylesheet" href={appStylesHref} />
                 <link rel="icon" sizes="32x32" href="/favicon.ico" />
-                <title>RESPOND | Syndemics Lab</title>
+                <title>RESPOND — Syndemics Lab</title>
             </head>
             <body>
                 {children}
@@ -49,11 +48,11 @@ export function Layout({
     )
 }
 
-export function ErrorBoundary({
-    error,
-}: Route.ErrorBoundaryProps) {
-    let message = "The devs are sorry about this!";
-    let details = "An unknown error occurred.";
+export function ErrorBoundary(
+    { error, }: { error: Route.ErrorBoundaryProps, }
+) {
+    let message = "Uh-oh, something went wrong!";
+    let details = "An unknown error occurred. The page you are attempting to see is currently unavailable.";
     let stack: string | undefined;
 
     if (isRouteErrorResponse(error)) {

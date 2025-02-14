@@ -4,7 +4,7 @@ import Disclaimers from "@components/simulation/disclaimers";
 
 export default function Index() {
     return (
-        <div>
+        <div id="simulation">
             <System />
             <hr />
 	    <Inputs />

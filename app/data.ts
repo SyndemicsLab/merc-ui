@@ -72,7 +72,7 @@ function setTransitions(interventions: Intervention[]) {
 		return {
 		    id: i.id,
 		    name: i.name,
-		    probability: 0.25 / other_interventions.length,
+		    probability: (0.25 / other_interventions.length).toFixed(2),
 		};
 	    })
 
