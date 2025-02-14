@@ -6,9 +6,9 @@ import {
     DialogHeader,
     DialogTitle,
     DialogDescription
-} from "../ui/dialog";
+} from "@components/ui/dialog";
 
-import StateDropdown from "../ui/statedropdown";
+import StateDropdown from "@components/ui/statedropdown";
 import { useState } from "react";
 
 const Questionnaire = () => {
@@ -29,19 +29,19 @@ const Questionnaire = () => {
                         <ul>
                             <li>
                                 <input type="checkbox" className="dialog-checkbox" name="purpose" value="personal" />
-                                <span className="dialog-response">Personal research</span>
+                                <span className="dialog-response">Personal Research</span>
                             </li>
                             <li>
                                 <input type="checkbox" className="dialog-checkbox" name="purpose" value="policy" />
-                                <span className="dialog-response">Policy development</span>
+                                <span className="dialog-response">Policy Development</span>
                             </li>
                             <li>
                                 <input type="checkbox" className="dialog-checkbox" name="purpose" value="academic" />
-                                <span className="dialog-response">Academic research</span>
+                                <span className="dialog-response">Academic Research</span>
                             </li>
                             <li>
                                 <input type="checkbox" className="dialog-checkbox" name="purpose" value="program" />
-                                <span className="dialog-response">Program development</span>
+                                <span className="dialog-response">Program Development</span>
                             </li>
                             <li>
                                 <input type="checkbox" className="dialog-checkbox" name="purpose" value="other" />
@@ -69,7 +69,7 @@ const Questionnaire = () => {
                             </li>
                             <li>
                                 <input type="checkbox" className="dialog-checkbox" name="occupation" value="publichealth" />
-                                <span className="dialog-response">Public health</span>
+                                <span className="dialog-response">Public Health</span>
                             </li>
                             <li>
                                 <input type="checkbox" className="dialog-checkbox" name="occupation" value="research" />
@@ -89,11 +89,11 @@ const Questionnaire = () => {
                             </li>
                             <li>
                                 <input type="checkbox" className="dialog-checkbox" name="occupation" value="nonprofit" />
-                                <span className="dialog-response">Non-profit/community organization</span>
+                                <span className="dialog-response">Non-Profit/Community Organization</span>
                             </li>
                             <li>
                                 <input type="checkbox" className="dialog-checkbox" name="occupation" value="media" />
-                                <span className="dialog-response">Media/communications</span>
+                                <span className="dialog-response">Media/Communications</span>
                             </li>
                             <li>
                                 <input type="checkbox" className="dialog-checkbox" name="occupation" value="other" />

@@ -1,7 +1,7 @@
-import about1 from '../../images/about1.svg';
-import about2 from '../../images/about2.svg';
-import about3 from '../../images/about3.svg';
-import about4 from '../../images/about4.svg';
+import about1 from '~/images/about1.svg';
+import about2 from '~/images/about2.svg';
+import about3 from '~/images/about3.svg';
+import about4 from '~/images/about4.svg';
 
 const About = () => {
     return (

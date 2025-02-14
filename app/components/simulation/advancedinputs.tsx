@@ -1,7 +1,10 @@
 import { useFetcher } from "react-router";
 import { useState } from "react";
 
-export function UploadForm({ id, inputName }: { id: string, inputName: string }) {
+export function UploadForm(
+    { id, inputName }:
+    { id: string, inputName: string }
+) {
     const fetcher = useFetcher();
 
     return (

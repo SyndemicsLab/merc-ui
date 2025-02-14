@@ -1,4 +1,4 @@
-import footer from '../../images/organization-logos/BMC Logos.png';
+import footer from '~/images/organization-logos/BMC Logos.png';
 
 const Footer = () => {
     return (
