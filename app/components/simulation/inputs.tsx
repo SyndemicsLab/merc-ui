@@ -6,6 +6,7 @@ import AdvancedInputs from "@simulation/advancedinputs";
 import EmailIntake from "@simulation/emailintake";
 import Disclaimers from "@simulation/disclaimers";
 import GlossaryButton from "@simulation/glossary-button";
+import Results from "@simulation/results";
 
 function GeneralInputs({ population, uptake }: { population: number, uptake: number }) {
     return (
@@ -32,6 +33,7 @@ export default function Inputs() {
 	observer.observe(inputRef.current);
     }, [])
 
+<<<<<<< HEAD
     return(
 	<>
 	    <div id="inputs" ref={inputRef}>
@@ -53,5 +55,20 @@ export default function Inputs() {
                 </label>
 	    </div>
 	</>
+=======
+    return (
+        <>
+            <div id="inputs">
+                <h1>Simulation Inputs</h1>
+                <GeneralInputs population={population} uptake={uptake} />
+                <AdvancedInputs />
+                <EmailIntake />
+                <Results />
+                {/* <label id="run">
+                    <div className="run-text"><span>▶ RUN</span></div>
+                </label> */}
+            </div>
+        </>
+>>>>>>> 2994ecb (adding dialog for results on Run button)
     );
 }
