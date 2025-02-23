@@ -1313,6 +1313,7 @@ button:hover {
     padding: 15px 30px;
     cursor: pointer;
     transition: background-color var(--transition-duration), transform var(--transition-duration);
+    width: 100%;
 }
 
 .run-text:hover {
