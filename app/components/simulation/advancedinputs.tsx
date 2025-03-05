@@ -4,7 +4,7 @@ import InfoButton from "@components/ui/info-button.tsx"
 
 export function UploadForm(
     { id, inputName }:
-    { id: string, inputName: string }
+        { id: string, inputName: string }
 ) {
     const fetcher = useFetcher();
 

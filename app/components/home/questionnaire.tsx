@@ -9,6 +9,7 @@ import {
 } from "@components/ui/dialog";
 
 import StateDropdown from "@components/ui/statedropdown";
+import { Input } from "@components/ui/input";
 import { useState } from "react";
 
 const Questionnaire = () => {
@@ -19,9 +20,9 @@ const Questionnaire = () => {
             <DialogContent className="rounded-2xl text-left p-[20px] sm:max-w-[600px] bg-white dialog-root">
                 <DialogHeader>
                     <DialogTitle>Questionnaire</DialogTitle>
-		    <DialogDescription>Please help us serve you better by answering a few quick questions.</DialogDescription>
+                    <DialogDescription>Please help us serve you better by answering a few quick questions.</DialogDescription>
                 </DialogHeader>
-                <Form method="post">
+                <Form method="post" action="/SubmitQuestionnaire">
                     <div className="questionnaire">
                         <span className="dialog-question">
                             What is the purpose of your site visit? (Select all that apply)
@@ -32,7 +33,7 @@ const Questionnaire = () => {
                                 <span className="dialog-response">Personal Research</span>
                             </li>
                             <li>
-                                <input type="checkbox" className="dialog-checkbox" name="purpose" value="policy" />
+                                <input type="checkbox" className="dialog-checkbox" name="purpose" value="purposePolicy" />
                                 <span className="dialog-response">Policy Development</span>
                             </li>
                             <li>
@@ -44,12 +45,13 @@ const Questionnaire = () => {
                                 <span className="dialog-response">Program Development</span>
                             </li>
                             <li>
-                                <input type="checkbox" className="dialog-checkbox" name="purpose" value="other" />
+                                <input type="checkbox" className="dialog-checkbox" name="purpose" value="purposeOther" />
                                 <span className="dialog-response">
                                     Other:
                                     <input
                                         className="dialog-input rounded-md"
                                         type="text"
+                                        name="purposeOtherText"
                                         placeholder="Purpose"
                                     />
                                 </span>
@@ -59,6 +61,7 @@ const Questionnaire = () => {
                             What US State are you most interested in researching?
                         </span>
                         <StateDropdown />
+                        <Input type="hidden" name="usState" id="usState" required />
                         <span className="dialog-question">
                             What is your occupation or field of work? (Select all that apply)
                         </span>
@@ -68,7 +71,7 @@ const Questionnaire = () => {
                                 <span className="dialog-response">Healthcare</span>
                             </li>
                             <li>
-                                <input type="checkbox" className="dialog-checkbox" name="occupation" value="publichealth" />
+                                <input type="checkbox" className="dialog-checkbox" name="occupation" value="publicHealth" />
                                 <span className="dialog-response">Public Health</span>
                             </li>
                             <li>
@@ -76,7 +79,7 @@ const Questionnaire = () => {
                                 <span className="dialog-response">Research</span>
                             </li>
                             <li>
-                                <input type="checkbox" className="dialog-checkbox" name="occupation" value="policy" />
+                                <input type="checkbox" className="dialog-checkbox" name="occupation" value="occupationPolicy" />
                                 <span className="dialog-response">Policy</span>
                             </li>
                             <li>
@@ -96,12 +99,13 @@ const Questionnaire = () => {
                                 <span className="dialog-response">Media/Communications</span>
                             </li>
                             <li>
-                                <input type="checkbox" className="dialog-checkbox" name="occupation" value="other" />
+                                <input type="checkbox" className="dialog-checkbox" name="occupation" value="occupationOther" />
                                 <span className="dialog-response">
                                     Other:
                                     <input
                                         className="dialog-input rounded-md"
                                         type="text"
+                                        name="occupationOtherText"
                                         placeholder="Occupation/Field of Work"
                                     />
                                 </span>
