@@ -180,6 +180,12 @@ h1 {
     transform: translate(0, -11px) rotate(45deg);
 }
 
+@media (min-width: 1500px) {
+    .home-section {
+	padding-bottom: 4rem;
+    }
+}
+
 /* full screen overlay for small screen */
 @media (max-width: 1500px) {
     .nav-links {
@@ -837,6 +843,26 @@ h1 {
     h1 {
 	font-size: 24px;
     }
+}
+
+.scrolldown {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0.2rem;
+    margin-inline: auto;
+    display: flex;
+    background-color: var(--secondary-color);
+    height: 25px;
+    width: 25px;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+
+    > svg {
+	color: white;
+    }
+    margin-bottom: 0.5rem;
 }
 
 input,

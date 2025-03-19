@@ -44,6 +44,11 @@ const simulation: Simulation = {
             name: "Detox",
 	    active: false,
         },
+        {
+            id: 5,
+            name: "Detention",
+	    active: false,
+        },
     ],
 
     getAll(): Promise<Intervention[]> {

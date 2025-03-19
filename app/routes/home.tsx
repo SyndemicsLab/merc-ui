@@ -52,7 +52,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
                     <img className="home-circle" src={homecircle} alt="home-circle" />
                 </div>
             </section>
-            <InputsSection />
+            {/* <InputsSection /> */}
             <section id="about">
                 <About />
             </section>
