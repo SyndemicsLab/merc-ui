@@ -40,7 +40,7 @@ export default function Interventions() {
 	    return(
 		{...i, transitions: [
 		    ...i.transitions, makeEmptyTransition(id, name)
-		]}
+		], active: false}
 	    );
 	});
 	setInterventions([
@@ -48,7 +48,7 @@ export default function Interventions() {
 	    {
 		id: id,
 		name: name,
-		active: false,
+		active: true,
 		transitions: [
 		    makeEmptyTransition(id, `Post-${name}`),
 		    ...newInterventions.map(i => {

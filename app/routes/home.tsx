@@ -46,7 +46,8 @@ export default function Home({ loaderData }: Route.ComponentProps) {
                         <span className="respond-title">RESPOND!</span>
                     </h1>
                     <p className="home-description">
-                        Good health is the state of mental, physical, and social well being and it does not just mean absence of diseases.
+			RESPOND is a model that simulates a population with high-risk opioid use and movement on and off medication for opioid use disorder, providing outcomes such as overdose and cost. This online tool is intended to allow users to explore the impact of various policies on these outcomes with a simplified, customizable interface.
+                        {/* Good health is the state of mental, physical, and social well being and it does not just mean absence of diseases. */}
                     </p>
                     <Link to="/simulation" className="simulation-button">Run Simulation Model</Link>
                     <img className="home-circle" src={homecircle} alt="home-circle" />

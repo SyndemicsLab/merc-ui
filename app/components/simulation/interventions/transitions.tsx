@@ -13,13 +13,6 @@ export default function Transitions(
     let sumProbs: number = transitions.reduce(summer, 0);
     return(
 	<>
-	    <ManagedSlider name="Retention Rate"
-			   min={0}
-			   max={1}
-			   step={0.01}
-			   value={Math.max(1-sumProbs, 0)}
-			   readOnly={true}
-	    />
 	    {transitions.map((transition) => (
 		<ManagedSlider
 		    key={transition.id}
@@ -31,6 +24,13 @@ export default function Transitions(
 		    managementFunction={(value: number) => onTransitionChange(value, transition.id)}
 		/>
 	    ))}
+	    <ManagedSlider name="Retention Rate"
+			   min={0}
+			   max={1}
+			   step={0.01}
+			   value={Math.max(1-sumProbs, 0).toFixed(5)}
+			   readOnly={true}
+	    />
 	</>
     );
 }

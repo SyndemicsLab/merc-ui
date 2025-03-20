@@ -1,5 +1,6 @@
 import { useFetcher } from "react-router";
 import { useState } from "react";
+import InfoButton from "@simulation/info-button.tsx"
 
 export function UploadForm(
     { id, inputName }:
@@ -9,8 +10,15 @@ export function UploadForm(
 
     return (
         <fetcher.Form id={id} className="upload-form">
-            <div className="inputName">{inputName}</div>
-            <input type="file" />
+	    <label className="advancedInputName"
+		   htmlFor={`${id}-input`}
+		   form={id}
+	    >{inputName}</label>
+            <input
+		id={`${id}-input`}
+		type="file"
+		accept=".csv"
+	    />
         </fetcher.Form>
     );
 }
@@ -31,6 +39,17 @@ const AdvancedInputs = () => {
                 </div>
             </label>
             <div id="advanced" className={showAdvanced ? "unhidden" : "hidden"}>
+		<h2>Explanatory Links</h2>
+		<InfoButton
+		    text="See Example Tables"
+		    destination="https://www.syndemicslab.org/respond-model-materials"/>
+		<InfoButton
+		    text="Download Shell Tables"
+		    destination="https://www.syndemicslab.org/respond-model-materials"/>
+		<InfoButton
+		    text="See Table Descriptions"
+		    destination="https://www.syndemicslab.org/respond-model-materials"/>
+		<h2>Tabular Data Upload Forms</h2>
                 <UploadForm id="sim-conf" inputName="General Configuration File (sim.conf)" />
                 <UploadForm id="overdose" inputName="All Types Overdose (all_types_overdose.csv)" />
                 <UploadForm id="mort" inputName="Background Mortality (background_mortality.csv)" />

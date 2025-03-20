@@ -575,6 +575,14 @@ h1 {
     line-height: 1.5;
     margin-bottom: 40px;
     max-width: 1200px;
+    a {
+	color: var(--primary-color);
+	transition-duration: var(--transition-duration);
+    }
+
+    a:hover {
+	color: var(--secondary-color);
+    }
 }
 
 @media (max-width: 885px) {
@@ -817,7 +825,6 @@ h1 {
     background-color: #f8f8f8;
     padding: 40px;
     text-align: left;
-    margin-top: 100px;
     bottom: 0;
     width: 100%;
 }
@@ -849,7 +856,7 @@ h1 {
     position: fixed;
     left: 0;
     right: 0;
-    bottom: 0.2rem;
+    bottom: 0.5rem;
     margin-inline: auto;
     display: flex;
     background-color: var(--secondary-color);
@@ -858,11 +865,11 @@ h1 {
     border-radius: 50%;
     align-items: center;
     justify-content: center;
+    color: white;
 
-    > svg {
-	color: white;
+    a {
+	text-decoration: inherit;
     }
-    margin-bottom: 0.5rem;
 }
 
 input,
@@ -968,10 +975,43 @@ input::-ms-thumb:hover {
     margin-bottom: var(--spacing-large);
 }
 
-.inputName {
-    font-size: 18px;
+.inputName, .advancedInputName {
+    display: block;
+    font-size: 16px;
     font-weight: 600;
     margin-bottom: var(--spacing-small);
+}
+
+#advanced input[type=file] {
+    width: 100%;
+    border-radius: 5px;
+    border: solid 1px var(--accent-gray);
+
+}
+
+#advanced {
+    h2 {
+	font-weight: 700;
+	font-size: 20px;
+    }
+
+    input[type=file] {
+	font-weight: 500;
+    }
+
+    input::file-selector-button {
+	color: #fff;
+	padding: 8px;
+	background: var(--primary-color);
+	transition-duration: var(--transition-duration);
+    }
+    input[type=file]:hover::file-selector-button {
+	background: var(--secondary-color);
+    }
+}
+
+.advancedInputName {
+    cursor: pointer;
 }
 
 .slider {
@@ -1151,7 +1191,12 @@ button:hover {
     margin-bottom: var(--spacing-large);
 }
 
-#advanced-options {
+.info-button {
+    font-weight: 500;
+    margin-right: calc(var(--spacing) * 2);
+}
+
+#advanced-options, .info-button {
     display: inline-block;
     background-color: var(--primary-color);
     color: #fff;
@@ -1163,7 +1208,7 @@ button:hover {
     margin-bottom: var(--spacing);
 }
 
-#advanced-options:hover {
+#advanced-options:hover, .info-button:hover {
     background-color: var(--secondary-color);
     transform: scale(1.05);
 }
@@ -1175,9 +1220,8 @@ button:hover {
 }
 
 #disclaimers {
-    background-color: #fff;
-    padding: var(--spacing);
-    border-radius: var(--border-radius);
+    background-color: var(--accent-gray);
+    padding: calc(5 * var(--spacing));
 }
 
 #disclaimers h3 {
