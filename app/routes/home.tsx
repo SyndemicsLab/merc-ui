@@ -2,6 +2,7 @@ import { Link, redirect } from "react-router";
 import InputsSection from "@components/home/inputsection";
 import homecircle from "~/images/homecircle.svg";
 import About from "@components/home/about";
+import AboutTool from "@components/home/abouttool";
 import ModelMaterials from "@components/home/modelmaterials";
 import Publications from "@components/home/publications";
 import ContactUs from "@components/home/contactus";
@@ -57,6 +58,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
             <section id="about">
                 <About />
             </section>
+	    <AboutTool />
             <section id="modelmaterials">
                 <ModelMaterials />
             </section>

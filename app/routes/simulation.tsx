@@ -7,10 +7,8 @@ export default function Index() {
     return (
         <div id="simulation">
             <System />
-	    <ScrollIndicator/>
             <hr />
 	    <Inputs />
-            <Disclaimers />
         </div>
     );
 }

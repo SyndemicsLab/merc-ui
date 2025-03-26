@@ -73,7 +73,10 @@ export default function Interventions() {
 
     // delete an intervention
     function deleteIntervention(id: number) {
-	let deletingActive: boolean = interventions.find(i => i.id === id).active;
+	let toDelete: Intervention = {...interventions.find(i => i.id === id)};
+	let deletingActive: boolean = toDelete.active;
+	// console.log("Delaying delete action for 5 seconds...");
+	// setTimeout(() => {
 	let newInterventions: Intervention[] = interventions.map(
 	    intervention => {
 		// remove the transition associated with the intervention being
@@ -93,6 +96,7 @@ export default function Interventions() {
 	);
 	newInterventions = newInterventions.filter(i => i.id !== id);
 	setInterventions(newInterventions);
+	// }, 5000);
     }
 
     // handle the change of intervention name

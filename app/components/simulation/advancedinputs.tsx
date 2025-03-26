@@ -1,6 +1,6 @@
 import { useFetcher } from "react-router";
 import { useState } from "react";
-import InfoButton from "@simulation/info-button.tsx"
+import InfoButton from "@components/ui/info-button.tsx"
 
 export function UploadForm(
     { id, inputName }:
@@ -45,7 +45,9 @@ const AdvancedInputs = () => {
 		    destination="https://www.syndemicslab.org/respond-model-materials"/>
 		<InfoButton
 		    text="Download Shell Tables"
-		    destination="https://www.syndemicslab.org/respond-model-materials"/>
+		    destination="https://www.syndemicslab.org/respond-model-materials"
+		    download={true}
+		/>
 		<InfoButton
 		    text="See Table Descriptions"
 		    destination="https://www.syndemicslab.org/respond-model-materials"/>
