@@ -7,17 +7,29 @@ const ContactUs = () => {
 	    </p>
 	    <form className="contact-us-form">
 		<input
-		    type="email"
-		    className="contact-us-input"
-		    placeholder="Enter your email here"
+		    type="text"
+		    className="contact-name"
+		    placeholder="Name"
 		    required
 		/>
-		<button type="submit" className="contact-us-button">Subscribe</button>
+		<input
+		    type="email"
+		    className="contact-us-input"
+		    placeholder="Email"
+		    required
+		/>
+		<textarea
+		    className="contact-body"
+		    placeholder="Write here"
+		    rows="5"
+		    required
+		/>
+		<button type="submit" className="contact-us-button">Submit</button>
 	    </form>
-	    </div>
-	    );
-	    };
+	</div>
+    );
+};
 
-	// Just button for email subscription for now
+// Just button for email subscription for now
 
 export default ContactUs;

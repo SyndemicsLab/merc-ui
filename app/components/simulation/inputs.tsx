@@ -6,6 +6,7 @@ import Interventions from "@simulation/interventions"
 import AdvancedInputs from "@simulation/advancedinputs";
 import EmailIntake from "@simulation/emailintake";
 import Disclaimers from "@simulation/disclaimers";
+import GlossaryButton from "@simulation/glossary-button";
 
 function GeneralInputs({ population, uptake }: { population: number, uptake: number }) {
     return (
@@ -33,6 +34,7 @@ export default function Inputs() {
     return(
 	<>
 	    <div id="inputs" ref={inputRef}>
+		<GlossaryButton />
 		<ScrollIndicator visible={!inputsVisible} />
                 <h1>Simulation Inputs</h1>
 		<GeneralInputs population={population} uptake={uptake} />

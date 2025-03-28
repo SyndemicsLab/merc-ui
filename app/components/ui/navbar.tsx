@@ -24,7 +24,7 @@ export default function Navbar() {
                     <Link key="3" to="/#about-tool" className={`nav-button ${location.hash === "/#about-tool" ? 'active' : ''}`}>About This Tool</Link>
                     <Link key="4" to="/#modelmaterials" className={`nav-button ${location.hash === "/#modelmaterials" ? 'active' : ''}`}>Model Materials</Link>
                     <Link key="5" to="/#publications" className={`nav-button ${location.hash === "/#publications" ? 'active' : ''}`}>Publications</Link>
-                    <Link key="6" to="/#contactus" className={`nav-button ${location.hash === "/#contactus" ? 'active' : ''}`}>Contact Us</Link>
+                    <Link key="6" to="/#contactus" className={`nav-button ${location.hash === "/#contactus" ? 'active' : ''}`}>Contact</Link>
                 </div>
                 {menuOpen && (
                     <div className="overlay open">
@@ -40,7 +40,7 @@ export default function Navbar() {
                             <Link key="2" to="/#about-tool" className="overlay-link" onClick={(e) => { setMenuOpen(false); }}>About This Tool</Link>
                             <Link key="3" to="/#modelmaterials" className="overlay-link" onClick={(e) => { setMenuOpen(false); }}>Model Materials</Link>
                             <Link key="4" to="/#publications" className="overlay-link" onClick={(e) => { setMenuOpen(false); }}>Publications</Link>
-                            <Link key="5" to="/#contactus" className="overlay-link" onClick={(e) => { setMenuOpen(false); }}>Contact Us</Link>
+                            <Link key="5" to="/#contactus" className="overlay-link" onClick={(e) => { setMenuOpen(false); }}>Contact</Link>
                         </div>
                     </div>
                 )}
