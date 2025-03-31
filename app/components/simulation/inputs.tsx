@@ -19,6 +19,8 @@ function GeneralInputs({ population, uptake }: { population: number, uptake: num
 }
 
 export default function Inputs() {
+    // reference for the input section, used for testing intersection with the
+    // viewport
     const inputRef = useRef(false);
     const [inputsVisible, updateInputsVisible] = useState(false);
     const population = 214000;
@@ -40,7 +42,10 @@ export default function Inputs() {
 		    visible={!inputsVisible}
 		/>
                 <h1>Simulation Inputs</h1>
-		<GeneralInputs population={population} uptake={uptake} />
+		<GeneralInputs
+		    population={population}
+		    uptake={uptake}
+		/>
                 <AdvancedInputs />
                 <EmailIntake />
 		<Disclaimers />
