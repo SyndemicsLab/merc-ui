@@ -40,7 +40,7 @@ export default function Interventions() {
 	    return(
 		{...i, transitions: [
 		    ...i.transitions, makeEmptyTransition(id, name)
-		]}
+		], active: false}
 	    );
 	});
 	setInterventions([
@@ -48,7 +48,7 @@ export default function Interventions() {
 	    {
 		id: id,
 		name: name,
-		active: false,
+		active: true,
 		transitions: [
 		    makeEmptyTransition(id, `Post-${name}`),
 		    ...newInterventions.map(i => {
@@ -73,7 +73,8 @@ export default function Interventions() {
 
     // delete an intervention
     function deleteIntervention(id: number) {
-	let deletingActive: boolean = interventions.find(i => i.id === id).active;
+	let toDelete: Intervention = {...interventions.find(i => i.id === id)};
+	let deletingActive: boolean = toDelete.active;
 	let newInterventions: Intervention[] = interventions.map(
 	    intervention => {
 		// remove the transition associated with the intervention being
