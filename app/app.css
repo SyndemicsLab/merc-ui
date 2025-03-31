@@ -814,7 +814,11 @@ h1 {
 }
 
 .publication-card:hover {
+    background: rgb(from var(--primary-color) r g b / 50%);
     transform: scale(1.05);
+    * {
+	color: #eee;
+    }
 }
 
 .publication-title {
