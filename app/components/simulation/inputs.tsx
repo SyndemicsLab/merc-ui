@@ -35,7 +35,10 @@ export default function Inputs() {
 	<>
 	    <div id="inputs" ref={inputRef}>
 		<GlossaryButton />
-		<ScrollIndicator visible={!inputsVisible} />
+		<ScrollIndicator
+		    destination="/simulation#inputs"
+		    visible={!inputsVisible}
+		/>
                 <h1>Simulation Inputs</h1>
 		<GeneralInputs population={population} uptake={uptake} />
                 <AdvancedInputs />
