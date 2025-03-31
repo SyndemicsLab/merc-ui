@@ -1,5 +1,4 @@
 import { useRef, useState, useEffect } from "react";
-import { Form } from "react-router";
 import ScrollIndicator from "@components/ui/scroll-indicator";
 import NamedSlider from "@components/ui/namedslider";
 import Interventions from "@simulation/interventions"
