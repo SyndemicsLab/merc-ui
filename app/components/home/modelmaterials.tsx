@@ -17,7 +17,7 @@ const ModelMaterials = () => {
 		    </div>
 		    <p>
 			Active use states have a risk of overdose, as well as higher healthcare utilization, with the highest risk and highest cost being among active injection use. The model also includes OUD treatment and settings such as community-based buprenorphine-naloxone, community-based injectable naltrexone, methadone maintenance programs, acute inpatient detoxification centers, long-term residential treatment centers, and detention settings.
-
+			<br/>
 			The model also includes simulation of the period of increased overdose risk following a period of prolonged abstinence, such as when patients disengage from medications-based therapy, leave a detox center, or are released from jail. More detailed information can be found in the Technical Appendix below.
 		    </p>
 		    <div className="model-materials-buttons">
