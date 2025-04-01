@@ -30,9 +30,13 @@ function Result({loaded, loadedController}) {
 }
 
 export default function Results() {
+    const [open, setOpen] = useState(false);
     const [loaded, setLoaded] = useState(false);
     return (
-        <Dialog>
+        <Dialog open={open} onOpenChange={(open) => {
+		    setOpen(open);
+		    setLoaded(false);
+		}}>
             <DialogTrigger asChild>
                 <Button variant="outline" className="run-text">RUN</Button>
             </DialogTrigger>
@@ -51,7 +55,7 @@ export default function Results() {
                     </div>
                 </div>
                 <DialogFooter>
-                    <Button type="submit">Download Results</Button>
+                    <Button type="download">Download Results</Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>
