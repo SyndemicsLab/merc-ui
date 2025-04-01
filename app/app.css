@@ -194,7 +194,7 @@ h1 {
 @media (max-width: 1400px) {
     #home .home-content {
 	margin: auto;
-	max-width: 800px;
+	width: 80%;
     }
 
     .nav-links {
@@ -365,6 +365,9 @@ h1 {
     table, th, td {
 	border: 1px solid;
 	margin: auto;
+    }
+    table {
+	margin-bottom: calc(var(--spacing) * 3);
     }
     th, td {
 	padding: 8px;

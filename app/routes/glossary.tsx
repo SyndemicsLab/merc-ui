@@ -63,10 +63,102 @@ const treatments: GlossaryTable = {
     ]
 };
 
+const ouds: GlossaryTable = {
+    section: "Opioid Use States",
+    headers: ["Opioid Use State", "Definition"],
+    items: [
+	{
+	    name: "Active Opioid Use",
+	    baseText: "For our model, we define active use as any reported opioid use in the previous 7 days.",
+	},
+	{
+	    name: "Non-Active Opioid Use",
+	    baseText: "For our model, we define non-active use as no reported opioid use in the previous 7 days. Also known as prior or former opioid use.",
+	},
+	{
+	    name: "Injection Opioid Use",
+	    baseText: "For our model, we define injection use as any injection in the previous 7 days. Therefore, if an individual uses both injection and non-injection routes, they are categorized within injection use due to the higher associated risks.",
+	},
+	{
+	    name: "Non-Injection Opioid Use",
+	    baseText: "For our model, we define non-injection use as any non-injection opioid use, such as smoking, sniffing, or swallowing tablets, in the previous 7 days, with no injection use during that time period. The majority of opioid users start with a non-injection route (cite)",
+	},
+    ]
+};
+
+const general: GlossaryTable = {
+    section: "General Terminology",
+    headers: ["General Terminology", "Definition"],
+    items: [
+	{
+	    name: "Simulation modeling",
+	    baseText: "a research method that creates a virtual environment that mimics the physical world to test and compare real world strategies and understand potential outcomes.",
+	},
+	{
+	    name: "Retention rate",
+	    baseText: "The probability a person will stay in their current treatment setting during the next transition opportunity.",
+	},
+	{
+	    name: "Transition rate",
+	    baseText: "The probability a person will enter a different treatment setting during the next transition opportunity.",
+	},
+	{
+	    name: "Transition",
+	    baseText: "The movement between treatment states.",
+	},
+	{
+	    name: "Initial population",
+	    baseText: "The group of individuals who exist at the beginning of the model run. For example, if we started the model in 2020, the initial cohort would be a snapshot of the population with prior or current opioid use in 2020. The initial cohort is stratified by age, sex, opioid use state, and treatment state. Population size is determined from data from the Massachusetts Public Health Data Warehouse, as well as a capture-recapture analysis to estimate the population that does not touch the healthcare system. (cite)",
+	},
+	{
+	    name: "Entering cohort",
+	    baseText: "When simulating an ‘open cohort’, the entering cohort characterizes the population arriving to the model in each time period. This reflects individuals who join the population of people using opioid use, such as those beginning opioid use or moving into the area. The arriving population is stratified by age and sex.",
+	},
+	{
+	    name: "RESPOND",
+	    baseText: "Researching Effective Strategies to Prevent Opioid Death",
+	},
+	{
+	    name: "Open cohort",
+	    baseText: "An open cohort typically represents a wider population, and allows new individuals to arrive to the modeled population over the course of the simulation. This allows the model to follow historical trends of population size for a specific area, such as reflecting the population of people who use opioids in Massachusetts over a multi-year time period. The new arrivals, characterized as the ‘entering cohort’, may mitigate or outweigh the population loss due to death in the same time period.",
+	},
+	{
+	    name: "Closed cohort",
+	    baseText: "A closed cohort typically represents a smaller group, and there is no entry to the modeled population. As deaths occur, the population size can only decrease. Closed cohorts are used to follow a fixed group of people and their outcomes.",
+	},
+	{
+	    name: "Calibration",
+	    baseText: "The approach used to set up the model so that the outcomes are very close to observed historical targets, such as the number of fatal overdoses, the size of the population using opioids, and the number of individual starts on medications for opioid use disorder.",
+	},
+	{
+	    name: "MOUD",
+	    baseText: "Medication for Opioid Use Disorder. This represents medications such as naltrexone, buprenorphine, and methadone, that are used to treat opioid use disorder. ",
+	},
+	{
+	    name: "Loss to follow up",
+	    baseText: "Disengagement from care. In our model, when an individual is lost to follow up, they move into the ‘Post-Treatment’ state for an average of 4 weeks, with higher risk of relapse and overdose, before moving into the ‘No Treatment’ state. ",
+	},
+	{
+	    name: "Overdose probability",
+	    baseText: "In each time period, individuals have a chance of overdosing. The probability of doing so is stratified by age, sex, opioid use state, and treatment state. The overdose probability refers to all overdoses, both fatal and nonfatal.",
+	},
+	{
+	    name: "Fatal overdose proportion",
+	    baseText: "Once the overdose probability determines the number of overdoses in a given time period, we use the fatal overdose proportion to calculate how many of the overdoses result in death.",
+	},
+	{
+	    name: "Admissions",
+	    baseText: "In our model, we count admissions as any starts into any treatment setting aside from No Treatment. For example, individuals moving from No Treatment to Buprenorphine would be considered Buprenorphine Admissions. It is not limited to inpatient treatments such as Residential or Detoxification.",
+	},
+    ]
+};
+
 export default function Glossary() {
     return(
 	<div id="glossary">
 	    {GlossarySection(treatments)}
+	    {GlossarySection(ouds)}
+	    {GlossarySection(general)}
 	</div>
     );
 }
