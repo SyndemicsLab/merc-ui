@@ -33,7 +33,6 @@ export default function Inputs() {
 	observer.observe(inputRef.current);
     }, [])
 
-<<<<<<< HEAD
     return(
 	<>
 	    <div id="inputs" ref={inputRef}>
@@ -50,25 +49,8 @@ export default function Inputs() {
                 <AdvancedInputs />
                 <EmailIntake />
 		<Disclaimers />
-                <label id="run">
-		    <div className="run-text"><span>▶ RUN</span></div>
-                </label>
+                <Results />
 	    </div>
 	</>
-=======
-    return (
-        <>
-            <div id="inputs">
-                <h1>Simulation Inputs</h1>
-                <GeneralInputs population={population} uptake={uptake} />
-                <AdvancedInputs />
-                <EmailIntake />
-                <Results />
-                {/* <label id="run">
-                    <div className="run-text"><span>▶ RUN</span></div>
-                </label> */}
-            </div>
-        </>
->>>>>>> 2994ecb (adding dialog for results on Run button)
     );
 }

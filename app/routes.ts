@@ -8,4 +8,5 @@ export default [
     index("routes/home.tsx"),
     route("simulation", "routes/simulation.tsx"),
     route("results", "routes/results.tsx"),
+    route("glossary", "routes/glossary.tsx"),
 ] satisfies RouteConfig;

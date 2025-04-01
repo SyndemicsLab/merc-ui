@@ -6,12 +6,31 @@ import {
     DialogTrigger,
     DialogDescription,
     DialogFooter,
+    DialogClose,
 } from "@components/ui/dialog";
 import results from "~/images/tutorial/7.jpg";
-
+import { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faX } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "@components/ui/button";
 
+function Result({loaded, loadedController}) {
+    setTimeout(() => {
+	loadedController(true);
+    }, 5000);
+    if (loaded) {
+	return(
+	    <img src={results} alt="RESPOND model results" />
+	);
+    } else {
+	return(
+	    <div className="loader" />
+	);
+    }
+}
+
 export default function Results() {
+    const [loaded, setLoaded] = useState(false);
     return (
         <Dialog>
             <DialogTrigger asChild>
@@ -27,7 +46,7 @@ export default function Results() {
                 <div className="grid gap-4 py-4">
                     <div className="grid grid-cols-4 items-center gap-4">
                     </div>
-		    <img src={results} alt="RESPOND model results" />
+		    <Result loaded={loaded} loadedController={setLoaded} />
                     <div className="grid grid-cols-4 items-center gap-4">
                     </div>
                 </div>

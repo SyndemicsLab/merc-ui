@@ -372,6 +372,9 @@ h1 {
     table th:first-of-type {
 	width: 20%;
     }
+    table tr td:first-of-type {
+	text-align: center;
+    }
 }
 
 .main * {
@@ -1378,4 +1381,25 @@ button:hover {
 
 .hide {
     display: none;
+}
+
+.loader {
+    width: 48px;
+    height: 48px;
+    border: 5px solid #FFF;
+    border-bottom-color: var(--primary-color);
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+    margin: 0 auto;
+}
+
+@keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
