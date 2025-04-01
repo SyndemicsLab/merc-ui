@@ -26,31 +26,31 @@ export default function Inputs() {
     const population = 214000;
     const uptake = 5000;
     useEffect(() => {
-	const observer = new IntersectionObserver((entries, observer) => {
-	    const entry = entries[0];
-	    updateInputsVisible(entry.isIntersecting);
-	});
-	observer.observe(inputRef.current);
+        const observer = new IntersectionObserver((entries, observer) => {
+            const entry = entries[0];
+            updateInputsVisible(entry.isIntersecting);
+        });
+        observer.observe(inputRef.current);
     }, [])
 
     return(
-	<>
-	    <div id="inputs" ref={inputRef}>
-		<GlossaryButton />
-		<ScrollIndicator
-		    destination="/simulation#inputs"
-		    visible={!inputsVisible}
-		/>
+        <>
+            <div id="inputs" ref={inputRef}>
+                <GlossaryButton />
+                <ScrollIndicator
+                    destination="/simulation#inputs"
+                    visible={!inputsVisible}
+                />
                 <h1>Simulation Inputs</h1>
-		<GeneralInputs
-		    population={population}
-		    uptake={uptake}
-		/>
+                <GeneralInputs
+                    population={population}
+                    uptake={uptake}
+                />
                 <AdvancedInputs />
                 <EmailIntake />
-		<Disclaimers />
+                <Disclaimers />
                 <Results />
-	    </div>
-	</>
+            </div>
+        </>
     );
 }
