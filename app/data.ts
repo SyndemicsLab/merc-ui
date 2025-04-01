@@ -5,6 +5,8 @@ export interface Intervention {
     id: number;
     name: string;
     active: boolean;
+    description: string;
+    info: boolean;
 }
 
 export interface Transition {
@@ -28,11 +30,14 @@ const simulation: Simulation = {
             id: 1,
             name: "Buprenorphine",
 	    active: false,
+	    description: "Buprenorphine is a medication for opioid use disorder and works as a partial opioid agonist. It ‘diminish[es] the effects of physical dependency to opioids, such as withdrawal symptoms and cravings’ (SAMHSA).",
         },
         {
             id: 2,
             name: "Naltrexone",
 	    active: false,
+	    description: "Naltrexone is a medication for opioid use disorder and works as an opioid antagonist, binding opioid receptors and blocking the ‘euphoric and sedative effects of opioids’ (SAMHSA). It can also be used to treat alcohol use disorder. Naltrexone for opioid use disorder should not be started until no opioids have been used for at least 7 days.",
+	    info: true,
         },
         {
             id: 3,

@@ -1,10 +1,22 @@
 import type { Transition } from "~/data";
 import NamedSlider from "@components/ui/namedslider";
 import Transitions from "@simulation/interventions/transitions";
+import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+    DialogDescription,
+    DialogClose,
+} from "@components/ui/dialog";
+import { Button } from "@components/ui/button";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faInfo } from "@fortawesome/free-solid-svg-icons";
 
 function Content(
-    { intervention, transitions, onNameChange, onTransitionChange }:
-    { intervention: Intervention, transitions: Transition[], onNameChange: Function, onTransitionChange: Function }
+    { intervention, transitions, onNameChange, onTransitionChange, description = null, info = false }:
+    { intervention: Intervention, transitions: Transition[], onNameChange: Function, onTransitionChange: Function, description?: string, info?: boolean }
 ) {
     return(
 	<>
@@ -24,6 +36,31 @@ function Content(
 			    readOnly={true}
 			/>
 		)}
+		{ (description && !info) ? (
+		    <p className="intervention-hint">
+			{description}
+		    </p>
+		) : null }
+		{ (description && info) ? (
+		    <Dialog>
+			<DialogTrigger asChild>
+			    <Button variant="outline" className="intervention-info">
+				<FontAwesomeIcon icon={faInfo} />
+			    </Button>
+			</DialogTrigger>
+			<DialogContent className="bg-white sm:max-w-[425px] p-9">
+			    <DialogHeader>
+				<DialogTitle>{intervention.name}</DialogTitle>
+				<DialogDescription>
+				    {`More information about ${intervention.name}.`}
+				</DialogDescription>
+			    </DialogHeader>
+			    <div className="grid gap-4 py-4">
+				{description}
+			    </div>
+			</DialogContent>
+		    </Dialog>
+		) : null }
 		<NamedSlider inputName="Intervention Population Size"
 			     min={0} max={4000} step={50} defaultValue={1500} />
 		<Transitions
@@ -49,6 +86,8 @@ export default function Contents(
 			transitions={intervention.transitions}
 			onNameChange={onInterventionNameChange}
 			onTransitionChange={(value, transition) => onInterventionChangeTransition(value, intervention.id, transition)}
+			description={intervention.description ? intervention.description : null}
+			info={intervention.info}
 		    />
 		))}
 	    </div>
