@@ -8,7 +8,6 @@ import {
     DialogTitle,
     DialogTrigger,
     DialogDescription,
-    DialogClose,
 } from "@components/ui/dialog";
 import { Button } from "@components/ui/button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

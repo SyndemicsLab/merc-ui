@@ -6,12 +6,9 @@ import {
     DialogTrigger,
     DialogDescription,
     DialogFooter,
-    DialogClose,
 } from "@components/ui/dialog";
 import results from "~/images/tutorial/7.jpg";
 import { useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faX } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "@components/ui/button";
 
 function Result({loaded, loadedController}) {
@@ -20,7 +17,7 @@ function Result({loaded, loadedController}) {
     }, 5000);
     if (loaded) {
 	return(
-	    <img src={results} alt="RESPOND model results" />
+	    <img className="sim-result" src={results} alt="RESPOND model results" />
 	);
     } else {
 	return(
@@ -35,7 +32,9 @@ export default function Results() {
     return (
         <Dialog open={open} onOpenChange={(open) => {
 		    setOpen(open);
-		    setLoaded(false);
+		    if (open) {
+			setLoaded(false);
+		    }
 		}}>
             <DialogTrigger asChild>
                 <Button variant="outline" className="run-text">RUN</Button>

@@ -1,6 +1,4 @@
-import React from "react";
 import type {
-    GlossaryItem,
     GlossaryTable
 } from "@components/ui/glossary/glossary-table";
 import { GlossarySection } from "@components/ui/glossary/glossary-table";

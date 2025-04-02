@@ -1423,3 +1423,7 @@ button:hover {
         transform: rotate(360deg);
     }
 }
+
+.sim-result {
+    min-width: 500px;
+}
