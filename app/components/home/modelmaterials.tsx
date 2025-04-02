@@ -26,8 +26,8 @@ const ModelMaterials = () => {
 			    destination="https://www.syndemicslab.org/_files/ugd/bfe657_12eebc333cfd47d6beb5917826150782.pdf"
 			/>
 			<InfoButton
-			    text="Simulation Flow"
-			    destination="https://www.syndemicslab.org/_files/ugd/bfe657_6feaf23324424adcab86e1c5044ae7de.pdf"
+			    text="Terminology Glossary"
+			    destination="/glossary"
 			/>
 		    </div>
 		</div>

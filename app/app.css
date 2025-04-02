@@ -194,7 +194,7 @@ h1 {
 @media (max-width: 1400px) {
     #home .home-content {
 	margin: auto;
-	max-width: 800px;
+	width: 80%;
     }
 
     .nav-links {
@@ -366,11 +366,17 @@ h1 {
 	border: 1px solid;
 	margin: auto;
     }
+    table {
+	margin-bottom: calc(var(--spacing) * 3);
+    }
     th, td {
 	padding: 8px;
     }
     table th:first-of-type {
 	width: 20%;
+    }
+    table tr td:first-of-type {
+	text-align: center;
     }
 }
 
@@ -1258,6 +1264,23 @@ button:hover {
     display: none;
 }
 
+.intervention-hint {
+    margin-top: calc(var(--spacing) * 2);
+    margin-bottom: calc(var(--spacing) * 2);
+    font-weight: 300;
+    font-style: italic;
+    font-size: 14px;
+}
+
+.intervention-info {
+    margin-left: calc(var(--spacing) * 2);
+    padding: 5px;
+    height: 24px;
+    width: 24px;
+    font-size: 12px;
+    aspect-ratio: 1 / 1;
+}
+
 .interventionContent.active {
     display: block;
 }
@@ -1313,6 +1336,7 @@ button:hover {
     padding: 15px 30px;
     cursor: pointer;
     transition: background-color var(--transition-duration), transform var(--transition-duration);
+    width: 100%;
 }
 
 .run-text:hover {
@@ -1377,4 +1401,29 @@ button:hover {
 
 .hide {
     display: none;
+}
+
+.loader {
+    width: 48px;
+    height: 48px;
+    border: 5px solid #FFF;
+    border-bottom-color: var(--primary-color);
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+    margin: 0 auto;
+}
+
+@keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.sim-result {
+    min-width: 500px;
 }

@@ -212,6 +212,15 @@ const StateDropdown = () => {
 
     const [dropdownOpen, dropdownSetOpen] = useState(false);
     const [value, setValue] = useState("");
+
+    // Update the hidden input field with the selected value
+    React.useEffect(() => {
+        const hiddenInput = document.getElementById('usState') as HTMLInputElement
+        if (hiddenInput) {
+            hiddenInput.value = value
+        }
+    }, [value])
+
     return (
         <Popover open={dropdownOpen} onOpenChange={dropdownSetOpen}>
             <PopoverTrigger asChild>
