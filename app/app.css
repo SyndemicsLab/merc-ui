@@ -181,7 +181,7 @@ h1 {
     transform: translate(0, -11px) rotate(45deg);
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1400px) {
     .home-section {
 	padding-bottom: 4rem;
     }
@@ -1425,5 +1425,12 @@ button:hover {
 }
 
 .sim-result {
-    min-width: 500px;
+    margin: 0 auto;
+    flex-grow: 1;
+}
+
+.dialog-root {
+    overflow-y: scroll;
+    padding: 3rem;
+    max-height: calc(100vh - 1rem);
 }
