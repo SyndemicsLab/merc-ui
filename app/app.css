@@ -181,7 +181,7 @@ h1 {
     transform: translate(0, -11px) rotate(45deg);
 }
 
-@media (min-width: 1250px) {
+@media (min-width: 1400px) {
     .home-section {
 	padding-bottom: 4rem;
     }
