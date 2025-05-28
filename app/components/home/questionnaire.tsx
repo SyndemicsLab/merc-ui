@@ -11,9 +11,55 @@ import {
 import StateDropdown from "@components/ui/statedropdown";
 import { Input } from "@components/ui/input";
 import { useState } from "react";
+import type { QuestionnaireForm } from "@components/home/types/questionnaire_form";
+import { createQuestionnaireForm } from "@components/home/types/questionnaire_form";
+
+function MultiResponseQuestion(
+    { name, question, responses, lastOther = false }:
+    { name: string, question: string, responses: string[], lastOther?: boolean }) {
+    return (
+	<>
+            <span className="dialog-question">
+		{question}
+            </span>
+            <ul>
+		{responses.map((response, index) => {
+		    return(
+			<>
+			    <li>
+				<input type="checkbox" className="dialog-checkbox" name={name} />
+			        <span className="dialog-response">{response}
+			            { index === (responses.length - 1) && lastOther ? (
+					<input className="dialog-input rounded-md"
+					       type="text"
+				               name={`${name}OtherText`}
+					       placeholder={name.charAt(0).toUpperCase() + name.slice(1)}
+					/>
+			            ): null}
+				</span>
+			    </li>
+			</>
+		    );
+		})}
+            </ul>
+	</>
+    );
+}
+
+function QuestionnaireBody(
+    { questionnaireData, onInputChange }:
+    { questionnaireData: QuestionnaireForm, onInputChange: Function }
+) {
+}
 
 const Questionnaire = () => {
     const [open, setOpen] = useState(true);
+    const [formContents, setFormContents] = useState(createQuestionnaireForm);
+
+    function changeQuestionnaireData(
+	{ field, value }: { field: string, value: string | boolean }) {
+	setFormContents({...formContents, [field]: value});
+    }
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
@@ -22,95 +68,44 @@ const Questionnaire = () => {
                     <DialogTitle>Questionnaire</DialogTitle>
                     <DialogDescription>Please help us serve you better by answering a few quick questions.</DialogDescription>
                 </DialogHeader>
-                <Form method="post" action="/SubmitQuestionnaire">
+                <Form method="post">
+		    {
+			//action="127.0.0.1:8000/SubmitQuestionnaire"> -->
+		    }
                     <div className="questionnaire">
-                        <span className="dialog-question">
-                            What is the purpose of your site visit? (Select all that apply)
-                        </span>
-                        <ul>
-                            <li>
-                                <input type="checkbox" className="dialog-checkbox" name="purpose" value="personal" />
-                                <span className="dialog-response">Personal Research</span>
-                            </li>
-                            <li>
-                                <input type="checkbox" className="dialog-checkbox" name="purpose" value="purposePolicy" />
-                                <span className="dialog-response">Policy Development</span>
-                            </li>
-                            <li>
-                                <input type="checkbox" className="dialog-checkbox" name="purpose" value="academic" />
-                                <span className="dialog-response">Academic Research</span>
-                            </li>
-                            <li>
-                                <input type="checkbox" className="dialog-checkbox" name="purpose" value="program" />
-                                <span className="dialog-response">Program Development</span>
-                            </li>
-                            <li>
-                                <input type="checkbox" className="dialog-checkbox" name="purpose" value="purposeOther" />
-                                <span className="dialog-response">
-                                    Other:
-                                    <input
-                                        className="dialog-input rounded-md"
-                                        type="text"
-                                        name="purposeOtherText"
-                                        placeholder="Purpose"
-                                    />
-                                </span>
-                            </li>
-                        </ul>
+			<MultiResponseQuestion
+			    name="purpose"
+			    question={"What is the purpose of your site visit? (Select all that apply)"}
+			    responses={[
+				"Personal Research",
+				"Policy Development",
+				"Academic Research",
+				"Program Development",
+				"Other:"
+			    ]}
+			    lastOther={true}
+			/>
                         <span className="dialog-question">
                             What US State are you most interested in researching?
                         </span>
                         <StateDropdown />
                         <Input type="hidden" name="usState" id="usState" required />
-                        <span className="dialog-question">
-                            What is your occupation or field of work? (Select all that apply)
-                        </span>
-                        <ul>
-                            <li>
-                                <input type="checkbox" className="dialog-checkbox" name="occupation" value="healthcare" />
-                                <span className="dialog-response">Healthcare</span>
-                            </li>
-                            <li>
-                                <input type="checkbox" className="dialog-checkbox" name="occupation" value="publicHealth" />
-                                <span className="dialog-response">Public Health</span>
-                            </li>
-                            <li>
-                                <input type="checkbox" className="dialog-checkbox" name="occupation" value="research" />
-                                <span className="dialog-response">Research</span>
-                            </li>
-                            <li>
-                                <input type="checkbox" className="dialog-checkbox" name="occupation" value="occupationPolicy" />
-                                <span className="dialog-response">Policy</span>
-                            </li>
-                            <li>
-                                <input type="checkbox" className="dialog-checkbox" name="occupation" value="government" />
-                                <span className="dialog-response">Government</span>
-                            </li>
-                            <li>
-                                <input type="checkbox" className="dialog-checkbox" name="occupation" value="education" />
-                                <span className="dialog-response">Education</span>
-                            </li>
-                            <li>
-                                <input type="checkbox" className="dialog-checkbox" name="occupation" value="nonprofit" />
-                                <span className="dialog-response">Non-Profit/Community Organization</span>
-                            </li>
-                            <li>
-                                <input type="checkbox" className="dialog-checkbox" name="occupation" value="media" />
-                                <span className="dialog-response">Media/Communications</span>
-                            </li>
-                            <li>
-                                <input type="checkbox" className="dialog-checkbox" name="occupation" value="occupationOther" />
-                                <span className="dialog-response">
-                                    Other:
-                                    <input
-                                        className="dialog-input rounded-md"
-                                        type="text"
-                                        name="occupationOtherText"
-                                        placeholder="Occupation/Field of Work"
-                                    />
-                                </span>
-                            </li>
-                        </ul>
+			<MultiResponseQuestion
+			    name="occupation"
+			    question="What is your occupation or field of work? (Select all that apply)"
+			    responses={[
+				"Healthcare",
+				"Public Health",
+				"Research",
+				"Policy",
+				"Government",
+				"Education",
+				"Non-Profit/Community Organization",
+				"Media/Communications",
+				"Other:"
+			    ]}
+			    lastOther={true}
+			/>
                     </div>
                     <input
                         type="hidden"
