@@ -312,6 +312,9 @@ h1 {
 
     .dialog-root {
 	--spacing: 6px;
+	::-webkit-scrollbar {
+	    display: none;
+	}
     }
 
     .command-item {
