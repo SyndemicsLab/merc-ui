@@ -1,8 +1,8 @@
 interface QuestionnaireForm {
-    purpose_personal: boolean;
-    purpose_policy: boolean;
-    purpose_academic: boolean;
-    purpose_program: boolean;
+    purpose_personalresearch: boolean;
+    purpose_policydevelopment: boolean;
+    purpose_academicresearch: boolean;
+    purpose_programdevelopment: boolean;
     purpose_other: string | null;
     us_state: string | null;
     occupation_healthcare: boolean;
@@ -18,10 +18,10 @@ interface QuestionnaireForm {
 
 function createQuestionnaireForm(): QuestionnaireForm {
     return {
-	purpose_personal: false,
-	purpose_policy: false,
-	purpose_academic: false,
-	purpose_program: false,
+	purpose_personalresearch: false,
+	purpose_policydevelopment: false,
+	purpose_academicresearch: false,
+	purpose_programdevelopment: false,
 	purpose_other: null,
 	us_state: null,
 	occupation_healthcare: false,

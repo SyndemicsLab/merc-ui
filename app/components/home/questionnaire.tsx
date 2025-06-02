@@ -32,8 +32,8 @@ function DropdownQuestion(
 }
 
 function MultiResponseQuestion(
-    { name, question, responses, lastOther = false }:
-    { name: string, question: string, responses: string[], lastOther?: boolean }) {
+    { name, question, responses, data, onInputChange, lastOther = false }:
+    { name: string, question: string, responses: string[], data: Object, onInputChange: Function, lastOther?: boolean }) {
     const responseOptions = responses.map((response, index) => {
 	let target: string = name + '_' +
 	    response
@@ -42,7 +42,13 @@ function MultiResponseQuestion(
 	    .replace(/\w/g, x => x.toLowerCase());
 	return(
 	    <li key={index}>
-		<input type="checkbox" className="dialog-checkbox" name={name} />
+		<input
+		    type="checkbox"
+		    className="dialog-checkbox"
+		    name={name}
+		    checked={data[target]}
+		    onChange={() => onInputChange(target, !(data[target]))}
+		/>
 		<span className="dialog-response">{`${response} (${target})`}
 		    { index === (responses.length - 1) && lastOther ? (
 			<input className="dialog-input rounded-md"
@@ -100,6 +106,8 @@ const Questionnaire = () => {
 				"Program Development",
 				"Other:"
 			    ]}
+			    data={formContents}
+			    onInputChange={changeQuestionnaireData}
 			    lastOther={true}
 			/>
 			<DropdownQuestion
