@@ -9,36 +9,12 @@ import ContactUs from "@components/home/contactus";
 import Questionnaire from "@components/home/questionnaire";
 import type { Route } from "./+types/home";
 
-import { userPrefs } from "~/cookies.server";
-
-export async function loader({ request }: Route.LoaderArgs) {
-    const cookieHeader = request.headers.get("Cookie");
-    const cookie = (await userPrefs.parse(cookieHeader)) || {};
-    if (cookie.showQuestionnaire === undefined) {
-        cookie.showQuestionnaire = true;
-    }
-    return { showQuestionnaire: cookie.showQuestionnaire };
-}
-
-export async function action({ request }: Route.ActionArgs) {
-    const cookieHeader = request.headers.get("Cookie");
-    const cookie = (await userPrefs.parse(cookieHeader)) || {};
-    const bodyParams = await request.formData();
-
-    if (bodyParams.get("questionnaireVisibility") === "hidden") {
-        cookie.showQuestionnaire = false;
-    }
-    return redirect("/", {
-        headers: {
-            "Set-Cookie": await userPrefs.serialize(cookie),
-        },
-    });
-}
+import { userPrefs } from "~/cookies";
 
 export default function Home({ loaderData }: Route.ComponentProps) {
     return (
         <main className="main">
-            {loaderData.showQuestionnaire ? (<Questionnaire />) : null}
+            <Questionnaire />
             <section className="home-section" id="home">
                 <div className="home-content">
                     <h1 className="welcome-text">

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Form } from "react-router";
+import { Form, useNavigate } from "react-router";
 
 import Dropdown from "@components/ui/dropdown";
 import States from "@components/ui/questionnaire";
@@ -17,7 +17,7 @@ function DropdownQuestion(
     { name: string, question: string, options: any[] }
 ) {
     return(
-	<>
+	<div className="questionnaire-question">
 	    <span className="dialog-question">
 		{question}
 	    </span>
@@ -26,50 +26,73 @@ function DropdownQuestion(
 		options={options}
 	    />
 	    <input id={name} type="hidden" name={name} />
-	</>
+	</div>
     );
 }
 
 function MultiResponseQuestion(
     { name, question, responses, lastOther = false }:
     { name: string, question: string, responses: string[], lastOther?: boolean }) {
+    const [otherChecked, setOtherChecked] = useState(false);
     const responseOptions = responses.map((response, index) => {
 	let target: string = name + '_' +
 	    response
 	    .replace(/(\s|-)/, "_")   // replace hyphens and white space
 	    .replace(/\/.*/, "")      // remove content from `/` onward
 	    .replace(/\w/g, x => x.toLowerCase()); // make all letters lowercase
+
 	return(
 	    <li key={index}>
-		<input
-		    type="checkbox"
-		    className="dialog-checkbox"
-		    name={target}
-		/>
-		<span className="dialog-response">{`${response}`}
+		<div className="questionnaire-check">
 		    { index === (responses.length - 1) && lastOther ? (
-			<input className="dialog-input rounded-md"
-			       type="text"
-			       name={`${name}_other_text`}
-			       placeholder={name.charAt(0).toUpperCase() + name.slice(1)}
-			/>
-		    ): null}
-		</span>
+			<>
+			    <input
+				type="checkbox"
+				className="dialog-checkbox"
+				name={target}
+				onChange={() => setOtherChecked(!otherChecked)}
+			    />
+		            <div className="dialog-response">
+		    		{`${response}`}
+		    		{ otherChecked ? (
+			            <input className="dialog-input rounded-md"
+					   type="text"
+					   name={`${name}_other_text`}
+					   placeholder={name.charAt(0).toUpperCase() + name.slice(1)}
+					   required
+			            />
+		    		) : null}
+		            </div>
+			</>
+		    ) : (
+			<>
+			    <input
+				type="checkbox"
+				className="dialog-checkbox"
+				name={target}
+			    />
+			    <div className="dialog-response">
+		    		{`${response}`}
+			    </div>
+			</>
+		    )}
+		</div>
 	    </li>
 	);
     });
     return (
-	<>
+	<div className="questionnaire-question">
             <span className="dialog-question">{question}</span>
             <ul>{responseOptions}</ul>
-	</>
+	</div>
     );
 }
 
 const Questionnaire = () => {
     const [open, setOpen] = useState(true);
+    const navigate = useNavigate();
 
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
 	e.preventDefault();
 
 	const formData = new FormData(e.target);
@@ -84,9 +107,6 @@ const Questionnaire = () => {
 	    }
 	}
 
-	delete formJson["questionnaireVisibility"];
-	console.log(formJson);
-
 	const request = fetch(
 	    "http://127.0.0.1:8000/SubmitQuestionnaire",
 	    {
@@ -98,20 +118,22 @@ const Questionnaire = () => {
 		}
 	    }
 	);
+
+	navigate('/');
     }
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
-            <DialogContent className="rounded-2xl text-left p-[20px] sm:max-w-[600px] bg-white dialog-root">
+	    <DialogContent className="rounded-2xl text-left p-[20px] sm:max-w-[600px] bg-white dialog-root">
                 <DialogHeader>
-                    <DialogTitle>Questionnaire</DialogTitle>
-                    <DialogDescription>Please help us serve you better by answering a few quick questions.</DialogDescription>
+		    <DialogTitle>Questionnaire</DialogTitle>
+		    <DialogDescription>Please help us serve you better by answering a few quick questions.</DialogDescription>
                 </DialogHeader>
                 <Form method="post" onSubmit={handleSubmit}>
 		    {
 			//action="127.0.0.1:8000/SubmitQuestionnaire"> -->
 		    }
-                    <div className="questionnaire">
+		    <div className="questionnaire">
 			<MultiResponseQuestion
 			    name="purpose"
 			    question={"What is the purpose of your site visit? (Select all that apply)"}
@@ -145,14 +167,10 @@ const Questionnaire = () => {
 			    ]}
 			    lastOther={true}
 			/>
-                    </div>
-                    <input
-                        type="hidden"
-                        name="questionnaireVisibility"
-                        value="hidden" />
-                    <button type="submit">Submit</button>
+		    </div>
+		    <button type="submit">Submit</button>
                 </Form>
-            </DialogContent>
+	    </DialogContent>
         </Dialog>
     );
 };
