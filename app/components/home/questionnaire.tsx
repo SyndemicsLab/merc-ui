@@ -130,9 +130,6 @@ const Questionnaire = () => {
 		    <DialogDescription>Please help us serve you better by answering a few quick questions.</DialogDescription>
                 </DialogHeader>
                 <Form method="post" onSubmit={handleSubmit}>
-		    {
-			//action="127.0.0.1:8000/SubmitQuestionnaire"> -->
-		    }
 		    <div className="questionnaire">
 			<MultiResponseQuestion
 			    name="purpose"
