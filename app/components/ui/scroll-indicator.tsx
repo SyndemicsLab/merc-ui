@@ -8,11 +8,11 @@ export default function ScrollIndicator(
 ) {
     return(
 	<>
-	    <div className={`scrolldown${visible ? "" : " hide"}`}>
-		<Link to={destination}>
+	    <Link to={destination}>
+		<div className={`scrolldown${visible ? "" : " hide"}`}>
 		    <FontAwesomeIcon icon={faChevronDown}/>
-		</Link>
-	    </div>
+		</div>
+	    </Link>
 	</>
     );
 }

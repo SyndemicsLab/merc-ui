@@ -9,11 +9,12 @@ import ContactUs from "@components/home/contactus";
 import Questionnaire from "@components/home/questionnaire";
 import type { Route } from "./+types/home";
 
-import { userPrefs } from "~/cookies.server";
+import { userPrefs } from "~/cookies";
 
 export async function loader({ request }: Route.LoaderArgs) {
     const cookieHeader = request.headers.get("Cookie");
     const cookie = (await userPrefs.parse(cookieHeader)) || {};
+    console.log(cookie);
     if (cookie.showQuestionnaire === undefined) {
         cookie.showQuestionnaire = true;
     }
@@ -38,7 +39,9 @@ export async function action({ request }: Route.ActionArgs) {
 export default function Home({ loaderData }: Route.ComponentProps) {
     return (
         <main className="main">
-            {loaderData.showQuestionnaire ? (<Questionnaire />) : null}
+            {loaderData.showQuestionnaire ? (
+		<Questionnaire />
+	    ) : null}
             <section className="home-section" id="home">
                 <div className="home-content">
                     <h1 className="welcome-text">

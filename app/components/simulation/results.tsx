@@ -17,7 +17,12 @@ function Result({loaded, loadedController}) {
     }, 5000);
     if (loaded) {
 	return(
-	    <img className="sim-result" src={results} alt="RESPOND model results" />
+	    <>
+		<img className="sim-result" src={results} alt="RESPOND model results" />
+                <DialogFooter>
+                    <Button type="download">Download Results</Button>
+                </DialogFooter>
+	    </>
 	);
     } else {
 	return(
@@ -39,7 +44,7 @@ export default function Results() {
             <DialogTrigger asChild>
                 <Button variant="outline" className="run-text">RUN</Button>
             </DialogTrigger>
-            <DialogContent className="rounded-2xl bg-white sm:max-w-[425px] p-9">
+            <DialogContent className="rounded-2xl bg-white max-w-[425px] lg:max-w-[750px] p-9">
                 <DialogHeader>
                     <DialogTitle>Simulation Results</DialogTitle>
                     <DialogDescription>
@@ -47,9 +52,6 @@ export default function Results() {
                     </DialogDescription>
                 </DialogHeader>
 		<Result loaded={loaded} loadedController={setLoaded} />
-                <DialogFooter>
-                    <Button type="download">Download Results</Button>
-                </DialogFooter>
             </DialogContent>
         </Dialog>
     )

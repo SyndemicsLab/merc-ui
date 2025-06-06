@@ -47,7 +47,7 @@ function Content(
 				<FontAwesomeIcon icon={faInfo} />
 			    </Button>
 			</DialogTrigger>
-			<DialogContent className="bg-white sm:max-w-[425px] p-9">
+			<DialogContent className="bg-white lg:max-w-[1000px] max-w-[425px] p-9">
 			    <DialogHeader>
 				<DialogTitle>{intervention.name}</DialogTitle>
 				<DialogDescription>
