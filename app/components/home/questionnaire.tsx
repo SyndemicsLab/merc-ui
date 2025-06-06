@@ -120,6 +120,7 @@ const Questionnaire = () => {
 	);
 
 	navigate('/');
+	setOpen(false);
     }
 
     return (
