@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Form, useNavigate } from "react-router";
+import { Form, useFetcher } from "react-router";
 
 import Dropdown from "@components/ui/dropdown";
 import States from "@components/ui/questionnaire";
@@ -90,38 +90,7 @@ function MultiResponseQuestion(
 
 const Questionnaire = () => {
     const [open, setOpen] = useState(true);
-    const navigate = useNavigate();
-
-    async function handleSubmit(e) {
-	e.preventDefault();
-
-	const formData = new FormData(e.target);
-
-	const formJson = Object.fromEntries(formData.entries());
-	for (var x in formJson) {
-	    if (formJson[x] === "on") {
-		formJson[x] = true;
-	    }
-	    if (formJson[x] === "") {
-		formJson[x] = null;
-	    }
-	}
-
-	const request = fetch(
-	    "http://127.0.0.1:8000/SubmitQuestionnaire",
-	    {
-		method: e.target.method,
-		mode: "cors",
-		body: JSON.stringify(formJson),
-		headers: {
-		    "Content-Type": "application/json",
-		}
-	    }
-	);
-
-	navigate('/');
-	setOpen(false);
-    }
+    let fetcher = useFetcher();
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
@@ -130,7 +99,7 @@ const Questionnaire = () => {
 		    <DialogTitle>Questionnaire</DialogTitle>
 		    <DialogDescription>Please help us serve you better by answering a few quick questions.</DialogDescription>
                 </DialogHeader>
-                <Form method="post" onSubmit={handleSubmit}>
+                <fetcher.Form method="post">
 		    <div className="questionnaire">
 			<MultiResponseQuestion
 			    name="purpose"
@@ -166,8 +135,13 @@ const Questionnaire = () => {
 			    lastOther={true}
 			/>
 		    </div>
+		    <input
+			name="questionnaireVisibility"
+			type="hidden"
+			value="hidden"
+		    />
 		    <button type="submit">Submit</button>
-                </Form>
+                </fetcher.Form>
 	    </DialogContent>
         </Dialog>
     );
