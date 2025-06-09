@@ -53,6 +53,7 @@ export async function action({ request }: Route.ActionArgs) {
     if (bodyParams.get("questionnaireVisibility") === "hidden") {
         cookie.showQuestionnaire = false;
     }
+
     return redirect("/", {
         headers: {
             "Set-Cookie": await userPrefs.serialize(cookie),

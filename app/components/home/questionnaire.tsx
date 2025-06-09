@@ -94,7 +94,7 @@ const Questionnaire = () => {
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
-	    <DialogContent className="rounded-2xl text-left p-[20px] sm:max-w-[600px] bg-white dialog-root">
+	    <DialogContent className="rounded-2xl text-left p-[20px] max-w-[600px] min-w-[400px] bg-white dialog-root">
                 <DialogHeader>
 		    <DialogTitle>Questionnaire</DialogTitle>
 		    <DialogDescription>Please help us serve you better by answering a few quick questions.</DialogDescription>
