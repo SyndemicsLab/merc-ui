@@ -14,7 +14,7 @@ import { userPrefs } from "~/cookies";
 export async function loader({ request }: Route.LoaderArgs) {
     const cookieHeader = request.headers.get("Cookie");
     const cookie = (await userPrefs.parse(cookieHeader)) || {};
-    console.log(cookie);
+
     if (cookie.showQuestionnaire === undefined) {
         cookie.showQuestionnaire = true;
     }
@@ -26,9 +26,34 @@ export async function action({ request }: Route.ActionArgs) {
     const cookie = (await userPrefs.parse(cookieHeader)) || {};
     const bodyParams = await request.formData();
 
+    const formJson = Object.fromEntries(bodyParams.entries());
+    for (var x in formJson) {
+	if (formJson[x] === "on") {
+	    formJson[x] = true;
+	}
+	if (formJson[x] === "") {
+	    formJson[x] = null;
+	}
+    }
+
+    delete formJson.questionnaireVisibility;
+
+    const response = await fetch(
+	"http://127.0.0.1:8000/SubmitQuestionnaire",
+	{
+	    method: "POST",
+	    mode: "cors",
+	    body: JSON.stringify(formJson),
+	    headers: {
+		"Content-Type": "application/json",
+	    }
+	}
+    );
+
     if (bodyParams.get("questionnaireVisibility") === "hidden") {
         cookie.showQuestionnaire = false;
     }
+
     return redirect("/", {
         headers: {
             "Set-Cookie": await userPrefs.serialize(cookie),
