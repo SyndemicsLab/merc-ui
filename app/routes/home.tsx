@@ -39,7 +39,7 @@ export async function action({ request }: Route.ActionArgs) {
     delete formJson.questionnaireVisibility;
 
     const response = await fetch(
-	"http://127.0.0.1:8000/SubmitQuestionnaire",
+	"http://127.0.0.1:8000/submit-questionnaire",
 	{
 	    method: "POST",
 	    mode: "cors",

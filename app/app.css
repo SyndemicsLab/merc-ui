@@ -383,7 +383,7 @@ h1 {
     margin-bottom: 20px;
     width: 80%;
     max-width: 1200px;
-    2 {
+    h2 {
 	font-size: 36px;
 	font-weight: 600;
 	font-family: "IBM Plex Sans", sans-serif;
@@ -1020,6 +1020,11 @@ h1 {
 
 /* SIMULATION */
 
+#sim-container {
+    min-width: 450px;
+    width: 100%;
+}
+
 #simulation {
     h1 {
 	font-size: 24px;
@@ -1246,7 +1251,9 @@ button:hover {
     border-radius: var(--border-radius);
     padding: 10px 20px;
     cursor: pointer;
-    transition: background-color var(--transition-duration), transform var(--transition-duration);
+    transition:
+	background-color var(--transition-duration),
+	transform var(--transition-duration);
     display: inline-flex;
     align-items: center;
     margin-right: 10px;
@@ -1422,8 +1429,10 @@ button:hover {
 }
 
 #disclaimers {
-    /* background-color: var(--accent-gray); */
-    padding: calc(5 * var(--spacing)) 0;
+    margin: calc(5 * var(--spacing)) 0;
+    padding: calc(5 * var(--spacing));
+    background-color: rgb(from var(--secondary-color) r g b / 20% );
+    border-radius: var(--border-radius);
 }
 
 #disclaimers h3 {
