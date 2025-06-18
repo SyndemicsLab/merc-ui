@@ -79,7 +79,6 @@
 
 html,
 body {
-    height: 100%;
     font-family: var(--font-family);
     font-size: var(--font-size);
     line-height: var(--line-height);
@@ -90,7 +89,12 @@ body {
 }
 
 #content {
-    display: absolute;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    min-height: 100vh;
 }
 
 h1 {
@@ -115,6 +119,7 @@ h1 {
     justify-content: space-between;
     padding: var(--spacing);
     min-height: 120px;
+    margin-bottom: 3em;
 }
 
 .navbarlogo {
@@ -376,7 +381,6 @@ h1 {
     width: 80%;
     max-width: 1200px;
     margin: auto;
-    margin-top: 20px;
     > * {
 	margin: auto;
     }
@@ -418,10 +422,10 @@ h1 {
 }
 
 .home-section {
-    margin-top: 30px;
     max-width: 1200px;
     display: flex;
     margin: auto;
+    margin-bottom: 8em;
 }
 
 .home-content {
@@ -452,73 +456,97 @@ h1 {
     margin-top: 20px;
 }
 
-.simulation-button {
-    font-family: 'IBM Plex Sans', sans-serif;
-    border-radius: 13px;
-    background-color: #003771;
-    margin-top: 40px;
-    width: 323px;
-    color: #fff;
-    font-size: 20px;
-    font-weight: 500;
-    padding: 27px 35px;
-    border: none;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-    transition: transform 0.2s ease-in-out;
-    will-change: transform;
-    z-index: 0;
-    text-decoration: none;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+.home-nav {
+    display: flex;
+    margin-top: 2em;
+    gap: 1em;
+    height: 60px;
+    a {
+	font-family: 'IBM Plex Sans', sans-serif;
+	border-radius: 13px;
+	color: #fff;
+	font-size: 20px;
+	font-weight: 500;
+	padding: 27px 35px;
+	border: none;
+	cursor: pointer;
+	position: relative;
+	overflow: hidden;
+	display: flex;
+	transition: transform 0.2s ease-in-out;
+	will-change: transform;
+	z-index: 0;
+	text-decoration: none;
+	justify-content: center;
+	align-items: center;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    a::after {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	background-color: #fff;
+	border-radius: 13px;
+	transform: scaleX(0);
+	transform-origin: left center;
+	transition: transform 0.3s ease-out;
+	z-index: -1;
+    }
+
+    a::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	border: 2px solid transparent;
+	border-radius: 13px;
+	box-sizing: border-box;
+	transition: border 0.3s ease-out;
+	z-index: 1;
+    }
+
+    a:hover::after {
+	transform: scaleX(1);
+    }
+
+    .about-button {
+	background-color: var(--secondary-color);
+    }
+
+    .about-button:hover::before {
+	border-color: var(--secondary-color);
+    }
+
+    .about-button:hover {
+	color: var(--secondary-color);
+	transform: scale(1.05);
+	will-change: transform;
+	box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .simulation-button {
+	background-color: #003771;
+    }
+
+    .simulation-button:hover::before {
+	border-color: #003771;
+    }
+
+    .simulation-button:hover {
+	color: #003771;
+	transform: scale(1.05);
+	will-change: transform;
+	box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
+    }
+
 }
 
-.simulation-button::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    background-color: #fff;
-    border-radius: 13px;
-    transform: scaleX(0);
-    transform-origin: left center;
-    transition: transform 0.3s ease-out;
-    z-index: -1;
-}
-
-.simulation-button::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    border: 2px solid transparent;
-    border-radius: 13px;
-    box-sizing: border-box;
-    transition: border 0.3s ease-out;
-    z-index: 1;
-}
-
-.simulation-button:hover::after {
-    transform: scaleX(1);
-}
-
-.simulation-button:hover::before {
-    border-color: #003771;
-}
-
-.simulation-button:hover {
-    color: #003771;
-    transform: scale(1.05);
-    will-change: transform;
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
-}
 
 /*fix this scaling thing*/
 .home-circle {
@@ -527,7 +555,7 @@ h1 {
     scale: 250%;
     max-width: 350px;
     margin-left: 800px;
-    margin-top: -235px;
+    margin-top: -300px;
     z-index: -1;
 }
 
@@ -926,6 +954,11 @@ h1 {
 
 /* CONTACT US */
 
+#contact {
+    max-width: 1500px;
+    margin: auto;
+}
+
 .contact-us-container {
     background-color: #f8f8f8;
     padding: 40px;
@@ -996,7 +1029,6 @@ h1 {
     background-color: #f8f8f8;
     padding: 40px;
     text-align: left;
-    bottom: 0;
     width: 100%;
 }
 

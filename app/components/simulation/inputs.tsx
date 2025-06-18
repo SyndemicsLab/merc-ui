@@ -5,7 +5,6 @@ import NamedSlider from "@components/ui/namedslider";
 import Interventions from "@simulation/interventions"
 import AdvancedInputs from "@simulation/advancedinputs";
 import EmailIntake from "@simulation/emailintake";
-import Disclaimers from "@simulation/disclaimers";
 import GlossaryButton from "@simulation/glossary-button";
 import Results from "@simulation/results";
 
@@ -78,7 +77,6 @@ export default function Inputs() {
 		</fetcher.Form>
                 <AdvancedInputs />
                 <EmailIntake />
-                <Disclaimers />
                 <Results />
             </div>
         </>

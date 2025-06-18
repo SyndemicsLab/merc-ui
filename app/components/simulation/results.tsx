@@ -10,6 +10,7 @@ import {
 import results from "~/images/examples/results.jpg";
 import { useState } from "react";
 import { Button } from "@components/ui/button";
+import Disclaimers from "@components/simulation/disclaimers";
 
 function Result({loaded, loadedController}) {
     setTimeout(() => {
@@ -49,6 +50,7 @@ export default function Results() {
                     <DialogTitle>Simulation Results</DialogTitle>
                     <DialogDescription>
 			It may take several minutes for the model to execute and for results to populate.
+			<Disclaimers />
                     </DialogDescription>
                 </DialogHeader>
 		<Result loaded={loaded} loadedController={setLoaded} />

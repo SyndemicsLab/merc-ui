@@ -1,11 +1,7 @@
 import { Link, redirect } from "react-router";
 import InputsSection from "@components/home/inputsection";
 import homecircle from "~/images/homecircle.svg";
-import About from "@components/home/about";
 import AboutTool from "@components/home/abouttool";
-import ModelMaterials from "@components/home/modelmaterials";
-import Publications from "@components/home/publications";
-import ContactUs from "@components/home/contactus";
 import Questionnaire from "@components/home/questionnaire";
 import type { Route } from "./+types/home";
 
@@ -77,23 +73,14 @@ export default function Home({ loaderData }: Route.ComponentProps) {
                     <p className="home-description">
 			RESPOND is a model that simulates a population with high-risk opioid use and movement on and off medication for opioid use disorder, providing outcomes such as overdose and cost. This online tool is intended to allow users to explore the impact of various policies on these outcomes with a simplified, customizable interface.
                     </p>
-                    <Link to="/simulation" className="simulation-button">Run Simulation Model</Link>
+		    <div className="home-nav">
+			<Link to="/simulation" className="simulation-button">Go To Simulation Model</Link>
+			<Link to="/respond" className="about-button">More on RESPOND</Link>
+		    </div>
                     <img className="home-circle" src={homecircle} alt="home-circle" />
                 </div>
             </section>
-            <section id="about">
-                <About />
-            </section>
 	    <AboutTool />
-            <section id="modelmaterials">
-                <ModelMaterials />
-            </section>
-            <section id="publications">
-                <Publications />
-            </section>
-            <section id="contactus">
-                <ContactUs />
-            </section>
         </main>
     );
 }
