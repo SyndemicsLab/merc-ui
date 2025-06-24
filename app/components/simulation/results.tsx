@@ -50,9 +50,9 @@ export default function Results() {
                     <DialogTitle>Simulation Results</DialogTitle>
                     <DialogDescription>
 			It may take several minutes for the model to execute and for results to populate.
-			<Disclaimers />
                     </DialogDescription>
                 </DialogHeader>
+		<Disclaimers />
 		<Result loaded={loaded} loadedController={setLoaded} />
             </DialogContent>
         </Dialog>

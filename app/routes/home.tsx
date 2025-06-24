@@ -71,7 +71,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
                         <span className="respond-title">RESPOND!</span>
                     </h1>
                     <p className="home-description">
-			RESPOND is a model that simulates a population with high-risk opioid use and movement on and off medication for opioid use disorder, providing outcomes such as overdose and cost. This online tool is intended to allow users to explore the impact of various policies on these outcomes with a simplified, customizable interface.
+			RESPOND is a model that simulates a population with high-risk opioid use and movement on and off medication for opioid use disorder, providing values describing outcomes such as overdoses and costs. This online tool is intended to allow users to explore the impact of various policies on these outcomes with a simplified, customizable interface.
                     </p>
 		    <div className="home-nav">
 			<Link to="/simulation" className="simulation-button">Go To Simulation Model</Link>
