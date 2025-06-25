@@ -1,4 +1,4 @@
-import ContactUs from "@components/home/contactus";
+import ContactUs from "@components/contact/contactus";
 
 export default function Contact() {
     return(

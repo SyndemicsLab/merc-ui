@@ -449,7 +449,7 @@ h1 {
     font-family: 'IBM Plex Sans', sans-serif;
     font-size: 64px;
     line-height: 70px;
-    color: #000;
+    color: var(--primary-color);
 }
 
 .home-description {
@@ -664,8 +664,7 @@ h1 {
 #about {
     width: 100%;
     margin: auto;
-    margin-top: 200px;
-    margin-bottom: 200px;
+    margin: 100px 0;
     font-size: 20px;
 }
 
@@ -684,6 +683,7 @@ h1 {
     font-weight: bold;
     text-align: center;
     margin-bottom: 40px;
+    color: var(--primary-color);
 }
 
 .about-highlight {
@@ -765,8 +765,6 @@ h1 {
 /* MODEL MATERIALS */
 
 #modelmaterials{
-    margin-top: 200px;
-    margin-bottom: 200px;
     .list-container {
 	display: block;
 	width: fit-content;
@@ -784,21 +782,21 @@ h1 {
 }
 
 .model-materials-main {
+    width: 100vw;
+    background-color: rgb(from var(--accent-gray) r g b / 50%);
+    padding: 100px 0;
 }
 
 .model-materials-section {
     text-align: justify;
     max-width: 1200px;
     margin: 0 auto;
-    background: #fff;
     padding: 40px;
-    border-radius: var(--border-radius);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
 .model-materials-title {
     text-align: center;
-    font-size: 36px;
+    font-size: 50px;
     font-family: 'IBM Plex Sans', sans-serif;
     font-weight: 600;
     margin-bottom: 20px;
@@ -1067,12 +1065,10 @@ h1 {
 
 /* SIMULATION */
 
-#sim-container {
+#simulation {
     min-width: 450px;
     width: 100%;
-}
 
-#simulation {
     h1 {
 	font-size: 24px;
     }

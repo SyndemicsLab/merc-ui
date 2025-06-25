@@ -1,6 +1,6 @@
-import About from "@components/home/about";
-import ModelMaterials from "@components/home/modelmaterials";
-import Publications from "@components/home/publications";
+import About from "@components/about/about";
+import ModelMaterials from "@components/about/modelmaterials";
+import Publications from "@components/about/publications";
 
 export default function RESPOND() {
     return(
