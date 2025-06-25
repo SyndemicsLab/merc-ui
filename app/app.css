@@ -835,9 +835,7 @@ h1 {
 
 /* PUBLICATIONS */
 #publications {
-    padding-top: 50px;
-    margin-top: 200px;
-    margin-bottom: 200px;
+    padding: 100px 0;
 }
 
 .publications-main {
