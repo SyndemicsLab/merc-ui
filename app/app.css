@@ -683,11 +683,7 @@ h1 {
     font-weight: bold;
     text-align: center;
     margin-bottom: 40px;
-    color: var(--primary-color);
-}
-
-.about-highlight {
-    color: #003771;
+    color: var(--tertiary-color);
 }
 
 .about-description {
