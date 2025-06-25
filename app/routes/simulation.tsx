@@ -10,11 +10,9 @@ export async function action({ request }: Route.ActionArgs) {
 
 export default function Index() {
     return (
-	<div id="sim-container">
-            <div id="simulation">
-		<System />
-		<Inputs />
-            </div>
-	</div>
+        <div id="simulation">
+	    <System />
+	    <Inputs />
+        </div>
     );
 }
