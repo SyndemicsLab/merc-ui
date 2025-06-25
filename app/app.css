@@ -79,7 +79,6 @@
 
 html,
 body {
-    height: 100%;
     font-family: var(--font-family);
     font-size: var(--font-size);
     line-height: var(--line-height);
@@ -87,6 +86,15 @@ body {
     scroll-behavior: smooth;
     max-width: 100%;
     overflow-x: hidden;
+}
+
+#content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    min-height: 100vh;
 }
 
 h1 {
@@ -105,11 +113,13 @@ h1 {
 /* NAVBAR */
 
 .header {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: var(--spacing);
     min-height: 120px;
+    margin-bottom: 3em;
 }
 
 .navbarlogo {
@@ -368,10 +378,8 @@ h1 {
 /* HOMEPAGE */
 
 .main {
-    width: 80%;
-    max-width: 1200px;
+    min-width: 550px;
     margin: auto;
-    margin-top: 20px;
     > * {
 	margin: auto;
     }
@@ -383,7 +391,7 @@ h1 {
     margin-bottom: 20px;
     width: 80%;
     max-width: 1200px;
-    2 {
+    h2 {
 	font-size: 36px;
 	font-weight: 600;
 	font-family: "IBM Plex Sans", sans-serif;
@@ -391,8 +399,9 @@ h1 {
 	color: var(--tertiary-color);
     }
     table, th, td {
-	border: 1px solid;
+	border: 2px solid #fff;
 	margin: auto;
+	background-color: rgb(from var(--accent-gray) r g b / 20%);
     }
     table {
 	margin-bottom: calc(var(--spacing) * 3);
@@ -400,10 +409,14 @@ h1 {
     th, td {
 	padding: 8px;
     }
+    th {
+	background-color: rgb(from var(--primary-color) r g b / 40%);
+    }
     table th:first-of-type {
 	width: 20%;
     }
     table tr td:first-of-type {
+	background-color: rgb(from var(--primary-color) r g b / 40%);
 	text-align: center;
     }
 }
@@ -413,10 +426,10 @@ h1 {
 }
 
 .home-section {
-    margin-top: 30px;
     max-width: 1200px;
     display: flex;
     margin: auto;
+    margin-bottom: 8em;
 }
 
 .home-content {
@@ -436,7 +449,7 @@ h1 {
     font-family: 'IBM Plex Sans', sans-serif;
     font-size: 64px;
     line-height: 70px;
-    color: #000;
+    color: var(--primary-color);
 }
 
 .home-description {
@@ -447,73 +460,101 @@ h1 {
     margin-top: 20px;
 }
 
-.simulation-button {
-    font-family: 'IBM Plex Sans', sans-serif;
-    border-radius: 13px;
-    background-color: #003771;
-    margin-top: 40px;
-    width: 323px;
-    color: #fff;
-    font-size: 20px;
-    font-weight: 500;
-    padding: 27px 35px;
-    border: none;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-    transition: transform 0.2s ease-in-out;
-    will-change: transform;
-    z-index: 0;
-    text-decoration: none;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-}
-
-.simulation-button::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
+.home-nav {
+    display: flex;
+    margin-top: 2em;
+    gap: 1em;
+    height: 60px;
     width: 100%;
-    background-color: #fff;
-    border-radius: 13px;
-    transform: scaleX(0);
-    transform-origin: left center;
-    transition: transform 0.3s ease-out;
-    z-index: -1;
+
+    a {
+	font-family: 'IBM Plex Sans', sans-serif;
+	border-radius: 13px;
+	color: #fff;
+	font-size: 20px;
+	font-weight: 500;
+	padding: 27px 35px;
+	border: none;
+	cursor: pointer;
+	position: relative;
+	overflow: hidden;
+	display: flex;
+	transition: transform 0.2s ease-in-out;
+	will-change: transform;
+	z-index: 0;
+	text-decoration: none;
+	justify-content: center;
+	align-items: center;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+	text-wrap-mode: nowrap;
+	flex-grow: 1;
+    }
+
+    a::after {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	background-color: #fff;
+	border-radius: 13px;
+	transform: scaleX(0);
+	transform-origin: left center;
+	transition: transform 0.3s ease-out;
+	z-index: -1;
+    }
+
+    a::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	border: 2px solid transparent;
+	border-radius: 13px;
+	box-sizing: border-box;
+	transition: border 0.3s ease-out;
+	z-index: 1;
+    }
+
+    a:hover::after {
+	transform: scaleX(1);
+    }
+
+    .about-button {
+	background-color: var(--secondary-color);
+    }
+
+    .about-button:hover::before {
+	border-color: var(--secondary-color);
+    }
+
+    .about-button:hover {
+	color: var(--secondary-color);
+	transform: scale(1.05);
+	will-change: transform;
+	box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .simulation-button {
+	background-color: #003771;
+    }
+
+    .simulation-button:hover::before {
+	border-color: #003771;
+    }
+
+    .simulation-button:hover {
+	color: #003771;
+	transform: scale(1.05);
+	will-change: transform;
+	box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
+    }
+
 }
 
-.simulation-button::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    border: 2px solid transparent;
-    border-radius: 13px;
-    box-sizing: border-box;
-    transition: border 0.3s ease-out;
-    z-index: 1;
-}
-
-.simulation-button:hover::after {
-    transform: scaleX(1);
-}
-
-.simulation-button:hover::before {
-    border-color: #003771;
-}
-
-.simulation-button:hover {
-    color: #003771;
-    transform: scale(1.05);
-    will-change: transform;
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
-}
 
 /*fix this scaling thing*/
 .home-circle {
@@ -522,7 +563,7 @@ h1 {
     scale: 250%;
     max-width: 350px;
     margin-left: 800px;
-    margin-top: -235px;
+    margin-top: -300px;
     z-index: -1;
 }
 
@@ -623,8 +664,7 @@ h1 {
 #about {
     width: 100%;
     margin: auto;
-    margin-top: 200px;
-    margin-bottom: 200px;
+    margin: 100px 0;
     font-size: 20px;
 }
 
@@ -643,10 +683,7 @@ h1 {
     font-weight: bold;
     text-align: center;
     margin-bottom: 40px;
-}
-
-.about-highlight {
-    color: #003771;
+    color: var(--tertiary-color);
 }
 
 .about-description {
@@ -682,24 +719,26 @@ h1 {
 }
 
 #about-tool {
-    margin-bottom: 200px;
+    width: 100vw;
+    background-color: rgb(from var(--accent-gray) r g b / 50%);
+    padding: 75px 0;
     .home-tile {
 	color: #404040;
 	font-family: 'IBM Plex Sans', sans-serif;
 	font-size: 18px;
 	line-height: 1.8;
 	text-align: justify;
+	width: 80%;
 	max-width: 1200px;
 	padding: 40px;
 	margin: 0 auto;
 	border-radius: var(--border-radius);
-	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 	p {
 	    margin-bottom: 20px;
 	}
 	h2 {
 	    text-align: center;
-	    font-size: 36px;
+	    font-size: 44px;
 	    font-family: "IBM Plex Sans", sans-serif;
 	    font-weight: 600;
 	    margin-bottom: 20px;
@@ -722,8 +761,6 @@ h1 {
 /* MODEL MATERIALS */
 
 #modelmaterials{
-    margin-top: 200px;
-    margin-bottom: 200px;
     .list-container {
 	display: block;
 	width: fit-content;
@@ -741,21 +778,21 @@ h1 {
 }
 
 .model-materials-main {
+    width: 100vw;
+    background-color: rgb(from var(--accent-gray) r g b / 50%);
+    padding: 100px 0;
 }
 
 .model-materials-section {
     text-align: justify;
     max-width: 1200px;
     margin: 0 auto;
-    background: #fff;
     padding: 40px;
-    border-radius: var(--border-radius);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
 .model-materials-title {
     text-align: center;
-    font-size: 36px;
+    font-size: 50px;
     font-family: 'IBM Plex Sans', sans-serif;
     font-weight: 600;
     margin-bottom: 20px;
@@ -798,9 +835,7 @@ h1 {
 
 /* PUBLICATIONS */
 #publications {
-    padding-top: 50px;
-    margin-top: 200px;
-    margin-bottom: 200px;
+    padding: 100px 0;
 }
 
 .publications-main {
@@ -921,6 +956,11 @@ h1 {
 
 /* CONTACT US */
 
+#contact {
+    max-width: 1500px;
+    margin: auto;
+}
+
 .contact-us-container {
     background-color: #f8f8f8;
     padding: 40px;
@@ -991,7 +1031,6 @@ h1 {
     background-color: #f8f8f8;
     padding: 40px;
     text-align: left;
-    bottom: 0;
     width: 100%;
 }
 
@@ -1021,6 +1060,9 @@ h1 {
 /* SIMULATION */
 
 #simulation {
+    min-width: 450px;
+    width: 100%;
+
     h1 {
 	font-size: 24px;
     }
@@ -1166,9 +1208,7 @@ input::-ms-thumb:hover {
     box-shadow: 0px 4px 18px rgba(0, 0, 0, 0.1);
     border-radius: var(--border-radius);
     padding: var(--spacing-large);
-    transition-property: height;
-    transition-duration: 3s;
-    transition-timing-function: linear;
+    transition: all 3s;
 
     h2 {
 	font-weight: 700;
@@ -1189,8 +1229,15 @@ input::-ms-thumb:hover {
 	background: var(--primary-color);
 	transition-duration: var(--transition-duration);
     }
+
     input[type=file]:hover::file-selector-button {
 	background: var(--secondary-color);
+    }
+
+    .unhidden {
+	transform: translateY(-100%);
+	opacity: 0;
+	visibility: hidden;
     }
 }
 
@@ -1246,7 +1293,9 @@ button:hover {
     border-radius: var(--border-radius);
     padding: 10px 20px;
     cursor: pointer;
-    transition: background-color var(--transition-duration), transform var(--transition-duration);
+    transition:
+	background-color var(--transition-duration),
+	transform var(--transition-duration);
     display: inline-flex;
     align-items: center;
     margin-right: 10px;
@@ -1422,12 +1471,14 @@ button:hover {
 }
 
 #disclaimers {
-    /* background-color: var(--accent-gray); */
-    padding: calc(5 * var(--spacing)) 0;
+    margin: calc(5 * var(--spacing)) 0;
+    padding: calc(5 * var(--spacing));
+    background-color: rgb(from var(--secondary-color) r g b / 20% );
+    border-radius: var(--border-radius);
 }
 
 #disclaimers h3 {
-    font-size: 24px;
+    font-size: 16px;
     font-family: 'IBM Plex Sans', sans-serif;
     font-weight: 600;
     color: #003771;
@@ -1435,7 +1486,6 @@ button:hover {
 }
 
 #disclaimers .warn {
-    font-size: 16px;
     font-family: 'IBM Plex Sans', sans-serif;
     color: #404040;
 }

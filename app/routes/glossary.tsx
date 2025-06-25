@@ -92,7 +92,7 @@ const general: GlossaryTable = {
     items: [
         {
             name: "Simulation modeling",
-            baseText: "a research method that creates a virtual environment that mimics the physical world to test and compare real world strategies and understand potential outcomes.",
+            baseText: "A research method that creates a virtual environment that mimics the physical world to test and compare real world strategies and understand potential outcomes.",
         },
         {
             name: "Retention rate",

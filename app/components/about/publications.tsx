@@ -42,25 +42,27 @@ const publications: Publication[] = [
 
 const Publications = () => {
     return (
-	<main className="publications-main">
-	    <section className="publications-section">
-		<h2 className="publications-title">Publications Using RESPOND</h2>
-		<div className="publications-grid">
-		    {publications.map((publication, index) => (
-			<Link key={index} to={publication.link} target="_blank" rel="external noreferrer noopener">
-			    <div className="publication-card">
-				<h3 className="publication-title">{publication.title}</h3>
-				<p className="publication-source">{publication.source}</p>
-				<p className="publication-date">{publication.date}</p>
-			    </div>
-			</Link>
-		    ))}
-		</div>
-		<div className="see-more-button-container">
-		    <a href="https://www.syndemicslab.org/respond-pubs" className="see-more-button">See More</a>
-		</div>
-	    </section>
-	</main>
+	<div id="publications">
+	    <main className="publications-main">
+		<section className="publications-section">
+		    <h2 className="publications-title">Publications Using RESPOND</h2>
+		    <div className="publications-grid">
+			{publications.map((publication, index) => (
+			    <Link key={index} to={publication.link} target="_blank" rel="external noreferrer noopener">
+				<div className="publication-card">
+				    <h3 className="publication-title">{publication.title}</h3>
+				    <p className="publication-source">{publication.source}</p>
+				    <p className="publication-date">{publication.date}</p>
+				</div>
+			    </Link>
+			))}
+		    </div>
+		    <div className="see-more-button-container">
+			<a href="https://www.syndemicslab.org/respond-pubs" className="see-more-button">See More</a>
+		    </div>
+		</section>
+	    </main>
+	</div>
     );
 };
 
