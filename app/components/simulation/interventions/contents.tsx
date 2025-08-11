@@ -1,6 +1,10 @@
 import type { Transition } from "~/data";
-import NamedSlider from "@components/ui/namedslider";
+import {
+    NamedSlider,
+    ManagedSlider
+} from "@components/ui/sliders";
 import Transitions from "@simulation/interventions/transitions";
+import Overdoses from "@simulation/interventions/overdose";
 import {
     Dialog,
     DialogContent,
@@ -14,8 +18,20 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfo } from "@fortawesome/free-solid-svg-icons";
 
 function Content(
-    { intervention, transitions, onNameChange, onTransitionChange, description = null, info = false }:
-    { intervention: Intervention, transitions: Transition[], onNameChange: Function, onTransitionChange: Function, description?: string, info?: boolean }
+    { intervention,
+      transitions,
+      onNameChange,
+      onTransitionChange,
+      onPopulationChange,
+      description = null,
+      info = false }:
+    { intervention: Intervention,
+      transitions: Transition[],
+      onNameChange: Function,
+      onTransitionChange: Function,
+      onPopulationChange: Function,
+      description?: string,
+      info?: boolean }
 ) {
     return(
 	<>
@@ -60,20 +76,41 @@ function Content(
 			</DialogContent>
 		    </Dialog>
 		) : null }
-		<NamedSlider inputName="Intervention Population Size"
-			     min={0} max={4000} step={50} defaultValue={1500} />
+		<ManagedSlider
+                    name="Intervention Population Size"
+		    min={0}
+                    max={4000}
+                    step={50}
+                    value={Object.hasOwn(intervention, 'population') ?
+                           intervention.population : 1000}
+                    managementFunction={onPopulationChange}
+                />
 		<Transitions
 		    transitions={transitions}
 		    onTransitionChange={onTransitionChange}
 		/>
+                <hr style={{ margin: "1em 0", color: "var(--tertiary-color)" }}/>
+                <Overdoses
+                    overdoses={[
+                        { probability: 0.3, injection: true },
+                        { probability: 0.15, injection: false }
+                    ]}
+                    onOverdoseChange={console.log}
+                />
 	    </div>
 	</>
     );
 }
 
 export default function Contents(
-    { interventions, onInterventionNameChange, onInterventionChangeTransition }:
-    { interventions: Intervention[], onInterventionNameChange: Function, onInterventionChangeTransition: Function }
+    { interventions,
+      onInterventionNameChange,
+      onInterventionChangeTransition,
+      onInterventionPopulationChange }:
+    { interventions: Intervention[],
+      onInterventionNameChange: Function,
+      onInterventionChangeTransition: Function,
+      onInterventionPopulationChange: Function }
 ) {
     return(
 	<>
@@ -85,6 +122,7 @@ export default function Contents(
 			transitions={intervention.transitions}
 			onNameChange={onInterventionNameChange}
 			onTransitionChange={(value, transition) => onInterventionChangeTransition(value, intervention.id, transition)}
+                        onPopulationChange={(value) => onInterventionPopulationChange(value, intervention.id)}
 			description={intervention.description ? intervention.description : null}
 			info={intervention.info}
 		    />

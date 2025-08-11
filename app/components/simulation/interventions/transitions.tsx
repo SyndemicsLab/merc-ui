@@ -1,5 +1,5 @@
 import type { Transition } from "~/data";
-import ManagedSlider from "@components/ui/managedslider";
+import { ManagedSlider } from "@components/ui/sliders";
 
 export default function Transitions(
     { transitions, onTransitionChange }:

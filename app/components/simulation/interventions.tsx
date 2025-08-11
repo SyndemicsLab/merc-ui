@@ -5,11 +5,10 @@ import {
     getInterventions,
     makeEmptyTransition
 } from "~/data";
-import NamedSlider from "@components/ui/namedslider";
 import Tabs from "@simulation/interventions/tabs";
 import Contents from "@simulation/interventions/contents";
 
-export default function Interventions() {
+export default function Interventions(totalPopulation: number) {
     const [interventions, setInterventions] = useState(getInterventions);
 
     // generate an ID for a new intervention, avoiding duplicates
@@ -49,6 +48,7 @@ export default function Interventions() {
 		id: id,
 		name: name,
 		active: true,
+                population: 0,
 		transitions: [
 		    makeEmptyTransition(id, `Post-${name}`),
 		    ...newInterventions.map(i => {
@@ -160,6 +160,20 @@ export default function Interventions() {
 	setInterventions(newInterventions);
     }
 
+    function changePopulation(value: number, interventionID: number) {
+	let newInterventions = interventions.map(i => {
+	    if (i.id === interventionID) {
+		return {...i, population: value};
+	    }
+	    return i;
+	});
+
+        if (constrainValues(newInterventions.map(i => i.population), totalPopulation)) {
+            return;
+        }
+        setInterventions(newInterventions);
+    }
+
     return (
         <>
 	    <div id="interventions">
@@ -173,6 +187,7 @@ export default function Interventions() {
 		    interventions={interventions}
 		    onInterventionNameChange={changeInterventionName}
 		    onInterventionChangeTransition={changeTransition}
+                    onInterventionPopulationChange={changePopulation}
 		/>
 	    </div>
         </>
