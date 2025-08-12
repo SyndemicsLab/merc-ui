@@ -21,7 +21,7 @@ const ContactUs = () => {
 		<textarea
 		    className="contact-body"
 		    placeholder="Write here"
-		    rows="5"
+		    rows={5}
 		    required
 		/>
 		<button type="submit" className="contact-us-button">Submit</button>

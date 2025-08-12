@@ -1,4 +1,4 @@
-import type { Transition } from "~/data";
+import type { Transition, Intervention } from "~/data";
 import {
     NamedSlider,
     ManagedSlider
@@ -17,70 +17,80 @@ import { Button } from "@components/ui/button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfo } from "@fortawesome/free-solid-svg-icons";
 
+function InterventionInfo(
+    { intervention, onNameChange }:
+    { intervention: Intervention, onNameChange: Function }
+) {
+    return(
+        <>
+            <div className="inputName">Intervention Name</div>
+            {intervention.id > 0 ? (
+	        <input
+	            type="text"
+	            defaultValue={intervention.name}
+	            onChange={(event) => onNameChange(event.target.value, intervention.id)}
+	        />
+            ) : (
+	        <input
+	            type="text"
+	            value={intervention.name}
+	            readOnly={true}
+	        />
+            )}
+            { (intervention.description && !intervention.info) ? (
+	        <p className="intervention-hint">
+	            {intervention.description}
+	        </p>
+            ) : null }
+            { (intervention.description && intervention.info) ? (
+	        <Dialog>
+	            <DialogTrigger asChild>
+		        <Button variant="outline" className="intervention-info">
+		            <FontAwesomeIcon icon={faInfo} />
+		        </Button>
+	            </DialogTrigger>
+	            <DialogContent className="bg-white lg:max-w-[1000px] max-w-[425px] p-9">
+		        <DialogHeader>
+		            <DialogTitle>{intervention.name}</DialogTitle>
+		            <DialogDescription>
+			        {`More information about ${intervention.name}.`}
+		            </DialogDescription>
+		        </DialogHeader>
+		        <div className="grid gap-4 py-4">
+		            {intervention.description}
+		        </div>
+	            </DialogContent>
+	        </Dialog>
+            ) : null }
+        </>
+    );
+}
+
 function Content(
     { intervention,
       transitions,
       onNameChange,
       onTransitionChange,
-      onPopulationChange,
-      description = null,
-      info = false }:
+      onPopulationChange }:
     { intervention: Intervention,
       transitions: Transition[],
       onNameChange: Function,
       onTransitionChange: Function,
-      onPopulationChange: Function,
-      description?: string,
-      info?: boolean }
+      onPopulationChange: Function }
 ) {
     return(
 	<>
 	    <div
 		className={`interventionContent${intervention.active ? " active" : ""}`}>
-		<div className="inputName">Intervention Name</div>
-		{intervention.id > 0 ? (
-		    <input
-			type="text"
-			defaultValue={intervention.name}
-			onChange={(event) => onNameChange(event.target.value, intervention.id)}
-		    />
-		) : (
-			<input
-			    type="text"
-			    value={intervention.name}
-			    readOnly={true}
-			/>
-		)}
-		{ (description && !info) ? (
-		    <p className="intervention-hint">
-			{description}
-		    </p>
-		) : null }
-		{ (description && info) ? (
-		    <Dialog>
-			<DialogTrigger asChild>
-			    <Button variant="outline" className="intervention-info">
-				<FontAwesomeIcon icon={faInfo} />
-			    </Button>
-			</DialogTrigger>
-			<DialogContent className="bg-white lg:max-w-[1000px] max-w-[425px] p-9">
-			    <DialogHeader>
-				<DialogTitle>{intervention.name}</DialogTitle>
-				<DialogDescription>
-				    {`More information about ${intervention.name}.`}
-				</DialogDescription>
-			    </DialogHeader>
-			    <div className="grid gap-4 py-4">
-				{description}
-			    </div>
-			</DialogContent>
-		    </Dialog>
-		) : null }
+                <InterventionInfo
+                    intervention={intervention}
+                    onNameChange={onNameChange}
+                />
 		<ManagedSlider
                     name="Intervention Population Size"
 		    min={0}
-                    max={4000}
-                    step={50}
+                    max={200000}
+                    step={1000}
                     value={Object.hasOwn(intervention, 'population') ?
                            intervention.population : 1000}
                     managementFunction={onPopulationChange}
@@ -123,8 +133,6 @@ export default function Contents(
 			onNameChange={onInterventionNameChange}
 			onTransitionChange={(value, transition) => onInterventionChangeTransition(value, intervention.id, transition)}
                         onPopulationChange={(value) => onInterventionPopulationChange(value, intervention.id)}
-			description={intervention.description ? intervention.description : null}
-			info={intervention.info}
 		    />
 		))}
 	    </div>

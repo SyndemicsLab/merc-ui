@@ -1,4 +1,4 @@
-import appStylesHref from "~/app.css?url";
+import appStylesHref from "~/app.scss?url";
 
 import React from 'react';
 import type { Route } from "./+types/root";

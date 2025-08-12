@@ -8,7 +8,10 @@ import {
 import Tabs from "@simulation/interventions/tabs";
 import Contents from "@simulation/interventions/contents";
 
-export default function Interventions(totalPopulation: number) {
+export default function Interventions(
+    { totalPopulation }:
+    { totalPopulation: number }
+) {
     const [interventions, setInterventions] = useState(getInterventions);
 
     // generate an ID for a new intervention, avoiding duplicates
@@ -163,7 +166,7 @@ export default function Interventions(totalPopulation: number) {
     function changePopulation(value: number, interventionID: number) {
 	let newInterventions = interventions.map(i => {
 	    if (i.id === interventionID) {
-		return {...i, population: value};
+		return {...i, population: Number(value)};
 	    }
 	    return i;
 	});
