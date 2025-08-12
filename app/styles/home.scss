@@ -1,3 +1,5 @@
+@use "components/nav_button.scss" as *;
+
 h1 {
     font-size: 36px;
     font-family: 'IBM Plex Sans', sans-serif;
@@ -199,42 +201,6 @@ h1 {
     }
 }
 
-#glossary {
-    margin: auto;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    width: 80%;
-    max-width: 1200px;
-    h2 {
-	font-size: 36px;
-	font-weight: 600;
-	font-family: "IBM Plex Sans", sans-serif;
-	margin-bottom: 20px;
-	color: var(--tertiary-color);
-    }
-    table, th, td {
-	border: 2px solid #fff;
-	margin: auto;
-	background-color: rgb(from var(--accent-gray) r g b / 20%);
-    }
-    table {
-	margin-bottom: calc(var(--spacing) * 3);
-    }
-    th, td {
-	padding: 8px;
-    }
-    th {
-	background-color: rgb(from var(--primary-color) r g b / 40%);
-    }
-    table th:first-of-type {
-	width: 20%;
-    }
-    table tr td:first-of-type {
-	background-color: rgb(from var(--primary-color) r g b / 40%);
-	text-align: center;
-    }
-}
-
 .main * {
     text-align: justify;
 }
@@ -288,92 +254,13 @@ h1 {
     height: 60px;
     width: 100%;
 
-    a {
-	font-family: 'IBM Plex Sans', sans-serif;
-	border-radius: 13px;
-	color: #fff;
-	font-size: 20px;
-	font-weight: 500;
-	padding: 27px 35px;
-	border: none;
-	cursor: pointer;
-	position: relative;
-	overflow: hidden;
-	display: flex;
-	transition: transform 0.2s ease-in-out;
-	will-change: transform;
-	z-index: 0;
-	text-decoration: none;
-	justify-content: center;
-	align-items: center;
-	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-	text-wrap-mode: nowrap;
-	flex-grow: 1;
-    }
-
-    a::after {
-	content: '';
-	position: absolute;
-	top: 0;
-	left: 0;
-	height: 100%;
-	width: 100%;
-	background-color: #fff;
-	border-radius: 13px;
-	transform: scaleX(0);
-	transform-origin: left center;
-	transition: transform 0.3s ease-out;
-	z-index: -1;
-    }
-
-    a::before {
-	content: '';
-	position: absolute;
-	top: 0;
-	left: 0;
-	height: 100%;
-	width: 100%;
-	border: 2px solid transparent;
-	border-radius: 13px;
-	box-sizing: border-box;
-	transition: border 0.3s ease-out;
-	z-index: 1;
-    }
-
-    a:hover::after {
-	transform: scaleX(1);
-    }
-
     .about-button {
-	background-color: var(--primary-color);
-    }
-
-    .about-button:hover::before {
-	border-color: var(--primary-color);
-    }
-
-    .about-button:hover {
-	color: var(--primary-color);
-	transform: scale(1.05);
-	will-change: transform;
-	box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
+        @include nav-button(var(--primary-color));
     }
 
     .simulation-button {
-	background-color: var(--secondary-color);
+        @include nav-button(var(--secondary-color));
     }
-
-    .simulation-button:hover::before {
-	border-color: var(--secondary-color);
-    }
-
-    .simulation-button:hover {
-	color: var(--secondary-color);
-	transform: scale(1.05);
-	will-change: transform;
-	box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
-    }
-
 }
 
 /* fix this scaling thing */

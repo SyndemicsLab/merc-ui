@@ -1,8 +1,9 @@
 @use "tailwindcss";
-@use "styles/home.scss";
-@use "styles/simulation.scss";
-@use "styles/about.scss";
-@use "styles/contact.scss";
+@use "styles/home";
+@use "styles/simulation";
+@use "styles/about";
+@use "styles/glossary";
+@use "styles/contact";
 
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&display=swap');
 
