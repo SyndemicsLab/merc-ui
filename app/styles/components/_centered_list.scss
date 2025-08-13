@@ -1,0 +1,13 @@
+// expects a div that will contain a list
+@mixin centered-ul () {
+    display: block;
+    width: fit-content;
+    margin: auto;
+
+    ul {
+	list-style-type: square;
+	list-style-position: inside;
+	margin-top: calc(var(--spacing) * 3);
+	margin-bottom: calc(var(--spacing) * 3);
+    }
+}

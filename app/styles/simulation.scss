@@ -1,3 +1,5 @@
+@use "components/buttons" as buttons;
+
 /* SIMULATION */
 
 #simulation {
@@ -155,6 +157,11 @@ input::-ms-thumb:hover {
 	font-size: 20px;
     }
 
+    .more-info {
+        display: flex;
+        flex-direction: row;
+    }
+
     input[type=file] {
 	width: 100%;
 	border-radius: 5px;
@@ -180,6 +187,7 @@ input::-ms-thumb:hover {
 	visibility: hidden;
     }
 }
+
 
 .advancedInputName {
     cursor: pointer;
@@ -348,14 +356,25 @@ button:hover {
     margin-left: 10px;
 }
 
+#results {
+}
+
+.email-intake {
+    width: 100%;
+    margin: 1rem 0;
+    display: flex;
+    flex-direction: row;
+
+    button {
+        height: 100%;
+    }
+}
+
 .email-form {
     display: flex;
     align-items: center;
     margin-bottom: var(--spacing);
-}
-
-.email-form input[type=checkbox] {
-    display: none;
+    flex-grow: 1;
 }
 
 .email-form input[type=text] {
@@ -394,39 +413,9 @@ button:hover {
     margin-bottom: var(--spacing-large);
 }
 
-.info-button {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 10px;
-    width: fit-content;
-    font-weight: 500;
-    margin-right: calc(var(--spacing) * 2);
-    background-color: var(--primary-color);
-    color: #fff;
-    border: none;
-    border-radius: var(--border-radius);
-    padding: 10px 20px;
-    cursor: pointer;
-    transition: background-color var(--transition-duration), transform var(--transition-duration);
-    margin-bottom: var(--spacing);
-}
-
 #advanced-options {
+    @include buttons.info-button();
     display: inline-block;
-    background-color: var(--primary-color);
-    color: #fff;
-    border: none;
-    border-radius: var(--border-radius);
-    padding: 10px 20px;
-    cursor: pointer;
-    transition: background-color var(--transition-duration), transform var(--transition-duration);
-    margin-bottom: var(--spacing);
-}
-
-#advanced-options:hover, .info-button:hover {
-    background-color: var(--secondary-color);
-    transform: scale(1.05);
 }
 
 .advanced-options-text {
@@ -453,10 +442,6 @@ button:hover {
 #disclaimers .warn {
     font-family: 'IBM Plex Sans', sans-serif;
     color: #404040;
-}
-
-.hide {
-    display: none;
 }
 
 .loader {

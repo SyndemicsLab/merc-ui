@@ -1,7 +1,6 @@
 import {
     Dialog,
-    DialogContent,
-    DialogHeader,
+    DialogContent, DialogHeader,
     DialogTitle,
     DialogTrigger,
     DialogDescription,
@@ -11,6 +10,7 @@ import results from "~/images/examples/results.jpg";
 import { useState } from "react";
 import { Button } from "@components/ui/button";
 import Disclaimers from "@components/simulation/disclaimers";
+import EmailIntake from "@simulation/emailintake";
 
 function Result({loaded, loadedController}) {
     setTimeout(() => {
@@ -22,6 +22,7 @@ function Result({loaded, loadedController}) {
 		<img className="sim-result" src={results} alt="RESPOND model results" />
                 <DialogFooter>
                     <Button type="download">Download Results</Button>
+                    <EmailIntake />
                 </DialogFooter>
 	    </>
 	);
@@ -36,7 +37,7 @@ export default function Results() {
     const [open, setOpen] = useState(false);
     const [loaded, setLoaded] = useState(false);
     return (
-        <Dialog open={open} onOpenChange={(open) => {
+        <Dialog id="results" open={open} onOpenChange={(open) => {
 		    setOpen(open);
 		    if (open) {
 			setLoaded(false);
@@ -49,7 +50,8 @@ export default function Results() {
                 <DialogHeader>
                     <DialogTitle>Simulation Results</DialogTitle>
                     <DialogDescription>
-			It may take several minutes for the model to execute and for results to populate.
+			It may take several minutes for the model to execute and
+			for results to populate.
                     </DialogDescription>
                 </DialogHeader>
 		<Disclaimers />

@@ -11,8 +11,8 @@ const publications: Publication[] = [
     {
 	title: "Health and Economic Outcomes of Addressing Encampments of Individuals Using Opioids in Massachusetts",
 	source: "JAMA Network Open",
-	date: "2025",
-	link: "",
+	date: "June 27, 2025",
+	link: "https://jamanetwork.com/journals/jamanetworkopen/fullarticle/2835707",
     },
     {
 	title: "Health and Economic Outcomes of Offering Buprenorphine in Homeless Shelters in Massachusetts",
@@ -57,9 +57,7 @@ const Publications = () => {
 			    </Link>
 			))}
 		    </div>
-		    <div className="see-more-button-container">
-			<a href="https://www.syndemicslab.org/respond-pubs" className="see-more-button">See More</a>
-		    </div>
+		    <a href="https://www.syndemicslab.org/respond-pubs" className="see-more-button">See More</a>
 		</section>
 	    </main>
 	</div>

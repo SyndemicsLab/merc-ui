@@ -57,6 +57,14 @@ export async function action({ request }: Route.ActionArgs) {
     });
 }
 
+function HomeCircle({ image }: { image: HTMLImageElement }) {
+    return(
+        <div className="home-circle">
+            <img src={image} alt="RESPOND at the Syndemics Lab" />
+        </div>
+    );
+}
+
 export default function Home({ loaderData }: Route.ComponentProps) {
     return (
         <main className="main">
@@ -66,9 +74,10 @@ export default function Home({ loaderData }: Route.ComponentProps) {
             <section className="home-section" id="home">
                 <div className="home-content">
                     <h1 className="welcome-text">
-                        <span>Welcome to</span>
-                        <br />
-                        <span className="respond-title">RESPOND!</span>
+                        <span>
+                            Welcome to <br />
+                            RESPOND!
+                        </span>
                     </h1>
                     <p className="home-description">
 			RESPOND is a model that simulates a population with high-risk opioid use and movement on and off medication for opioid use disorder, providing values describing outcomes such as overdoses and costs. This online tool is intended to allow users to explore the impact of various policies on these outcomes with a simplified, customizable interface.
@@ -77,8 +86,8 @@ export default function Home({ loaderData }: Route.ComponentProps) {
 			<Link to="/simulation" className="simulation-button">Go to Simulation</Link>
 			<Link to="/respond" className="about-button">More on RESPOND</Link>
 		    </div>
-                    <img className="home-circle" src={homecircle} alt="home-circle" />
                 </div>
+                <HomeCircle image={homecircle} />
             </section>
 	    <AboutTool />
         </main>

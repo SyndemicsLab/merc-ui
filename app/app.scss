@@ -1,9 +1,9 @@
-@use "tailwindcss";
 @use "styles/home";
 @use "styles/simulation";
 @use "styles/about";
 @use "styles/glossary";
 @use "styles/contact";
+@use "styles/components/buttons" as buttons;
 
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&display=swap');
 
@@ -232,4 +232,103 @@ label {
     font-size: 18px;
     font-weight: 500;
     margin-bottom: 10px;
+}
+
+.dialog-root {
+    overflow-y: scroll;
+    padding: 3rem;
+    max-height: calc(100vh - 1rem);
+    ::-webkit-scrollbar {
+	display: none;
+    }
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.hidden {
+    display: none;
+}
+
+.info-button {
+    @include buttons.info-button();
+}
+
+// hide the overlay when not in small-screen view
+@media (min-width: 1501px) {
+    .overlay {
+        display: none !important;
+    }
+}
+
+// full screen overlay for small screen
+@media (max-width: 1500px) {
+    .nav-links {
+        display: none;
+    }
+
+    .menu-icon {
+        display: block;
+        position: absolute;
+        top: 1.5em;
+        right: 1.5em;
+    }
+
+    .overlay {
+        display: none;
+        height: 100%;
+        width: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: rgba(0, 0, 0, 0.92);
+        transition: opacity 0.5s ease, visibility 0.2s ease;
+        z-index: 9999;
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    .overlay.open {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        opacity: 1;
+        visibility: visible;
+        animation: fadeIn 0.4s ease-in-out forwards;
+    }
+
+    .overlay .menu-icon {
+        position: absolute;
+        top: 1.5em;
+        right: 1.5em;
+    }
+
+    .overlay-content {
+        text-align: left;
+        // position: fixed;
+        // left: 100px;
+        margin: auto;
+    }
+
+    .overlay-link {
+        padding: 16px;
+        text-decoration: none;
+        font-size: 36px;
+        color: white;
+        display: block;
+        transition: 0.3s;
+        font-family: 'IBM Plex Sans', sans-serif;
+        font-weight: 500;
+    }
+
+    .overlay-link:hover,
+    .overlay-link:focus {
+        color: #f0325f;
+    }
+
+    .overlay.closing {
+        opacity: 0;
+        visibility: hidden;
+        animation: fadeOut 0.8s ease-in-out forwards;
+    }
 }

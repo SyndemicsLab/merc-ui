@@ -3,7 +3,6 @@ import { useFetcher } from "react-router";
 import ScrollIndicator from "@components/ui/scroll-indicator";
 import { ManagedSlider } from "@components/ui/sliders";
 import Interventions from "@simulation/interventions"
-import EmailIntake from "@simulation/emailintake";
 import GlossaryButton from "@simulation/glossary-button";
 import Results from "@simulation/results";
 import InfoButton from "@components/ui/info-button.tsx"
@@ -76,7 +75,6 @@ export default function Inputs() {
                     <Interventions totalPopulation={population} />
 		</fetcher.Form>
                 <AdvancedInputs />
-                <EmailIntake />
                 <Results />
             </div>
         </>
@@ -120,18 +118,22 @@ const AdvancedInputs = () => {
                 </div>
             </label>
             <div id="advanced" className={showAdvanced ? "unhidden" : "hidden"}>
-		<h2>Explanatory Links</h2>
-		<InfoButton
-		    text="See Example Tables"
-		    destination="https://www.syndemicslab.org/respond-model-materials"/>
-		<InfoButton
-		    text="Download Shell Tables"
-		    destination="https://www.syndemicslab.org/respond-model-materials"
-		    download={true}
-		/>
-		<InfoButton
-		    text="See Table Descriptions"
-		    destination="https://www.syndemicslab.org/respond-model-materials"/>
+		<h2>For More Information</h2>
+                <div className="more-info">
+		    <InfoButton
+		        text="See Example Tables"
+		        destination="https://www.syndemicslab.org/respond-model-materials"
+                    />
+		    <InfoButton
+		        text="Download Shell Tables"
+		        destination="https://www.syndemicslab.org/respond-model-materials"
+		        download={true}
+		    />
+		    <InfoButton
+		        text="See Table Descriptions"
+		        destination="https://www.syndemicslab.org/respond-model-materials"
+                    />
+                </div>
 		<h2>Tabular Data Upload Forms</h2>
                 <UploadForm id="sim-conf" inputName="General Configuration File (sim.conf)" />
                 <UploadForm id="overdose" inputName="All Types Overdose (all_types_overdose.csv)" />
