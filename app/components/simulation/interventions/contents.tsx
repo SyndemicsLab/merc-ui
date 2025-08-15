@@ -1,8 +1,5 @@
 import type { Transition, Intervention } from "~/data";
-import {
-    NamedSlider,
-    ManagedSlider
-} from "@components/ui/sliders";
+import { ManagedSlider } from "@components/ui/sliders";
 import Transitions from "@simulation/interventions/transitions";
 import Overdoses from "@simulation/interventions/overdose";
 import {
@@ -13,6 +10,7 @@ import {
     DialogTrigger,
     DialogDescription,
 } from "@components/ui/dialog";
+import { useInputsDispatch } from "@components/input-contexts";
 import { Button } from "@components/ui/button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfo } from "@fortawesome/free-solid-svg-icons";
@@ -21,24 +19,30 @@ function InterventionInfo(
     { intervention, onNameChange }:
     { intervention: Intervention, onNameChange: Function }
 ) {
+    const dispatch = useInputsDispatch();
     return(
         <>
-            <div className="inputName">Intervention Name</div>
-            {intervention.id > 0 ? (
-	        <input
-	            type="text"
-	            defaultValue={intervention.name}
-	            onChange={(event) => onNameChange(event.target.value, intervention.id)}
-	        />
-            ) : (
+            <h2 className="inputName">Intervention Name</h2>
+            {intervention.id == 0 ? (
 	        <input
 	            type="text"
 	            value={intervention.name}
 	            readOnly={true}
 	        />
+            ) : (
+	        <input
+	            type="text"
+	            defaultValue={intervention.name}
+	            onChange={event =>
+                        dispatch({
+                            type: 'intervention rename',
+                            name: event.target.value,
+                            id: intervention.id
+                        })}
+	        />
             )}
             { (intervention.description && !intervention.info) ? (
-	        <p className="intervention-hint">
+	        <p className="intervention-description">
 	            {intervention.description}
 	        </p>
             ) : null }
@@ -78,6 +82,7 @@ function Content(
       onTransitionChange: Function,
       onPopulationChange: Function }
 ) {
+    const dispatch = useInputsDispatch();
     return(
 	<>
 	    <div
@@ -93,11 +98,23 @@ function Content(
                     step={1000}
                     value={Object.hasOwn(intervention, 'population') ?
                            intervention.population : 1000}
-                    managementFunction={onPopulationChange}
+                    managementFunction={(value) =>
+                        dispatch({
+                            type: 'intervention change population',
+                            interventionID: intervention.id,
+                            value: value
+                        })
+                    }
                 />
 		<Transitions
 		    transitions={transitions}
-		    onTransitionChange={onTransitionChange}
+		    onTransitionChange={(value, transition) =>
+                        dispatch({
+                            type: 'intervention change transition',
+                            transitionID: transition,
+                            interventionID: intervention.id,
+                            value: value
+                        })}
 		/>
                 <hr style={{ margin: "1em 0", color: "var(--tertiary-color)" }}/>
                 <Overdoses
@@ -105,7 +122,7 @@ function Content(
                         { probability: 0.3, injection: true },
                         { probability: 0.15, injection: false }
                     ]}
-                    onOverdoseChange={console.log}
+                    onOverdoseChange={() => {}}
                 />
 	    </div>
 	</>
@@ -122,6 +139,7 @@ export default function Contents(
       onInterventionChangeTransition: Function,
       onInterventionPopulationChange: Function }
 ) {
+    const dispatch = useInputsDispatch();
     return(
 	<>
 	    <div className="interventionContents">
@@ -131,7 +149,7 @@ export default function Contents(
 			intervention={intervention}
 			transitions={intervention.transitions}
 			onNameChange={onInterventionNameChange}
-			onTransitionChange={(value, transition) => onInterventionChangeTransition(value, intervention.id, transition)}
+			onTransitionChange={() => {}}
                         onPopulationChange={(value) => onInterventionPopulationChange(value, intervention.id)}
 		    />
 		))}

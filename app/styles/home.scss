@@ -102,6 +102,11 @@ h1 {
         background-clip: text;
         font: 600 64px/70px 'IBM Plex Sans', sans-serif;
         width: fit-content;
+
+        // prevent text selection within element
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
     }
 
     .home-description {
@@ -134,6 +139,11 @@ h1 {
     flex-grow: 1;
     scale: 140%;
     z-index: -1;
+
+    // prevent text selection within element
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 
     img {
         height: 100%;

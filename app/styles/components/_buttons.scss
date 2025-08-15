@@ -20,6 +20,11 @@
     cursor: pointer;
     transition: background-color var(--transition-duration), transform var(--transition-duration);
 
+    // prevent text selection within element
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
     &:hover {
         background-color: $hover-color;
         transform: scale(1.05);

@@ -150,6 +150,10 @@
     flex-direction: column;
     align-items: center;
     gap: 20px;
+
+    a {
+        width: 100%;
+    }
 }
 
 .publication-card {

@@ -1,7 +1,4 @@
-import appStylesHref from "~/app.scss?url";
-import tailwindStyle from "~/styles/tailwind.css?url";
-
-import React from 'react';
+import React from "react";
 import type { Route } from "./+types/root";
 import {
     isRouteErrorResponse,
@@ -10,10 +7,10 @@ import {
     ScrollRestoration
 } from "react-router";
 
-
 import Navbar from "@components/ui/navbar";
 import Footer from "@components/ui/footer"
-
+import appStylesHref from "~/app.scss?url";
+import tailwindStyle from "~/styles/tailwind.css?url";
 
 export default function App() {
     return (

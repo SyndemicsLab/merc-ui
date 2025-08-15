@@ -21,10 +21,19 @@ export interface Overdose {
     injection: boolean;
 }
 
-interface Simulation {
-    interventions: Intervention[];}
+interface Inputs {
+    duration: number;
+    population: number;
+    entering: number;
+    fod: number;
+    interventions: Intervention[];
+}
 
-const simulation: Simulation = {
+const raw_inputs: Inputs = {
+    duration: 260,
+    population: 214000,
+    entering: 5000,
+    fod: 0.13,
     interventions: [
         {
             id: 0,
@@ -71,8 +80,13 @@ const simulation: Simulation = {
     },
 }
 
+export const inputs = {
+    ...raw_inputs,
+    interventions: setTransitions(raw_inputs.interventions)
+};
+
 export function getInterventions(): Intervention[] {
-    const interventions: Intervention[] = setTransitions(simulation.getAll());
+    const interventions: Intervention[] = setTransitions(inputs.getAll());
     return interventions;
 }
 

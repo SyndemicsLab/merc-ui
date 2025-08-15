@@ -22,6 +22,11 @@
     text-wrap-mode: nowrap;
     flex-grow: 1;
 
+    // prevent text selection within element
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
     &::before {
 	content: '';
 	position: absolute;

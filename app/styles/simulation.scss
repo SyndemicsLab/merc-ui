@@ -168,17 +168,19 @@ input::-ms-thumb:hover {
 	border: solid 1px var(--accent-gray);
 	font-weight: 500;
 	margin-bottom: var(--spacing-small);
-    }
+        cursor: pointer;
 
-    input::file-selector-button {
-	color: #fff;
-	padding: 8px;
-	background: var(--primary-color);
-	transition-duration: var(--transition-duration);
-    }
+        &::file-selector-button {
+	    color: #fff;
+	    padding: 8px;
+	    background: var(--primary-color);
+	    transition-duration: var(--transition-duration);
+            cursor: pointer;
+        }
 
-    input[type=file]:hover::file-selector-button {
-	background: var(--secondary-color);
+        &:hover::file-selector-button {
+	    background: var(--secondary-color);
+        }
     }
 
     .unhidden {
@@ -239,20 +241,9 @@ button:hover {
 }
 
 .interventionTab {
-    font-weight: 500;
-    background-color: var(--primary-color);
-    color: #fff;
-    border: none;
-    border-radius: var(--border-radius);
-    padding: 10px 20px;
-    cursor: pointer;
-    transition:
-	background-color var(--transition-duration),
-	transform var(--transition-duration);
+    @include buttons.info-button();
     display: inline-flex;
-    align-items: center;
-    margin-right: 10px;
-    margin-bottom: 10px;
+    margin-right: 7px;
     position: relative;
 }
 
@@ -275,7 +266,7 @@ button:hover {
     position: absolute;
     top: -5px;
     right: -5px;
-    background-color: var(--accent-darkgray);
+    background-color: rgba(from var(--tertiary-color) r g b / 80%);
     border: none;
     border-radius: 50%;
     color: #fff;
@@ -283,6 +274,12 @@ button:hover {
     font-size: 12px;
     padding: 5px;
     display: none;
+    transition: none;
+
+    &:hover {
+        background-color: var(--primary-color);
+        transform: none;
+    }
 }
 
 .interventionTab:hover .delete-button {
@@ -305,6 +302,10 @@ button:hover {
     padding: var(--spacing-large);
     display: none;
 
+    &.active {
+        display: block;
+    }
+
     @media (min-width: 1500px) {
         padding: var(--spacing-large) calc(var(--spacing-large) * 3);
     }
@@ -314,7 +315,7 @@ button:hover {
     }
 }
 
-.intervention-hint {
+.intervention-description {
     margin-top: calc(var(--spacing) * 2);
     margin-bottom: calc(var(--spacing) * 2);
     font-weight: 300;
@@ -323,37 +324,14 @@ button:hover {
 }
 
 .intervention-info {
+    @include buttons.info-button();
+    display: inline-flex;
     margin-left: calc(var(--spacing) * 2);
     padding: 5px;
     height: 24px;
     width: 24px;
     font-size: 12px;
     aspect-ratio: 1 / 1;
-}
-
-.interventionContent.active {
-    display: block;
-}
-
-.collapse-toggle {
-    font-size: 18px;
-    font-weight: bold;
-    color: var(--tertiary-color);
-    cursor: pointer;
-    display: block;
-    margin-top: var(--spacing);
-}
-
-.collapse-toggle.opened::after {
-    content: '▲';
-    display: inline-block;
-    margin-left: 10px;
-}
-
-.collapse-toggle::after {
-    content: '▼';
-    display: inline-block;
-    margin-left: 10px;
 }
 
 #results {
@@ -386,23 +364,9 @@ button:hover {
 }
 
 .run-text {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 20px;
-    font-weight: 600;
-    color: #fff;
-    background-color: var(--primary-color);
-    border-radius: var(--border-radius);
-    padding: 15px 30px;
-    cursor: pointer;
-    transition: background-color var(--transition-duration), transform var(--transition-duration);
+    @include buttons.info-button();
     width: 100%;
-}
-
-.run-text:hover {
-    background-color: var(--secondary-color);
-    transform: scale(1.05);
+    font-size: 24px;
 }
 
 #show-advanced {

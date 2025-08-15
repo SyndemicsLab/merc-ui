@@ -119,6 +119,11 @@ html, body {
     width: 210px;
     top: 1.5em;
     left: 3em;
+
+    // prevent text selection within element
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .nav {

@@ -1,18 +1,29 @@
+import { useInputsDispatch } from "@components/input-contexts";
+
 function Tab(
     { intervention, onSelect, onDelete }:
     { intervention: Intervention, onSelect: Function, onDelete: Function }
 ) {
+    const dispatch = useInputsDispatch();
     return (
 	<>
 	    <div
 		className={`interventionTab${intervention.active ? " active" : ""}`}
-		onClick={() => onSelect(intervention.id)}
+		onClick={() =>
+                    dispatch({
+                        type: 'intervention select',
+                        id: intervention.id
+                    })
+                }
 	    >
 		{intervention.name}
 		{intervention.id > 0 && (
 		    <button className="delete-button"
 			    onClick={(event) => {
-				onDelete(intervention.id);
+				dispatch({
+                                    type: 'intervention delete',
+                                    id: intervention.id
+                                });
 				// avoid also selecting the tab underneath while
 				// closing (selection overrides deletion)
 				event.stopPropagation();
@@ -33,6 +44,7 @@ export default function Tabs(
     // treatment
     let noneSelected: boolean = interventions.every(i => i.active === false);
     noneSelected ? onSelectIntervention(0) : null;
+    const dispatch = useInputsDispatch();
 
     return(
 	<>
@@ -45,7 +57,10 @@ export default function Tabs(
 			    onDelete={onDeleteIntervention}
 			/>
 		))}
-                <button className="interventionTab addTab" onClick={() => addIntervention()}>
+                <button className="interventionTab addTab" onClick={() =>
+                            dispatch({
+                                type: 'intervention add'
+                            })}>
                     + New Intervention
                 </button>
 	    </div>

@@ -1,5 +1,6 @@
 import type { Transition } from "~/data";
 import { ManagedSlider } from "@components/ui/sliders";
+import { useInputsDispatch } from "@components/input-contexts";
 
 export default function Transitions(
     { transitions, onTransitionChange }:
@@ -21,7 +22,9 @@ export default function Transitions(
 		    max={1}
 		    step={0.01}
 		    value={transition.probability}
-		    managementFunction={(value: number) => onTransitionChange(value, transition.id)}
+		    managementFunction={(value) =>
+                        onTransitionChange(value, transition.id)
+                    }
 		/>
 	    ))}
 	    <ManagedSlider name="Retention Rate"

@@ -1,5 +1,8 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useContext } from "react";
 import { useFetcher } from "react-router";
+import {
+    InputProvider
+} from "@components/input-contexts";
 import ScrollIndicator from "@components/ui/scroll-indicator";
 import { ManagedSlider } from "@components/ui/sliders";
 import Interventions from "@simulation/interventions"
@@ -29,7 +32,7 @@ export default function Inputs() {
     const [fod, setFOD] = useState(0.13);
 
     return(
-        <>
+        <InputProvider>
             <div id="inputs" ref={inputRef}>
                 <GlossaryButton />
                 <ScrollIndicator
@@ -77,7 +80,7 @@ export default function Inputs() {
                 <AdvancedInputs />
                 <Results />
             </div>
-        </>
+        </InputProvider>
     );
 }
 
