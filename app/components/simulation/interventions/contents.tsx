@@ -118,11 +118,15 @@ function Content(
 		/>
                 <hr style={{ margin: "1em 0", color: "var(--tertiary-color)" }}/>
                 <Overdoses
-                    overdoses={[
-                        { probability: 0.3, injection: true },
-                        { probability: 0.15, injection: false }
-                    ]}
-                    onOverdoseChange={() => {}}
+                    overdoses={intervention.overdose}
+                    onOverdoseChange={(value, injection) =>
+                        dispatch({
+                            type: 'intervention change overdose',
+                            injection: injection,
+                            interventionID: intervention.id,
+                            value: value
+                        })
+                    }
                 />
 	    </div>
 	</>

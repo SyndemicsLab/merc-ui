@@ -1,16 +1,18 @@
-import { useRef, useState, useEffect, useContext } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useFetcher } from "react-router";
-import {
-    InputProvider
-} from "@components/input-contexts";
 import ScrollIndicator from "@components/ui/scroll-indicator";
 import { ManagedSlider } from "@components/ui/sliders";
 import Interventions from "@simulation/interventions"
 import GlossaryButton from "@simulation/glossary-button";
 import Results from "@simulation/results";
 import InfoButton from "@components/ui/info-button.tsx"
+import { useInputs, useInputsDispatch } from "@components/input-contexts";
 
 export default function Inputs() {
+    // use the overarching inputs state and reducer functions (dispatch)
+    const inputs = useInputs();
+    const dispatch = useInputsDispatch();
+
     const fetcher = useFetcher();
     // reference for the input section, used for testing intersection with the
     // viewport
@@ -26,61 +28,78 @@ export default function Inputs() {
         observer.observe(inputRef.current);
     }, [])
 
-    const [duration, setDuration] = useState(260);
-    const [population, setPopulation] = useState(214000);
-    const [uptake, setUptake] = useState(5000);
-    const [fod, setFOD] = useState(0.13);
-
     return(
-        <InputProvider>
-            <div id="inputs" ref={inputRef}>
-                <GlossaryButton />
-                <ScrollIndicator
-                    destination="/simulation#inputs"
-                    visible={!inputsVisible}
-                />
-                <h1>Simulation Inputs</h1>
-		<fetcher.Form method="post">
-                    <div id="global-inputs">
-	                <ManagedSlider
-		            name={"Simulation Duration (Weeks)"}
-		            min={1}
-		            max={2600}
-		            step={1}
-		            value={duration}
-                            managementFunction={setDuration}
-	                />
-                        <ManagedSlider
-		            name={"Initial Total Population"}
-		            min={0}
-		            max={300000}
-		            step={500}
-		            value={population}
-                            managementFunction={setPopulation}
-	                />
-                        <ManagedSlider
-		            name={"Change in Population Per Week (Count)"}
-		            min={-10000}
-		            max={50000}
-		            step={100}
-		            value={uptake}
-                            managementFunction={setUptake}
-	                />
-                        <ManagedSlider
-		            name={"Fatal Overdose Probability"}
-		            min={0}
-		            max={1}
-		            step={0.005}
-		            value={fod}
-                            managementFunction={setFOD}
-	                />
-                    </div>
-                    <Interventions totalPopulation={population} />
-		</fetcher.Form>
-                <AdvancedInputs />
-                <Results />
-            </div>
-        </InputProvider>
+        <div id="inputs" ref={inputRef}>
+            <GlossaryButton />
+            <ScrollIndicator
+                destination="/simulation#inputs"
+                visible={!inputsVisible}
+            />
+            <h1>Simulation Inputs</h1>
+	    <fetcher.Form method="post">
+                <div id="global-inputs">
+	            <ManagedSlider
+		        name={"Simulation Duration (Weeks)"}
+		        min={1}
+		        max={2600}
+		        step={1}
+		        value={inputs.duration}
+                        managementFunction={
+                            (value) =>
+                            dispatch({
+                                type: 'change duration',
+                                value: value
+                            })
+                        }
+	            />
+                    <ManagedSlider
+		        name={"Initial Total Population"}
+		        min={0}
+		        max={300000}
+		        step={500}
+		        value={inputs.population}
+                        managementFunction={
+                            (value) =>
+                            dispatch({
+                                type: 'change total population',
+                                value: value
+                            })
+                        }
+	            />
+                    <ManagedSlider
+		        name={"Change in Population Per Week (Count)"}
+		        min={-10000}
+		        max={50000}
+		        step={100}
+		        value={inputs.entering}
+                        managementFunction={
+                            (value) =>
+                            dispatch({
+                                type: 'change entering cohort',
+                                value: value
+                            })
+                        }
+	            />
+                    <ManagedSlider
+		        name={"Fatal Overdose Probability"}
+		        min={0}
+		        max={1}
+		        step={0.005}
+		        value={inputs.fod}
+                        managementFunction={
+                            (value) =>
+                            dispatch({
+                                type: 'change fatal overdose proportion',
+                                value: value
+                            })
+                        }
+	            />
+                </div>
+                <Interventions />
+	    </fetcher.Form>
+            <AdvancedInputs />
+            <Results />
+        </div>
     );
 }
 

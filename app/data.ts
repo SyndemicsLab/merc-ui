@@ -8,6 +8,7 @@ export interface Intervention {
     description?: string;
     info?: boolean;
     population: number;
+    overdose: Overdose[];
 }
 
 export interface Transition {
@@ -74,16 +75,29 @@ const raw_inputs: Inputs = {
             population: 2000,
         },
     ],
-
-    getAll(): Promise<Intervention[]> {
-        return this.interventions;
-    },
 }
 
 export const inputs = {
     ...raw_inputs,
-    interventions: setTransitions(raw_inputs.interventions)
+    interventions: setTransitions(raw_inputs.interventions).map(
+        (intervention) => setOverdoses(intervention)
+    )
 };
+
+function setOverdoses(intervention: Intervention) {
+    if (Object.hasOwn(intervention, "overdose")) {
+        return intervention.overdose;
+    } else {
+        return {
+            ...intervention,
+            overdose: [
+                { probability: Math.random(), injection: true },
+                { probability: Math.random(), injection: false }
+            ]
+        };
+    }
+
+}
 
 export function getInterventions(): Intervention[] {
     const interventions: Intervention[] = setTransitions(inputs.getAll());

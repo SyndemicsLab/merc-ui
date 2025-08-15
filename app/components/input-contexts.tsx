@@ -54,7 +54,7 @@ function getNewInterventionName(interventions: Intervention[]): string {
 function constrainValues(
     values: number[],
     limit: number,
-    decimals?: number = 2
+    decimals?: number = 5
 ) {
     let sumValues: number = values.reduce(
 	(accumulator, value) => accumulator + parseFloat(value),
@@ -69,6 +69,29 @@ function constrainValues(
 
 function inputsReducer(simulationInputs, action) {
     switch(action.type) {
+    case 'change duration': {
+        return({
+            ...simulationInputs,
+            duration: action.value
+        });
+    }
+    case 'change total population': {
+        return({
+            ...simulationInputs,
+            population: action.value
+        });
+    }
+    case 'change entering cohort': {
+        return({
+            ...simulationInputs,
+            entering: action.value
+        });
+    }
+    case 'change fatal overdose proportion':
+        return ({
+            ...simulationInputs,
+            fod: action.value
+        });
     case 'intervention select': {
 	return({
             ...simulationInputs,
@@ -183,6 +206,7 @@ function inputsReducer(simulationInputs, action) {
                             simulationInputs.population)) {
             return simulationInputs;
         }
+
         return {
             ...simulationInputs,
             interventions: newInterventions
@@ -217,6 +241,22 @@ function inputsReducer(simulationInputs, action) {
 	return({
             ...simulationInputs,
             interventions: newInterventions
+        });
+    }
+    case 'intervention change overdose': {
+	let newInterventions = simulationInputs.interventions.map(i => {
+	    if (i.id === action.interventionID) {
+                return {
+                    ...i,
+                    overdose: i.overdose.map((od) => {
+                        if (od.injection == action.injection) {
+                            return {...od, probability: action.value};
+                        }
+                        return od;
+                    })
+                };
+            }
+            return i;
         });
     }
     default: {

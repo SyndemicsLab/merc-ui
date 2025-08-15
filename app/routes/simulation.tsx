@@ -1,5 +1,6 @@
 import System from "@components/simulation/system";
 import Inputs from "@components/simulation/inputs";
+import { InputProvider } from "@components/input-contexts";
 
 export async function action({ request }: Route.ActionArgs) {
     const bodyParams = await request.formData();
@@ -10,9 +11,11 @@ export async function action({ request }: Route.ActionArgs) {
 
 export default function Index() {
     return (
-        <div id="simulation">
-	    <System />
-	    <Inputs />
-        </div>
+        <InputProvider>
+            <div id="simulation">
+	        <System />
+	        <Inputs />
+            </div>
+        </InputProvider>
     );
 }

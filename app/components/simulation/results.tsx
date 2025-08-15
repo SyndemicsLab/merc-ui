@@ -37,12 +37,15 @@ export default function Results() {
     const [open, setOpen] = useState(false);
     const [loaded, setLoaded] = useState(false);
     return (
-        <Dialog id="results" open={open} onOpenChange={(open) => {
-		    setOpen(open);
-		    if (open) {
-			setLoaded(false);
+        <Dialog id="results" open={open}
+                onOpenChange={
+                    (open) => {
+		        setOpen(open);
+		        if (open) {
+			    setLoaded(false);
+		        }
 		    }
-		}}>
+                }>
             <DialogTrigger asChild>
                 <Button variant="outline" className="run-text">RUN</Button>
             </DialogTrigger>
