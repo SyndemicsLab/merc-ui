@@ -17,48 +17,48 @@ h1 {
     flex-direction: column;
 
     input:focus-within {
-	outline: none;
+        outline: none;
     }
 
     .dialog-root {
-	--spacing: 6px;
+        --spacing: 6px;
     }
 
     .command-item {
-	--spacing: 6px;
+        --spacing: 6px;
     }
 
     .questionnaire-question {
-	margin: 0 0 1rem 0;
+        margin: 0 0 1rem 0;
     }
 
     .questionnaire-check {
-	height: 23px;
-	display: flex;
-	align-items: center;
-	gap: 10px;
+        height: 23px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
     }
 
     .dialog-question {
-	font-weight: 600;
-	padding: 5px;
+        font-weight: 600;
+        padding: 5px;
     }
 
     .dialog-response {
-	width: 100%;
-	display: flex;
-	align-items: center;
+        width: 100%;
+        display: flex;
+        align-items: center;
     }
 
     .dialog-input {
-	flex-grow: 1;
-	margin: 0 0 0 5px;
-	padding: 0 0 0 5px;
-	width: unset;
+        flex-grow: 1;
+        margin: 0 0 0 5px;
+        padding: 0 0 0 5px;
+        width: unset;
     }
 
     .dialog-checkbox {
-	margin-left: 5px;
+        margin-left: 5px;
     }
 }
 
@@ -69,7 +69,7 @@ h1 {
     margin: auto;
 
     > * {
-	margin: auto;
+        margin: auto;
     }
 }
 
@@ -157,33 +157,33 @@ h1 {
     padding: 75px 0;
 
     .home-tile {
-	color: #404040;
-	font-family: 'IBM Plex Sans', sans-serif;
-	font-size: 18px;
-	line-height: 1.8;
-	text-align: justify;
-	width: 80%;
-	max-width: 1200px;
-	padding: 40px;
-	margin: 0 auto;
-	border-radius: var(--border-radius);
+        color: #404040;
+        font-family: 'IBM Plex Sans', sans-serif;
+        font-size: 18px;
+        line-height: 1.8;
+        text-align: justify;
+        width: 80%;
+        max-width: 1200px;
+        padding: 40px;
+        margin: 0 auto;
+        border-radius: var(--border-radius);
 
-	p {
-	    margin-bottom: 20px;
-	}
+        p {
+            margin-bottom: 20px;
+        }
 
-	h2 {
-	    text-align: center;
-	    font-size: 36px;
-	    font-family: "IBM Plex Sans", sans-serif;
-	    font-weight: 600;
-	    margin-bottom: 20px;
-	    color: var(--tertiary-color);
-	}
+        h2 {
+            text-align: center;
+            font-size: 36px;
+            font-family: "IBM Plex Sans", sans-serif;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--tertiary-color);
+        }
 
-	.list-container {
+        .list-container {
             @include centered.centered-ul();
-	}
+        }
 
     }
 
@@ -191,8 +191,8 @@ h1 {
 
 @media (max-width: 1500px) {
     #home .home-content {
-	margin: auto;
-	width: 80%;
+        margin: auto;
+        width: 80%;
     }
 
     .home-circle {

@@ -39,9 +39,9 @@ export function Layout(
                 <title>RESPOND — Syndemics Lab</title>
             </head>
             <body>
-		<div id="content">
+                <div id="content">
                     {children}
-		</div>
+                </div>
                 <ScrollRestoration />
                 <Scripts />
             </body>

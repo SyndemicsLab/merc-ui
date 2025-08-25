@@ -8,49 +8,49 @@ export function NamedSlider(
     return (
         <>
             <div className="inputName">{inputName}</div>
-	    {readOnly ? (
-		<div className="slider">
+            {readOnly ? (
+                <div className="slider">
                     <input
-			type="number"
-			min={min}
-			max={max}
-			step={step}
-			value={value}
-			name={`${inputName}-num`}
-			readOnly={readOnly}
+                        type="number"
+                        min={min}
+                        max={max}
+                        step={step}
+                        value={value}
+                        name={`${inputName}-num`}
+                        readOnly={readOnly}
                     />
                     <input
-			type="range"
-			min={min}
-			max={max}
-			step={step}
-			value={value}
-			id={`${inputName}-slider`}
-			readOnly={readOnly}
+                        type="range"
+                        min={min}
+                        max={max}
+                        step={step}
+                        value={value}
+                        id={`${inputName}-slider`}
+                        readOnly={readOnly}
                     />
-		</div>
-	    ) : (
-		<div className="slider">
+                </div>
+            ) : (
+                <div className="slider">
                     <input
-			type="number"
-			min={min}
-			max={max}
-			step={step}
-			value={value}
-			name={`${inputName}-num`}
-			onChange={(event) => setValue(event.target.value)}
+                        type="number"
+                        min={min}
+                        max={max}
+                        step={step}
+                        value={value}
+                        name={`${inputName}-num`}
+                        onChange={(event) => setValue(event.target.value)}
                     />
                     <input
-			type="range"
-			min={min}
-			max={max}
-			step={step}
-			value={value}
-			id={`${inputName}-slider`}
-			onChange={(event) => setValue(event.target.value)}
+                        type="range"
+                        min={min}
+                        max={max}
+                        step={step}
+                        value={value}
+                        id={`${inputName}-slider`}
+                        onChange={(event) => setValue(event.target.value)}
                     />
-		</div>
-	    )}
+                </div>
+            )}
         </>
     );
 }
@@ -62,51 +62,51 @@ export function ManagedSlider(
     return(
         <>
             <div className="inputName">{name}</div>
-	    {readOnly ? (
-		<div className="slider">
+            {readOnly ? (
+                <div className="slider">
                     <input
-			type="number"
-			min={min}
-			max={max}
-			step={step}
-			value={value}
-			name={`${name}-num`}
-			readOnly={readOnly}
+                        type="number"
+                        min={min}
+                        max={max}
+                        step={step}
+                        value={value}
+                        name={`${name}-num`}
+                        readOnly={readOnly}
                     />
                     <input
-			type="range"
-			min={min}
-			max={max}
-			step={step}
-			value={value}
-			id={`${name}-slider`}
-			readOnly={readOnly}
+                        type="range"
+                        min={min}
+                        max={max}
+                        step={step}
+                        value={value}
+                        id={`${name}-slider`}
+                        readOnly={readOnly}
                     />
-		</div>
-	    ) : (
-		<div className="slider">
+                </div>
+            ) : (
+                <div className="slider">
                     <input
-			type="number"
-			min={min}
-			max={max}
-			step={step}
-			value={value}
-			name={`${name}-num`}
-			onChange={(event) =>
+                        type="number"
+                        min={min}
+                        max={max}
+                        step={step}
+                        value={value}
+                        name={`${name}-num`}
+                        onChange={(event) =>
                             managementFunction(event.target.value)}
                     />
                     <input
-			type="range"
-			min={min}
-			max={max}
-			step={step}
-			value={value}
-			id={`${name}-slider`}
-			onChange={(event) =>
+                        type="range"
+                        min={min}
+                        max={max}
+                        step={step}
+                        value={value}
+                        id={`${name}-slider`}
+                        onChange={(event) =>
                             managementFunction(event.target.value)}
                     />
-		</div>
-	    )}
+                </div>
+            )}
         </>
     );
 }

@@ -14,22 +14,22 @@ import EmailIntake from "@simulation/emailintake";
 
 function Result({loaded, loadedController}) {
     setTimeout(() => {
-	loadedController(true);
+        loadedController(true);
     }, 5000);
     if (loaded) {
-	return(
-	    <>
-		<img className="sim-result" src={results} alt="RESPOND model results" />
+        return(
+            <>
+                <img className="sim-result" src={results} alt="RESPOND model results" />
                 <DialogFooter>
                     <Button type="download">Download Results</Button>
                     <EmailIntake />
                 </DialogFooter>
-	    </>
-	);
+            </>
+        );
     } else {
-	return(
-	    <div className="loader" />
-	);
+        return(
+            <div className="loader" />
+        );
     }
 }
 
@@ -40,11 +40,11 @@ export default function Results() {
         <Dialog id="results" open={open}
                 onOpenChange={
                     (open) => {
-		        setOpen(open);
-		        if (open) {
-			    setLoaded(false);
-		        }
-		    }
+                        setOpen(open);
+                        if (open) {
+                            setLoaded(false);
+                        }
+                    }
                 }>
             <DialogTrigger asChild>
                 <Button variant="outline" className="run-text">RUN</Button>
@@ -53,12 +53,12 @@ export default function Results() {
                 <DialogHeader>
                     <DialogTitle>Simulation Results</DialogTitle>
                     <DialogDescription>
-			It may take several minutes for the model to execute and
-			for results to populate.
+                        It may take several minutes for the model to execute and
+                        for results to populate.
                     </DialogDescription>
                 </DialogHeader>
-		<Disclaimers />
-		<Result loaded={loaded} loadedController={setLoaded} />
+                <Disclaimers />
+                <Result loaded={loaded} loadedController={setLoaded} />
             </DialogContent>
         </Dialog>
     )

@@ -39,39 +39,39 @@ const raw_inputs: Inputs = {
         {
             id: 0,
             name: "No Treatment",
-	    active: true,
+            active: true,
         },
         {
             id: 1,
             name: "Buprenorphine",
-	    active: false,
-	    description: "Buprenorphine is a medication for opioid use disorder and works as a partial opioid agonist. It ‘diminish[es] the effects of physical dependency to opioids, such as withdrawal symptoms and cravings’ (SAMHSA).",
+            active: false,
+            description: "Buprenorphine is a medication for opioid use disorder and works as a partial opioid agonist. It ‘diminish[es] the effects of physical dependency to opioids, such as withdrawal symptoms and cravings’ (SAMHSA).",
             population: 1500,
         },
         {
             id: 2,
             name: "Naltrexone",
-	    active: false,
-	    description: "Naltrexone is a medication for opioid use disorder and works as an opioid antagonist, binding opioid receptors and blocking the ‘euphoric and sedative effects of opioids’ (SAMHSA). It can also be used to treat alcohol use disorder. Naltrexone for opioid use disorder should not be started until no opioids have been used for at least 7 days.",
-	    info: true,
+            active: false,
+            description: "Naltrexone is a medication for opioid use disorder and works as an opioid antagonist, binding opioid receptors and blocking the ‘euphoric and sedative effects of opioids’ (SAMHSA). It can also be used to treat alcohol use disorder. Naltrexone for opioid use disorder should not be started until no opioids have been used for at least 7 days.",
+            info: true,
             population: 2500,
         },
         {
             id: 3,
             name: "Methadone",
-	    active: false,
+            active: false,
             population: 3500,
         },
         {
             id: 4,
             name: "Detox",
-	    active: false,
+            active: false,
             population: 5000,
         },
         {
             id: 5,
             name: "Detention",
-	    active: false,
+            active: false,
             population: 2000,
         },
     ],
@@ -110,38 +110,38 @@ export function makeEmptyTransition(id: number, name: string): Transition {
 
 function setTransitions(interventions: Intervention[]) {
     let newInterventions = interventions.map((intervention) => {
-	if (Object.hasOwn(intervention, "transitions")) {
-	    return intervention.transitions;
-	} else {
-	    let other_interventions: Intervention[] = interventions.filter(
-		i => i.id != intervention.id
-	    );
-	    let transitions: Transition[] = other_interventions.map((i) => {
-		return {
-		    id: i.id,
-		    name: i.name,
-		    probability: (0.25 / other_interventions.length).toFixed(2),
-		};
-	    })
+        if (Object.hasOwn(intervention, "transitions")) {
+            return intervention.transitions;
+        } else {
+            let other_interventions: Intervention[] = interventions.filter(
+                i => i.id != intervention.id
+            );
+            let transitions: Transition[] = other_interventions.map((i) => {
+                return {
+                    id: i.id,
+                    name: i.name,
+                    probability: (0.25 / other_interventions.length).toFixed(2),
+                };
+            })
 
-	    // id 0 is reserved for no treatment
-	    if (intervention.id === 0) {
-		return(
-		    {...intervention,
-		     transitions: transitions}
-		);
-	    } else {
-		return(
-		    {...intervention,
-		     transitions: [{
-			 id: intervention.id,
-			 name: `Post-${intervention.name}`,
-			 probability: 0.2
-		     }, ...transitions]
-		    }
-		);
-	    }
-	}
+            // id 0 is reserved for no treatment
+            if (intervention.id === 0) {
+                return(
+                    {...intervention,
+                     transitions: transitions}
+                );
+            } else {
+                return(
+                    {...intervention,
+                     transitions: [{
+                         id: intervention.id,
+                         name: `Post-${intervention.name}`,
+                         probability: 0.2
+                     }, ...transitions]
+                    }
+                );
+            }
+        }
     });
     return newInterventions;
 }

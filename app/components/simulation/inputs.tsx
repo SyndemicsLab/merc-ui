@@ -36,14 +36,14 @@ export default function Inputs() {
                 visible={!inputsVisible}
             />
             <h1>Simulation Inputs</h1>
-	    <fetcher.Form method="post">
+            <fetcher.Form method="post">
                 <div id="global-inputs">
-	            <ManagedSlider
-		        name={"Simulation Duration (Weeks)"}
-		        min={1}
-		        max={2600}
-		        step={1}
-		        value={inputs.duration}
+                    <ManagedSlider
+                        name={"Simulation Duration (Weeks)"}
+                        min={1}
+                        max={2600}
+                        step={1}
+                        value={inputs.duration}
                         managementFunction={
                             (value) =>
                             dispatch({
@@ -51,13 +51,13 @@ export default function Inputs() {
                                 value: value
                             })
                         }
-	            />
+                    />
                     <ManagedSlider
-		        name={"Initial Total Population"}
-		        min={0}
-		        max={300000}
-		        step={500}
-		        value={inputs.population}
+                        name={"Initial Total Population"}
+                        min={0}
+                        max={300000}
+                        step={500}
+                        value={inputs.population}
                         managementFunction={
                             (value) =>
                             dispatch({
@@ -65,13 +65,13 @@ export default function Inputs() {
                                 value: value
                             })
                         }
-	            />
+                    />
                     <ManagedSlider
-		        name={"Change in Population Per Week (Count)"}
-		        min={-10000}
-		        max={50000}
-		        step={100}
-		        value={inputs.entering}
+                        name={"Change in Population Per Week (Count)"}
+                        min={-10000}
+                        max={50000}
+                        step={100}
+                        value={inputs.entering}
                         managementFunction={
                             (value) =>
                             dispatch({
@@ -79,13 +79,13 @@ export default function Inputs() {
                                 value: value
                             })
                         }
-	            />
+                    />
                     <ManagedSlider
-		        name={"Fatal Overdose Probability"}
-		        min={0}
-		        max={1}
-		        step={0.005}
-		        value={inputs.fod}
+                        name={"Fatal Overdose Probability"}
+                        min={0}
+                        max={1}
+                        step={0.005}
+                        value={inputs.fod}
                         managementFunction={
                             (value) =>
                             dispatch({
@@ -93,10 +93,10 @@ export default function Inputs() {
                                 value: value
                             })
                         }
-	            />
+                    />
                 </div>
                 <Interventions />
-	    </fetcher.Form>
+            </fetcher.Form>
             <AdvancedInputs />
             <Results />
         </div>
@@ -111,15 +111,15 @@ export function UploadForm(
 
     return (
         <fetcher.Form id={id} className="upload-form">
-	    <label className="advancedInputName"
-		   htmlFor={`${id}-input`}
-		   form={id}
-	    >{inputName}</label>
+            <label className="advancedInputName"
+                   htmlFor={`${id}-input`}
+                   form={id}
+            >{inputName}</label>
             <input
-		id={`${id}-input`}
-		type="file"
-		accept=".csv"
-	    />
+                id={`${id}-input`}
+                type="file"
+                accept=".csv"
+            />
         </fetcher.Form>
     );
 }
@@ -140,23 +140,23 @@ const AdvancedInputs = () => {
                 </div>
             </label>
             <div id="advanced" className={showAdvanced ? "unhidden" : "hidden"}>
-		<h2>For More Information</h2>
+                <h2>For More Information</h2>
                 <div className="more-info">
-		    <InfoButton
-		        text="See Example Tables"
-		        destination="https://www.syndemicslab.org/respond-model-materials"
+                    <InfoButton
+                        text="See Example Tables"
+                        destination="https://www.syndemicslab.org/respond-model-materials"
                     />
-		    <InfoButton
-		        text="Download Shell Tables"
-		        destination="https://www.syndemicslab.org/respond-model-materials"
-		        download={true}
-		    />
-		    <InfoButton
-		        text="See Table Descriptions"
-		        destination="https://www.syndemicslab.org/respond-model-materials"
+                    <InfoButton
+                        text="Download Shell Tables"
+                        destination="https://www.syndemicslab.org/respond-model-materials"
+                        download={true}
+                    />
+                    <InfoButton
+                        text="See Table Descriptions"
+                        destination="https://www.syndemicslab.org/respond-model-materials"
                     />
                 </div>
-		<h2>Tabular Data Upload Forms</h2>
+                <h2>Tabular Data Upload Forms</h2>
                 <UploadForm id="sim-conf" inputName="General Configuration File (sim.conf)" />
                 <UploadForm id="overdose" inputName="All Types Overdose (all_types_overdose.csv)" />
                 <UploadForm id="mort" inputName="Background Mortality (background_mortality.csv)" />

@@ -12,7 +12,7 @@
     }
 
     h1 {
-	font-size: 24px;
+        font-size: 24px;
     }
 }
 
@@ -41,7 +41,7 @@
     color: white;
 
     a {
-	text-decoration: inherit;
+        text-decoration: inherit;
     }
 }
 
@@ -153,8 +153,8 @@ input::-ms-thumb:hover {
     }
 
     h2 {
-	font-weight: 700;
-	font-size: 20px;
+        font-weight: 700;
+        font-size: 20px;
     }
 
     .more-info {
@@ -163,30 +163,30 @@ input::-ms-thumb:hover {
     }
 
     input[type=file] {
-	width: 100%;
-	border-radius: 5px;
-	border: solid 1px var(--accent-gray);
-	font-weight: 500;
-	margin-bottom: var(--spacing-small);
+        width: 100%;
+        border-radius: 5px;
+        border: solid 1px var(--accent-gray);
+        font-weight: 500;
+        margin-bottom: var(--spacing-small);
         cursor: pointer;
 
         &::file-selector-button {
-	    color: #fff;
-	    padding: 8px;
-	    background: var(--primary-color);
-	    transition-duration: var(--transition-duration);
+            color: #fff;
+            padding: 8px;
+            background: var(--primary-color);
+            transition-duration: var(--transition-duration);
             cursor: pointer;
         }
 
         &:hover::file-selector-button {
-	    background: var(--secondary-color);
+            background: var(--secondary-color);
         }
     }
 
     .unhidden {
-	transform: translateY(-100%);
-	opacity: 0;
-	visibility: hidden;
+        transform: translateY(-100%);
+        opacity: 0;
+        visibility: hidden;
     }
 }
 
@@ -238,12 +238,16 @@ button:hover {
 }
 
 .interventionTabs {
+    border: 3px solid var(--secondary-color);
+    border-radius: var(--border-radius);
+    margin-bottom: var(--spacing);
+    padding: var(--spacing-small);
 }
 
 .interventionTab {
     @include buttons.info-button();
     display: inline-flex;
-    margin-right: 7px;
+    margin: 0 7px 0 0;
     position: relative;
 }
 

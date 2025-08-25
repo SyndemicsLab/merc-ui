@@ -19,7 +19,7 @@ const Footer = () => {
     return (
         <footer className="footer">
             <div className="footer-content">
-		<div className="footer-logos">
+                <div className="footer-logos">
                     <Logo
                         image={syndemics}
                         alt="The Syndemics Lab at Boston Medical Center"
@@ -30,7 +30,7 @@ const Footer = () => {
                         alt="Boston Medical Center"
                         link="https://bmc.org"
                     />
-		</div>
+                </div>
                 <p className="footer-description">
                     This application is part of a collaboration between Weill
                     Cornell Medicine, Boston Medical Center, and Brown

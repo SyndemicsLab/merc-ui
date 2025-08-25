@@ -11,10 +11,10 @@ function Dropdown({ name, options }: { name: string, options: any[] }) {
 
     // Update the hidden input field with the selected value
     useEffect(() => {
-	const hiddenInput = document.getElementById(name) as HTMLInputElement;
-	if (hiddenInput) {
-	    hiddenInput.value = selected;
-	}
+        const hiddenInput = document.getElementById(name) as HTMLInputElement;
+        if (hiddenInput) {
+            hiddenInput.value = selected;
+        }
     }, [selected]);
 
     return (

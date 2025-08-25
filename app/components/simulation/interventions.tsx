@@ -13,9 +13,9 @@ export default function Interventions() {
     const inputs = useInputs();
     const interventions = inputs.interventions;
     return (
-	<div id="interventions">
-	    <Tabs interventions={interventions} />
-	    <Contents interventions={interventions} />
-	</div>
+        <div id="interventions">
+            <Tabs interventions={interventions} />
+            <Contents interventions={interventions} />
+        </div>
     );
 }

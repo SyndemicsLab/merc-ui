@@ -35,7 +35,7 @@ export default function Navbar() {
                             <Link key="0" to="/" className="overlay-link" onClick={(e) => { setMenuOpen(false); }}>Home</Link>
                             <Link key="1" to="/simulation" className="overlay-link" onClick={(e) => { setMenuOpen(false); }}>Simulation</Link>
                             <Link key="2" to="/respond" className="overlay-link" onClick={(e) => { setMenuOpen(false); }}>About RESPOND</Link>
-			    <Link key="3" to="/glossary" className="overlay-link" onClick={(e) => { setMenuOpen(false); }}>Glossary</Link>
+                            <Link key="3" to="/glossary" className="overlay-link" onClick={(e) => { setMenuOpen(false); }}>Glossary</Link>
                             <Link key="4" to="/contact" className="overlay-link" onClick={(e) => { setMenuOpen(false); }}>Contact</Link>
                         </div>
                     </div>

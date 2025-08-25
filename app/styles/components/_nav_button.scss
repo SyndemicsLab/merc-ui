@@ -28,32 +28,32 @@
     user-select: none;
 
     &::before {
-	content: '';
-	position: absolute;
-	top: 0;
-	left: 0;
-	height: 100%;
-	width: 100%;
-	border: 2px solid transparent;
-	border-radius: 13px;
-	box-sizing: border-box;
-	transition: border 0.3s ease-out;
-	z-index: 1;
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        border: 2px solid transparent;
+        border-radius: 13px;
+        box-sizing: border-box;
+        transition: border 0.3s ease-out;
+        z-index: 1;
     }
 
     &::after {
-	content: '';
-	position: absolute;
-	top: 0;
-	left: 0;
-	height: 100%;
-	width: 100%;
-	background-color: #fff;
-	border-radius: 13px;
-	transform: scaleX(0);
-	transform-origin: left center;
-	transition: transform 0.3s ease-out;
-	z-index: -1;
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        background-color: #fff;
+        border-radius: 13px;
+        transform: scaleX(0);
+        transform-origin: left center;
+        transition: transform 0.3s ease-out;
+        z-index: -1;
     }
 
     &:hover {

@@ -6,33 +6,33 @@ function Tab(
 ) {
     const dispatch = useInputsDispatch();
     return (
-	<>
-	    <div
-		className={`interventionTab${intervention.active ? " active" : ""}`}
-		onClick={() =>
+        <>
+            <div
+                className={`interventionTab${intervention.active ? " active" : ""}`}
+                onClick={() =>
                     dispatch({
                         type: 'intervention select',
                         id: intervention.id
                     })
                 }
-	    >
-		{intervention.name}
-		{intervention.id > 0 && (
-		    <button className="delete-button"
-			    onClick={(event) => {
-				dispatch({
+            >
+                {intervention.name}
+                {intervention.id > 0 && (
+                    <button className="delete-button"
+                            onClick={(event) => {
+                                dispatch({
                                     type: 'intervention delete',
                                     id: intervention.id
                                 });
-				// avoid also selecting the tab underneath while
-				// closing (selection overrides deletion)
-				event.stopPropagation();
-			    }}>
-			×
-		    </button>
-		)}
-	    </div>
-	</>
+                                // avoid also selecting the tab underneath while
+                                // closing (selection overrides deletion)
+                                event.stopPropagation();
+                            }}>
+                        ×
+                    </button>
+                )}
+            </div>
+        </>
     );
 }
 
@@ -47,23 +47,23 @@ export default function Tabs(
     const dispatch = useInputsDispatch();
 
     return(
-	<>
-	    <div className="interventionTabs">
-		{interventions.map(intervention => (
-			<Tab
-			    key={intervention.id}
-			    intervention={intervention}
-			    onSelect={onSelectIntervention}
-			    onDelete={onDeleteIntervention}
-			/>
-		))}
+        <>
+            <div className="interventionTabs">
+                {interventions.map(intervention => (
+                        <Tab
+                            key={intervention.id}
+                            intervention={intervention}
+                            onSelect={onSelectIntervention}
+                            onDelete={onDeleteIntervention}
+                        />
+                ))}
                 <button className="interventionTab addTab" onClick={() =>
                             dispatch({
                                 type: 'intervention add'
                             })}>
                     + New Intervention
                 </button>
-	    </div>
-	</>
+            </div>
+        </>
     );
 }

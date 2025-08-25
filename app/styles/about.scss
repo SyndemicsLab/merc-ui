@@ -32,12 +32,12 @@
     margin-bottom: 40px;
     max-width: 1200px;
     a {
-	color: var(--primary-color);
-	transition-duration: var(--transition-duration);
+        color: var(--primary-color);
+        transition-duration: var(--transition-duration);
     }
 
     a:hover {
-	color: var(--secondary-color);
+        color: var(--secondary-color);
     }
 }
 
@@ -62,18 +62,18 @@
 
 #modelmaterials{
     .list-container {
-	display: block;
-	width: fit-content;
-	margin: auto;
+        display: block;
+        width: fit-content;
+        margin: auto;
     }
     ol {
-	list-style-type: decimal;
-	list-style-position: inside;
-	margin-top: calc(var(--spacing) * 3);
-	margin-bottom: calc(var(--spacing) * 3);
-	> li::marker {
-	    font-weight: bold;
-	}
+        list-style-type: decimal;
+        list-style-position: inside;
+        margin-top: calc(var(--spacing) * 3);
+        margin-bottom: calc(var(--spacing) * 3);
+        > li::marker {
+            font-weight: bold;
+        }
     }
 }
 
@@ -170,7 +170,7 @@
     min-width: 100%;
     transition-duration: var(--transition-duration);
     * {
-	text-align: center;
+        text-align: center;
     }
 }
 
@@ -178,7 +178,7 @@
     background: rgb(from var(--primary-color) r g b / 50%);
     transform: scale(1.05);
     * {
-	color: #eee;
+        color: #eee;
     }
 }
 
@@ -228,6 +228,6 @@
 
 @media (max-width: 1100px) {
     .about-svg-grid {
-	grid-template-columns: minmax(200px, 1fr) minmax(200px, 1fr) !important;
+        grid-template-columns: minmax(200px, 1fr) minmax(200px, 1fr) !important;
     }
 }

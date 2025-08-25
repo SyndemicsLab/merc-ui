@@ -13,8 +13,8 @@ export default function Index() {
     return (
         <InputProvider>
             <div id="simulation">
-	        <System />
-	        <Inputs />
+                <System />
+                <Inputs />
             </div>
         </InputProvider>
     );

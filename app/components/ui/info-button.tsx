@@ -7,13 +7,13 @@ export default function InfoButton(
     { text: string, destination: string, className?: string, download?: Boolean }) {
     let classNames: string = "info-button" + (className ? (" " + className) : "");
     return(
-	<Link className={classNames} to={destination}>
-	    <FontAwesomeIcon
+        <Link className={classNames} to={destination}>
+            <FontAwesomeIcon
                 icon={download ? faDownload : faCircleInfo}
             />
             <span>
-	        {text}
+                {text}
             </span>
-	</Link>
+        </Link>
     );
 }
