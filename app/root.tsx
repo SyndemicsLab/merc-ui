@@ -1,6 +1,4 @@
-import appStylesHref from "~/app.css?url";
-
-import React from 'react';
+import React from "react";
 import type { Route } from "./+types/root";
 import {
     isRouteErrorResponse,
@@ -9,10 +7,10 @@ import {
     ScrollRestoration
 } from "react-router";
 
-
 import Navbar from "@components/ui/navbar";
 import Footer from "@components/ui/footer"
-
+import appStylesHref from "~/app.scss?url";
+import tailwindStyle from "~/styles/tailwind.css?url";
 
 export default function App() {
     return (
@@ -35,14 +33,15 @@ export function Layout(
                 <meta name="icon" content="/favicon.ico" />
                 <meta title="RESPOND Simulation" />
                 <meta name="description" content="The Syndemics Lab at Boston Medical Center's RESPOND simulation as a web application." />
+                <link rel="stylesheet" href={tailwindStyle} />
                 <link rel="stylesheet" href={appStylesHref} />
                 <link rel="icon" sizes="32x32" href="/favicon.ico" />
                 <title>RESPOND — Syndemics Lab</title>
             </head>
             <body>
-		<div id="content">
+                <div id="content">
                     {children}
-		</div>
+                </div>
                 <ScrollRestoration />
                 <Scripts />
             </body>

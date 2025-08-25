@@ -4,10 +4,10 @@ import Publications from "@components/about/publications";
 
 export default function RESPOND() {
     return(
-	<div id="respond">
-	    <About />
-	    <ModelMaterials />
-	    <Publications />
-	</div>
+        <div id="respond">
+            <About />
+            <ModelMaterials />
+            <Publications />
+        </div>
     );
 }

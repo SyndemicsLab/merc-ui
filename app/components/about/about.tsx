@@ -7,21 +7,21 @@ import about4 from '~/images/about4.svg';
 const About = () => {
     return (
         <div id="about">
-	    <main className="about-main">
-		<section className="about-section">
+            <main className="about-main">
+                <section className="about-section">
                     <h2 className="about-title">About RESPOND</h2>
                     <p className="about-description">
-			RESPOND (Researching Effective Strategies to Prevent Opioid Death) is a cohort-based simulation model designed to help understand and address opioid use. It tracks a population at high risk for opioid use, modeling how people start and stop medication for opioid use disorder (MOUD) and how this affects outcomes like overdose, mortality, quality of life, and costs. RESPOND can evaluate the impact and cost-effectiveness of different strategies, including expanding MOUD access. While it uses data specific to Massachusetts, it can be adapted for other locations with the right data. Explore our figures and <Link to="#modelmaterials">Model Materials</Link> to learn more.
+                        RESPOND (Researching Effective Strategies to Prevent Opioid Death) is a cohort-based simulation model designed to help understand and address opioid use. It tracks a population at high risk for opioid use, modeling how people start and stop medication for opioid use disorder (MOUD) and how this affects outcomes like overdose, mortality, quality of life, and costs. RESPOND can evaluate the impact and cost-effectiveness of different strategies, including expanding MOUD access. While it uses data specific to Massachusetts, it can be adapted for other locations with the right data. Explore our figures and <Link to="#modelmaterials">Model Materials</Link> to learn more.
                     </p>
                     <div className="about-svg-grid">
-			<img className="about-svg" src={about1} alt="RESPOND Feature 1" />
-			<img className="about-svg" src={about2} alt="RESPOND Feature 2" />
-			<img className="about-svg" src={about3} alt="RESPOND Feature 3" />
-			<img className="about-svg" src={about4} alt="RESPOND Feature 4" />
+                        <img className="about-svg" src={about1} alt="RESPOND Feature 1" />
+                        <img className="about-svg" src={about2} alt="RESPOND Feature 2" />
+                        <img className="about-svg" src={about3} alt="RESPOND Feature 3" />
+                        <img className="about-svg" src={about4} alt="RESPOND Feature 4" />
                     </div>
-		</section>
+                </section>
             </main>
-	</div>
+        </div>
     );
 };
 

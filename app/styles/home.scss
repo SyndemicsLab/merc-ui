@@ -1,0 +1,201 @@
+@use "components/nav_button" as buttons;
+@use "components/centered_list" as centered;
+
+h1 {
+    font-size: 36px;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 600;
+    color: var(--tertiary-color);
+    margin-bottom: var(--spacing);
+}
+
+/* QUESTIONNAIRE */
+
+.questionnaire {
+    display: flex;
+    font-size: 14px;
+    flex-direction: column;
+
+    input:focus-within {
+        outline: none;
+    }
+
+    .dialog-root {
+        --spacing: 6px;
+    }
+
+    .command-item {
+        --spacing: 6px;
+    }
+
+    .questionnaire-question {
+        margin: 0 0 1rem 0;
+    }
+
+    .questionnaire-check {
+        height: 23px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .dialog-question {
+        font-weight: 600;
+        padding: 5px;
+    }
+
+    .dialog-response {
+        width: 100%;
+        display: flex;
+        align-items: center;
+    }
+
+    .dialog-input {
+        flex-grow: 1;
+        margin: 0 0 0 5px;
+        padding: 0 0 0 5px;
+        width: unset;
+    }
+
+    .dialog-checkbox {
+        margin-left: 5px;
+    }
+}
+
+/* HOMEPAGE */
+
+.main {
+    min-width: 550px;
+    margin: auto;
+
+    > * {
+        margin: auto;
+    }
+}
+
+.main * {
+    text-align: justify;
+}
+
+.home-section {
+    max-width: 1200px;
+    display: flex;
+    margin: auto;
+    margin-bottom: 8em;
+    gap: 3rem;
+}
+
+.home-content {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    min-width: 50%;
+
+    .welcome-text {
+        background: linear-gradient(
+            270deg,
+            var(--primary-color),
+            var(--tertiary-color),
+            var(--secondary-color)
+        );
+        color: transparent;
+        background-clip: text;
+        font: 600 64px/70px 'IBM Plex Sans', sans-serif;
+        width: fit-content;
+
+        // prevent text selection within element
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+    .home-description {
+        color: #a7a7a7;
+        font-family: 'IBM Plex Sans', sans-serif;
+        font: 300 18px 'IBM Plex Sans', sans-serif;
+        line-height: calc(4 / 3);
+        margin-top: 20px;
+    }
+
+    .home-nav {
+        display: flex;
+        margin-top: 2em;
+        gap: 1em;
+        height: 60px;
+        width: 100%;
+
+        .about-button {
+            @include buttons.nav-button(var(--primary-color));
+        }
+
+        .simulation-button {
+            @include buttons.nav-button(var(--secondary-color));
+        }
+    }
+}
+
+/* fix this scaling thing */
+.home-circle {
+    flex-grow: 1;
+    scale: 140%;
+    z-index: -1;
+
+    // prevent text selection within element
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    img {
+        height: 100%;
+        width: 100%;
+    }
+}
+
+#about-tool {
+    width: 100vw;
+    background-color: rgb(from var(--accent-gray) r g b / 50%);
+    padding: 75px 0;
+
+    .home-tile {
+        color: #404040;
+        font-family: 'IBM Plex Sans', sans-serif;
+        font-size: 18px;
+        line-height: 1.8;
+        text-align: justify;
+        width: 80%;
+        max-width: 1200px;
+        padding: 40px;
+        margin: 0 auto;
+        border-radius: var(--border-radius);
+
+        p {
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 36px;
+            font-family: "IBM Plex Sans", sans-serif;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--tertiary-color);
+        }
+
+        .list-container {
+            @include centered.centered-ul();
+        }
+
+    }
+
+}
+
+@media (max-width: 1500px) {
+    #home .home-content {
+        margin: auto;
+        width: 80%;
+    }
+
+    .home-circle {
+        display: none;
+    }
+}

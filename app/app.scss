@@ -1,0 +1,339 @@
+@use "styles/home";
+@use "styles/simulation";
+@use "styles/about";
+@use "styles/glossary";
+@use "styles/contact";
+@use "styles/components/buttons" as buttons;
+
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&display=swap');
+
+@layer base {
+    :root {
+        --primary-color: #3d9be9;
+        --secondary-color: #f0325f;
+        --tertiary-color: #003771;
+        --accent-gray: #ccc;
+        --accent-darkgray: #888;
+        --font-family: 'IBM Plex Sans', sans-serif;
+        --font-size: 16px;
+        --line-height: 1.5;
+        --spacing: 6px;
+        --spacing-small: var(--spacing);
+        --spacing-medium: calc(var(--spacing) * 2.5);
+        --spacing-large: calc(var(--spacing) * 5);
+        --background: 0 0% 100%;
+        --foreground: 222.2 84% 4.9%;
+        --card: 0 0% 100%;
+        --card-foreground: 222.2 84% 4.9%;
+        --popover: 0 0% 100%;
+        --popover-foreground: 222.2 84% 4.9%;
+        --primary: 222.2 47.4% 11.2%;
+        --primary-foreground: 210 40% 98%;
+        --secondary: 210 40% 96.1%;
+        --secondary-foreground: 222.2 47.4% 11.2%;
+        --muted: 210 40% 96.1%;
+        --muted-foreground: 215.4 16.3% 46.9%;
+        --accent: 210 40% 96.1%;
+        --accent-foreground: 222.2 47.4% 11.2%;
+        --destructive: 0 84.2% 60.2%;
+        --destructive-foreground: 210 40% 98%;
+        --border: 214.3 31.8% 91.4%;
+        --border-radius: 15px;
+        --input: 214.3 31.8% 91.4%;
+        --ring: 222.2 84% 4.9%;
+        --chart-1: 12 76% 61%;
+        --chart-2: 173 58% 39%;
+        --chart-3: 197 37% 24%;
+        --chart-4: 43 74% 66%;
+        --chart-5: 27 87% 67%;
+        --radius: 0.5rem;
+        --transition-duration: 0.3s;
+    }
+
+    .dark {
+        --background: 222.2 84% 4.9%;
+        --foreground: 210 40% 98%;
+        --card: 222.2 84% 4.9%;
+        --card-foreground: 210 40% 98%;
+        --popover: 222.2 84% 4.9%;
+        --popover-foreground: 210 40% 98%;
+        --primary: 210 40% 98%;
+        --primary-foreground: 222.2 47.4% 11.2%;
+        --secondary: 217.2 32.6% 17.5%;
+        --secondary-foreground: 210 40% 98%;
+        --muted: 217.2 32.6% 17.5%;
+        --muted-foreground: 215 20.2% 65.1%;
+        --accent: 217.2 32.6% 17.5%;
+        --accent-foreground: 210 40% 98%;
+        --destructive: 0 62.8% 30.6%;
+        --destructive-foreground: 210 40% 98%;
+        --border: 217.2 32.6% 17.5%;
+        --input: 217.2 32.6% 17.5%;
+        --ring: 212.7 26.8% 83.9%;
+        --chart-1: 220 70% 50%;
+        --chart-2: 160 60% 45%;
+        --chart-3: 30 80% 55%;
+        --chart-4: 280 65% 60%;
+        --chart-5: 340 75% 55%;
+    }
+}
+
+html, body {
+    font-family: var(--font-family);
+    font-size: var(--font-size);
+    line-height: var(--line-height);
+    color: #333;
+    scroll-behavior: smooth;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+#content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    min-height: 100vh;
+}
+
+/* ERROR PAGE */
+#error-page {
+    padding: 20px;
+}
+
+/* NAVBAR */
+
+.header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spacing);
+    min-height: 120px;
+    margin-bottom: 3em;
+}
+
+.navbarlogo {
+    position: absolute;
+    width: 210px;
+    top: 1.5em;
+    left: 3em;
+
+    // prevent text selection within element
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.nav {
+    margin: 2.5em;
+    display: flex;
+    justify-content: center;
+    flex-grow: 1;
+}
+
+.nav-links {
+    display: flex;
+    gap: 5px;
+}
+
+.nav-button {
+    background: none;
+    border: none;
+    color: #404040;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    padding: 0 var(--spacing);
+}
+
+.nav-button:hover,
+.nav-button:focus,
+.nav-button.active {
+    color: var(--secondary-color);
+    outline: none;
+}
+
+.menu-icon {
+    display: none;
+    cursor: pointer;
+}
+
+.bar1,
+.bar2,
+.bar3 {
+    width: 35px;
+    height: 5px;
+    background-color: #333;
+    margin: 6px;
+    transition: 0.4s;
+}
+
+.change .bar1,
+.change .bar2,
+.change .bar3 {
+    background-color: #fff;
+
+}
+
+.change .bar1 {
+    transform: translate(0, 11px) rotate(-45deg);
+}
+
+.change .bar2 {
+    opacity: 0;
+}
+
+.change .bar3 {
+    transform: translate(0, -11px) rotate(45deg);
+}
+
+/* FOOTER */
+
+.footer {
+    background-color: #f8f8f8;
+    padding: 40px;
+    text-align: left;
+    width: 100%;
+}
+
+.footer-content {
+    display: flex;
+    flex-direction: row;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 30px;
+    align-items: center;
+}
+
+.footer-logos {
+    min-width: 200px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    img {
+        width: 200px;
+    }
+}
+
+.footer-description {
+    flex-grow: 1;
+    font-size: 16px;
+    line-height: 1.5;
+    text-align: justify;
+}
+
+input,
+button,
+select,
+textarea {
+    font-family: inherit;
+    font-size: inherit;
+}
+
+label {
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.dialog-root {
+    overflow-y: scroll;
+    padding: 3rem;
+    max-height: calc(100vh - 1rem);
+    ::-webkit-scrollbar {
+        display: none;
+    }
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.hidden {
+    display: none;
+}
+
+.info-button {
+    @include buttons.info-button();
+}
+
+// hide the overlay when not in small-screen view
+@media (min-width: 1501px) {
+    .overlay {
+        display: none !important;
+    }
+}
+
+// full screen overlay for small screen
+@media (max-width: 1500px) {
+    .nav-links {
+        display: none;
+    }
+
+    .menu-icon {
+        display: block;
+        position: absolute;
+        top: 1.5em;
+        right: 1.5em;
+    }
+
+    .overlay {
+        display: none;
+        height: 100%;
+        width: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: rgba(0, 0, 0, 0.92);
+        transition: opacity 0.5s ease, visibility 0.2s ease;
+        z-index: 9999;
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    .overlay.open {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        opacity: 1;
+        visibility: visible;
+        animation: fadeIn 0.4s ease-in-out forwards;
+    }
+
+    .overlay .menu-icon {
+        position: absolute;
+        top: 1.5em;
+        right: 1.5em;
+    }
+
+    .overlay-content {
+        text-align: left;
+        // position: fixed;
+        // left: 100px;
+        margin: auto;
+    }
+
+    .overlay-link {
+        padding: 16px;
+        text-decoration: none;
+        font-size: 36px;
+        color: white;
+        display: block;
+        transition: 0.3s;
+        font-family: 'IBM Plex Sans', sans-serif;
+        font-weight: 500;
+    }
+
+    .overlay-link:hover,
+    .overlay-link:focus {
+        color: #f0325f;
+    }
+
+    .overlay.closing {
+        opacity: 0;
+        visibility: hidden;
+        animation: fadeOut 0.8s ease-in-out forwards;
+    }
+}

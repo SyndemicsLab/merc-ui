@@ -19,7 +19,7 @@ export default function Navbar() {
                 </div>
                 <div className={`nav-links ${menuOpen ? 'hidden' : ''}`}>
                     <Link key="0" to="/" className={`nav-button ${location.hash === "/" ? 'active' : ''}`}>Home</Link>
-                    <Link key="1" to="/simulation" className={`nav-button ${location.hash === "/simulation" ? 'active' : ''}`}>Simulation Model</Link>
+                    <Link key="1" to="/simulation" className={`nav-button ${location.hash === "/simulation" ? 'active' : ''}`}>Simulation</Link>
                     <Link key="2" to="/respond" className={`nav-button ${location.hash === "/respond" ? 'active' : ''}`}>About RESPOND</Link>
                     <Link key="3" to="/glossary" className={`nav-button ${location.hash === "/glossary" ? 'active' : ''}`}>Glossary</Link>
                     <Link key="4" to="/contact" className={`nav-button ${location.hash === "/contact" ? 'active' : ''}`}>Contact</Link>
@@ -33,9 +33,9 @@ export default function Navbar() {
                         </div>
                         <div className="overlay-content">
                             <Link key="0" to="/" className="overlay-link" onClick={(e) => { setMenuOpen(false); }}>Home</Link>
-                            <Link key="1" to="/simulation" className="overlay-link" onClick={(e) => { setMenuOpen(false); }}>Simulation Model</Link>
+                            <Link key="1" to="/simulation" className="overlay-link" onClick={(e) => { setMenuOpen(false); }}>Simulation</Link>
                             <Link key="2" to="/respond" className="overlay-link" onClick={(e) => { setMenuOpen(false); }}>About RESPOND</Link>
-			    <Link key="3" to="/glossary" className="overlay-link" onClick={(e) => { setMenuOpen(false); }}>Glossary</Link>
+                            <Link key="3" to="/glossary" className="overlay-link" onClick={(e) => { setMenuOpen(false); }}>Glossary</Link>
                             <Link key="4" to="/contact" className="overlay-link" onClick={(e) => { setMenuOpen(false); }}>Contact</Link>
                         </div>
                     </div>

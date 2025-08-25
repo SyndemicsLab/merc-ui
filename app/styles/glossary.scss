@@ -1,0 +1,43 @@
+#glossary {
+    margin: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 80%;
+    max-width: 1200px;
+
+    h2 {
+        font-size: 36px;
+        font-weight: 600;
+        font-family: "IBM Plex Sans", sans-serif;
+        margin-bottom: 20px;
+        color: var(--tertiary-color);
+    }
+
+    table, th, td {
+        border: 2px solid #fff;
+        margin: auto;
+        background-color: rgb(from var(--accent-gray) r g b / 20%);
+    }
+
+    table {
+        margin-bottom: calc(var(--spacing) * 3);
+    }
+
+    th, td {
+        padding: 8px;
+    }
+
+    th {
+        background-color: rgb(from var(--primary-color) r g b / 40%);
+    }
+
+    table th:first-of-type {
+        width: 20%;
+    }
+
+    table tr td:first-of-type {
+        background-color: rgb(from var(--primary-color) r g b / 40%);
+        text-align: center;
+        font-weight: 500;
+    }
+}

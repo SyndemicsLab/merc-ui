@@ -1,0 +1,32 @@
+// $color: color of the button when the cursor is not hovering over it
+// $hover-color: color of the button when the cursor is hovering over it
+// $text-color: color of the button's text
+@mixin info-button (
+    $color: var(--primary-color),
+    $hover-color: var(--secondary-color),
+    $text-color: #fff) {
+    color: $text-color;
+    background-color: $color;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    width: fit-content;
+    margin: var(--spacing) calc(var(--spacing) * 2) var(--spacing) 0;
+    font-weight: 500;
+    border: none;
+    border-radius: var(--border-radius);
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color var(--transition-duration), transform var(--transition-duration);
+
+    // prevent text selection within element
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    &:hover {
+        background-color: $hover-color;
+        transform: scale(1.05);
+    }
+}
