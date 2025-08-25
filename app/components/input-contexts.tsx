@@ -36,7 +36,7 @@ function getInterventionID(interventions: Intervention[]): number {
     let id = 1;
     let used = interventions.map((intervention) => intervention.id);
     while (used.includes(id)) {
-	id += 1;
+        id += 1;
     }
     return(id);
 }
@@ -46,7 +46,7 @@ function getNewInterventionName(interventions: Intervention[]): string {
     let num = 1;
     let used = interventions.map((intervention) => intervention.name);
     while (used.includes(`New Intervention ${num}`)) {
-	num += 1;
+        num += 1;
     }
     return(`New Intervention ${num}`);
 }
@@ -57,12 +57,12 @@ function constrainValues(
     decimals?: number = 5
 ) {
     let sumValues: number = values.reduce(
-	(accumulator, value) => accumulator + parseFloat(value),
-	0
+        (accumulator, value) => accumulator + parseFloat(value),
+        0
     ).toFixed(decimals);
 
     if (sumValues > limit) {
-	return(true);
+        return(true);
     }
     return(false);
 }
@@ -93,114 +93,114 @@ function inputsReducer(simulationInputs, action) {
             fod: action.value
         });
     case 'intervention select': {
-	return({
+        return({
             ...simulationInputs,
             interventions: simulationInputs.interventions.map(i => {
-	        if (i.id === action.id) {
-		    i.active = true;
-	        } else {
-		    i.active = false;
-	        }
-	        return i;
-	    })
+                if (i.id === action.id) {
+                    i.active = true;
+                } else {
+                    i.active = false;
+                }
+                return i;
+            })
         });
     }
     case 'intervention rename': {
-	// insert a placeholder for the intervention if the user leaves the name
-	// blank
-	let updatedName = action.name === "" ? "<no name>" : action.name;
+        // insert a placeholder for the intervention if the user leaves the name
+        // blank
+        let updatedName = action.name === "" ? "<no name>" : action.name;
         return {
             ...simulationInputs,
             interventions: simulationInputs.interventions.map((intervention) => {
-	    let transitions = intervention.transitions.map(t => {
-		if (t.id === action.id) {
-		    if (intervention.id === action.id) {
-			return {...t, name: `Post-${updatedName}`};
-		    } else {
-			return {...t, name: updatedName};
-		    }
-		}
-		return t;
-	    });
-	    if (intervention.id === action.id) {
-		return {
+            let transitions = intervention.transitions.map(t => {
+                if (t.id === action.id) {
+                    if (intervention.id === action.id) {
+                        return {...t, name: `Post-${updatedName}`};
+                    } else {
+                        return {...t, name: updatedName};
+                    }
+                }
+                return t;
+            });
+            if (intervention.id === action.id) {
+                return {
                     ...intervention,
                     name: updatedName,
                     transitions: transitions
                 };
-	    } else {
-		return {
+            } else {
+                return {
                     ...intervention,
                     transitions: transitions
                 };
-	    }
-	    })
+            }
+            })
         };
     }
     case 'intervention add': {
-	let id: number = getInterventionID(simulationInputs.interventions);
-	let name: string = getNewInterventionName(simulationInputs.interventions);
-	let newInterventions: Intervention[] =
+        let id: number = getInterventionID(simulationInputs.interventions);
+        let name: string = getNewInterventionName(simulationInputs.interventions);
+        let newInterventions: Intervention[] =
             simulationInputs.interventions.map(i => {
-	        return(
-		    {...i, transitions: [
-		        ...i.transitions, makeEmptyTransition(id, name)
-		    ], active: false}
-	        );
-	    });
-	return({
+                return(
+                    {...i, transitions: [
+                        ...i.transitions, makeEmptyTransition(id, name)
+                    ], active: false}
+                );
+            });
+        return({
             ...simulationInputs,
             interventions: [
-	        ...newInterventions,
-	        {
-		    id: id,
-		    name: name,
-		    active: true,
+                ...newInterventions,
+                {
+                    id: id,
+                    name: name,
+                    active: true,
                     population: 0,
-		    transitions: [
-		        makeEmptyTransition(id, `Post-${name}`),
-		        ...newInterventions.map(i => {
-			    return makeEmptyTransition(i.id, i.name);
-		        })
-		    ]
-	        }
-	    ]
+                    transitions: [
+                        makeEmptyTransition(id, `Post-${name}`),
+                        ...newInterventions.map(i => {
+                            return makeEmptyTransition(i.id, i.name);
+                        })
+                    ]
+                }
+            ]
         });
     }
     case 'intervention delete': {
-	let toDelete: Intervention =
+        let toDelete: Intervention =
             {...simulationInputs.interventions.find(i => i.id === action.id)};
-	let deletingActive: boolean = toDelete.active;
-	let newInterventions: Intervention[] = simulationInputs.interventions.map(
-	    intervention => {
-		// remove the transition associated with the intervention being
-		// deleted
-		let newIntervention: Intervention = {
-		    ...intervention,
-		    transitions: intervention.transitions.filter(t => t.id !== action.id)
-		};
-		// open no treatment when deleting the active intervention tab
-		if (deletingActive) {
-		    if (newIntervention.id === 0) {
-			return {...newIntervention, active: true };
-		    }
-		}
-		return newIntervention;
-	    }
-	);
-	newInterventions = newInterventions.filter(i => i.id !== action.id);
+        let deletingActive: boolean = toDelete.active;
+        let newInterventions: Intervention[] = simulationInputs.interventions.map(
+            intervention => {
+                // remove the transition associated with the intervention being
+                // deleted
+                let newIntervention: Intervention = {
+                    ...intervention,
+                    transitions: intervention.transitions.filter(t => t.id !== action.id)
+                };
+                // open no treatment when deleting the active intervention tab
+                if (deletingActive) {
+                    if (newIntervention.id === 0) {
+                        return {...newIntervention, active: true };
+                    }
+                }
+                return newIntervention;
+            }
+        );
+        newInterventions = newInterventions.filter(i => i.id !== action.id);
         return {
             ...simulationInputs,
             interventions: newInterventions
         };
     }
     case 'intervention change population': {
-	let newInterventions = simulationInputs.interventions.map(i => {
-	    if (i.id === action.interventionID) {
-		return {...i, population: Number(action.value)};
-	    }
-	    return i;
-	});
+        let newInterventions = simulationInputs.interventions.map(i => {
+            if (i.id === action.interventionID) {
+                return {...i, population: Number(action.value)};
+            }
+            return i;
+        });
 
         if (constrainValues(newInterventions.map(i => i.population),
                             simulationInputs.population)) {
@@ -213,39 +213,39 @@ function inputsReducer(simulationInputs, action) {
         };
     }
     case 'intervention change transition': {
-	let newInterventions = simulationInputs.interventions.map(i => {
-	    if (i.id === action.interventionID) {
-		return {
+        let newInterventions = simulationInputs.interventions.map(i => {
+            if (i.id === action.interventionID) {
+                return {
                     ...i,
                     transitions: i.transitions.map(t => {
-		        if (t.id === action.transitionID) {
-			    return {...t, probability: action.value};
-		        }
-		        return t;
-		})};
-	    }
-	    return i;
-	});
+                        if (t.id === action.transitionID) {
+                            return {...t, probability: action.value};
+                        }
+                        return t;
+                })};
+            }
+            return i;
+        });
 
-	let newTransitionProbabilities: number[] = newInterventions.find(
-	    i => i.id === action.interventionID
-	).transitions.map(
-	    t => t.probability
-	);
+        let newTransitionProbabilities: number[] = newInterventions.find(
+            i => i.id === action.interventionID
+        ).transitions.map(
+            t => t.probability
+        );
 
-	// check if the sum of the transition probabilities exceeds the limit
-	// and prevent the change if it would cause an excess of the limit
-	if (constrainValues(newTransitionProbabilities, 1.0000)) {
-	    return simulationInputs;
-	}
-	return({
+        // check if the sum of the transition probabilities exceeds the limit
+        // and prevent the change if it would cause an excess of the limit
+        if (constrainValues(newTransitionProbabilities, 1.0000)) {
+            return simulationInputs;
+        }
+        return({
             ...simulationInputs,
             interventions: newInterventions
         });
     }
     case 'intervention change overdose': {
-	let newInterventions = simulationInputs.interventions.map(i => {
-	    if (i.id === action.interventionID) {
+        let newInterventions = simulationInputs.interventions.map(i => {
+            if (i.id === action.interventionID) {
                 return {
                     ...i,
                     overdose: i.overdose.map((od) => {
