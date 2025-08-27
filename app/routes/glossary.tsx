@@ -156,9 +156,9 @@ const general: GlossaryTable = {
 export default function Glossary() {
     return(
         <div id="glossary">
+            {GlossarySection(general)}
             {GlossarySection(treatments)}
             {GlossarySection(ouds)}
-            {GlossarySection(general)}
         </div>
     );
 }

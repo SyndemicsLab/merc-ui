@@ -137,6 +137,11 @@ html, body {
 .nav-links {
     display: flex;
     gap: 5px;
+
+    // prevent text selection within element
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .nav-button {
@@ -215,6 +220,12 @@ html, body {
     display: flex;
     flex-direction: column;
     gap: 20px;
+
+    // prevent text selection within element
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
     img {
         width: 200px;
     }
@@ -245,6 +256,7 @@ label {
     overflow-y: scroll;
     padding: 3rem;
     max-height: calc(100vh - 1rem);
+
     ::-webkit-scrollbar {
         display: none;
     }
