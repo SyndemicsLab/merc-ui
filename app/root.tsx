@@ -7,15 +7,19 @@ import {
     ScrollRestoration
 } from "react-router";
 
+import { sitemap } from "~/routes"
 import Navbar from "@components/ui/navbar";
 import Footer from "@components/ui/footer"
 import appStylesHref from "~/app.scss?url";
 import tailwindStyle from "~/styles/tailwind.css?url";
+import { InputProvider } from "@components/input-contexts";
 
 export default function App() {
     return (
         <>
-            <Navbar />
+            <Navbar
+                paths={sitemap}
+            />
             <Outlet />
             <Footer />
         </>
@@ -40,7 +44,9 @@ export function Layout(
             </head>
             <body>
                 <div id="content">
-                    {children}
+                    <InputProvider>
+                        {children}
+                    </InputProvider>
                 </div>
                 <ScrollRestoration />
                 <Scripts />

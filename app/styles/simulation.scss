@@ -233,21 +233,25 @@ button:hover {
 }
 
 #interventions {
-    margin-top: var(--spacing-large);
-    margin-bottom: var(--spacing-large);
+    background-color: rgba(from var(--primary-color) r g b / 10%);
+    margin: var(--spacing) 0;
+    border: 3px solid var(--tertiary-color);
+    border-radius: var(--border-radius);
+    padding: var(--spacing);
 }
 
 .interventionTabs {
-    border: 3px solid var(--secondary-color);
-    border-radius: var(--border-radius);
-    margin-bottom: var(--spacing);
-    padding: var(--spacing-small);
+    // border: 3px solid var(--secondary-color);
+    // border-radius: var(--border-radius);
+    // margin-bottom: var(--spacing);
+    // padding: var(--spacing-small);
+    width: 100%;
 }
 
 .interventionTab {
     @include buttons.info-button();
     display: inline-flex;
-    margin: 0 7px 0 0;
+    margin: 0 var(--spacing) var(--spacing) 0;
     position: relative;
 }
 
@@ -301,7 +305,6 @@ button:hover {
 }
 
 .interventionContent {
-    background-color: rgba(from var(--primary-color) r g b / 10%);
     border-radius: var(--border-radius);
     padding: var(--spacing-large);
     display: none;
@@ -311,17 +314,22 @@ button:hover {
     }
 
     @media (min-width: 1500px) {
+        // padding: var(--spacing-large) calc(var(--spacing-large) * 3);
         padding: var(--spacing-large) calc(var(--spacing-large) * 3);
     }
 
     input[type="text"]:not(:read-only) {
         background-color: #fff;
     }
+
+    &:not(:has(.intervention-description)) input[type="text"] {
+        margin-bottom: var(--spacing);
+
+    }
 }
 
 .intervention-description {
-    margin-top: calc(var(--spacing) * 2);
-    margin-bottom: calc(var(--spacing) * 2);
+    margin: calc(var(--spacing)) 0;
     font-weight: 300;
     font-style: italic;
     font-size: 14px;

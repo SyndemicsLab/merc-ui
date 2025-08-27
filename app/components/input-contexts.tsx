@@ -162,6 +162,10 @@ function inputsReducer(simulationInputs, action) {
                         ...newInterventions.map(i => {
                             return makeEmptyTransition(i.id, i.name);
                         })
+                    ],
+                    overdose: [
+                        { probability: Math.random(), injection: true },
+                        { probability: Math.random(), injection: false }
                     ]
                 }
             ]

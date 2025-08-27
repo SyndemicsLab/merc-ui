@@ -31,6 +31,8 @@
     margin: auto;
     margin-bottom: 40px;
     max-width: 1200px;
+    text-align: justify;
+
     a {
         color: var(--primary-color);
         transition-duration: var(--transition-duration);
@@ -175,7 +177,7 @@
 }
 
 .publication-card:hover {
-    background: rgb(from var(--primary-color) r g b / 50%);
+    background: rgb(from var(--tertiary-color) r g b / 50%);
     transform: scale(1.05);
     * {
         color: #eee;

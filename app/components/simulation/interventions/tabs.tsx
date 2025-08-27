@@ -1,4 +1,12 @@
 import { useInputsDispatch } from "@components/input-contexts";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@components/ui/dropdown-menu";
 
 function Tab(
     { intervention, onSelect, onDelete }:
@@ -63,6 +71,17 @@ export default function Tabs(
                             })}>
                     + New Intervention
                 </button>
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <button className="interventionTab addTab">+ New Intervention</button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                        <DropdownMenuItem>Buprenorphine</DropdownMenuItem>
+                        <DropdownMenuItem>Buprenorphine</DropdownMenuItem>
+                        <DropdownMenuItem>Buprenorphine</DropdownMenuItem>
+                        <DropdownMenuItem>Buprenorphine</DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
             </div>
         </>
     );

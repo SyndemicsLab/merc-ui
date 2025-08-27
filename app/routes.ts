@@ -4,11 +4,38 @@ import {
     index,
 } from "@react-router/dev/routes";
 
+export interface Path {
+    name: string;
+    displayName: string;
+};
+
+export const sitemap: Path[] = [
+    {
+        name: "",
+        displayName: "Home",
+    },
+    {
+        name: "simulation",
+        displayName: "Simulation",
+    },
+    {
+        name: "respond",
+        displayName: "About RESPOND",
+    },
+    {
+        name: "glossary",
+        displayName: "Glossary",
+    },
+    {
+        name: "contact",
+        displayName: "Contact",
+    },
+];
+
 export default [
     index("routes/home.tsx"),
     route("simulation", "routes/simulation.tsx"),
     route("respond", "routes/respond.tsx"),
-    route("results", "routes/results.tsx"),
     route("glossary", "routes/glossary.tsx"),
     route("contact", "routes/contact.tsx"),
 ] satisfies RouteConfig;
