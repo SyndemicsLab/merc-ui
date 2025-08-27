@@ -91,8 +91,8 @@ function setOverdoses(intervention: Intervention) {
         return {
             ...intervention,
             overdose: [
-                { probability: Math.random(), injection: true },
-                { probability: Math.random(), injection: false }
+                { probability: Math.random().toPrecision(2), injection: true },
+                { probability: Math.random().toPrecision(2), injection: false }
             ]
         };
     }

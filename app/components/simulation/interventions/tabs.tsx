@@ -65,21 +65,45 @@ export default function Tabs(
                             onDelete={onDeleteIntervention}
                         />
                 ))}
-                <button className="interventionTab addTab" onClick={() =>
-                            dispatch({
-                                type: 'intervention add'
-                            })}>
-                    + New Intervention
-                </button>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <button className="interventionTab addTab">+ New Intervention</button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent>
-                        <DropdownMenuItem>Buprenorphine</DropdownMenuItem>
-                        <DropdownMenuItem>Buprenorphine</DropdownMenuItem>
-                        <DropdownMenuItem>Buprenorphine</DropdownMenuItem>
-                        <DropdownMenuItem>Buprenorphine</DropdownMenuItem>
+                    <DropdownMenuContent className="add-intervention-dropdown">
+                        <DropdownMenuItem
+                            className="add-intervention-item"
+                            onSelect={() =>
+                                dispatch({
+                                    type: 'intervention add',
+                                })}
+                        >
+                            Blank Intervention
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                            className="add-intervention-item"
+                        >
+                            Buprenorphine
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                            className="add-intervention-item"
+                        >
+                            Naltrexone
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                            className="add-intervention-item"
+                        >
+                            Methadone
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                            className="add-intervention-item"
+                        >
+                            Detox
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                            className="add-intervention-item"
+                        >
+                            Detention
+                        </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
