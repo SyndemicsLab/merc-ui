@@ -68,3 +68,9 @@
     background-color: #002655;
     transform: scale(1.05);
 }
+
+@media (max-width: 1500px) {
+    #contact {
+        width: 80%;
+    }
+}

@@ -65,7 +65,7 @@ h1 {
 /* HOMEPAGE */
 
 .main {
-    min-width: 550px;
+    // min-width: 550px;
     margin: auto;
 
     > * {
@@ -197,5 +197,20 @@ h1 {
 
     .home-circle {
         display: none;
+    }
+}
+
+@media (max-width: 550px) {
+    .home-content {
+        width: 100%;
+
+        .home-nav {
+            flex-direction: column;
+        }
+    }
+    #about-tool {
+        .home-tile * {
+            text-align: left;
+        }
     }
 }

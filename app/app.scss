@@ -103,6 +103,14 @@ html, body {
     padding: 20px;
 }
 
+a {
+    color: var(--primary-color);
+    transition-duration: var(--transition-duration);
+    &:hover {
+        color: var(--secondary-color);
+    }
+}
+
 /* NAVBAR */
 
 .header {
@@ -342,5 +350,14 @@ label {
     .overlay-link:hover,
     .overlay-link:focus {
         color: var(--secondary-color);
+    }
+}
+
+@media (max-width: 550px) {
+    .footer-content {
+        flex-direction: column;
+    }
+    .footer-description {
+        text-align: left;
     }
 }
