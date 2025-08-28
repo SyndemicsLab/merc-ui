@@ -140,7 +140,7 @@ const AdvancedInputs = () => {
                     Advanced Options
                 </div>
             </label>
-            <div id="advanced" className={showAdvanced ? "unhidden" : "hidden"}>
+            <div id="advanced" className={showAdvanced ? "unhidden" : null}>
                 <h2>For More Information</h2>
                 <div className="more-info">
                     <InfoButton

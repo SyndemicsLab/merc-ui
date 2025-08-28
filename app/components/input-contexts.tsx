@@ -42,13 +42,16 @@ function getInterventionID(interventions: Intervention[]): number {
 }
 
 // generate a name for a new intervention
-function getNewInterventionName(interventions: Intervention[]): string {
+function getNewInterventionName(
+    interventions: Intervention[],
+    baseName?: string = "Intervention"
+): string {
     let num = 1;
     let used = interventions.map((intervention) => intervention.name);
-    while (used.includes(`New Intervention ${num}`)) {
+    while (used.includes(`New ${baseName} ${num}`)) {
         num += 1;
     }
-    return(`New Intervention ${num}`);
+    return(`New ${baseName} ${num}`);
 }
 
 function constrainValues(
@@ -139,7 +142,10 @@ function inputsReducer(simulationInputs, action) {
     }
     case 'intervention add': {
         let id: number = getInterventionID(simulationInputs.interventions);
-        let name: string = getNewInterventionName(simulationInputs.interventions);
+        let name: string = getNewInterventionName(
+            simulationInputs.interventions,
+            action.intervention
+        );
         let newInterventions: Intervention[] =
             simulationInputs.interventions.map(i => {
                 return(
@@ -148,26 +154,43 @@ function inputsReducer(simulationInputs, action) {
                     ], active: false}
                 );
             });
+
+        let newIntervention;
+        if (action.intervention !== "Intervention") {
+            let temp = inputs.interventions.find(i => i.name === action.intervention);
+            if (temp === undefined) {
+                throw Error(`Unknown intervention: ${action.intervention}`);
+            }
+            newIntervention = {
+                ...temp,
+                id: id,
+                name: name,
+                active: true,
+                population: 0
+            };
+        } else {
+            newIntervention = {
+                id: id,
+                name: name,
+                active: true,
+                population: 0,
+                transitions: [
+                    makeEmptyTransition(id, `Post-${name}`),
+                    ...newInterventions.map(i => {
+                        return makeEmptyTransition(i.id, i.name);
+                    })
+                ],
+                overdose: [
+                    { probability: Math.random().toPrecision(2), injection: true },
+                    { probability: Math.random().toPrecision(2), injection: false }
+                ]
+            };
+        }
         return({
             ...simulationInputs,
             interventions: [
                 ...newInterventions,
-                {
-                    id: id,
-                    name: name,
-                    active: true,
-                    population: 0,
-                    transitions: [
-                        makeEmptyTransition(id, `Post-${name}`),
-                        ...newInterventions.map(i => {
-                            return makeEmptyTransition(i.id, i.name);
-                        })
-                    ],
-                    overdose: [
-                        { probability: Math.random().toPrecision(2), injection: true },
-                        { probability: Math.random().toPrecision(2), injection: false }
-                    ]
-                }
+                newIntervention
             ]
         });
     }

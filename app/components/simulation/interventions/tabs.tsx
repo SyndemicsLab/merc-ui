@@ -44,14 +44,7 @@ function Tab(
     );
 }
 
-export default function Tabs(
-    { interventions, onSelectIntervention, onDeleteIntervention, addIntervention }:
-    { interventions: Intervention[], onSelectIntervention: Function, onDeleteIntervention: Function, addIntervention: Function }
-) {
-    // handle bug where no intervention is selected on render; select no
-    // treatment
-    let noneSelected: boolean = interventions.every(i => i.active === false);
-    noneSelected ? onSelectIntervention(0) : null;
+export default function Tabs({ interventions }: { interventions: Intervention[] }) {
     const dispatch = useInputsDispatch();
 
     return(
@@ -61,8 +54,6 @@ export default function Tabs(
                         <Tab
                             key={intervention.id}
                             intervention={intervention}
-                            onSelect={onSelectIntervention}
-                            onDelete={onDeleteIntervention}
                         />
                 ))}
                 <DropdownMenu>
@@ -75,32 +66,58 @@ export default function Tabs(
                             onSelect={() =>
                                 dispatch({
                                     type: 'intervention add',
+                                    intervention: "Intervention",
                                 })}
                         >
                             Blank Intervention
                         </DropdownMenuItem>
                         <DropdownMenuItem
                             className="add-intervention-item"
+                            onSelect={() =>
+                                dispatch({
+                                    type: 'intervention add',
+                                    intervention: "Buprenorphine",
+                                })}
                         >
                             Buprenorphine
                         </DropdownMenuItem>
                         <DropdownMenuItem
                             className="add-intervention-item"
+                            onSelect={() =>
+                                dispatch({
+                                    type: 'intervention add',
+                                    intervention: "Naltrexone",
+                                })}
                         >
                             Naltrexone
                         </DropdownMenuItem>
                         <DropdownMenuItem
                             className="add-intervention-item"
+                            onSelect={() =>
+                                dispatch({
+                                    type: 'intervention add',
+                                    intervention: "Methadone",
+                                })}
                         >
                             Methadone
                         </DropdownMenuItem>
                         <DropdownMenuItem
                             className="add-intervention-item"
+                            onSelect={() =>
+                                dispatch({
+                                    type: 'intervention add',
+                                    intervention: "Detox",
+                                })}
                         >
                             Detox
                         </DropdownMenuItem>
                         <DropdownMenuItem
                             className="add-intervention-item"
+                            onSelect={() =>
+                                dispatch({
+                                    type: 'intervention add',
+                                    intervention: "Detention",
+                                })}
                         >
                             Detention
                         </DropdownMenuItem>
