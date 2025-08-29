@@ -24,7 +24,7 @@ export default function Inputs() {
             // we're checking for intersection with
             const entry = entries[0];
             updateInputsVisible(entry.isIntersecting);
-        });
+        }, { threshold: [0.05]});
         observer.observe(inputRef.current);
     }, [])
 

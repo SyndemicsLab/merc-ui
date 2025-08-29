@@ -24,6 +24,27 @@ export function InputProvider({ children }) {
     );
 }
 
+function makeTransitionsFromExistingIntervention(
+    newName,
+    newID,
+    reference,
+    currentInterventions,
+) {
+    let transitions: Transition[] = [{
+        name: `Post-${newName}`,
+        id: newID,
+        probability: reference.transitions[0].probability
+    }];
+    const baseTransitionIDs: Transition[] = reference.transitions.map(t => t.id);
+    transitions = transitions.concat(currentInterventions.map(intervention => {
+        if (intervention.id !== reference.id && baseTransitionIDs.includes(intervention.id)) {
+            return reference.transitions.find(t => t.id === intervention.id);
+        }
+        return makeEmptyTransition(intervention.id, intervention.name);
+    }));
+    return transitions;
+}
+
 export function useInputs() {
     return useContext(InputsContext);
 }
@@ -33,12 +54,7 @@ export function useInputsDispatch() {
 }
 
 function getInterventionID(interventions: Intervention[]): number {
-    let id = 1;
-    let used = interventions.map((intervention) => intervention.id);
-    while (used.includes(id)) {
-        id += 1;
-    }
-    return(id);
+    return(interventions[interventions.length - 1].id + 1);
 }
 
 // generate a name for a new intervention
@@ -166,7 +182,10 @@ function inputsReducer(simulationInputs, action) {
                 id: id,
                 name: name,
                 active: true,
-                population: 0
+                population: 0,
+                transitions: makeTransitionsFromExistingIntervention(
+                    name, id, temp, newInterventions,
+                )
             };
         } else {
             newIntervention = {

@@ -7,6 +7,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@components/ui/dropdown-menu";
+import { inputs } from "~/data";
 
 function Tab(
     { intervention, onSelect, onDelete }:
@@ -71,56 +72,20 @@ export default function Tabs({ interventions }: { interventions: Intervention[] 
                         >
                             Blank Intervention
                         </DropdownMenuItem>
-                        <DropdownMenuItem
-                            className="add-intervention-item"
-                            onSelect={() =>
-                                dispatch({
-                                    type: 'intervention add',
-                                    intervention: "Buprenorphine",
-                                })}
-                        >
-                            Buprenorphine
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                            className="add-intervention-item"
-                            onSelect={() =>
-                                dispatch({
-                                    type: 'intervention add',
-                                    intervention: "Naltrexone",
-                                })}
-                        >
-                            Naltrexone
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                            className="add-intervention-item"
-                            onSelect={() =>
-                                dispatch({
-                                    type: 'intervention add',
-                                    intervention: "Methadone",
-                                })}
-                        >
-                            Methadone
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                            className="add-intervention-item"
-                            onSelect={() =>
-                                dispatch({
-                                    type: 'intervention add',
-                                    intervention: "Detox",
-                                })}
-                        >
-                            Detox
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                            className="add-intervention-item"
-                            onSelect={() =>
-                                dispatch({
-                                    type: 'intervention add',
-                                    intervention: "Detention",
-                                })}
-                        >
-                            Detention
-                        </DropdownMenuItem>
+                        {inputs.interventions.map(intervention => (
+                                <DropdownMenuItem
+                                    key={intervention.id}
+                                    className="add-intervention-item"
+                                    onSelect={() =>
+                                        dispatch({
+                                            type: "intervention add",
+                                            intervention: `${intervention.name}`,
+                                        })
+                                    }
+                                >
+                                    {intervention.name}
+                                </DropdownMenuItem>
+                        ))}
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
