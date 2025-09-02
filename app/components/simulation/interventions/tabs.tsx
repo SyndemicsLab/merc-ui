@@ -1,4 +1,13 @@
 import { useInputsDispatch } from "@components/input-contexts";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@components/ui/dropdown-menu";
+import { inputs } from "~/data";
 
 function Tab(
     { intervention, onSelect, onDelete }:
@@ -36,14 +45,7 @@ function Tab(
     );
 }
 
-export default function Tabs(
-    { interventions, onSelectIntervention, onDeleteIntervention, addIntervention }:
-    { interventions: Intervention[], onSelectIntervention: Function, onDeleteIntervention: Function, addIntervention: Function }
-) {
-    // handle bug where no intervention is selected on render; select no
-    // treatment
-    let noneSelected: boolean = interventions.every(i => i.active === false);
-    noneSelected ? onSelectIntervention(0) : null;
+export default function Tabs({ interventions }: { interventions: Intervention[] }) {
     const dispatch = useInputsDispatch();
 
     return(
@@ -53,16 +55,39 @@ export default function Tabs(
                         <Tab
                             key={intervention.id}
                             intervention={intervention}
-                            onSelect={onSelectIntervention}
-                            onDelete={onDeleteIntervention}
                         />
                 ))}
-                <button className="interventionTab addTab" onClick={() =>
-                            dispatch({
-                                type: 'intervention add'
-                            })}>
-                    + New Intervention
-                </button>
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <button className="interventionTab addTab">+ New Intervention</button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="add-intervention-dropdown">
+                        <DropdownMenuItem
+                            className="add-intervention-item"
+                            onSelect={() =>
+                                dispatch({
+                                    type: 'intervention add',
+                                    intervention: "Intervention",
+                                })}
+                        >
+                            Blank Intervention
+                        </DropdownMenuItem>
+                        {inputs.interventions.map(intervention => (
+                                <DropdownMenuItem
+                                    key={intervention.id}
+                                    className="add-intervention-item"
+                                    onSelect={() =>
+                                        dispatch({
+                                            type: "intervention add",
+                                            intervention: `${intervention.name}`,
+                                        })
+                                    }
+                                >
+                                    {intervention.name}
+                                </DropdownMenuItem>
+                        ))}
+                    </DropdownMenuContent>
+                </DropdownMenu>
             </div>
         </>
     );

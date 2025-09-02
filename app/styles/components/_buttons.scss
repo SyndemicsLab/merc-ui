@@ -4,7 +4,8 @@
 @mixin info-button (
     $color: var(--primary-color),
     $hover-color: var(--secondary-color),
-    $text-color: #fff) {
+    $text-color: #fff
+) {
     color: $text-color;
     background-color: $color;
     display: flex;
@@ -26,6 +27,7 @@
     user-select: none;
 
     &:hover {
+        color: $text-color;
         background-color: $hover-color;
         transform: scale(1.05);
     }

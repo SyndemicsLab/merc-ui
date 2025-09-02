@@ -24,7 +24,7 @@ export default function Inputs() {
             // we're checking for intersection with
             const entry = entries[0];
             updateInputsVisible(entry.isIntersecting);
-        });
+        }, { threshold: [0.05]});
         observer.observe(inputRef.current);
     }, [])
 
@@ -35,7 +35,7 @@ export default function Inputs() {
                 destination="/simulation#inputs"
                 visible={!inputsVisible}
             />
-            <h1>Simulation Inputs</h1>
+            <h1>General Inputs</h1>
             <fetcher.Form method="post">
                 <div id="global-inputs">
                     <ManagedSlider
@@ -95,6 +95,7 @@ export default function Inputs() {
                         }
                     />
                 </div>
+                <h1>Intervention Inputs</h1>
                 <Interventions />
             </fetcher.Form>
             <AdvancedInputs />
@@ -139,7 +140,7 @@ const AdvancedInputs = () => {
                     Advanced Options
                 </div>
             </label>
-            <div id="advanced" className={showAdvanced ? "unhidden" : "hidden"}>
+            <div id="advanced" className={showAdvanced ? "unhidden" : null}>
                 <h2>For More Information</h2>
                 <div className="more-info">
                     <InfoButton

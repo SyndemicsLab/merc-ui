@@ -4,6 +4,7 @@
 @use "styles/glossary";
 @use "styles/contact";
 @use "styles/components/buttons" as buttons;
+@use "styles/effects/fade" as fade;
 
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&display=swap');
 
@@ -102,6 +103,14 @@ html, body {
     padding: 20px;
 }
 
+a {
+    color: var(--primary-color);
+    transition-duration: var(--transition-duration);
+    &:hover {
+        color: var(--secondary-color);
+    }
+}
+
 /* NAVBAR */
 
 .header {
@@ -136,6 +145,11 @@ html, body {
 .nav-links {
     display: flex;
     gap: 5px;
+
+    // prevent text selection within element
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .nav-button {
@@ -147,6 +161,7 @@ html, body {
     cursor: pointer;
     text-decoration: none;
     padding: 0 var(--spacing);
+    transition-duration: 0.5s;
 }
 
 .nav-button:hover,
@@ -213,6 +228,12 @@ html, body {
     display: flex;
     flex-direction: column;
     gap: 20px;
+
+    // prevent text selection within element
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
     img {
         width: 200px;
     }
@@ -243,6 +264,7 @@ label {
     overflow-y: scroll;
     padding: 3rem;
     max-height: calc(100vh - 1rem);
+
     ::-webkit-scrollbar {
         display: none;
     }
@@ -279,27 +301,29 @@ label {
     }
 
     .overlay {
-        display: none;
+        display: flex;
         height: 100%;
         width: 100%;
         position: fixed;
         top: 0;
         left: 0;
         background-color: rgba(0, 0, 0, 0.92);
-        transition: opacity 0.5s ease, visibility 0.2s ease;
         z-index: 9999;
         opacity: 0;
-        visibility: hidden;
+
+        // prevent text selection within element
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
     }
 
     .overlay.open {
-        display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         opacity: 1;
         visibility: visible;
-        animation: fadeIn 0.4s ease-in-out forwards;
+        animation: fade-in 0.4s ease-in-out forwards;
     }
 
     .overlay .menu-icon {
@@ -310,30 +334,30 @@ label {
 
     .overlay-content {
         text-align: left;
-        // position: fixed;
-        // left: 100px;
         margin: auto;
     }
 
     .overlay-link {
+        font-size: 36px;
+        display: block;
         padding: 16px;
         text-decoration: none;
-        font-size: 36px;
         color: white;
-        display: block;
         transition: 0.3s;
-        font-family: 'IBM Plex Sans', sans-serif;
         font-weight: 500;
     }
 
     .overlay-link:hover,
     .overlay-link:focus {
-        color: #f0325f;
+        color: var(--secondary-color);
     }
+}
 
-    .overlay.closing {
-        opacity: 0;
-        visibility: hidden;
-        animation: fadeOut 0.8s ease-in-out forwards;
+@media (max-width: 550px) {
+    .footer-content {
+        flex-direction: column;
+    }
+    .footer-description {
+        text-align: left;
     }
 }
