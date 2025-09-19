@@ -1,6 +1,7 @@
 // $color: color of the button when the cursor is not hovering over it
 // $hover-color: color of the button when the cursor is hovering over it
 // $text-color: color of the button's text
+// $font-size: the size of text, including SVGs, within buttons
 @mixin info-button (
     $color: var(--primary-color),
     $hover-color: var(--secondary-color),
