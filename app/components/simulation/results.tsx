@@ -11,6 +11,7 @@ import { useState } from "react";
 import { Button } from "@components/ui/button";
 import Disclaimers from "@components/simulation/disclaimers";
 import EmailIntake from "@simulation/emailintake";
+import LinePlot from "@components/simulation/viz/line-plot";
 
 function Result({loaded, loadedController}) {
     setTimeout(() => {
@@ -58,7 +59,10 @@ export default function Results() {
                     </DialogDescription>
                 </DialogHeader>
                 <Disclaimers />
-                <Result loaded={loaded} loadedController={setLoaded} />
+                {/* <Result loaded={loaded} loadedController={setLoaded} /> */}
+                <LinePlot
+                    data={[[0, 0], [1, 1000], [2, 1500], [3, 3000]]}
+                />
             </DialogContent>
         </Dialog>
     )

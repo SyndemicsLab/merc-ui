@@ -371,6 +371,34 @@ button:hover {
     aspect-ratio: 1 / 1;
 }
 
+.block-trans-collapsible {
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition-duration: 300ms;
+
+    &:hover {
+        color: var(--secondary-color);
+    }
+
+    &[data-state="closed"] {
+        animation: slide-up;
+    }
+
+    &[data-state="open"] {
+        animation: slide-down;
+    }
+
+    &[data-state="closed"]::before {
+        content: '▸ Show ';
+    }
+
+    &[data-state="open"]::before {
+        content: '▾ Hide ';
+    }
+
+}
+
 #results {
 }
 

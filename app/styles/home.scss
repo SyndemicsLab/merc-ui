@@ -1,4 +1,4 @@
-@use "components/nav_button" as buttons;
+@use "components/buttons" as buttons;
 @use "components/centered_list" as centered;
 
 h1 {
@@ -64,7 +64,7 @@ h1 {
 
 /* HOMEPAGE */
 
-.main {
+.home {
     margin: auto;
 
     > * {
@@ -72,7 +72,7 @@ h1 {
     }
 }
 
-.main * {
+.home * {
     text-align: justify;
 }
 
@@ -189,7 +189,7 @@ h1 {
 }
 
 @media (max-width: 1500px) {
-    #home .home-content {
+    .home-section .home-content {
         margin: auto;
         width: 80%;
     }

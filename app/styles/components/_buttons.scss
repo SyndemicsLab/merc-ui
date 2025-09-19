@@ -4,14 +4,17 @@
 @mixin info-button (
     $color: var(--primary-color),
     $hover-color: var(--secondary-color),
-    $text-color: #fff
+    $text-color: #fff,
+    $font-size: 16px
 ) {
     color: $text-color;
     background-color: $color;
     display: flex;
+    font-size: $font-size;
     flex-direction: row;
     align-items: center;
     gap: 10px;
+    height: min-content;
     width: fit-content;
     margin: var(--spacing) calc(var(--spacing) * 2) var(--spacing) 0;
     font-weight: 500;
@@ -30,5 +33,83 @@
         color: $text-color;
         background-color: $hover-color;
         transform: scale(1.05);
+    }
+
+    & svg {
+        height: $font-size;
+    }
+}
+
+// $color - the color of the button
+@mixin nav-button($color) {
+    background-color: $color;
+    font-family: 'IBM Plex Sans', sans-serif;
+    border-radius: 13px;
+    color: #fff;
+    font-size: 20px;
+    font-weight: 500;
+    padding: 27px 35px;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    transition: transform 0.2s ease-in-out;
+    will-change: transform;
+    z-index: 0;
+    text-decoration: none;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    text-wrap-mode: nowrap;
+    flex-grow: 1;
+
+    // prevent text selection within element
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        border: 2px solid transparent;
+        border-radius: 13px;
+        box-sizing: border-box;
+        transition: border 0.3s ease-out;
+        z-index: 1;
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        background-color: #fff;
+        border-radius: 13px;
+        transform: scaleX(0);
+        transform-origin: left center;
+        transition: transform 0.3s ease-out;
+        z-index: -1;
+    }
+
+    &:hover {
+        color: $color;
+        transform: scale(1.05);
+        will-change: transform;
+        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    &:hover::before {
+        border-color: $color;
+    }
+
+    &:hover::after {
+        transform: scaleX(1);
     }
 }

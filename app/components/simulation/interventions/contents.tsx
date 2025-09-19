@@ -14,6 +14,7 @@ import { useInputsDispatch } from "@components/input-contexts";
 import { Button } from "@components/ui/button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfo } from "@fortawesome/free-solid-svg-icons";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@radix-ui/react-collapsible";
 
 function InterventionInfo(
     { intervention, onNameChange }:
@@ -106,16 +107,25 @@ function Content(
                         })
                     }
                 />
-                <Transitions
-                    transitions={transitions}
-                    onTransitionChange={(value, transition) =>
-                        dispatch({
-                            type: 'intervention change transition',
-                            transitionID: transition,
-                            interventionID: intervention.id,
-                            value: value
-                        })}
-                />
+                <Collapsible>
+                    <CollapsibleTrigger asChild>
+                        <h3 className="block-trans-collapsible">
+                            Transitions Between Interventions
+                        </h3>
+                    </CollapsibleTrigger>
+                    <CollapsibleContent>
+                        <Transitions
+                            transitions={transitions}
+                            onTransitionChange={(value, transition) =>
+                                dispatch({
+                                    type: 'intervention change transition',
+                                    transitionID: transition,
+                                    interventionID: intervention.id,
+                                    value: value
+                                })}
+                        />
+                    </CollapsibleContent>
+                </Collapsible>
                 <hr style={{ margin: "1em 0", color: "var(--tertiary-color)" }}/>
                 <Overdoses
                     overdoses={intervention.overdose}

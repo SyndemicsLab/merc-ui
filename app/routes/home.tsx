@@ -57,7 +57,7 @@ export async function action({ request }: Route.ActionArgs) {
     });
 }
 
-function HomeCircle({ image }: { image: HTMLImageElement }) {
+function HomeImage({ image }: { image: HTMLImageElement }) {
     return(
         <div className="home-circle">
             <img src={image} alt="RESPOND at the Syndemics Lab" />
@@ -67,7 +67,7 @@ function HomeCircle({ image }: { image: HTMLImageElement }) {
 
 export default function Home({ loaderData }: Route.ComponentProps) {
     return (
-        <main className="main">
+        <main className="home">
             {loaderData.showQuestionnaire ? (
                 <Questionnaire />
             ) : null}
@@ -87,7 +87,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
                         <Link to="/respond" className="about-button">More on RESPOND</Link>
                     </div>
                 </div>
-                <HomeCircle image={homecircle} />
+                <HomeImage image={homecircle} />
             </section>
             <AboutTool />
         </main>
