@@ -6,33 +6,11 @@ import {
     DialogDescription,
     DialogFooter,
 } from "@components/ui/dialog";
-import results from "~/images/examples/results.jpg";
 import { useState } from "react";
 import { Button } from "@components/ui/button";
 import Disclaimers from "@components/simulation/disclaimers";
 import EmailIntake from "@simulation/emailintake";
 import LinePlot from "@components/simulation/viz/line-plot";
-
-function Result({loaded, loadedController}) {
-    setTimeout(() => {
-        loadedController(true);
-    }, 5000);
-    if (loaded) {
-        return(
-            <>
-                <img className="sim-result" src={results} alt="RESPOND model results" />
-                <DialogFooter>
-                    <Button type="download">Download Results</Button>
-                    <EmailIntake />
-                </DialogFooter>
-            </>
-        );
-    } else {
-        return(
-            <div className="loader" />
-        );
-    }
-}
 
 export default function Results() {
     const [open, setOpen] = useState(false);
@@ -59,9 +37,11 @@ export default function Results() {
                     </DialogDescription>
                 </DialogHeader>
                 <Disclaimers />
-                {/* <Result loaded={loaded} loadedController={setLoaded} /> */}
+                {/* Still need to add a loading indicator to plots */}
                 <LinePlot
-                    data={[[0, 0], [1, 1000], [2, 1500], [3, 3000]]}
+                    data={[[0, 0], [1, 1000], [2, 1500], [3, 3000], [4, 2200], [5, 4000], [6, 8000], [7, 5000], [8, 4400], [9, 8500]]}
+                    width={480}
+                    height={360}
                 />
             </DialogContent>
         </Dialog>
