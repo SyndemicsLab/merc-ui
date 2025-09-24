@@ -377,6 +377,11 @@ button:hover {
     cursor: pointer;
     transition-duration: 300ms;
 
+    // prevent text selection within element
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
     &:hover {
         color: var(--secondary-color);
     }

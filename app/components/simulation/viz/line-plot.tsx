@@ -1,4 +1,61 @@
 import * as d3 from "d3";
+import { useState, Fragment } from "react";
+
+function Tip({ data, position, show }) {
+    return(
+            <g
+                pointerEvents="none"
+                className={show ? null : "hidden"}
+            >
+                <text
+                    style={{ fontSize: "1em" }}>
+                    {`${data[0]}: ${data[1]}`}
+                </text>
+            </g>
+    );
+}
+
+function Tooltip({ data, height, x, y }) {
+    const [showIndex, setShowIndex] = useState(-1);
+
+    let regions = [];
+    let tips = [];
+    for (let d = 0; d < data.length; ++d) {
+        let width = 0;
+        if (d === data.length - 1) {
+            width = x(data[d][0]) - x(data[d-1][0]);
+        } else {
+            width = x(data[d+1][0]) - x(data[d][0]);
+        }
+        regions.push(
+            <Fragment key={d}>
+                <rect
+                    x={x(data[d][0]) - width / 2}
+                    height={height}
+                    width={width}
+                    onMouseOver={() => setShowIndex(d)}
+                    onMouseOut={() => setShowIndex(-1)}
+                ></rect>
+            </Fragment>
+        );
+        tips.push(
+            <Tip
+                key={d}
+                data={data[d]}
+                position={`${x(data[d][0])}, ${y(data[d][1])}`}
+                show={showIndex === d}
+            />
+        );
+    }
+    return(
+        <>
+            <g fill="none" pointerEvents="all">
+                {regions}
+            </g>
+            {tips}
+        </>
+    );
+}
 
 export default function LinePlot({
     data,
@@ -81,6 +138,7 @@ export default function LinePlot({
                     );
                 })}
             </g>
+            <Tooltip data={data} height={height} x={x} y={y} />
         </svg>
     );
 }
