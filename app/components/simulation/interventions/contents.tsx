@@ -107,7 +107,7 @@ function Content(
                         })
                     }
                 />
-                <Collapsible>
+                <Collapsible className="block-trans-root">
                     <CollapsibleTrigger asChild>
                         <h3 className="block-trans-collapsible">
                             Transitions Between Interventions

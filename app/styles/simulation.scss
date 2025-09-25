@@ -371,6 +371,12 @@ button:hover {
     aspect-ratio: 1 / 1;
 }
 
+.block-trans-root[data-state="open"] {
+    *:not(h3) {
+        margin-left: 0.5rem;
+    }
+}
+
 .block-trans-collapsible {
     font-size: 18px;
     font-weight: bold;
@@ -392,6 +398,7 @@ button:hover {
 
     &[data-state="open"] {
         animation: slide-down;
+        margin-bottom: 1rem;
     }
 
     &[data-state="closed"]::before {
