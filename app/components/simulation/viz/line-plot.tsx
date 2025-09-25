@@ -13,7 +13,7 @@ function Tip({ data, position, show }) {
                 <text
                     y="-15"
                     style={{ fontSize: "0.8em", fontFamily: "sans-serif" }}>
-                    {`${data[0]}: ${data[1]}`}
+                    {`(${data[0]}, ${data[1]})`}
                 </text>
                 <circle r="3.5" stroke="currentColor" strokeWidth="2" />
             </g>
@@ -69,10 +69,11 @@ export default function LinePlot({
     margin = 20
 }) {
     const x = d3.scaleLinear()
-          .domain([0, d3.max(data, d => d[0])])
+          .domain([d3.min(data, d => d[0]), d3.max(data, d => d[0])])
           .range([margin, width - (2 * margin)]);
+    const yMin = d3.min(data, d => d[1]);
     const y = d3.scaleLinear()
-          .domain([0, d3.max(data, d => d[1])])
+          .domain([yMin > 0 ? 0 : yMin, d3.max(data, d => d[1])])
           .range([height - margin, margin]);
     const line = d3.line()
           .x(d => x(d[0]))
@@ -113,6 +114,14 @@ export default function LinePlot({
                     </text>
                 </g>
             ))}
+            <g transform={`translate(${width}, ${height - margin})`}>
+                <text
+                    style={{
+                        textAnchor: "middle",
+                        alignmentBaseline: "central",
+                        fontSize: "0.8em"
+                    }}>X-axis</text>
+            </g>
             <path
                 fill="none"
                 stroke="currentColor"
@@ -135,6 +144,9 @@ export default function LinePlot({
                     </text>
                 </g>
             ))}
+            <g transform={`translate(0, ${margin/2})`}>
+                <text style={{ fontSize: "0.8em" }}>Y-axis</text>
+            </g>
             <path fill="none" stroke="#003771" strokeWidth="2" d={line(data)} />
             <g fill="#3D9BE9" stroke="#003771" strokeWidth="2">
                 {data.map((d, i) => {

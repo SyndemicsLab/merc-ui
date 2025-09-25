@@ -132,11 +132,7 @@ function inputsReducer(simulationInputs: Inputs, action: Action) {
         return({
             ...simulationInputs,
             interventions: simulationInputs.interventions.map((i: Intervention) => {
-                if (i.id === action.id) {
-                    i.active = true;
-                } else {
-                    i.active = false;
-                }
+                i.active = (i.id === action.id) ? true : false;
                 return i;
             })
         });
@@ -150,14 +146,13 @@ function inputsReducer(simulationInputs: Inputs, action: Action) {
             interventions: simulationInputs.interventions.map(
                 (intervention: Intervention) => {
                     let transitions = intervention.transitions.map(t => {
-                        if (t.id === action.id) {
-                            if (intervention.id === action.id) {
-                                return {...t, name: `Post-${updatedName}`};
-                            } else {
-                                return {...t, name: updatedName};
-                            }
+                        if (t.id !== action.id) {
+                            return t;
                         }
-                        return t;
+                        if (intervention.id === action.id) {
+                            return {...t, name: `Post-${updatedName}`};
+                        }
+                        return {...t, name: updatedName};
                     });
                     if (intervention.id === action.id) {
                         return {
@@ -165,12 +160,11 @@ function inputsReducer(simulationInputs: Inputs, action: Action) {
                             name: updatedName,
                             transitions: transitions
                         };
-                    } else {
-                        return {
-                            ...intervention,
-                            transitions: transitions
-                        };
                     }
+                    return {
+                        ...intervention,
+                        transitions: transitions
+                    };
                 })
         };
     }
@@ -249,10 +243,8 @@ function inputsReducer(simulationInputs: Inputs, action: Action) {
                     };
                     // open no treatment when deleting the active intervention
                     // tab
-                    if (deletingActive) {
-                        if (newIntervention.id === 0) {
-                            return {...newIntervention, active: true };
-                        }
+                    if (deletingActive && newIntervention.id === 0) {
+                        return {...newIntervention, active: true };
                     }
                     return newIntervention;
                 }
@@ -285,17 +277,18 @@ function inputsReducer(simulationInputs: Inputs, action: Action) {
     }
     case 'intervention change transition': {
         let newInterventions = simulationInputs.interventions.map(i => {
-            if (i.id === action.interventionID) {
-                return {
-                    ...i,
-                    transitions: i.transitions.map(t => {
-                        if (t.id === action.transitionID) {
-                            return {...t, probability: action.value};
-                        }
-                        return t;
-                    })};
+            if (i.id !== action.interventionID) {
+                return i;
             }
-            return i;
+            return {
+                ...i,
+                transitions: i.transitions.map(t => {
+                    if (t.id === action.transitionID) {
+                        return {...t, probability: action.value};
+                    }
+                    return t;
+                })
+            };
         });
 
         let newTransitionProbabilities: number[] = newInterventions.find(
@@ -316,18 +309,18 @@ function inputsReducer(simulationInputs: Inputs, action: Action) {
     }
     case 'intervention change overdose': {
         let newInterventions = simulationInputs.interventions.map(i => {
-            if (i.id === action.interventionID) {
-                return {
-                    ...i,
-                    overdose: i.overdose.map((od) => {
-                        if (od.injection == action.injection) {
-                            return {...od, probability: action.value};
-                        }
-                        return od;
-                    })
-                };
+            if (i.id !== action.interventionID) {
+                return i;
             }
-            return i;
+            return {
+                ...i,
+                overdose: i.overdose.map((od) => {
+                    if (od.injection == action.injection) {
+                        return {...od, probability: action.value};
+                    }
+                    return od;
+                })
+            };
         });
     }
     default: {

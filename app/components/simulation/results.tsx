@@ -56,6 +56,16 @@ export default function Results() {
                 />
                 <LinePlot
                     data={[
+                        [-10, Math.floor(Math.random() * 10000) + 500],
+                        [-9, Math.floor(Math.random() * 10000) + 500],
+                        [-8, Math.floor(Math.random() * 10000) + 500],
+                        [-7, Math.floor(Math.random() * 10000) + 500],
+                        [-6, Math.floor(Math.random() * 10000) + 500],
+                        [-5, -(Math.floor(Math.random() * 10000) + 500)],
+                        [-4, Math.floor(Math.random() * 10000) + 500],
+                        [-3, Math.floor(Math.random() * 10000) + 500],
+                        [-2, Math.floor(Math.random() * 10000) + 500],
+                        [-1, Math.floor(Math.random() * 10000) + 500],
                         [0, Math.floor(Math.random() * 10000) + 500],
                         [1, Math.floor(Math.random() * 10000) + 500],
                         [2, Math.floor(Math.random() * 10000) + 500],
