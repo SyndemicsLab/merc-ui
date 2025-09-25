@@ -6,11 +6,16 @@ function Tip({ data, position, show }) {
             <g
                 pointerEvents="none"
                 className={show ? null : "hidden"}
+                textAnchor="middle"
+                transform={`translate(${position})`}
             >
+                <rect x="-27" width="54" y="-30" height="20" fill="white"></rect>
                 <text
-                    style={{ fontSize: "1em" }}>
+                    y="-15"
+                    style={{ fontSize: "0.8em", fontFamily: "sans-serif" }}>
                     {`${data[0]}: ${data[1]}`}
                 </text>
+                <circle r="3.5" stroke="currentColor" strokeWidth="2" />
             </g>
     );
 }
