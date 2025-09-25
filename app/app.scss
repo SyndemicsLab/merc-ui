@@ -216,7 +216,7 @@ a {
 
 .footer-content {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     max-width: 1200px;
     margin: 0 auto;
     gap: 30px;
@@ -224,10 +224,12 @@ a {
 }
 
 .footer-logos {
-    min-width: 200px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    width: 100%;
     gap: 20px;
+    align-items: center;
+    justify-content: space-around;
 
     // prevent text selection within element
     -webkit-user-select: none;
@@ -235,7 +237,8 @@ a {
     user-select: none;
 
     img {
-        width: 200px;
+        max-height: 100px;
+        max-width: 200px;
     }
 }
 
@@ -353,8 +356,11 @@ label {
     }
 }
 
-@media (max-width: 550px) {
+@media (max-width: 700px) {
     .footer-content {
+        flex-direction: column;
+    }
+    .footer-logos {
         flex-direction: column;
     }
     .footer-description {

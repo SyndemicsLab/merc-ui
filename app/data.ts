@@ -1,6 +1,12 @@
 // This is meant to be a temporary file replicating what would be held in a
 // cloud data source
 
+export interface Transition {
+    id: number;
+    name: string;
+    probability: number;
+}
+
 export interface Intervention {
     id: number;
     name: string;
@@ -9,12 +15,7 @@ export interface Intervention {
     info?: boolean;
     population: number;
     overdose: Overdose[];
-}
-
-export interface Transition {
-    id: number;
-    name: string;
-    probability: number;
+    transitions: Transition[];
 }
 
 export interface Overdose {
@@ -22,7 +23,7 @@ export interface Overdose {
     injection: boolean;
 }
 
-interface Inputs {
+export interface Inputs {
     duration: number;
     population: number;
     entering: number;

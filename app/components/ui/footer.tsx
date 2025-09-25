@@ -1,6 +1,7 @@
 import { Link } from  "react-router";
-import BMC from '~/images/organization-logos/BMC Logos.png';
-import syndemics from '~/images/organization-logos/syndemics-outline.png';
+import BMC from '~/images/organization-logos/bmc.png';
+import syndemics from '~/images/organization-logos/syndemics.png';
+import HD2A from '~/images/organization-logos/hd2a.svg';
 
 function Logo(
     { image, alt, link }:
@@ -29,6 +30,11 @@ const Footer = () => {
                         image={BMC}
                         alt="Boston Medical Center"
                         link="https://bmc.org"
+                    />
+                    <Logo
+                        image={HD2A}
+                        alt="HEAL Data 2 Action"
+                        link="https://www.hd2arasc.org"
                     />
                 </div>
                 <p className="footer-description">

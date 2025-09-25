@@ -361,7 +361,7 @@ button:hover {
 }
 
 .intervention-info {
-    @include buttons.info-button();
+    @include buttons.info-button($font-size: 11px);
     display: inline-flex;
     margin-left: calc(var(--spacing) * 2);
     padding: 5px;
@@ -369,6 +369,46 @@ button:hover {
     width: 24px;
     font-size: 12px;
     aspect-ratio: 1 / 1;
+}
+
+.block-trans-root[data-state="open"] {
+    *:not(h3) {
+        margin-left: 0.5rem;
+    }
+}
+
+.block-trans-collapsible {
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition-duration: 300ms;
+
+    // prevent text selection within element
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    &:hover {
+        color: var(--secondary-color);
+    }
+
+    &[data-state="closed"] {
+        animation: slide-up;
+    }
+
+    &[data-state="open"] {
+        animation: slide-down;
+        margin-bottom: 1rem;
+    }
+
+    &[data-state="closed"]::before {
+        content: '▸ Show ';
+    }
+
+    &[data-state="open"]::before {
+        content: '▾ Hide ';
+    }
+
 }
 
 #results {

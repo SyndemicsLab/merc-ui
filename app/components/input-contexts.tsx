@@ -1,16 +1,31 @@
-import { createContext, useContext, useReducer } from "react";
+import {
+    createContext,
+    useContext,
+    useReducer,
+    type ReactNode
+} from "react";
 import {
     type Intervention,
+    type Transition,
+    type Inputs,
     inputs,
     makeEmptyTransition
 } from "~/data";
+
+interface Action {
+    type: string;
+    value?: number;
+    id?: number;
+    name?: string;
+    intervention?: string;
+}
 
 // used to avoid "prop drilling" through objects to access state for simulation
 // inputs
 export const InputsContext = createContext(null);
 export const InputsDispatchContext = createContext(null);
 
-export function InputProvider({ children }) {
+export function InputProvider({ children }: { children: ReactNode }) {
     const [simulationInputs, dispatch] = useReducer(
         inputsReducer,
         inputs
@@ -25,19 +40,20 @@ export function InputProvider({ children }) {
 }
 
 function makeTransitionsFromExistingIntervention(
-    newName,
-    newID,
-    reference,
-    currentInterventions,
+    newName: string,
+    newID: number,
+    reference: Intervention,
+    currentInterventions: Intervention[],
 ) {
     let transitions: Transition[] = [{
         name: `Post-${newName}`,
         id: newID,
         probability: reference.transitions[0].probability
     }];
-    const baseTransitionIDs: Transition[] = reference.transitions.map(t => t.id);
+    const baseTransitionIDs: number[] = reference.transitions.map(t => t.id);
     transitions = transitions.concat(currentInterventions.map(intervention => {
-        if (intervention.id !== reference.id && baseTransitionIDs.includes(intervention.id)) {
+        if (intervention.id !== reference.id &&
+            baseTransitionIDs.includes(intervention.id)) {
             return reference.transitions.find(t => t.id === intervention.id);
         }
         return makeEmptyTransition(intervention.id, intervention.name);
@@ -54,13 +70,13 @@ export function useInputsDispatch() {
 }
 
 function getInterventionID(interventions: Intervention[]): number {
-    return(interventions[interventions.length - 1].id + 1);
+    return(Math.max(...interventions.map((i: Intervention) => i.id)) + 1);
 }
 
 // generate a name for a new intervention
 function getNewInterventionName(
     interventions: Intervention[],
-    baseName?: string = "Intervention"
+    baseName: string = "Intervention"
 ): string {
     let num = 1;
     let used = interventions.map((intervention) => intervention.name);
@@ -73,20 +89,21 @@ function getNewInterventionName(
 function constrainValues(
     values: number[],
     limit: number,
-    decimals?: number = 5
-) {
+    comparison: string = "max",
+): boolean {
     let sumValues: number = values.reduce(
-        (accumulator, value) => accumulator + parseFloat(value),
+        (accumulator: number, value: number) => accumulator + Number(value),
         0
-    ).toFixed(decimals);
-
-    if (sumValues > limit) {
+    );
+    if (comparison === "max" && sumValues > limit) {
+        return(true);
+    } else if (comparison === "min" && sumValues < limit) {
         return(true);
     }
     return(false);
 }
 
-function inputsReducer(simulationInputs, action) {
+function inputsReducer(simulationInputs: Inputs, action: Action) {
     switch(action.type) {
     case 'change duration': {
         return({
@@ -114,12 +131,8 @@ function inputsReducer(simulationInputs, action) {
     case 'intervention select': {
         return({
             ...simulationInputs,
-            interventions: simulationInputs.interventions.map(i => {
-                if (i.id === action.id) {
-                    i.active = true;
-                } else {
-                    i.active = false;
-                }
+            interventions: simulationInputs.interventions.map((i: Intervention) => {
+                i.active = (i.id === action.id) ? true : false;
                 return i;
             })
         });
@@ -130,30 +143,29 @@ function inputsReducer(simulationInputs, action) {
         let updatedName = action.name === "" ? "<no name>" : action.name;
         return {
             ...simulationInputs,
-            interventions: simulationInputs.interventions.map((intervention) => {
-            let transitions = intervention.transitions.map(t => {
-                if (t.id === action.id) {
-                    if (intervention.id === action.id) {
-                        return {...t, name: `Post-${updatedName}`};
-                    } else {
+            interventions: simulationInputs.interventions.map(
+                (intervention: Intervention) => {
+                    let transitions = intervention.transitions.map(t => {
+                        if (t.id !== action.id) {
+                            return t;
+                        }
+                        if (intervention.id === action.id) {
+                            return {...t, name: `Post-${updatedName}`};
+                        }
                         return {...t, name: updatedName};
+                    });
+                    if (intervention.id === action.id) {
+                        return {
+                            ...intervention,
+                            name: updatedName,
+                            transitions: transitions
+                        };
                     }
-                }
-                return t;
-            });
-            if (intervention.id === action.id) {
-                return {
-                    ...intervention,
-                    name: updatedName,
-                    transitions: transitions
-                };
-            } else {
-                return {
-                    ...intervention,
-                    transitions: transitions
-                };
-            }
-            })
+                    return {
+                        ...intervention,
+                        transitions: transitions
+                    };
+                })
         };
     }
     case 'intervention add': {
@@ -163,17 +175,19 @@ function inputsReducer(simulationInputs, action) {
             action.intervention
         );
         let newInterventions: Intervention[] =
-            simulationInputs.interventions.map(i => {
-                return(
-                    {...i, transitions: [
-                        ...i.transitions, makeEmptyTransition(id, name)
-                    ], active: false}
-                );
-            });
+            simulationInputs.interventions.map(
+                (i: Intervention) => {
+                    return(
+                        {...i, transitions: [
+                            ...i.transitions, makeEmptyTransition(id, name)
+                        ], active: false}
+                    );
+                });
 
         let newIntervention;
         if (action.intervention !== "Intervention") {
-            let temp = inputs.interventions.find(i => i.name === action.intervention);
+            let temp = inputs.interventions.find(
+                (i: Intervention) => i.name === action.intervention);
             if (temp === undefined) {
                 throw Error(`Unknown intervention: ${action.intervention}`);
             }
@@ -215,38 +229,41 @@ function inputsReducer(simulationInputs, action) {
     }
     case 'intervention delete': {
         let toDelete: Intervention =
-            {...simulationInputs.interventions.find(i => i.id === action.id)};
+            {...simulationInputs.interventions.find(
+                (i: Intervention) => i.id === action.id)};
         let deletingActive: boolean = toDelete.active;
-        let newInterventions: Intervention[] = simulationInputs.interventions.map(
-            intervention => {
-                // remove the transition associated with the intervention being
-                // deleted
-                let newIntervention: Intervention = {
-                    ...intervention,
-                    transitions: intervention.transitions.filter(t => t.id !== action.id)
-                };
-                // open no treatment when deleting the active intervention tab
-                if (deletingActive) {
-                    if (newIntervention.id === 0) {
+        let newInterventions: Intervention[] =
+            simulationInputs.interventions.map(
+                (intervention: Intervention) => {
+                    // remove the transition associated with the intervention
+                    // being deleted
+                    let newIntervention: Intervention = {
+                        ...intervention,
+                        transitions: intervention.transitions.filter(t => t.id !== action.id)
+                    };
+                    // open no treatment when deleting the active intervention
+                    // tab
+                    if (deletingActive && newIntervention.id === 0) {
                         return {...newIntervention, active: true };
                     }
+                    return newIntervention;
                 }
-                return newIntervention;
-            }
-        );
-        newInterventions = newInterventions.filter(i => i.id !== action.id);
+            );
+        newInterventions = newInterventions.filter(
+            (i: Intervention) => i.id !== action.id);
         return {
             ...simulationInputs,
             interventions: newInterventions
         };
     }
     case 'intervention change population': {
-        let newInterventions = simulationInputs.interventions.map(i => {
-            if (i.id === action.interventionID) {
-                return {...i, population: Number(action.value)};
-            }
-            return i;
-        });
+        let newInterventions = simulationInputs.interventions.map(
+            (i: Intervention) => {
+                if (i.id === action.interventionID) {
+                    return {...i, population: action.value};
+                }
+                return i;
+            });
 
         if (constrainValues(newInterventions.map(i => i.population),
                             simulationInputs.population)) {
@@ -260,17 +277,18 @@ function inputsReducer(simulationInputs, action) {
     }
     case 'intervention change transition': {
         let newInterventions = simulationInputs.interventions.map(i => {
-            if (i.id === action.interventionID) {
-                return {
-                    ...i,
-                    transitions: i.transitions.map(t => {
-                        if (t.id === action.transitionID) {
-                            return {...t, probability: action.value};
-                        }
-                        return t;
-                })};
+            if (i.id !== action.interventionID) {
+                return i;
             }
-            return i;
+            return {
+                ...i,
+                transitions: i.transitions.map(t => {
+                    if (t.id === action.transitionID) {
+                        return {...t, probability: action.value};
+                    }
+                    return t;
+                })
+            };
         });
 
         let newTransitionProbabilities: number[] = newInterventions.find(
@@ -291,18 +309,18 @@ function inputsReducer(simulationInputs, action) {
     }
     case 'intervention change overdose': {
         let newInterventions = simulationInputs.interventions.map(i => {
-            if (i.id === action.interventionID) {
-                return {
-                    ...i,
-                    overdose: i.overdose.map((od) => {
-                        if (od.injection == action.injection) {
-                            return {...od, probability: action.value};
-                        }
-                        return od;
-                    })
-                };
+            if (i.id !== action.interventionID) {
+                return i;
             }
-            return i;
+            return {
+                ...i,
+                overdose: i.overdose.map((od) => {
+                    if (od.injection == action.injection) {
+                        return {...od, probability: action.value};
+                    }
+                    return od;
+                })
+            };
         });
     }
     default: {

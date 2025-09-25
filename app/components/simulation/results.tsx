@@ -6,32 +6,11 @@ import {
     DialogDescription,
     DialogFooter,
 } from "@components/ui/dialog";
-import results from "~/images/examples/results.jpg";
 import { useState } from "react";
 import { Button } from "@components/ui/button";
 import Disclaimers from "@components/simulation/disclaimers";
 import EmailIntake from "@simulation/emailintake";
-
-function Result({loaded, loadedController}) {
-    setTimeout(() => {
-        loadedController(true);
-    }, 5000);
-    if (loaded) {
-        return(
-            <>
-                <img className="sim-result" src={results} alt="RESPOND model results" />
-                <DialogFooter>
-                    <Button type="download">Download Results</Button>
-                    <EmailIntake />
-                </DialogFooter>
-            </>
-        );
-    } else {
-        return(
-            <div className="loader" />
-        );
-    }
-}
+import LinePlot from "@components/simulation/viz/line-plot";
 
 export default function Results() {
     const [open, setOpen] = useState(false);
@@ -58,7 +37,59 @@ export default function Results() {
                     </DialogDescription>
                 </DialogHeader>
                 <Disclaimers />
-                <Result loaded={loaded} loadedController={setLoaded} />
+                {/* Still need to add a loading indicator to plots */}
+                <LinePlot
+                    data={[
+                        [0, 0],
+                        [1, 1000],
+                        [2, 1500],
+                        [3, 3000],
+                        [4, 2200],
+                        [5, 4000],
+                        [6, 8000],
+                        [7, 5000],
+                        [8, 4400],
+                        [9, 8500]
+                    ]}
+                    width={480}
+                    height={360}
+                />
+                <LinePlot
+                    data={[
+                        [-10, Math.floor(Math.random() * 10000) + 500],
+                        [-9, Math.floor(Math.random() * 10000) + 500],
+                        [-8, Math.floor(Math.random() * 10000) + 500],
+                        [-7, Math.floor(Math.random() * 10000) + 500],
+                        [-6, Math.floor(Math.random() * 10000) + 500],
+                        [-5, -(Math.floor(Math.random() * 10000) + 500)],
+                        [-4, Math.floor(Math.random() * 10000) + 500],
+                        [-3, Math.floor(Math.random() * 10000) + 500],
+                        [-2, Math.floor(Math.random() * 10000) + 500],
+                        [-1, Math.floor(Math.random() * 10000) + 500],
+                        [0, Math.floor(Math.random() * 10000) + 500],
+                        [1, Math.floor(Math.random() * 10000) + 500],
+                        [2, Math.floor(Math.random() * 10000) + 500],
+                        [3, Math.floor(Math.random() * 10000) + 500],
+                        [4, Math.floor(Math.random() * 10000) + 500],
+                        [5, Math.floor(Math.random() * 10000) + 500],
+                        [6, Math.floor(Math.random() * 10000) + 500],
+                        [7, Math.floor(Math.random() * 10000) + 500],
+                        [8, Math.floor(Math.random() * 10000) + 500],
+                        [9, Math.floor(Math.random() * 10000) + 500],
+                        [10, Math.floor(Math.random() * 10000) + 500],
+                        [11, Math.floor(Math.random() * 10000) + 500],
+                        [12, Math.floor(Math.random() * 10000) + 500],
+                        [13, Math.floor(Math.random() * 10000) + 500],
+                        [14, Math.floor(Math.random() * 10000) + 500],
+                        [15, Math.floor(Math.random() * 10000) + 500],
+                        [16, Math.floor(Math.random() * 10000) + 500],
+                        [17, Math.floor(Math.random() * 10000) + 500],
+                        [18, Math.floor(Math.random() * 10000) + 500],
+                        [20, Math.floor(Math.random() * 10000) + 500],
+                    ]}
+                    width={480}
+                    height={360}
+                />
             </DialogContent>
         </Dialog>
     )
