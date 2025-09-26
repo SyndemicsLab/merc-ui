@@ -1,5 +1,22 @@
 import * as d3 from "d3";
-import { useState, Fragment } from "react";
+import { useState } from "react";
+
+interface PlotMargins {
+    top: number;
+    left: number;
+    right: number;
+    bottom: number;
+}
+
+interface LinePlotProps {
+    data: any;
+    title: string;
+    xTitle: string;
+    yTitle: string;
+    width: number;
+    height: number;
+    margin: PlotMargins;
+}
 
 function Tip({ data, position, show }) {
     return(
@@ -33,15 +50,14 @@ function Tooltip({ data, height, x, y }) {
             width = x(data[d+1][0]) - x(data[d][0]);
         }
         regions.push(
-            <Fragment key={d}>
-                <rect
-                    x={x(data[d][0]) - width / 2}
-                    height={height}
-                    width={width}
-                    onMouseOver={() => setShowIndex(d)}
-                    onMouseOut={() => setShowIndex(-1)}
-                ></rect>
-            </Fragment>
+            <rect
+                key={d}
+                x={x(data[d][0]) - width / 2}
+                height={height}
+                width={width}
+                onMouseOver={() => setShowIndex(d)}
+                onMouseOut={() => setShowIndex(-1)}
+            ></rect>
         );
         tips.push(
             <Tip
@@ -64,10 +80,13 @@ function Tooltip({ data, height, x, y }) {
 
 export default function LinePlot({
     data,
+    title,
+    xTitle,
+    yTitle,
     width = 640,
     height = 480,
     margin = 20
-}) {
+}: LinePlotProps) {
     const x = d3.scaleLinear()
           .domain([d3.min(data, d => d[0]), d3.max(data, d => d[0])])
           .range([margin, width - (2 * margin)]);
@@ -120,7 +139,7 @@ export default function LinePlot({
                         textAnchor: "middle",
                         alignmentBaseline: "central",
                         fontSize: "0.8em"
-                    }}>X-axis</text>
+                    }}>{xTitle}</text>
             </g>
             <path
                 fill="none"
@@ -145,7 +164,7 @@ export default function LinePlot({
                 </g>
             ))}
             <g transform={`translate(0, ${margin/2})`}>
-                <text style={{ fontSize: "0.8em" }}>Y-axis</text>
+                <text style={{ fontSize: "0.8em" }}>{yTitle}</text>
             </g>
             <path fill="none" stroke="#003771" strokeWidth="2" d={line(data)} />
             <g fill="#3D9BE9" stroke="#003771" strokeWidth="2">
@@ -154,6 +173,9 @@ export default function LinePlot({
                         <circle key={i} cx={x(d[0])} cy={y(d[1])} r="3.5" />
                     );
                 })}
+            </g>
+            <g transform={`translate(${width / 2}, 0)`}>
+                <text style={{ fontSize: "1.5rem", textAnchor: "middle" }}>{title}</text>
             </g>
             <Tooltip data={data} height={height} x={x} y={y} />
         </svg>

@@ -51,8 +51,11 @@ export default function Results() {
                         [8, 4400],
                         [9, 8500]
                     ]}
-                    width={480}
-                    height={360}
+                    title="Result 1"
+                    xTitle="Time"
+                    yTitle="Value"
+                    width={600}
+                    height={400}
                 />
                 <LinePlot
                     data={[
@@ -87,6 +90,9 @@ export default function Results() {
                         [18, Math.floor(Math.random() * 10000) + 500],
                         [20, Math.floor(Math.random() * 10000) + 500],
                     ]}
+                    title="Result 2"
+                    xTitle="Time"
+                    yTitle="Value"
                     width={480}
                     height={360}
                 />
