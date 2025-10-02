@@ -26,13 +26,13 @@ function Tip({ data, position, show }) {
                 textAnchor="middle"
                 transform={`translate(${position})`}
             >
+                <circle r="3.5" stroke="currentColor" strokeWidth="2" />
                 <rect x="-27" width="54" y="-30" height="20" fill="white"></rect>
                 <text
                     y="-15"
                     style={{ fontSize: "0.8em", fontFamily: "sans-serif" }}>
                     {`(${data[0]}, ${data[1]})`}
                 </text>
-                <circle r="3.5" stroke="currentColor" strokeWidth="2" />
             </g>
     );
 }
@@ -104,7 +104,8 @@ export default function LinePlot({
     const yMin = d3.min(data, d => d[1]);
     const y = d3.scaleLinear()
           .domain([yMin > 0 ? 0 : yMin, d3.max(data, d => d[1])])
-          .range([height - margin.bottom, margin.top]);
+          .range([height - margin.bottom, margin.top])
+          .nice();
     const line = d3.line()
           .x(d => x(d[0]))
           .y(d => y(d[1]));
