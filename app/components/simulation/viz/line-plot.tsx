@@ -3,9 +3,9 @@ import { useState } from "react";
 
 interface PlotMargins {
     top: number;
-    left: number;
     right: number;
     bottom: number;
+    left: number;
 }
 
 interface LinePlotProps {
@@ -43,18 +43,24 @@ function Tooltip({ data, height, x, y }) {
     let regions = [];
     let tips = [];
     for (let d = 0; d < data.length; ++d) {
-        let width = 0;
+        let center = x(data[d][0]);
+        let leftBound, rightBound;
         if (d === data.length - 1) {
-            width = x(data[d][0]) - x(data[d-1][0]);
+            leftBound = (center - x(data[d-1][0])) / 2;
+            rightBound = leftBound;
+        } else if (d === 0) {
+            rightBound = (x(data[d+1][0]) - center) / 2;
+            leftBound = rightBound;
         } else {
-            width = x(data[d+1][0]) - x(data[d][0]);
+            leftBound = (center - x(data[d-1][0])) / 2;
+            rightBound = (x(data[d+1][0]) - center) / 2;
         }
         regions.push(
             <rect
                 key={d}
-                x={x(data[d][0]) - width / 2}
+                x={center - leftBound}
                 height={height}
-                width={width}
+                width={rightBound + leftBound}
                 onMouseOver={() => setShowIndex(d)}
                 onMouseOut={() => setShowIndex(-1)}
             ></rect>
@@ -83,35 +89,40 @@ export default function LinePlot({
     title,
     xTitle,
     yTitle,
-    width = 640,
-    height = 480,
-    margin = 20
+    width = 650,
+    height = 500,
+    margin = {
+        top: 20,
+        right: 30,
+        bottom: 40,
+        left: 50
+    }
 }: LinePlotProps) {
     const x = d3.scaleLinear()
           .domain([d3.min(data, d => d[0]), d3.max(data, d => d[0])])
-          .range([margin, width - (2 * margin)]);
+          .range([margin.left, width - (margin.left)]);
     const yMin = d3.min(data, d => d[1]);
     const y = d3.scaleLinear()
           .domain([yMin > 0 ? 0 : yMin, d3.max(data, d => d[1])])
-          .range([height - margin, margin]);
+          .range([height - margin.bottom, margin.top]);
     const line = d3.line()
           .x(d => x(d[0]))
           .y(d => y(d[1]));
     const xLine = d3.line()
-          .x(d => d > 0 ? width - margin : margin)
-          .y(d => height - margin );
+          .x(d => d > 0 ? width - margin.right : margin.left)
+          .y(d => height - margin.bottom );
     const xAxis = x.ticks(width / 40).map(value => ({
         value, xOffset: x(value)
     }));
     const yLine = d3.line()
-          .x(d => margin)
-          .y(d => d > 0 ? height - margin : margin - 1);
-    const yAxis = y.ticks(height / 20).map(value => ({
+          .x(d => margin.left)
+          .y(d => d > 0 ? height - margin.bottom : margin.top - 1);
+    const yAxis = y.ticks(height / 25).map(value => ({
         value, yOffset: y(value)
     }));
 
     return(
-        <svg width={width} height={height} style={{ maxWidth: "100%", height: "auto", margin: "auto", overflow: "visible" }}>
+        <svg width={width} height={height} style={{ maxWidth: "100%", width: "auto", height: "auto", margin: "auto", overflow: "visible" }}>
             <path
                 fill="none"
                 stroke="currentColor"
@@ -119,7 +130,7 @@ export default function LinePlot({
                 d={xLine([0, 1])}
             />
             {xAxis.map(({value, xOffset}) => (
-                <g key={value} transform={`translate(${xOffset}, ${height - margin})`}>
+                <g key={value} transform={`translate(${xOffset}, ${height - margin.bottom})`}>
                     <line y2={6} stroke="currentColor" strokeWidth="2" />
                     <text
                         key={value}
@@ -133,11 +144,11 @@ export default function LinePlot({
                     </text>
                 </g>
             ))}
-            <g transform={`translate(${width}, ${height - margin})`}>
+            <g transform={`translate(${width/2}, ${height})`}>
                 <text
                     style={{
                         textAnchor: "middle",
-                        alignmentBaseline: "central",
+                        alignmentBaseline: "after-edge",
                         fontSize: "0.8em"
                     }}>{xTitle}</text>
             </g>
@@ -148,7 +159,7 @@ export default function LinePlot({
                 d={yLine([0, 1])}
             />
             {yAxis.map(({value, yOffset}) => (
-                <g key={value} transform={`translate(${margin}, ${yOffset})`}>
+                <g key={value} transform={`translate(${margin.left}, ${yOffset})`}>
                     <line x2={-6} stroke="currentColor" strokeWidth="2" />
                     <text
                         key={value}
@@ -163,8 +174,8 @@ export default function LinePlot({
                     </text>
                 </g>
             ))}
-            <g transform={`translate(0, ${margin/2})`}>
-                <text style={{ fontSize: "0.8em" }}>{yTitle}</text>
+            <g transform={`translate(0, ${height/2}) rotate(-90)`}>
+                <text style={{ fontSize: "0.8em", alignmentBaseline: "before-edge", textAnchor: "middle" }}>{yTitle}</text>
             </g>
             <path fill="none" stroke="#003771" strokeWidth="2" d={line(data)} />
             <g fill="#3D9BE9" stroke="#003771" strokeWidth="2">
@@ -173,9 +184,6 @@ export default function LinePlot({
                         <circle key={i} cx={x(d[0])} cy={y(d[1])} r="3.5" />
                     );
                 })}
-            </g>
-            <g transform={`translate(${width / 2}, 0)`}>
-                <text style={{ fontSize: "1.5rem", textAnchor: "middle" }}>{title}</text>
             </g>
             <Tooltip data={data} height={height} x={x} y={y} />
         </svg>
