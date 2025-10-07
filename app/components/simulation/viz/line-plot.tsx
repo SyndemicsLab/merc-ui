@@ -111,7 +111,7 @@ export default function LinePlot({
           .nice();
     const yMin = d3.min(data, d => d[1]);
     const y = d3.scaleLinear()
-          .domain([yMin > 0 ? 0 : yMin, d3.max(data, d => d[1])])
+          .domain([yMin >= 0 ? 0 : yMin, d3.max(data, d => d[1])])
           .range([height - margin.bottom, margin.top])
           .nice();
     const line = d3.line()
@@ -193,7 +193,7 @@ export default function LinePlot({
                 <text style={{ fontSize: "0.8em", alignmentBaseline: "before-edge", textAnchor: "middle" }}>{yTitle}</text>
             </g>
             <path fill="none" stroke="#003771" strokeWidth="2" d={line(data)} />
-            <g fill="#3D9BE9" stroke="#003771" strokeWidth="2">
+            <g fill="#3D9BE9" stroke="#003771">
                 {data.map((d, i) => {
                     return(
                         <circle key={i} cx={x(d[0])} cy={y(d[1])} r="1.5" />
