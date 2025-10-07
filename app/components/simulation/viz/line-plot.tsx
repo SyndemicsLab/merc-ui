@@ -27,7 +27,6 @@ function Tip({ data, position, valuePosition, show }) {
                 transform={`translate(${position})`}
             >
                 <circle r="2.5" stroke="#F0325F" fill="#F0325F"/>
-                {/* <rect x="-27" width="54" y="-30" height="20" fill="white"></rect> */}
             </g>
             <g
                 pointerEvents="none"
