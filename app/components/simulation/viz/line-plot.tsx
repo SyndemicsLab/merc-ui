@@ -1,53 +1,86 @@
 import * as d3 from "d3";
-import { useState, Fragment } from "react";
+import { useState } from "react";
 
-function Tip({ data, position, show }) {
+export interface PlotMargins {
+    top: number;
+    right: number;
+    bottom: number;
+    left: number;
+}
+
+interface LinePlotProps {
+    data: any;
+    xTitle: string;
+    yTitle: string;
+    width: number;
+    height: number;
+    margin: PlotMargins;
+}
+
+function Tip({ data, position, valuePosition, show }) {
     return(
+        <>
             <g
                 pointerEvents="none"
                 className={show ? null : "hidden"}
-                textAnchor="middle"
                 transform={`translate(${position})`}
             >
-                <rect x="-27" width="54" y="-30" height="20" fill="white"></rect>
+                <circle r="2.5" stroke="#F0325F" fill="#F0325F"/>
+            </g>
+            <g
+                pointerEvents="none"
+                className={show ? null : "hidden"}
+                transform={`translate(${valuePosition})`}
+            >
                 <text
                     y="-15"
-                    style={{ fontSize: "0.8em", fontFamily: "sans-serif" }}>
+                    style={{
+                        fontSize: "0.8em",
+                        fontFamily: "sans-serif",
+                        alignmentBaseline: "after-edge"
+                    }}
+                >
                     {`(${data[0]}, ${data[1]})`}
                 </text>
-                <circle r="3.5" stroke="currentColor" strokeWidth="2" />
             </g>
+        </>
     );
 }
 
-function Tooltip({ data, height, x, y }) {
+function Tooltip({ data, height, x, y, margin }) {
     const [showIndex, setShowIndex] = useState(-1);
 
     let regions = [];
     let tips = [];
     for (let d = 0; d < data.length; ++d) {
-        let width = 0;
+        let center = x(data[d][0]);
+        let leftBound, rightBound;
         if (d === data.length - 1) {
-            width = x(data[d][0]) - x(data[d-1][0]);
+            leftBound = (center - x(data[d-1][0])) / 2;
+            rightBound = leftBound;
+        } else if (d === 0) {
+            rightBound = (x(data[d+1][0]) - center) / 2;
+            leftBound = rightBound;
         } else {
-            width = x(data[d+1][0]) - x(data[d][0]);
+            leftBound = (center - x(data[d-1][0])) / 2;
+            rightBound = (x(data[d+1][0]) - center) / 2;
         }
         regions.push(
-            <Fragment key={d}>
-                <rect
-                    x={x(data[d][0]) - width / 2}
-                    height={height}
-                    width={width}
-                    onMouseOver={() => setShowIndex(d)}
-                    onMouseOut={() => setShowIndex(-1)}
-                ></rect>
-            </Fragment>
+            <rect
+                key={d}
+                x={center - leftBound}
+                height={height}
+                width={rightBound + leftBound}
+                onMouseOver={() => setShowIndex(d)}
+                onMouseOut={() => setShowIndex(-1)}
+            ></rect>
         );
         tips.push(
             <Tip
                 key={d}
                 data={data[d]}
                 position={`${x(data[d][0])}, ${y(data[d][1])}`}
+                valuePosition={`${margin.left}, ${margin.top}`}
                 show={showIndex === d}
             />
         );
@@ -62,37 +95,58 @@ function Tooltip({ data, height, x, y }) {
     );
 }
 
+/*
+  Draws a line plot from data of the shape [2, N], e.g. [[0,0], [1,1], [2,2]],
+  where N is the number of points in the data set.
+ */
 export default function LinePlot({
     data,
-    width = 640,
-    height = 480,
-    margin = 20
-}) {
+    xTitle,
+    yTitle,
+    xTicks = 40,
+    yTicks = 25,
+    width = 480,
+    height = 360,
+    margin = {
+        top: 20,
+        right: 30,
+        bottom: 40,
+        left: 50
+    }
+}: LinePlotProps) {
     const x = d3.scaleLinear()
           .domain([d3.min(data, d => d[0]), d3.max(data, d => d[0])])
-          .range([margin, width - (2 * margin)]);
+          .range([margin.left, width - margin.right])
+          .nice();
     const yMin = d3.min(data, d => d[1]);
     const y = d3.scaleLinear()
-          .domain([yMin > 0 ? 0 : yMin, d3.max(data, d => d[1])])
-          .range([height - margin, margin]);
+          .domain([yMin >= 0 ? 0 : yMin, d3.max(data, d => d[1])])
+          .range([height - margin.bottom, margin.top])
+          .nice();
     const line = d3.line()
           .x(d => x(d[0]))
           .y(d => y(d[1]));
     const xLine = d3.line()
-          .x(d => d > 0 ? width - margin : margin)
-          .y(d => height - margin );
-    const xAxis = x.ticks(width / 40).map(value => ({
+          .x(d => d > 0 ? width - margin.right + 1 : margin.left)
+          .y(d => height - margin.bottom );
+    const xAxis = x.ticks(width / xTicks).map(value => ({
         value, xOffset: x(value)
     }));
     const yLine = d3.line()
-          .x(d => margin)
-          .y(d => d > 0 ? height - margin : margin - 1);
-    const yAxis = y.ticks(height / 20).map(value => ({
+          .x(d => margin.left)
+          .y(d => d > 0 ? height - margin.bottom : margin.top - 1);
+    const yAxis = y.ticks(height / yTicks).map(value => ({
         value, yOffset: y(value)
     }));
 
     return(
-        <svg width={width} height={height} style={{ maxWidth: "100%", height: "auto", margin: "auto", overflow: "visible" }}>
+        <svg
+            width="100%"
+            height="100%"
+            style={{ margin: "auto", overflow: "visible" }}
+            viewBox={`0 0 ${width} ${height}`}
+            preserveAspectRatio="none"
+        >
             <path
                 fill="none"
                 stroke="currentColor"
@@ -100,7 +154,7 @@ export default function LinePlot({
                 d={xLine([0, 1])}
             />
             {xAxis.map(({value, xOffset}) => (
-                <g key={value} transform={`translate(${xOffset}, ${height - margin})`}>
+                <g key={value} transform={`translate(${xOffset}, ${height - margin.bottom})`}>
                     <line y2={6} stroke="currentColor" strokeWidth="2" />
                     <text
                         key={value}
@@ -114,13 +168,13 @@ export default function LinePlot({
                     </text>
                 </g>
             ))}
-            <g transform={`translate(${width}, ${height - margin})`}>
+            <g transform={`translate(${width/2}, ${height})`}>
                 <text
                     style={{
                         textAnchor: "middle",
-                        alignmentBaseline: "central",
+                        alignmentBaseline: "after-edge",
                         fontSize: "0.8em"
-                    }}>X-axis</text>
+                    }}>{xTitle}</text>
             </g>
             <path
                 fill="none"
@@ -129,7 +183,7 @@ export default function LinePlot({
                 d={yLine([0, 1])}
             />
             {yAxis.map(({value, yOffset}) => (
-                <g key={value} transform={`translate(${margin}, ${yOffset})`}>
+                <g key={value} transform={`translate(${margin.left}, ${yOffset})`}>
                     <line x2={-6} stroke="currentColor" strokeWidth="2" />
                     <text
                         key={value}
@@ -144,18 +198,18 @@ export default function LinePlot({
                     </text>
                 </g>
             ))}
-            <g transform={`translate(0, ${margin/2})`}>
-                <text style={{ fontSize: "0.8em" }}>Y-axis</text>
+            <g transform={`translate(0, ${height/2}) rotate(-90)`}>
+                <text style={{ fontSize: "0.8em", alignmentBaseline: "before-edge", textAnchor: "middle" }}>{yTitle}</text>
             </g>
             <path fill="none" stroke="#003771" strokeWidth="2" d={line(data)} />
-            <g fill="#3D9BE9" stroke="#003771" strokeWidth="2">
+            <g fill="#3D9BE9" stroke="#003771">
                 {data.map((d, i) => {
                     return(
-                        <circle key={i} cx={x(d[0])} cy={y(d[1])} r="3.5" />
+                        <circle key={i} cx={x(d[0])} cy={y(d[1])} r="1.5" />
                     );
                 })}
             </g>
-            <Tooltip data={data} height={height} x={x} y={y} />
+            <Tooltip data={data} height={height} x={x} y={y} margin={margin} />
         </svg>
     );
 }

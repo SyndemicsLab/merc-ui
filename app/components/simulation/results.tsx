@@ -11,6 +11,7 @@ import { Button } from "@components/ui/button";
 import Disclaimers from "@components/simulation/disclaimers";
 import EmailIntake from "@simulation/emailintake";
 import LinePlot from "@components/simulation/viz/line-plot";
+import GroupedBarPlot from "@components/simulation/viz/grouped-bar-plot";
 
 export default function Results() {
     const [open, setOpen] = useState(false);
@@ -51,44 +52,45 @@ export default function Results() {
                         [8, 4400],
                         [9, 8500]
                     ]}
-                    width={480}
-                    height={360}
+                    xTitle="Time"
+                    yTitle="Value"
                 />
                 <LinePlot
+                    data={[...Array(101)].map((_, i) => -50+ i).map(
+                        (x) => {
+                            return([x * Math.PI/8, Math.sin(x * Math.PI/8)])
+                        })}
+                    xTitle="Time"
+                    yTitle="Value"
+                />
+                <LinePlot
+                    data={[...Array(71)].map((_, i) => -35+ i).map(
+                        (x) => {
+                            let temp = Math.random() * 1000000 + 500;
+                            return([x, Math.random() > 0.5 ? temp : -temp]);
+                        })}
+                    xTitle="Time"
+                    yTitle="Value"
+                />
+                <GroupedBarPlot
                     data={[
-                        [-10, Math.floor(Math.random() * 10000) + 500],
-                        [-9, Math.floor(Math.random() * 10000) + 500],
-                        [-8, Math.floor(Math.random() * 10000) + 500],
-                        [-7, Math.floor(Math.random() * 10000) + 500],
-                        [-6, Math.floor(Math.random() * 10000) + 500],
-                        [-5, -(Math.floor(Math.random() * 10000) + 500)],
-                        [-4, Math.floor(Math.random() * 10000) + 500],
-                        [-3, Math.floor(Math.random() * 10000) + 500],
-                        [-2, Math.floor(Math.random() * 10000) + 500],
-                        [-1, Math.floor(Math.random() * 10000) + 500],
-                        [0, Math.floor(Math.random() * 10000) + 500],
-                        [1, Math.floor(Math.random() * 10000) + 500],
-                        [2, Math.floor(Math.random() * 10000) + 500],
-                        [3, Math.floor(Math.random() * 10000) + 500],
-                        [4, Math.floor(Math.random() * 10000) + 500],
-                        [5, Math.floor(Math.random() * 10000) + 500],
-                        [6, Math.floor(Math.random() * 10000) + 500],
-                        [7, Math.floor(Math.random() * 10000) + 500],
-                        [8, Math.floor(Math.random() * 10000) + 500],
-                        [9, Math.floor(Math.random() * 10000) + 500],
-                        [10, Math.floor(Math.random() * 10000) + 500],
-                        [11, Math.floor(Math.random() * 10000) + 500],
-                        [12, Math.floor(Math.random() * 10000) + 500],
-                        [13, Math.floor(Math.random() * 10000) + 500],
-                        [14, Math.floor(Math.random() * 10000) + 500],
-                        [15, Math.floor(Math.random() * 10000) + 500],
-                        [16, Math.floor(Math.random() * 10000) + 500],
-                        [17, Math.floor(Math.random() * 10000) + 500],
-                        [18, Math.floor(Math.random() * 10000) + 500],
-                        [20, Math.floor(Math.random() * 10000) + 500],
+                        {cost: Math.random() * 10 ** 8, state: "MA", perspective: "healthcare"},
+                        {cost: Math.random() * 10 ** 8, state: "MA", perspective: "societal"},
+                        {cost: Math.random() * 10 ** 8, state: "MA", perspective: "policymaker"},
+                        {cost: Math.random() * 10 ** 8, state: "CT", perspective: "healthcare"},
+                        {cost: Math.random() * 10 ** 8, state: "CT", perspective: "societal"},
+                        {cost: Math.random() * 10 ** 8, state: "CT", perspective: "policymaker"},
+                        {cost: Math.random() * 10 ** 8, state: "RI", perspective: "healthcare"},
+                        {cost: Math.random() * 10 ** 8, state: "RI", perspective: "societal"},
+                        {cost: Math.random() * 10 ** 8, state: "RI", perspective: "policymaker"},
+                        {cost: Math.random() * 10 ** 8, state: "VT", perspective: "healthcare"},
+                        {cost: Math.random() * 10 ** 8, state: "VT", perspective: "societal"},
+                        {cost: Math.random() * 10 ** 8, state: "VT", perspective: "policymaker"},
                     ]}
-                    width={480}
-                    height={360}
+                    primaryKey="state"
+                    groupKey="perspective"
+                    valueKey="cost"
+                    yTitle="Cost of Intervention"
                 />
             </DialogContent>
         </Dialog>

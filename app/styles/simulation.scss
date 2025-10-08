@@ -408,7 +408,6 @@ button:hover {
     &[data-state="open"]::before {
         content: '▾ Hide ';
     }
-
 }
 
 #results {
@@ -466,18 +465,18 @@ button:hover {
 }
 
 #disclaimers {
-    margin: calc(5 * var(--spacing)) 0;
-    padding: calc(5 * var(--spacing));
+    padding: calc(3 * var(--spacing));
     background-color: rgb(from var(--secondary-color) r g b / 20% );
     border-radius: var(--border-radius);
-}
+    font-size: 0.7em;
 
-#disclaimers h3 {
-    font-size: 16px;
-    font-family: 'IBM Plex Sans', sans-serif;
-    font-weight: 600;
-    color: #003771;
-    margin-bottom: var(--spacing-small);
+    h3 {
+        font-size: 0.8rem;
+        font-family: 'IBM Plex Sans', sans-serif;
+        font-weight: 600;
+        color: var(--tertiary-color);
+        margin-bottom: var(--spacing-small);
+    }
 }
 
 #disclaimers .warn {
