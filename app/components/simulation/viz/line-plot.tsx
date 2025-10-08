@@ -14,8 +14,7 @@ interface LinePlotProps {
     yTitle: string;
     width: number;
     height: number;
-    margin: Pl
-otMargins;
+    margin: PlotMargins;
 }
 
 function Tip({ data, position, valuePosition, show }) {
@@ -35,7 +34,12 @@ function Tip({ data, position, valuePosition, show }) {
             >
                 <text
                     y="-15"
-                    style={{ fontSize: "0.8em", fontFamily: "sans-serif", alignmentBaseline: "after-edge" }}>
+                    style={{
+                        fontSize: "0.8em",
+                        fontFamily: "sans-serif",
+                        alignmentBaseline: "after-edge"
+                    }}
+                >
                     {`(${data[0]}, ${data[1]})`}
                 </text>
             </g>
@@ -91,10 +95,16 @@ function Tooltip({ data, height, x, y, margin }) {
     );
 }
 
+/*
+  Draws a line plot from data of the shape [2, N], e.g. [[0,0], [1,1], [2,2]],
+  where N is the number of points in the data set.
+ */
 export default function LinePlot({
     data,
     xTitle,
     yTitle,
+    xTicks = 40,
+    yTicks = 25,
     width = 480,
     height = 360,
     margin = {
@@ -119,13 +129,13 @@ export default function LinePlot({
     const xLine = d3.line()
           .x(d => d > 0 ? width - margin.right + 1 : margin.left)
           .y(d => height - margin.bottom );
-    const xAxis = x.ticks(width / 40).map(value => ({
+    const xAxis = x.ticks(width / xTicks).map(value => ({
         value, xOffset: x(value)
     }));
     const yLine = d3.line()
           .x(d => margin.left)
           .y(d => d > 0 ? height - margin.bottom : margin.top - 1);
-    const yAxis = y.ticks(height / 25).map(value => ({
+    const yAxis = y.ticks(height / yTicks).map(value => ({
         value, yOffset: y(value)
     }));
 
