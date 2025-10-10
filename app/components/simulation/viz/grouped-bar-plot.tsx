@@ -101,30 +101,33 @@ export default function GroupedBarPlot(props: BarPlotProps) {
 
 
         // legend
-        const legendX = d3.scaleBand()
+        const legendY = d3.scaleBand()
               .domain(color.domain())
-              .rangeRound([margin.left, width - margin.right]);
+              .rangeRound([0, 50])
+              .paddingInner(0.2);
         const legend = svg.append("g")
-              .attr("x", legendX)
-              .attr("y", margin.top)
-              .attr("width", legendX.bandwidth() * color.domain().length)
-              .attr("height", 25);
+              .attr("y", legendY)
+              .attr("x", width - 100)
+              .attr("height", legendY.bandwidth() * color.domain().length)
+              .attr("width", 100);
         legend.selectAll("rect")
             .data(color.domain())
             .join("rect")
-            .attr("x", legendX)
-            .attr("y", margin.top)
-            .attr("width", Math.max(0, legendX.bandwidth() - 1))
-            .attr("height", 15)
+            .attr("y", legendY)
+            .attr("x", width - 100)
+            .attr("height", 10)
+            .attr("width", 10)
             .attr("fill", color);
         legend.selectAll("text")
             .data(color.domain())
             .join("text")
-            .attr("x", (d) => legendX(d) + legendX.bandwidth() / 2 - 1)
-            .attr("y", margin.top + 23)
+            .attr("y", (d) => legendY(d))
+            .attr("x", width - 85)
             .attr("font-size", "0.5rem")
-            .attr("text-anchor", "middle")
+            .attr("alignment-baseline", "before-edge")
+            .attr("text-anchor", "left")
             .text(d => d);
+
     }, [data, yTitle, width, height, margin, plotContainer]);
 
     return (

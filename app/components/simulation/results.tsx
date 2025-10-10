@@ -29,7 +29,7 @@ export default function Results() {
             <DialogTrigger asChild>
                 <Button variant="outline" className="run-text">RUN</Button>
             </DialogTrigger>
-            <DialogContent className="rounded-2xl bg-white max-w-[425px] lg:max-w-[1200px] p-9">
+            <DialogContent className="rounded-2xl bg-white w-[80%] p-9">
                 <DialogHeader>
                     <DialogTitle>Simulation Results</DialogTitle>
                     <DialogDescription>
@@ -38,7 +38,7 @@ export default function Results() {
                     </DialogDescription>
                 </DialogHeader>
                 <Disclaimers />
-                <div className="results-main grid grid-cols-2">
+                <div className="results-main grid grid-cols-1 xl:grid-cols-2">
                     {/* Still need to add a loading indicator to plots */}
                     <LinePlot
                         data={[
