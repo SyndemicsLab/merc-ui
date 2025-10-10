@@ -33,9 +33,9 @@ function Tip({ data, position, valuePosition, show }) {
                 transform={`translate(${valuePosition})`}
             >
                 <text
-                    y="-15"
+                    y="-5"
                     style={{
-                        fontSize: "0.8em",
+                        fontSize: "0.6em",
                         fontFamily: "sans-serif",
                         alignmentBaseline: "after-edge"
                     }}
@@ -142,7 +142,6 @@ export default function LinePlot({
     return(
         <svg
             width="100%"
-            height="100%"
             style={{ margin: "auto", overflow: "visible" }}
             viewBox={`0 0 ${width} ${height}`}
             preserveAspectRatio="none"

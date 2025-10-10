@@ -81,28 +81,29 @@ export default function GroupedBarPlot(props: BarPlotProps) {
             .attr("transform", `translate(0, ${height - margin.bottom})`)
             .call(d3.axisBottom(placement).tickSizeOuter(0))
             .call(g => g.selectAll(".domain").remove());
-        svg.append("text")
+        xTitle ? svg.append("text")
             .attr("transform", `translate(${width / 2}, ${height})`)
             .attr("text-anchor", "middle")
             .attr("alignment-baseline", "after-edge")
             .attr("font-size", "0.8rem")
-            .text(xTitle);
+            .text(xTitle) : null;
 
         // Y-axis
         svg.append("g")
             .attr("transform", `translate(${margin.left}, 0)`)
             .call(d3.axisLeft(y).ticks(20, "s"))
             .call(g => g.selectAll(".domain").remove());
-        svg.append("text")
+        yTitle ? svg.append("text")
             .attr("transform", `translate(12, ${height / 2}) rotate(-90)`)
             .attr("text-anchor", "middle")
             .attr("font-size", "0.8rem")
-            .text(yTitle);
+            .text(yTitle) : null;
 
+
+        // legend
         const legendX = d3.scaleBand()
               .domain(color.domain())
               .rangeRound([margin.left, width - margin.right]);
-
         const legend = svg.append("g")
               .attr("x", legendX)
               .attr("y", margin.top)

@@ -413,6 +413,26 @@ button:hover {
 #results {
 }
 
+.results-main {
+    overflow-y: scroll;
+    aspect-ratio: 8.5 / 11;
+    width: 85%;
+    margin: auto;
+
+    &::-webkit-scrollbar {
+        display: -webkit-box !important;
+        background-color: #eee;
+        border-radius: 3px;
+        width: 6px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        border-radius: 3px;
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+        background-color: #aaa;
+    }
+}
+
 .email-intake {
     width: 100%;
     margin: 1rem 0;
