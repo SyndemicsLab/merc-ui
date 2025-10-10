@@ -25,7 +25,7 @@ function Tip({ data, position, valuePosition, show }) {
                 className={show ? null : "hidden"}
                 transform={`translate(${position})`}
             >
-                <circle r="2.5" stroke="#F0325F" fill="#F0325F"/>
+                <circle r="1.5" stroke="#F0325F" fill="#F0325F"/>
             </g>
             <g
                 pointerEvents="none"
@@ -103,8 +103,8 @@ export default function LinePlot({
     data,
     xTitle,
     yTitle,
-    xTicks = 40,
-    yTicks = 25,
+    xTickSpacing = 40,
+    yTickSpacing = 25,
     width = 480,
     height = 360,
     margin = {
@@ -129,13 +129,13 @@ export default function LinePlot({
     const xLine = d3.line()
           .x(d => d > 0 ? width - margin.right + 1 : margin.left)
           .y(d => height - margin.bottom );
-    const xAxis = x.ticks(width / xTicks).map(value => ({
+    const xAxis = x.ticks(width / xTickSpacing).map(value => ({
         value, xOffset: x(value)
     }));
     const yLine = d3.line()
           .x(d => margin.left)
           .y(d => d > 0 ? height - margin.bottom : margin.top - 1);
-    const yAxis = y.ticks(height / yTicks).map(value => ({
+    const yAxis = y.ticks(height / yTickSpacing).map(value => ({
         value, yOffset: y(value)
     }));
 
@@ -201,8 +201,8 @@ export default function LinePlot({
             <g transform={`translate(0, ${height/2}) rotate(-90)`}>
                 <text style={{ fontSize: "0.8em", alignmentBaseline: "before-edge", textAnchor: "middle" }}>{yTitle}</text>
             </g>
-            <path fill="none" stroke="#003771" strokeWidth="2" d={line(data)} />
-            <g fill="#3D9BE9" stroke="#003771">
+            <path fill="none" stroke="#3D9BE9" strokeWidth="2" d={line(data)} />
+            <g fill="#003771">
                 {data.map((d, i) => {
                     return(
                         <circle key={i} cx={x(d[0])} cy={y(d[1])} r="1.5" />

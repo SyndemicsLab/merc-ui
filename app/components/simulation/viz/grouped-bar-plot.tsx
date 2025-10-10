@@ -1,6 +1,6 @@
 import * as d3 from "d3";
-import { type PlotMargins } from "@components/simulation/viz/line-plot";
 import { useRef, useEffect } from "react";
+import { type PlotMargins } from "@components/simulation/viz/line-plot";
 
 interface BarPlotProps {
     data: any;
@@ -8,6 +8,7 @@ interface BarPlotProps {
     groupKey: string;
     valueKey: string;
     legendLabel: string;
+    xTitle?: string;
     yTitle?: string;
     width?: number;
     height?: number;
@@ -21,7 +22,8 @@ export default function GroupedBarPlot(props: BarPlotProps) {
         groupKey,
         valueKey,
         legendLabel,
-        yTitle = "",
+        xTitle,
+        yTitle,
         width = 650,
         height = 500,
         margin = {
@@ -58,7 +60,7 @@ export default function GroupedBarPlot(props: BarPlotProps) {
 
         const y = d3.scaleLinear()
               .domain([0, d3.max(data, d => d[valueKey])]).nice()
-              .range([height - margin.bottom, margin.top]);
+              .range([height - margin.bottom, margin.top + 35]);
 
         svg.append("g")
             .selectAll()
@@ -74,15 +76,54 @@ export default function GroupedBarPlot(props: BarPlotProps) {
                 .attr("height", d => y(0) - y(d[valueKey]))
                 .attr("fill", d => color(d[groupKey]));
 
+        // X-axis
         svg.append("g")
             .attr("transform", `translate(0, ${height - margin.bottom})`)
             .call(d3.axisBottom(placement).tickSizeOuter(0))
             .call(g => g.selectAll(".domain").remove());
+        svg.append("text")
+            .attr("transform", `translate(${width / 2}, ${height})`)
+            .attr("text-anchor", "middle")
+            .attr("alignment-baseline", "after-edge")
+            .attr("font-size", "0.8rem")
+            .text(xTitle);
 
+        // Y-axis
         svg.append("g")
             .attr("transform", `translate(${margin.left}, 0)`)
             .call(d3.axisLeft(y).ticks(20, "s"))
             .call(g => g.selectAll(".domain").remove());
+        svg.append("text")
+            .attr("transform", `translate(12, ${height / 2}) rotate(-90)`)
+            .attr("text-anchor", "middle")
+            .attr("font-size", "0.8rem")
+            .text(yTitle);
+
+        const legendX = d3.scaleBand()
+              .domain(color.domain())
+              .rangeRound([margin.left, width - margin.right]);
+
+        const legend = svg.append("g")
+              .attr("x", legendX)
+              .attr("y", margin.top)
+              .attr("width", legendX.bandwidth() * color.domain().length)
+              .attr("height", 25);
+        legend.selectAll("rect")
+            .data(color.domain())
+            .join("rect")
+            .attr("x", legendX)
+            .attr("y", margin.top)
+            .attr("width", Math.max(0, legendX.bandwidth() - 1))
+            .attr("height", 15)
+            .attr("fill", color);
+        legend.selectAll("text")
+            .data(color.domain())
+            .join("text")
+            .attr("x", (d) => legendX(d) + legendX.bandwidth() / 2 - 1)
+            .attr("y", margin.top + 23)
+            .attr("font-size", "0.5rem")
+            .attr("text-anchor", "middle")
+            .text(d => d);
     }, [data, yTitle, width, height, margin, plotContainer]);
 
     return (

@@ -29,7 +29,7 @@ export default function Results() {
             <DialogTrigger asChild>
                 <Button variant="outline" className="run-text">RUN</Button>
             </DialogTrigger>
-            <DialogContent className="rounded-2xl bg-white max-w-[425px] lg:max-w-[750px] p-9">
+            <DialogContent className="rounded-2xl bg-white max-w-[425px] lg:max-w-[1200px] p-9">
                 <DialogHeader>
                     <DialogTitle>Simulation Results</DialogTitle>
                     <DialogDescription>
