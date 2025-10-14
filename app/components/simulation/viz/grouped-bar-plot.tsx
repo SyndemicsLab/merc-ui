@@ -58,6 +58,8 @@ export default function GroupedBarPlot(props: BarPlotProps) {
         const color = d3.scaleOrdinal([`#f0325f`, `#003771`, `#3d9be9`])
               .domain(groups);
 
+        // the additional (unitless) 35 is used to avoid intersecting with the
+        // information above the graph (i.e. legend and tooltip)
         const y = d3.scaleLinear()
               .domain([0, d3.max(data, d => d[valueKey])]).nice()
               .range([height - margin.bottom, margin.top + 35]);
@@ -93,6 +95,9 @@ export default function GroupedBarPlot(props: BarPlotProps) {
             .attr("transform", `translate(${margin.left}, 0)`)
             .call(d3.axisLeft(y).ticks(20, "s"))
             .call(g => g.selectAll(".domain").remove());
+        // transforming the axis label so that it is 12 units closer to the axis
+        // and rotating (-90 degrees) so that the bottom of the text faces the
+        // axis
         yTitle ? svg.append("text")
             .attr("transform", `translate(12, ${height / 2}) rotate(-90)`)
             .attr("text-anchor", "middle")
@@ -101,10 +106,16 @@ export default function GroupedBarPlot(props: BarPlotProps) {
 
 
         // legend
+        // arbitrarily choosing 50 units as the maximum height of the legend,
+        // relates to the magic number 35 above, as the legend has a height of
+        // 50 and the default top margin is 20, so there's 5 units of clearance
+        // between the legend and the graph
         const legendY = d3.scaleBand()
               .domain(color.domain())
               .rangeRound([0, 50])
               .paddingInner(0.2);
+        // a width of 100 for the legend was arbitrarily chosen. This width
+        // impacts the subtraction in related x-positions calculated below
         const legend = svg.append("g")
               .attr("y", legendY)
               .attr("x", width - 100)

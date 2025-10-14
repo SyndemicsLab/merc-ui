@@ -40,6 +40,7 @@ export default function Results() {
                 <Disclaimers />
                 <div className="results-main grid grid-cols-1 xl:grid-cols-2">
                     {/* Still need to add a loading indicator to plots */}
+                    {/* All data contained below is dummy data for testing */}
                     <LinePlot
                         data={[
                             [0, 0],
