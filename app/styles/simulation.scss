@@ -431,6 +431,13 @@ button:hover {
         -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
         background-color: #aaa;
     }
+
+    svg {
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        overflow: visible;
+    }
 }
 
 .email-intake {

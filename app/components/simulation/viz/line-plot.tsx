@@ -73,7 +73,7 @@ function Tooltip({ data, height, x, y, margin }) {
                 width={rightBound + leftBound}
                 onMouseOver={() => setShowIndex(d)}
                 onMouseOut={() => setShowIndex(-1)}
-            ></rect>
+            />
         );
         tips.push(
             <Tip
@@ -105,8 +105,8 @@ export default function LinePlot({
     yTitle,
     xTickSpacing = 40,
     yTickSpacing = 25,
-    width = 480,
-    height = 360,
+    width = 650,
+    height = 500,
     margin = {
         top: 20,
         right: 30,
@@ -141,8 +141,6 @@ export default function LinePlot({
 
     return(
         <svg
-            width="100%"
-            style={{ margin: "auto", overflow: "visible" }}
             viewBox={`0 0 ${width} ${height}`}
             preserveAspectRatio="none"
         >

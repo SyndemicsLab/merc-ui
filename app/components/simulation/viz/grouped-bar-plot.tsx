@@ -128,14 +128,37 @@ export default function GroupedBarPlot(props: BarPlotProps) {
             .attr("text-anchor", "left")
             .text(d => d);
 
+        var tooltip = svg
+            .append("text")
+            .attr("x", margin.left)
+            .attr("y", margin.top)
+            .style("visibility", "hidden");
+
+        const tooltips = svg.append("g")
+              .selectAll()
+              .data(d3.group(data, d => d[primaryKey]))
+              .join("g")
+                  .attr("transform", ([key]) => `translate(${placement(key)}, 0)`)
+                  .attr("pointer-events", "all")
+                  .attr("fill", "none")
+              .selectAll()
+              .data(([, d]) => d)
+              .join("rect")
+                  .attr("x", d => x(d[groupKey]))
+                  .attr("y", d => margin.bottom)
+                  .attr("width", x.bandwidth())
+                  .attr("height", d => height - margin.top - margin.bottom)
+              .on("mouseover", (event, d) => {
+                  tooltip.text(`${d[primaryKey]}, ${d[groupKey]}: ${d[valueKey]}`);
+                  return tooltip.style("visibility", "visible")
+              })
+              .on("mouseout", () => tooltip.style("visibility", "hidden"));
     }, [data, yTitle, width, height, margin, plotContainer]);
 
     return (
         <svg
-            width="100%"
-            height="100%"
             viewBox={`0 0 ${width} ${height}`}
-            style={{ maxWidth: "100%", height: "auto", overflow: "visible" }}
+            preserveAspectRatio="none"
             ref={plotContainer}
         />
     );
