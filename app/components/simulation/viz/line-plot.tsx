@@ -36,6 +36,8 @@ function Tip({ data, position, valuePosition, show }) {
                 className={show ? null : "hidden"}
                 transform={`translate(${valuePosition})`}
             >
+                {/* shifting the text up by 5 to avoid intersecting with
+                  the plots proper */}
                 <text
                     y="-5"
                     style={{

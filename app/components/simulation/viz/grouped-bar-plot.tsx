@@ -55,6 +55,7 @@ export default function GroupedBarPlot(props: BarPlotProps) {
               .domain(groups)
               .range([0, placement.bandwidth()])
               .padding(0.03);
+        // syndemics pink, syndemics blue, and syndemics cyan
         const color = d3.scaleOrdinal([`#f0325f`, `#003771`, `#3d9be9`])
               .domain(groups);
 
