@@ -17,6 +17,10 @@ interface LinePlotProps {
     margin: PlotMargins;
 }
 
+const SYNDEMICS_PINK = "#F0325F";
+const SYNDEMICS_CYAN = "#3D9BE9";
+const SYNDEMICS_BLUE = "#003771";
+
 function Tip({ data, position, valuePosition, show }) {
     return(
         <>
@@ -25,17 +29,19 @@ function Tip({ data, position, valuePosition, show }) {
                 className={show ? null : "hidden"}
                 transform={`translate(${position})`}
             >
-                <circle r="2.5" stroke="#F0325F" fill="#F0325F"/>
+                <circle r="1.5" stroke={`${SYNDEMICS_PINK}`} fill={`${SYNDEMICS_PINK}`}/>
             </g>
             <g
                 pointerEvents="none"
                 className={show ? null : "hidden"}
                 transform={`translate(${valuePosition})`}
             >
+                {/* shifting the text up by 5 to avoid intersecting with
+                  the plots proper */}
                 <text
-                    y="-15"
+                    y="-5"
                     style={{
-                        fontSize: "0.8em",
+                        fontSize: "0.6em",
                         fontFamily: "sans-serif",
                         alignmentBaseline: "after-edge"
                     }}
@@ -73,7 +79,7 @@ function Tooltip({ data, height, x, y, margin }) {
                 width={rightBound + leftBound}
                 onMouseOver={() => setShowIndex(d)}
                 onMouseOut={() => setShowIndex(-1)}
-            ></rect>
+            />
         );
         tips.push(
             <Tip
@@ -98,15 +104,17 @@ function Tooltip({ data, height, x, y, margin }) {
 /*
   Draws a line plot from data of the shape [2, N], e.g. [[0,0], [1,1], [2,2]],
   where N is the number of points in the data set.
+
+  The default argument values are chosen arbitrarily based on trial and error
  */
 export default function LinePlot({
     data,
     xTitle,
     yTitle,
-    xTicks = 40,
-    yTicks = 25,
-    width = 480,
-    height = 360,
+    xTickSpacing = 40,
+    yTickSpacing = 25,
+    width = 650,
+    height = 500,
     margin = {
         top: 20,
         right: 30,
@@ -129,21 +137,18 @@ export default function LinePlot({
     const xLine = d3.line()
           .x(d => d > 0 ? width - margin.right + 1 : margin.left)
           .y(d => height - margin.bottom );
-    const xAxis = x.ticks(width / xTicks).map(value => ({
+    const xAxis = x.ticks(width / xTickSpacing).map(value => ({
         value, xOffset: x(value)
     }));
     const yLine = d3.line()
           .x(d => margin.left)
           .y(d => d > 0 ? height - margin.bottom : margin.top - 1);
-    const yAxis = y.ticks(height / yTicks).map(value => ({
+    const yAxis = y.ticks(height / yTickSpacing).map(value => ({
         value, yOffset: y(value)
     }));
 
     return(
         <svg
-            width="100%"
-            height="100%"
-            style={{ margin: "auto", overflow: "visible" }}
             viewBox={`0 0 ${width} ${height}`}
             preserveAspectRatio="none"
         >
@@ -201,8 +206,9 @@ export default function LinePlot({
             <g transform={`translate(0, ${height/2}) rotate(-90)`}>
                 <text style={{ fontSize: "0.8em", alignmentBaseline: "before-edge", textAnchor: "middle" }}>{yTitle}</text>
             </g>
-            <path fill="none" stroke="#003771" strokeWidth="2" d={line(data)} />
-            <g fill="#3D9BE9" stroke="#003771">
+            // syndemics
+            <path fill="none" stroke={`${SYNDEMICS_CYAN}`} strokeWidth="2" d={line(data)} />
+            <g fill={`${SYNDEMICS_BLUE}`}>
                 {data.map((d, i) => {
                     return(
                         <circle key={i} cx={x(d[0])} cy={y(d[1])} r="1.5" />

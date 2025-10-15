@@ -1,6 +1,6 @@
 import * as d3 from "d3";
-import { type PlotMargins } from "@components/simulation/viz/line-plot";
 import { useRef, useEffect } from "react";
+import { type PlotMargins } from "@components/simulation/viz/line-plot";
 
 interface BarPlotProps {
     data: any;
@@ -8,6 +8,7 @@ interface BarPlotProps {
     groupKey: string;
     valueKey: string;
     legendLabel: string;
+    xTitle?: string;
     yTitle?: string;
     width?: number;
     height?: number;
@@ -21,7 +22,8 @@ export default function GroupedBarPlot(props: BarPlotProps) {
         groupKey,
         valueKey,
         legendLabel,
-        yTitle = "",
+        xTitle,
+        yTitle,
         width = 650,
         height = 500,
         margin = {
@@ -53,12 +55,15 @@ export default function GroupedBarPlot(props: BarPlotProps) {
               .domain(groups)
               .range([0, placement.bandwidth()])
               .padding(0.03);
+        // syndemics pink, syndemics blue, and syndemics cyan
         const color = d3.scaleOrdinal([`#f0325f`, `#003771`, `#3d9be9`])
               .domain(groups);
 
+        // the additional (unitless) 35 is used to avoid intersecting with the
+        // information above the graph (i.e. legend and tooltip)
         const y = d3.scaleLinear()
               .domain([0, d3.max(data, d => d[valueKey])]).nice()
-              .range([height - margin.bottom, margin.top]);
+              .range([height - margin.bottom, margin.top + 35]);
 
         svg.append("g")
             .selectAll()
@@ -74,23 +79,98 @@ export default function GroupedBarPlot(props: BarPlotProps) {
                 .attr("height", d => y(0) - y(d[valueKey]))
                 .attr("fill", d => color(d[groupKey]));
 
+        // X-axis
         svg.append("g")
             .attr("transform", `translate(0, ${height - margin.bottom})`)
             .call(d3.axisBottom(placement).tickSizeOuter(0))
             .call(g => g.selectAll(".domain").remove());
+        xTitle ? svg.append("text")
+            .attr("transform", `translate(${width / 2}, ${height})`)
+            .attr("text-anchor", "middle")
+            .attr("alignment-baseline", "after-edge")
+            .attr("font-size", "0.8rem")
+            .text(xTitle) : null;
 
+        // Y-axis
         svg.append("g")
             .attr("transform", `translate(${margin.left}, 0)`)
             .call(d3.axisLeft(y).ticks(20, "s"))
             .call(g => g.selectAll(".domain").remove());
+        // transforming the axis label so that it is 12 units closer to the axis
+        // and rotating (-90 degrees) so that the bottom of the text faces the
+        // axis
+        yTitle ? svg.append("text")
+            .attr("transform", `translate(12, ${height / 2}) rotate(-90)`)
+            .attr("text-anchor", "middle")
+            .attr("font-size", "0.8rem")
+            .text(yTitle) : null;
+
+
+        // legend
+        // arbitrarily choosing 50 units as the maximum height of the legend,
+        // relates to the magic number 35 above, as the legend has a height of
+        // 50 and the default top margin is 20, so there's 5 units of clearance
+        // between the legend and the graph
+        const legendY = d3.scaleBand()
+              .domain(color.domain())
+              .rangeRound([0, 50])
+              .paddingInner(0.2);
+        // a width of 100 for the legend was arbitrarily chosen. This width
+        // impacts the subtraction in related x-positions calculated below
+        const legend = svg.append("g")
+              .attr("y", legendY)
+              .attr("x", width - 100)
+              .attr("height", legendY.bandwidth() * color.domain().length)
+              .attr("width", 100);
+        legend.selectAll("rect")
+            .data(color.domain())
+            .join("rect")
+            .attr("y", legendY)
+            .attr("x", width - 100)
+            .attr("height", 10)
+            .attr("width", 10)
+            .attr("fill", color);
+        legend.selectAll("text")
+            .data(color.domain())
+            .join("text")
+            .attr("y", (d) => legendY(d))
+            .attr("x", width - 85)
+            .attr("font-size", "0.5rem")
+            .attr("alignment-baseline", "before-edge")
+            .attr("text-anchor", "left")
+            .text(d => d);
+
+        var tooltip = svg
+            .append("text")
+            .attr("x", margin.left)
+            .attr("y", margin.top)
+            .style("visibility", "hidden");
+
+        const tooltips = svg.append("g")
+              .selectAll()
+              .data(d3.group(data, d => d[primaryKey]))
+              .join("g")
+                  .attr("transform", ([key]) => `translate(${placement(key)}, 0)`)
+                  .attr("pointer-events", "all")
+                  .attr("fill", "none")
+              .selectAll()
+              .data(([, d]) => d)
+              .join("rect")
+                  .attr("x", d => x(d[groupKey]))
+                  .attr("y", d => margin.bottom)
+                  .attr("width", x.bandwidth())
+                  .attr("height", d => height - margin.top - margin.bottom)
+              .on("mouseover", (event, d) => {
+                  tooltip.text(`${d[primaryKey]}, ${d[groupKey]}: ${d[valueKey]}`);
+                  return tooltip.style("visibility", "visible")
+              })
+              .on("mouseout", () => tooltip.style("visibility", "hidden"));
     }, [data, yTitle, width, height, margin, plotContainer]);
 
     return (
         <svg
-            width="100%"
-            height="100%"
             viewBox={`0 0 ${width} ${height}`}
-            style={{ maxWidth: "100%", height: "auto", overflow: "visible" }}
+            preserveAspectRatio="none"
             ref={plotContainer}
         />
     );
