@@ -107,7 +107,7 @@ function Content(
                         })
                     }
                 />
-                <Collapsible className="block-trans-root">
+                <Collapsible className="block-trans-root" defaultOpen={intervention.id === 0 ? true: false}>
                     <CollapsibleTrigger asChild>
                         <h3 className="block-trans-collapsible">
                             Transitions Between Interventions

@@ -1,5 +1,6 @@
 import * as d3 from "d3";
 import { useState } from "react";
+import { SYNDEMICS_PINK, SYNDEMICS_CYAN, SYNDEMICS_BLUE } from "~/globals";
 
 export interface PlotMargins {
     top: number;
@@ -16,10 +17,6 @@ interface LinePlotProps {
     height: number;
     margin: PlotMargins;
 }
-
-const SYNDEMICS_PINK = "#F0325F";
-const SYNDEMICS_CYAN = "#3D9BE9";
-const SYNDEMICS_BLUE = "#003771";
 
 function Tip({ data, position, valuePosition, show }) {
     return(

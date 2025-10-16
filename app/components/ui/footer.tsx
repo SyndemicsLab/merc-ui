@@ -2,6 +2,8 @@ import { Link } from  "react-router";
 import BMC from '~/images/organization-logos/bmc.png';
 import syndemics from '~/images/organization-logos/syndemics.png';
 import HD2A from '~/images/organization-logos/hd2a.svg';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faInstagram, faSquareLinkedin, faBluesky } from "@fortawesome/free-brands-svg-icons";
 
 function Logo(
     { image, alt, link }:
@@ -21,11 +23,25 @@ const Footer = () => {
         <footer className="footer">
             <div className="footer-content">
                 <div className="footer-logos">
-                    <Logo
-                        image={syndemics}
-                        alt="The Syndemics Lab at Boston Medical Center"
-                        link="https://syndemicslab.org"
-                    />
+                    <div className="syndemics">
+                        <Logo
+                            image={syndemics}
+                            alt="The Syndemics Lab at Boston Medical Center"
+                            link="https://syndemicslab.org"
+                        />
+                        <hr style={{ borderTopWidth: "3px", borderColor: "#003771" }}/>
+                        <div className="socials">
+                            <Link to="https://www.instagram.com/syndemicslab/">
+                                <FontAwesomeIcon icon={faInstagram} />
+                            </Link>
+                            <Link to="https://www.linkedin.com/company/syndemics-lab/">
+                                <FontAwesomeIcon icon={faSquareLinkedin} />
+                            </Link>
+                            <Link to="https://bsky.app/profile/syndemicslab.bsky.social">
+                                <FontAwesomeIcon icon={faBluesky} />
+                            </Link>
+                        </div>
+                    </div>
                     <Logo
                         image={BMC}
                         alt="Boston Medical Center"
