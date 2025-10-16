@@ -10,7 +10,7 @@ export default function Overdoses(
             {overdoses.map((overdose) => (
                     <NamedSlider
                         key={overdose.injection ? 1 : 0}
-                        inputName={`Weekly Percent of Active ${overdose.injection ? "Injector" : "Non-injector"} Population that Overdoses `}
+                        inputName={`Weekly Percent Overdoses in Active ${overdose.injection ? "Injectors" : "Non-injectors"}`}
                         min={0}
                         max={1}
                         step={0.01}

@@ -136,7 +136,7 @@ export default function LinePlot(props: LinePlotProps) {
                 "point": data[i]
             });
         }
-        
+
         svg.append("g")
             .attr("pointer-events", "all")
             .attr("fill", "none")
