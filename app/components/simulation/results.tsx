@@ -37,8 +37,8 @@ export default function Results() {
                         for results to populate.
                     </DialogDescription>
                 </DialogHeader>
-                <Disclaimers />
-                <div className="results-main grid grid-cols-1 xl:grid-cols-2">
+                {/* <Disclaimers /> */}
+                <div className="results-main flex flex-col">
                     {/* Still need to add a loading indicator to plots */}
                     {/* All data contained below is dummy data for testing */}
                     <LinePlot
@@ -54,6 +54,7 @@ export default function Results() {
                             [8, 4400],
                             [9, 8500]
                         ]}
+                        title="Arbitrary Fixed Data"
                         xTitle="Time"
                         yTitle="Value"
                     />
@@ -62,6 +63,7 @@ export default function Results() {
                             (x) => {
                                 return([x * Math.PI/8, Math.sin(x * Math.PI/8)])
                             })}
+                        title="Sine Wave"
                         xTitle="Time"
                         yTitle="Value"
                     />
@@ -71,6 +73,7 @@ export default function Results() {
                                 let temp = Math.random() * 1000000 + 500;
                                 return([x, Math.random() > 0.5 ? temp : -temp]);
                             })}
+                        title="Random Data Points"
                         xTitle="Time"
                         yTitle="Value"
                     />
@@ -92,6 +95,7 @@ export default function Results() {
                         primaryKey="state"
                         groupKey="perspective"
                         valueKey="cost"
+                        title="Three-Perspective Analysis"
                         xTitle="New England State"
                         yTitle="Cost of Intervention ($)"
                     />
@@ -117,6 +121,7 @@ export default function Results() {
                         primaryKey="state"
                         groupKey="perspective"
                         valueKey="cost"
+                        title="Four-Perspective Analysis"
                         xTitle="US State"
                         yTitle="Cost of Intervention ($)"
                     />

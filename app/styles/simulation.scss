@@ -421,6 +421,7 @@ button:hover {
     overflow-y: scroll;
     aspect-ratio: 8.5 / 11;
     width: 85%;
+    height: auto;
     margin: auto;
 
     &::-webkit-scrollbar {
@@ -436,11 +437,22 @@ button:hover {
         background-color: #aaa;
     }
 
+    .line-plot, .bar-plot {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 100%;
+    }
+
     svg {
-        width: 100%;
-        max-width: 100%;
-        height: auto;
+        flex-grow: 1;
         overflow: visible;
+        height: calc(100% - 100px);
+    }
+
+    h2 {
+        font-weight: 600;
+        color: var(--tertiary-color);
     }
 }
 

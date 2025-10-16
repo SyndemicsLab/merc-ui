@@ -10,12 +10,13 @@ export interface PlotMargins {
 }
 
 interface LinePlotProps {
-    data: any;
-    xTitle: string;
-    yTitle: string;
-    width: number;
-    height: number;
-    margin: PlotMargins;
+    data: number[][]; // data is an array of arrays
+    title: string;
+    xTitle?: string;
+    yTitle?: string;
+    width?: number;
+    height?: number;
+    margin?: PlotMargins;
 }
 
 function Tip({ data, position, valuePosition, show }) {
@@ -34,7 +35,7 @@ function Tip({ data, position, valuePosition, show }) {
                 transform={`translate(${valuePosition})`}
             >
                 {/* shifting the text up by 5 to avoid intersecting with
-                  the plots proper */}
+                    the plots proper */}
                 <text
                     y="-5"
                     style={{
@@ -103,9 +104,10 @@ function Tooltip({ data, height, x, y, margin }) {
   where N is the number of points in the data set.
 
   The default argument values are chosen arbitrarily based on trial and error
- */
+*/
 export default function LinePlot({
     data,
+    title,
     xTitle,
     yTitle,
     xTickSpacing = 40,
@@ -145,74 +147,76 @@ export default function LinePlot({
     }));
 
     return(
-        <svg
-            viewBox={`0 0 ${width} ${height}`}
-            preserveAspectRatio="none"
-        >
-            <path
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                d={xLine([0, 1])}
-            />
-            {xAxis.map(({value, xOffset}) => (
-                <g key={value} transform={`translate(${xOffset}, ${height - margin.bottom})`}>
-                    <line y2={6} stroke="currentColor" strokeWidth="2" />
+        <div className="line-plot">
+            {title ? (<h2>{title}</h2>) : null}
+            <svg
+                viewBox={`0 0 ${width} ${height}`}
+            >
+                <path
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    d={xLine([0, 1])}
+                />
+                {xAxis.map(({value, xOffset}) => (
+                    <g key={value} transform={`translate(${xOffset}, ${height - margin.bottom})`}>
+                        <line y2={6} stroke="currentColor" strokeWidth="2" />
+                        <text
+                            key={value}
+                            style={{
+                                fontSize: "0.6em",
+                                textAnchor: "middle",
+                                transform: "translateY(20px)"
+                            }}
+                        >
+                            {value}
+                        </text>
+                    </g>
+                ))}
+                <g transform={`translate(${width/2}, ${height})`}>
                     <text
-                        key={value}
                         style={{
-                            fontSize: "0.6em",
                             textAnchor: "middle",
-                            transform: "translateY(20px)"
-                        }}
-                    >
-                        {value}
-                    </text>
+                            alignmentBaseline: "after-edge",
+                            fontSize: "0.8em"
+                        }}>{xTitle}</text>
                 </g>
-            ))}
-            <g transform={`translate(${width/2}, ${height})`}>
-                <text
-                    style={{
-                        textAnchor: "middle",
-                        alignmentBaseline: "after-edge",
-                        fontSize: "0.8em"
-                    }}>{xTitle}</text>
-            </g>
-            <path
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                d={yLine([0, 1])}
-            />
-            {yAxis.map(({value, yOffset}) => (
-                <g key={value} transform={`translate(${margin.left}, ${yOffset})`}>
-                    <line x2={-6} stroke="currentColor" strokeWidth="2" />
-                    <text
-                        key={value}
-                        style={{
-                            fontSize: "0.6em",
-                            textAnchor: "middle",
-                            alignmentBaseline: "central",
-                            transform: "translateX(-20px)"
-                        }}
-                    >
-                        {value}
-                    </text>
+                <path
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    d={yLine([0, 1])}
+                />
+                {yAxis.map(({value, yOffset}) => (
+                    <g key={value} transform={`translate(${margin.left}, ${yOffset})`}>
+                        <line x2={-6} stroke="currentColor" strokeWidth="2" />
+                        <text
+                            key={value}
+                            style={{
+                                fontSize: "0.6em",
+                                textAnchor: "middle",
+                                alignmentBaseline: "central",
+                                transform: "translateX(-20px)"
+                            }}
+                        >
+                            {value}
+                        </text>
+                    </g>
+                ))}
+                <g transform={`translate(0, ${height/2}) rotate(-90)`}>
+                    <text style={{ fontSize: "0.8em", alignmentBaseline: "before-edge", textAnchor: "middle" }}>{yTitle}</text>
                 </g>
-            ))}
-            <g transform={`translate(0, ${height/2}) rotate(-90)`}>
-                <text style={{ fontSize: "0.8em", alignmentBaseline: "before-edge", textAnchor: "middle" }}>{yTitle}</text>
-            </g>
-            // syndemics
-            <path fill="none" stroke={`${SYNDEMICS_CYAN}`} strokeWidth="2" d={line(data)} />
-            <g fill={`${SYNDEMICS_BLUE}`}>
-                {data.map((d, i) => {
-                    return(
-                        <circle key={i} cx={x(d[0])} cy={y(d[1])} r="1.5" />
-                    );
-                })}
-            </g>
-            <Tooltip data={data} height={height} x={x} y={y} margin={margin} />
-        </svg>
+                // syndemics
+                <path fill="none" stroke={`${SYNDEMICS_CYAN}`} strokeWidth="2" d={line(data)} />
+                <g fill={`${SYNDEMICS_BLUE}`}>
+                    {data.map((d, i) => {
+                        return(
+                            <circle key={i} cx={x(d[0])} cy={y(d[1])} r="1.5" />
+                        );
+                    })}
+                </g>
+                <Tooltip data={data} height={height} x={x} y={y} margin={margin} />
+            </svg>
+        </div>
     );
 }
