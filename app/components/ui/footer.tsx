@@ -18,6 +18,19 @@ function Logo(
     );
 }
 
+function Social(
+    { icon, link }:
+    { icon: Object, link: string }
+) {
+    return(
+        <>
+            <Link to={link}>
+                <FontAwesomeIcon icon={icon} />
+            </Link>
+        </>
+    );
+}
+
 const Footer = () => {
     return (
         <footer className="footer">
@@ -31,15 +44,9 @@ const Footer = () => {
                         />
                         <hr style={{ borderTopWidth: "3px", borderColor: "#003771" }}/>
                         <div className="socials">
-                            <Link to="https://www.instagram.com/syndemicslab/">
-                                <FontAwesomeIcon icon={faInstagram} />
-                            </Link>
-                            <Link to="https://www.linkedin.com/company/syndemics-lab/">
-                                <FontAwesomeIcon icon={faSquareLinkedin} />
-                            </Link>
-                            <Link to="https://bsky.app/profile/syndemicslab.bsky.social">
-                                <FontAwesomeIcon icon={faBluesky} />
-                            </Link>
+                            <Social icon={faInstagram} link="https://www.instagram.com/syndemicslab/" />
+                            <Social icon={faSquareLinkedin} link="https://www.linkedin.com/company/syndemics-lab/" />
+                            <Social icon={faBluesky} link="https://bsky.app/profile/syndemicslab.bsky.social" />
                         </div>
                     </div>
                     <Logo
