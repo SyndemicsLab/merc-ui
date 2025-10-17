@@ -107,7 +107,6 @@ export default function GroupedBarPlot(props: BarPlotProps) {
             .attr("font-size", "0.8rem")
             .text(yTitle) : null;
 
-
         // legend
         // arbitrarily choosing 50 units as the maximum height of the legend,
         // relates to the magic number 35 above, as the legend has a height of
@@ -148,29 +147,24 @@ export default function GroupedBarPlot(props: BarPlotProps) {
             .attr("y", margin.top)
             .style("fill", "#777")
             .text("Hover over bar to see value");
-//            .style("visibility", "hidden");
 
-        const tooltips = svg.append("g")
-              .selectAll()
-              .data(d3.group(data, d => d[primaryKey]))
-              .join("g")
-                  .attr("transform", ([key]) => `translate(${placement(key)}, 0)`)
-                  .attr("pointer-events", "all")
-                  .attr("fill", "none")
-              .selectAll()
-              .data(([, d]) => d)
-              .join("rect")
-                  .attr("x", d => x(d[groupKey]))
-                  .attr("y", d => margin.bottom)
-                  .attr("width", x.bandwidth())
-                  .attr("height", d => height - margin.top - margin.bottom)
-              .on("mouseover", (event, d) => {
-                  tooltip.text(`${d[primaryKey]}, ${d[groupKey]}: ${d[valueKey]}`);
-                  return tooltip.style("visibility", "visible")
-              })
-              .on("mouseout", () => tooltip.text("Hover over bar to see value"));
-              // .on("mouseout", () => tooltip.style("visibility", "hidden"));
-    }, [data, yTitle, width, height, margin, plotContainer]);
+        svg.append("g")
+            .selectAll()
+            .data(d3.group(data, d => d[primaryKey]))
+            .join("g")
+                .attr("transform", ([key]) => `translate(${placement(key)}, 0)`)
+                .attr("pointer-events", "all")
+                .attr("fill", "none")
+            .selectAll()
+            .data(([, d]) => d)
+            .join("rect")
+                .attr("x", d => x(d[groupKey]))
+                .attr("y", d => margin.bottom)
+                .attr("width", x.bandwidth())
+                .attr("height", d => height - margin.top - margin.bottom)
+            .on("mouseover", (event, d) => tooltip.text(`${d[primaryKey]}, ${d[groupKey]}: ${d[valueKey]}`))
+            .on("mouseout", () => tooltip.text("Hover over bar to see value"));
+    }, [data, xTitle, yTitle, width, height, margin, plotContainer]);
 
     return (
         <div className="bar-plot">

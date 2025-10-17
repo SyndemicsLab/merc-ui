@@ -44,9 +44,18 @@ const Footer = () => {
                         />
                         <hr style={{ borderTopWidth: "3px", borderColor: "#003771" }}/>
                         <div className="socials">
-                            <Social icon={faInstagram} link="https://www.instagram.com/syndemicslab/" />
-                            <Social icon={faSquareLinkedin} link="https://www.linkedin.com/company/syndemics-lab/" />
-                            <Social icon={faBluesky} link="https://bsky.app/profile/syndemicslab.bsky.social" />
+                            <Social
+                                icon={faInstagram}
+                                link="https://www.instagram.com/syndemicslab/"
+                            />
+                            <Social
+                                icon={faSquareLinkedin}
+                                link="https://www.linkedin.com/company/syndemics-lab/"
+                            />
+                            <Social
+                                icon={faBluesky}
+                                link="https://bsky.app/profile/syndemicslab.bsky.social"
+                            />
                         </div>
                     </div>
                     <Logo
