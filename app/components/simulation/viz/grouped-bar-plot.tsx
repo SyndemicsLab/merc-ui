@@ -61,8 +61,9 @@ export default function GroupedBarPlot(props: BarPlotProps) {
         const color = d3.scaleOrdinal([`#f0325f`, `#003771`, `#3d9be9`])
               .domain(groups);
 
-        // the additional (unitless) 35 is used to avoid intersecting with the
-        // information above the graph (i.e. legend and tooltip)
+        // the additional (unitless) value added to the range is used to avoid
+        // intersecting with the information above the graph (i.e. legend and
+        // tooltip)
         const y = d3.scaleLinear()
               .domain([0, d3.max(data, d => d[valueKey])]).nice()
               .range([height - margin.bottom, margin.top + 40]);
@@ -108,10 +109,10 @@ export default function GroupedBarPlot(props: BarPlotProps) {
             .text(yTitle) : null;
 
         // legend
-        // arbitrarily choosing 50 units as the maximum height of the legend,
-        // relates to the magic number 35 above, as the legend has a height of
-        // 50 and the default top margin is 20, so there's 5 units of clearance
-        // between the legend and the graph
+        // arbitrarily choosing 55 units as the maximum height of the legend,
+        // relates to the magic number used for the y-range, as the legend has a
+        // height of 55 and the default top margin is 20, so there's 5 units of
+        // clearance between the legend and the graph
         const legendY = d3.scaleBand()
               .domain(color.domain())
               .rangeRound([5, 55])
