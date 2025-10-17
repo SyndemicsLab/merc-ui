@@ -10,7 +10,7 @@ import { useState } from "react";
 import { Button } from "@components/ui/button";
 import Disclaimers from "@components/simulation/disclaimers";
 import EmailIntake from "@simulation/emailintake";
-import LinePlot, { AltLinePlot } from "@components/simulation/viz/line-plot";
+import LinePlot from "@components/simulation/viz/line-plot";
 import GroupedBarPlot from "@components/simulation/viz/grouped-bar-plot";
 
 export default function Results() {
@@ -37,6 +37,7 @@ export default function Results() {
                         for results to populate.
                     </DialogDescription>
                 </DialogHeader>
+                {/* Temporarily commenting out disclaimers */}
                 {/* <Disclaimers /> */}
                 <div className="results-main flex flex-col">
                     {/* Still need to add a loading indicator to plots */}
@@ -67,7 +68,7 @@ export default function Results() {
                         xTitle="Time"
                         yTitle="Value"
                     />
-                    <AltLinePlot
+                    <LinePlot
                         data={[...Array(71)].map((_, i) => -35+ i).map(
                             (x) => {
                                 let temp = Math.random() * 1000000 + 500;
