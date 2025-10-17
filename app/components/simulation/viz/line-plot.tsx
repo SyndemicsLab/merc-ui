@@ -240,7 +240,7 @@ export function AltLinePlot(props: LinePlotProps) {
             .attr("x", margin.left)
             .attr("y", margin.top)
             .style("fill", "#777")
-            .text("Hover over graph to see value at point");
+            .text("Use your cursor to see detailed values");
 
         // line
         svg.append("path")
@@ -259,18 +259,51 @@ export function AltLinePlot(props: LinePlotProps) {
                   .attr("cy", d => y(d[1]))
                   .attr("r", 1.5);
 
+        const currentPoint = svg.append("circle")
+              .attr("fill", `${SYNDEMICS_PINK}`)
+              .attr("r", 2.5)
+              .attr("visibility", "hidden");
+
+        let regions = [];
+        for (let i = 0; i < data.length; i++) {
+            let center = x(data[i][0]), width;
+            if (i === 0) {
+                width = x(data[i+1][0]) - x(data[i][0]);
+            }
+            else if (i === data.length - 1) {
+                width = x(data[i][0]) - x(data[i-1][0]);
+            }
+            else {
+                width = (x(data[i+1][0]) - x(data[i-1][0]))/2;
+            }
+            regions.push({
+                "position": center - width / 2,
+                "width": width,
+                "point": data[i]
+            });
+        }
+
         svg.append("g")
             .attr("pointer-events", "all")
             .attr("fill", "none")
             .selectAll()
-            .data(d3.pairs(data))
+            .data(regions)
             .join("rect")
-            .attr("x", (d) => x(d[0][0]))
+            .attr("x", d => d["position"])
             .attr("y", margin.bottom)
-            .attr("width", (d) => x(d[1][0]) - x(d[0][0]))
+            .attr("width", d => d["width"])
             .attr("height", d => height - margin.top - margin.bottom)
-            .on("mouseover", (event, d) => tooltip.text(`(${d[0]}, ${d[1]})`))
-            .on("mouseout", () => tooltip.text("Hover over graph to see value at point"));
+            .on("mouseover", (event, d) => {
+                tooltip.text(`(${d["point"][0]}, ${d["point"][1]})`);
+                currentPoint
+                    .attr("cx", x(d["point"][0]))
+                    .attr("cy", y(d["point"][1]))
+                    .attr("visibility", "visible");
+            })
+            .on("mouseout", () => {
+                tooltip.text("Use your cursor to see detailed values");
+                currentPoint.attr("visibility", "hidden");
+            });
     }, [data, xTitle, yTitle, width, height, margin, plotContainer]);
 
     return (
