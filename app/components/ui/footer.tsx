@@ -2,6 +2,7 @@ import { Link } from  "react-router";
 import BMC from '~/images/organization-logos/bmc.png';
 import syndemics from '~/images/organization-logos/syndemics.png';
 import HD2A from '~/images/organization-logos/hd2a.svg';
+import { SYNDEMICS_BLUE } from "~/globals";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInstagram, faSquareLinkedin, faBluesky } from "@fortawesome/free-brands-svg-icons";
 
@@ -42,7 +43,7 @@ const Footer = () => {
                             alt="The Syndemics Lab at Boston Medical Center"
                             link="https://syndemicslab.org"
                         />
-                        <hr style={{ borderTopWidth: "3px", borderColor: "#003771" }}/>
+                        <hr style={{ borderTopWidth: "3px", borderColor: `${SYNDEMICS_BLUE}` }}/>
                         <div className="socials">
                             <Social
                                 icon={faInstagram}
