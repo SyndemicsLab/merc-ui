@@ -107,6 +107,7 @@ function Content(
                         })
                     }
                 />
+                {/* Intervention transitions default to open for No Treatment */}
                 <Collapsible className="block-trans-root" defaultOpen={intervention.id === 0 ? true: false}>
                     <CollapsibleTrigger asChild>
                         <h3 className="block-trans-collapsible">
