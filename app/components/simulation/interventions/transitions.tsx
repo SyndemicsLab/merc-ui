@@ -17,7 +17,7 @@ export default function Transitions(
             {transitions.map((transition) => (
                 <ManagedSlider
                     key={transition.id}
-                    name={`Proportion Transitioning to ${transition.name}`}
+                    name={`Weekly Percent of Population Moving to ${transition.name}`}
                     min={0}
                     max={1}
                     step={0.01}

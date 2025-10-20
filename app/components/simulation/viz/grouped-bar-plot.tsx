@@ -8,6 +8,7 @@ interface BarPlotProps {
     groupKey: string;
     valueKey: string;
     legendLabel: string;
+    title?: string;
     xTitle?: string;
     yTitle?: string;
     width?: number;
@@ -22,6 +23,7 @@ export default function GroupedBarPlot(props: BarPlotProps) {
         groupKey,
         valueKey,
         legendLabel,
+        title,
         xTitle,
         yTitle,
         width = 650,
@@ -59,11 +61,12 @@ export default function GroupedBarPlot(props: BarPlotProps) {
         const color = d3.scaleOrdinal([`#f0325f`, `#003771`, `#3d9be9`])
               .domain(groups);
 
-        // the additional (unitless) 35 is used to avoid intersecting with the
-        // information above the graph (i.e. legend and tooltip)
+        // the additional (unitless) value added to the range is used to avoid
+        // intersecting with the information above the graph (i.e. legend and
+        // tooltip)
         const y = d3.scaleLinear()
               .domain([0, d3.max(data, d => d[valueKey])]).nice()
-              .range([height - margin.bottom, margin.top + 35]);
+              .range([height - margin.bottom, margin.top + 40]);
 
         svg.append("g")
             .selectAll()
@@ -105,15 +108,14 @@ export default function GroupedBarPlot(props: BarPlotProps) {
             .attr("font-size", "0.8rem")
             .text(yTitle) : null;
 
-
         // legend
-        // arbitrarily choosing 50 units as the maximum height of the legend,
-        // relates to the magic number 35 above, as the legend has a height of
-        // 50 and the default top margin is 20, so there's 5 units of clearance
-        // between the legend and the graph
+        // arbitrarily choosing 55 units as the maximum height of the legend,
+        // relates to the magic number used for the y-range, as the legend has a
+        // height of 55 and the default top margin is 20, so there's 5 units of
+        // clearance between the legend and the graph
         const legendY = d3.scaleBand()
               .domain(color.domain())
-              .rangeRound([0, 50])
+              .rangeRound([5, 55])
               .paddingInner(0.2);
         // a width of 100 for the legend was arbitrarily chosen. This width
         // impacts the subtraction in related x-positions calculated below
@@ -144,34 +146,34 @@ export default function GroupedBarPlot(props: BarPlotProps) {
             .append("text")
             .attr("x", margin.left)
             .attr("y", margin.top)
-            .style("visibility", "hidden");
+            .style("fill", "#777")
+            .text("Hover over bar to see value");
 
-        const tooltips = svg.append("g")
-              .selectAll()
-              .data(d3.group(data, d => d[primaryKey]))
-              .join("g")
-                  .attr("transform", ([key]) => `translate(${placement(key)}, 0)`)
-                  .attr("pointer-events", "all")
-                  .attr("fill", "none")
-              .selectAll()
-              .data(([, d]) => d)
-              .join("rect")
-                  .attr("x", d => x(d[groupKey]))
-                  .attr("y", d => margin.bottom)
-                  .attr("width", x.bandwidth())
-                  .attr("height", d => height - margin.top - margin.bottom)
-              .on("mouseover", (event, d) => {
-                  tooltip.text(`${d[primaryKey]}, ${d[groupKey]}: ${d[valueKey]}`);
-                  return tooltip.style("visibility", "visible")
-              })
-              .on("mouseout", () => tooltip.style("visibility", "hidden"));
-    }, [data, yTitle, width, height, margin, plotContainer]);
+        svg.append("g")
+            .selectAll()
+            .data(d3.group(data, d => d[primaryKey]))
+            .join("g")
+                .attr("transform", ([key]) => `translate(${placement(key)}, 0)`)
+                .attr("pointer-events", "all")
+                .attr("fill", "none")
+            .selectAll()
+            .data(([, d]) => d)
+            .join("rect")
+                .attr("x", d => x(d[groupKey]))
+                .attr("y", d => margin.bottom)
+                .attr("width", x.bandwidth())
+                .attr("height", d => height - margin.top - margin.bottom)
+            .on("mouseover", (event, d) => tooltip.text(`${d[primaryKey]}, ${d[groupKey]}: ${d[valueKey]}`))
+            .on("mouseout", () => tooltip.text("Hover over bar to see value"));
+    }, [data, xTitle, yTitle, width, height, margin, plotContainer]);
 
     return (
-        <svg
-            viewBox={`0 0 ${width} ${height}`}
-            preserveAspectRatio="none"
-            ref={plotContainer}
-        />
+        <div className="bar-plot">
+            {title ? (<h2>{title}</h2>) : null}
+            <svg
+                viewBox={`0 0 ${width} ${height}`}
+                ref={plotContainer}
+            />
+        </div>
     );
 }

@@ -240,6 +240,20 @@ a {
         max-height: 100px;
         max-width: 200px;
     }
+
+    .syndemics {
+        display: flex;
+        flex-direction: column;
+        .socials {
+            margin-top: 0.5rem;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+        }
+        svg {
+            height: 1rem;
+        }
+    }
 }
 
 .footer-description {

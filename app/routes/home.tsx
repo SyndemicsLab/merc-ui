@@ -34,17 +34,20 @@ export async function action({ request }: Route.ActionArgs) {
 
     delete formJson.questionnaireVisibility;
 
-    const response = await fetch(
-        `${process.env.API_URL}/submit-questionnaire`,
-        {
-            method: "POST",
-            mode: "cors",
-            body: JSON.stringify(formJson),
-            headers: {
-                "Content-Type": "application/json",
+    let response;
+    if (typeof(process.env.API_URL) !== 'undefined') {
+        response = await fetch(
+            `${process.env.API_URL}/submit-questionnaire`,
+            {
+                method: "POST",
+                mode: "cors",
+                body: JSON.stringify(formJson),
+                headers: {
+                    "Content-Type": "application/json",
+                }
             }
-        }
-    );
+        );
+    }
 
     if (bodyParams.get("questionnaireVisibility") === "hidden") {
         cookie.showQuestionnaire = false;

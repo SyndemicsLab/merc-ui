@@ -81,7 +81,7 @@ export default function Inputs() {
                         }
                     />
                     <ManagedSlider
-                        name={"Fatal Overdose Probability"}
+                        name={"Percent of Overdoses That Result in Death"}
                         min={0}
                         max={1}
                         step={0.005}

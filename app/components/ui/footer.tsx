@@ -2,6 +2,9 @@ import { Link } from  "react-router";
 import BMC from '~/images/organization-logos/bmc.png';
 import syndemics from '~/images/organization-logos/syndemics.png';
 import HD2A from '~/images/organization-logos/hd2a.svg';
+import { SYNDEMICS_BLUE } from "~/globals";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faInstagram, faSquareLinkedin, faBluesky } from "@fortawesome/free-brands-svg-icons";
 
 function Logo(
     { image, alt, link }:
@@ -16,16 +19,46 @@ function Logo(
     );
 }
 
+function Social(
+    { icon, link }:
+    { icon: Object, link: string }
+) {
+    return(
+        <>
+            <Link to={link}>
+                <FontAwesomeIcon icon={icon} />
+            </Link>
+        </>
+    );
+}
+
 const Footer = () => {
     return (
         <footer className="footer">
             <div className="footer-content">
                 <div className="footer-logos">
-                    <Logo
-                        image={syndemics}
-                        alt="The Syndemics Lab at Boston Medical Center"
-                        link="https://syndemicslab.org"
-                    />
+                    <div className="syndemics">
+                        <Logo
+                            image={syndemics}
+                            alt="The Syndemics Lab at Boston Medical Center"
+                            link="https://syndemicslab.org"
+                        />
+                        <hr style={{ borderTopWidth: "3px", borderColor: `${SYNDEMICS_BLUE}` }}/>
+                        <div className="socials">
+                            <Social
+                                icon={faInstagram}
+                                link="https://www.instagram.com/syndemicslab/"
+                            />
+                            <Social
+                                icon={faSquareLinkedin}
+                                link="https://www.linkedin.com/company/syndemics-lab/"
+                            />
+                            <Social
+                                icon={faBluesky}
+                                link="https://bsky.app/profile/syndemicslab.bsky.social"
+                            />
+                        </div>
+                    </div>
                     <Logo
                         image={BMC}
                         alt="Boston Medical Center"
