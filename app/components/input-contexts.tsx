@@ -11,6 +11,9 @@ import {
     inputs,
     makeEmptyTransition
 } from "~/data";
+import {
+    PROPORTION_MAX
+} from "~/globals";
 
 interface Action {
     type: string;
@@ -299,7 +302,7 @@ function inputsReducer(simulationInputs: Inputs, action: Action) {
 
         // check if the sum of the transition probabilities exceeds the limit
         // and prevent the change if it would cause an excess of the limit
-        if (constrainValues(newTransitionProbabilities, 1.0000)) {
+        if (constrainValues(newTransitionProbabilities, PROPORTION_MAX)) {
             return simulationInputs;
         }
         return({

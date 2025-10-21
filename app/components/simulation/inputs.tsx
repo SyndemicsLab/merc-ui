@@ -1,12 +1,17 @@
 import { useRef, useState, useEffect } from "react";
 import { useFetcher } from "react-router";
+import { useInputs, useInputsDispatch } from "@components/input-contexts";
 import ScrollIndicator from "@components/ui/scroll-indicator";
 import { ManagedSlider } from "@components/ui/sliders";
 import Interventions from "@simulation/interventions"
 import GlossaryButton from "@simulation/glossary-button";
 import Results from "@simulation/results";
 import InfoButton from "@components/ui/info-button.tsx"
-import { useInputs, useInputsDispatch } from "@components/input-contexts";
+import {
+    PROPORTION_MIN,
+    PROPORTION_STEP,
+    PROPORTION_MAX
+} from "~/globals";
 
 export default function Inputs() {
     // use the overarching inputs state and reducer functions (dispatch)
@@ -82,9 +87,9 @@ export default function Inputs() {
                     />
                     <ManagedSlider
                         name={"Percent of Overdoses That Result in Death"}
-                        min={0}
-                        max={1}
-                        step={0.005}
+                        min={PROPORTION_MIN}
+                        max={PROPORTION_MAX}
+                        step={PROPORTION_STEP}
                         value={inputs.fod}
                         managementFunction={
                             (value) =>
