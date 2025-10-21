@@ -1,3 +1,5 @@
+@use "sass:math";
+
 // $color: color of the button when the cursor is not hovering over it
 // $hover-color: color of the button when the cursor is hovering over it
 // $text-color: color of the button's text
@@ -42,7 +44,7 @@
 }
 
 // $color - the color of the button
-@mixin nav-button($color) {
+@mixin nav-button($color: var(--primary-color)) {
     background-color: $color;
     font-family: 'IBM Plex Sans', sans-serif;
     border-radius: 13px;
@@ -112,5 +114,27 @@
 
     &:hover::after {
         transform: scaleX(1);
+    }
+}
+
+// $size: diameter of the circular button
+// $color: the color of the button
+// $hover-color: the color of the button when the cursor hovers over it
+// font-size: the font size of the contents of the button
+@mixin circular-button (
+    $size: 1.5rem,
+    $color: var(--primary-color),
+    $hover-color: var(--secondary-color),
+    $font-size: 0.75rem
+) {
+    display: flex;
+    width: $size;
+    height: $size;
+    border-radius: math.div($size, 2);
+    justify-content: center;
+    align-items: center;
+    & > * {
+        height: $font-size;
+        width: $font-size;
     }
 }

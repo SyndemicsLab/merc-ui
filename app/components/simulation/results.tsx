@@ -80,18 +80,18 @@ export default function Results() {
                     />
                     <GroupedBarPlot
                         data={[
-                            {cost: Math.random() * 10 ** 8, state: "MA", perspective: "healthcare"},
-                            {cost: Math.random() * 10 ** 8, state: "MA", perspective: "societal"},
-                            {cost: Math.random() * 10 ** 8, state: "MA", perspective: "policymaker"},
-                            {cost: Math.random() * 10 ** 8, state: "CT", perspective: "healthcare"},
-                            {cost: Math.random() * 10 ** 8, state: "CT", perspective: "societal"},
-                            {cost: Math.random() * 10 ** 8, state: "CT", perspective: "policymaker"},
-                            {cost: Math.random() * 10 ** 8, state: "RI", perspective: "healthcare"},
-                            {cost: Math.random() * 10 ** 8, state: "RI", perspective: "societal"},
-                            {cost: Math.random() * 10 ** 8, state: "RI", perspective: "policymaker"},
-                            {cost: Math.random() * 10 ** 8, state: "VT", perspective: "healthcare"},
-                            {cost: Math.random() * 10 ** 8, state: "VT", perspective: "societal"},
-                            {cost: Math.random() * 10 ** 8, state: "VT", perspective: "policymaker"},
+                            {cost: Math.random() * 10 ** 8, state: "MA", perspective: "Healthcare"},
+                            {cost: Math.random() * 10 ** 8, state: "MA", perspective: "Societal"},
+                            {cost: Math.random() * 10 ** 8, state: "MA", perspective: "Policymaker"},
+                            {cost: Math.random() * 10 ** 8, state: "CT", perspective: "Healthcare"},
+                            {cost: Math.random() * 10 ** 8, state: "CT", perspective: "Societal"},
+                            {cost: Math.random() * 10 ** 8, state: "CT", perspective: "Policymaker"},
+                            {cost: Math.random() * 10 ** 8, state: "RI", perspective: "Healthcare"},
+                            {cost: Math.random() * 10 ** 8, state: "RI", perspective: "Societal"},
+                            {cost: Math.random() * 10 ** 8, state: "RI", perspective: "Policymaker"},
+                            {cost: Math.random() * 10 ** 8, state: "VT", perspective: "Healthcare"},
+                            {cost: Math.random() * 10 ** 8, state: "VT", perspective: "Societal"},
+                            {cost: Math.random() * 10 ** 8, state: "VT", perspective: "Policymaker"},
                         ]}
                         primaryKey="state"
                         groupKey="perspective"
@@ -102,22 +102,22 @@ export default function Results() {
                     />
                     <GroupedBarPlot
                         data={[
-                            {cost: Math.random() * 10 ** 5, state: "MA", perspective: "healthcare"},
-                            {cost: Math.random() * 10 ** 5, state: "MA", perspective: "societal"},
-                            {cost: Math.random() * 10 ** 5, state: "MA", perspective: "policymaker"},
-                            {cost: Math.random() * 10 ** 5, state: "MA", perspective: "charity"},
-                            {cost: Math.random() * 10 ** 5, state: "CT", perspective: "healthcare"},
-                            {cost: Math.random() * 10 ** 5, state: "CT", perspective: "societal"},
-                            {cost: Math.random() * 10 ** 5, state: "CT", perspective: "policymaker"},
-                            {cost: Math.random() * 10 ** 5, state: "CT", perspective: "charity"},
-                            {cost: Math.random() * 10 ** 5, state: "RI", perspective: "healthcare"},
-                            {cost: Math.random() * 10 ** 5, state: "RI", perspective: "societal"},
-                            {cost: Math.random() * 10 ** 5, state: "RI", perspective: "policymaker"},
-                            {cost: Math.random() * 10 ** 5, state: "RI", perspective: "charity"},
-                            {cost: Math.random() * 10 ** 5, state: "VT", perspective: "healthcare"},
-                            {cost: Math.random() * 10 ** 5, state: "VT", perspective: "societal"},
-                            {cost: Math.random() * 10 ** 5, state: "VT", perspective: "policymaker"},
-                            {cost: Math.random() * 10 ** 5, state: "VT", perspective: "charity"},
+                            {cost: Math.random() * 10 ** 5, state: "MA", perspective: "Healthcare"},
+                            {cost: Math.random() * 10 ** 5, state: "MA", perspective: "Societal"},
+                            {cost: Math.random() * 10 ** 5, state: "MA", perspective: "Policymaker"},
+                            {cost: Math.random() * 10 ** 5, state: "MA", perspective: "Charity"},
+                            {cost: Math.random() * 10 ** 5, state: "CT", perspective: "Healthcare"},
+                            {cost: Math.random() * 10 ** 5, state: "CT", perspective: "Societal"},
+                            {cost: Math.random() * 10 ** 5, state: "CT", perspective: "Policymaker"},
+                            {cost: Math.random() * 10 ** 5, state: "CT", perspective: "Charity"},
+                            {cost: Math.random() * 10 ** 5, state: "RI", perspective: "Healthcare"},
+                            {cost: Math.random() * 10 ** 5, state: "RI", perspective: "Societal"},
+                            {cost: Math.random() * 10 ** 5, state: "RI", perspective: "Policymaker"},
+                            {cost: Math.random() * 10 ** 5, state: "RI", perspective: "Charity"},
+                            {cost: Math.random() * 10 ** 5, state: "VT", perspective: "Healthcare"},
+                            {cost: Math.random() * 10 ** 5, state: "VT", perspective: "Societal"},
+                            {cost: Math.random() * 10 ** 5, state: "VT", perspective: "Policymaker"},
+                            {cost: Math.random() * 10 ** 5, state: "VT", perspective: "Charity"},
                         ]}
                         primaryKey="state"
                         groupKey="perspective"

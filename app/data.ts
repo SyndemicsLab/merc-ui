@@ -122,10 +122,12 @@ function setTransitions(interventions: Intervention[]) {
                 i => i.id != intervention.id
             );
             let transitions: Transition[] = other_interventions.map((i) => {
+                let prob = intervention.id === 0 ?
+                    (25 / other_interventions.length) : 0;
                 return {
                     id: i.id,
                     name: i.name,
-                    probability: intervention.id === 0 ? (25 / other_interventions.length).toFixed(2) : 0,
+                    probability: prob % 1.0 !== 0 ? prob.toFixed(2) : prob,
                 };
             })
 
@@ -141,7 +143,7 @@ function setTransitions(interventions: Intervention[]) {
                      transitions: [{
                          id: intervention.id,
                          name: `Post-${intervention.name}`,
-                         probability: 0.2
+                         probability: 2
                      }, ...transitions]
                     }
                 );
