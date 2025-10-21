@@ -97,8 +97,7 @@ function Content(
                     min={0}
                     max={200000}
                     step={1000}
-                    value={Object.hasOwn(intervention, 'population') ?
-                           intervention.population : 1000}
+                    value={intervention.population}
                     managementFunction={(value) =>
                         dispatch({
                             type: 'intervention change population',
@@ -106,6 +105,7 @@ function Content(
                             value: value
                         })
                     }
+                    readOnly={intervention.id === 0 ? true : false}
                 />
                 {/* Intervention transitions default to open for No Treatment */}
                 <Collapsible className="block-trans-root" defaultOpen={intervention.id === 0 ? true: false}>

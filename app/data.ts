@@ -81,7 +81,22 @@ const raw_inputs: Inputs = {
 const inputs = {
     ...raw_inputs,
     interventions: setTransitions(raw_inputs.interventions).map(
-        (intervention) => setOverdoses(intervention)
+        (intervention) => {
+            if (intervention.id !== 0) {
+                return setOverdoses(intervention);
+            }
+            // no treatment needs a population size
+            const treatedPopulation = raw_inputs.interventions
+                  .filter(i => i.id !== 0)
+                  .reduce(
+                      (accumulator, intervention) => accumulator + parseInt(intervention.population),
+                      0
+                  );
+            return {
+                ...setOverdoses(intervention),
+                population: raw_inputs.population - treatedPopulation
+            };
+        }
     )
 };
 
