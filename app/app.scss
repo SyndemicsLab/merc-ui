@@ -249,16 +249,21 @@ a {
             display: flex;
             flex-direction: row;
             justify-content: space-evenly;
-        }
-        svg {
-            height: 1rem;
+            a {
+                @include buttons.circular-button;
+                color: white;
+                background-color: var(--primary-color);
+                &:hover {
+                    background-color: var(--secondary-color);
+                }
+            }
         }
     }
 }
 
 .footer-description {
     flex-grow: 1;
-    font-size: 16px;
+    font-size: var(--font-size);
     line-height: 1.5;
     text-align: justify;
 }
@@ -272,7 +277,7 @@ textarea {
 }
 
 label {
-    font-size: 18px;
+    font-size: 1.125rem;
     font-weight: 500;
     margin-bottom: 10px;
 }
@@ -355,7 +360,7 @@ label {
     }
 
     .overlay-link {
-        font-size: 36px;
+        font-size: 2rem;
         display: block;
         padding: 16px;
         text-decoration: none;

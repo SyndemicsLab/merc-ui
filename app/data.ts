@@ -1,13 +1,7 @@
 // This is meant to be a temporary file replicating what would be held in a
 // cloud data source
 
-export interface Transition {
-    id: number;
-    name: string;
-    probability: number;
-}
-
-export interface Intervention {
+interface Intervention {
     id: number;
     name: string;
     active: boolean;
@@ -18,12 +12,18 @@ export interface Intervention {
     transitions: Transition[];
 }
 
-export interface Overdose {
+interface Transition {
+    id: number;
+    name: string;
+    probability: number;
+}
+
+interface Overdose {
     probability: number;
     injection: boolean;
 }
 
-export interface Inputs {
+interface Inputs {
     duration: number;
     population: number;
     entering: number;
@@ -33,9 +33,9 @@ export interface Inputs {
 
 const raw_inputs: Inputs = {
     duration: 260,
-    population: 214000,
-    entering: 5000,
-    fod: 0.13,
+    population: 214801,
+    entering: 5784,
+    fod: 6.25,
     interventions: [
         {
             id: 0,
@@ -78,12 +78,31 @@ const raw_inputs: Inputs = {
     ],
 }
 
-export const inputs = {
+const inputs = {
     ...raw_inputs,
     interventions: setTransitions(raw_inputs.interventions).map(
-        (intervention) => setOverdoses(intervention)
+        (intervention) => {
+            if (intervention.id !== 0) {
+                return setOverdoses(intervention);
+            }
+            // no treatment needs a population size
+            const treatedPopulation = raw_inputs.interventions
+                  .filter(i => i.id !== 0)
+                  .reduce(
+                      (accumulator, intervention) => accumulator + parseInt(intervention.population),
+                      0
+                  );
+            return {
+                ...setOverdoses(intervention),
+                population: raw_inputs.population - treatedPopulation
+            };
+        }
     )
 };
+
+function uniform(a, b) {
+    return a + Math.random() * (b - a);
+}
 
 function setOverdoses(intervention: Intervention) {
     if (Object.hasOwn(intervention, "overdose")) {
@@ -92,20 +111,20 @@ function setOverdoses(intervention: Intervention) {
         return {
             ...intervention,
             overdose: [
-                { probability: Math.random().toPrecision(2), injection: true },
-                { probability: Math.random().toPrecision(2), injection: false }
+                { probability: Math.ceil(uniform(10, 15)), injection: true },
+                { probability: Math.ceil(uniform(8, 10)), injection: false }
             ]
         };
     }
 
 }
 
-export function getInterventions(): Intervention[] {
+function getInterventions(): Intervention[] {
     const interventions: Intervention[] = setTransitions(inputs.getAll());
     return interventions;
 }
 
-export function makeEmptyTransition(id: number, name: string): Transition {
+function makeEmptyTransition(id: number, name: string): Transition {
     return { id: id, name: name, probability: 0 };
 }
 
@@ -118,10 +137,12 @@ function setTransitions(interventions: Intervention[]) {
                 i => i.id != intervention.id
             );
             let transitions: Transition[] = other_interventions.map((i) => {
+                let prob = intervention.id === 0 ?
+                    (25 / other_interventions.length).toFixed(4) : 0;
                 return {
                     id: i.id,
                     name: i.name,
-                    probability: (0.25 / other_interventions.length).toFixed(2),
+                    probability: prob % 1.0 !== 0 ? prob.toFixed(4) : prob,
                 };
             })
 
@@ -132,12 +153,13 @@ function setTransitions(interventions: Intervention[]) {
                      transitions: transitions}
                 );
             } else {
+                let prob = 2;
                 return(
                     {...intervention,
                      transitions: [{
                          id: intervention.id,
                          name: `Post-${intervention.name}`,
-                         probability: 0.2
+                         probability: prob.toFixed(4)
                      }, ...transitions]
                     }
                 );
@@ -146,3 +168,13 @@ function setTransitions(interventions: Intervention[]) {
     });
     return newInterventions;
 }
+
+export {
+    Intervention,
+    Transition,
+    Overdose,
+    Inputs,
+    inputs,
+    getInterventions,
+    makeEmptyTransition
+};

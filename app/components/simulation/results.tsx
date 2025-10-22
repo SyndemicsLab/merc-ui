@@ -44,54 +44,35 @@ export default function Results() {
                     {/* All data contained below is dummy data for testing */}
                     <LinePlot
                         data={[
-                            [0, 0],
-                            [1, 1000],
-                            [2, 1500],
-                            [3, 3000],
-                            [4, 2200],
-                            [5, 4000],
-                            [6, 8000],
-                            [7, 5000],
-                            [8, 4400],
-                            [9, 8500]
+                            [2020, 2103],
+                            [2021, 2290],
+                            [2022, 2357],
+                            [2023, 2125],
+                            [2024, 1596],
+                            [2025, 1782],
                         ]}
-                        title="Arbitrary Fixed Data"
-                        xTitle="Time"
-                        yTitle="Value"
+                        title="Fatal Overdose Counts By Calendar Year"
+                        xTitle="Year"
+                        yTitle="Number of Fatal Overdoses"
                     />
                     <LinePlot
-                        data={[...Array(101)].map((_, i) => -50+ i).map(
-                            (x) => {
-                                return([x * Math.PI/8, Math.sin(x * Math.PI/8)])
-                            })}
-                        title="Sine Wave"
-                        xTitle="Time"
-                        yTitle="Value"
-                    />
-                    <LinePlot
-                        data={[...Array(71)].map((_, i) => -35+ i).map(
-                            (x) => {
-                                let temp = Math.random() * 1000000 + 500;
-                                return([x, Math.random() > 0.5 ? temp : -temp]);
-                            })}
-                        title="Random Data Points"
-                        xTitle="Time"
-                        yTitle="Value"
+                        data={[
+                            [2020, 16177],
+                            [2021, 17615],
+                            [2022, 18131],
+                            [2023, 16346],
+                            [2024, 12277],
+                            [2025, 13708],
+                        ]}
+                        title="Non-Fatal Overdose Counts By Calendar Year"
+                        xTitle="Year"
+                        yTitle="Number of Non-Fatal Overdoses"
                     />
                     <GroupedBarPlot
                         data={[
-                            {cost: Math.random() * 10 ** 8, state: "MA", perspective: "healthcare"},
-                            {cost: Math.random() * 10 ** 8, state: "MA", perspective: "societal"},
-                            {cost: Math.random() * 10 ** 8, state: "MA", perspective: "policymaker"},
-                            {cost: Math.random() * 10 ** 8, state: "CT", perspective: "healthcare"},
-                            {cost: Math.random() * 10 ** 8, state: "CT", perspective: "societal"},
-                            {cost: Math.random() * 10 ** 8, state: "CT", perspective: "policymaker"},
-                            {cost: Math.random() * 10 ** 8, state: "RI", perspective: "healthcare"},
-                            {cost: Math.random() * 10 ** 8, state: "RI", perspective: "societal"},
-                            {cost: Math.random() * 10 ** 8, state: "RI", perspective: "policymaker"},
-                            {cost: Math.random() * 10 ** 8, state: "VT", perspective: "healthcare"},
-                            {cost: Math.random() * 10 ** 8, state: "VT", perspective: "societal"},
-                            {cost: Math.random() * 10 ** 8, state: "VT", perspective: "policymaker"},
+                            {cost: Math.random() * 10 ** 8, state: "MA", perspective: "Healthcare"},
+                            {cost: Math.random() * 10 ** 8, state: "MA", perspective: "Societal"},
+                            {cost: Math.random() * 10 ** 8, state: "MA", perspective: "Policymaker"},
                         ]}
                         primaryKey="state"
                         groupKey="perspective"
@@ -102,22 +83,22 @@ export default function Results() {
                     />
                     <GroupedBarPlot
                         data={[
-                            {cost: Math.random() * 10 ** 5, state: "MA", perspective: "healthcare"},
-                            {cost: Math.random() * 10 ** 5, state: "MA", perspective: "societal"},
-                            {cost: Math.random() * 10 ** 5, state: "MA", perspective: "policymaker"},
-                            {cost: Math.random() * 10 ** 5, state: "MA", perspective: "charity"},
-                            {cost: Math.random() * 10 ** 5, state: "CT", perspective: "healthcare"},
-                            {cost: Math.random() * 10 ** 5, state: "CT", perspective: "societal"},
-                            {cost: Math.random() * 10 ** 5, state: "CT", perspective: "policymaker"},
-                            {cost: Math.random() * 10 ** 5, state: "CT", perspective: "charity"},
-                            {cost: Math.random() * 10 ** 5, state: "RI", perspective: "healthcare"},
-                            {cost: Math.random() * 10 ** 5, state: "RI", perspective: "societal"},
-                            {cost: Math.random() * 10 ** 5, state: "RI", perspective: "policymaker"},
-                            {cost: Math.random() * 10 ** 5, state: "RI", perspective: "charity"},
-                            {cost: Math.random() * 10 ** 5, state: "VT", perspective: "healthcare"},
-                            {cost: Math.random() * 10 ** 5, state: "VT", perspective: "societal"},
-                            {cost: Math.random() * 10 ** 5, state: "VT", perspective: "policymaker"},
-                            {cost: Math.random() * 10 ** 5, state: "VT", perspective: "charity"},
+                            {cost: Math.random() * 10 ** 5, state: "MA", perspective: "Healthcare"},
+                            {cost: Math.random() * 10 ** 5, state: "MA", perspective: "Societal"},
+                            {cost: Math.random() * 10 ** 5, state: "MA", perspective: "Policymaker"},
+                            {cost: Math.random() * 10 ** 5, state: "MA", perspective: "Charity"},
+                            {cost: Math.random() * 10 ** 5, state: "CT", perspective: "Healthcare"},
+                            {cost: Math.random() * 10 ** 5, state: "CT", perspective: "Societal"},
+                            {cost: Math.random() * 10 ** 5, state: "CT", perspective: "Policymaker"},
+                            {cost: Math.random() * 10 ** 5, state: "CT", perspective: "Charity"},
+                            {cost: Math.random() * 10 ** 5, state: "RI", perspective: "Healthcare"},
+                            {cost: Math.random() * 10 ** 5, state: "RI", perspective: "Societal"},
+                            {cost: Math.random() * 10 ** 5, state: "RI", perspective: "Policymaker"},
+                            {cost: Math.random() * 10 ** 5, state: "RI", perspective: "Charity"},
+                            {cost: Math.random() * 10 ** 5, state: "VT", perspective: "Healthcare"},
+                            {cost: Math.random() * 10 ** 5, state: "VT", perspective: "Societal"},
+                            {cost: Math.random() * 10 ** 5, state: "VT", perspective: "Policymaker"},
+                            {cost: Math.random() * 10 ** 5, state: "VT", perspective: "Charity"},
                         ]}
                         primaryKey="state"
                         groupKey="perspective"

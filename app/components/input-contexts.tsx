@@ -11,6 +11,9 @@ import {
     inputs,
     makeEmptyTransition
 } from "~/data";
+import {
+    PROPORTION_MAX
+} from "~/globals";
 
 interface Action {
     type: string;
@@ -112,9 +115,36 @@ function inputsReducer(simulationInputs: Inputs, action: Action) {
         });
     }
     case 'change total population': {
+        const value: number = parseInt(action.value);
+        // calculate the sum of populations in MOUDs
+        const currentMinPopulation: number = simulationInputs.interventions
+              .filter((i) => i.id !== 0)
+              .reduce(
+                  (accumulator, intervention) => {
+                      return accumulator + parseInt(intervention.population);
+                  },
+                  0
+              );
+
+        // determine if the new total population is at least the minimum,
+        // otherwise reject the input change
+        if (constrainValues([value], currentMinPopulation, "min")) {
+            return simulationInputs;
+        }
+
+        // set the No Treatment population to the remainder of the population
+        const newInterventions: Intervention[] = simulationInputs.interventions
+              .map((i) => {
+                  if (i.id !== 0) {
+                      return i;
+                  }
+                  return {...i, population: value - currentMinPopulation};
+              });
+
         return({
             ...simulationInputs,
-            population: action.value
+            population: value,
+            interventions: newInterventions
         });
     }
     case 'change entering cohort': {
@@ -257,19 +287,38 @@ function inputsReducer(simulationInputs: Inputs, action: Action) {
         };
     }
     case 'intervention change population': {
+        // copy the interventions, changing the population size of the chosen
+        // intervention
         let newInterventions = simulationInputs.interventions.map(
             (i: Intervention) => {
                 if (i.id === action.interventionID) {
-                    return {...i, population: action.value};
+                    return {...i, population: parseFloat(action.value)};
                 }
                 return i;
             });
 
-        if (constrainValues(newInterventions.map(i => i.population),
+        // test that the change in population size doesn't cause the system to
+        // have too many people; if it does, reject the change
+        if (constrainValues(newInterventions
+                            .filter(i => i.id !== 0)
+                            .map(i => i.population),
                             simulationInputs.population)) {
             return simulationInputs;
         }
 
+        // adjust the population in No Treatment based on the new value
+        const treatedPopulation: number = newInterventions
+              .filter(i => i.id !== 0)
+              .reduce(
+                  (accumulator, intervention) => {
+                      return accumulator + parseInt(intervention.population);
+                  },
+                  0
+              );
+        newInterventions[0] = {
+            ...newInterventions[0],
+            population: simulationInputs.population - treatedPopulation
+        };
         return {
             ...simulationInputs,
             interventions: newInterventions
@@ -284,7 +333,7 @@ function inputsReducer(simulationInputs: Inputs, action: Action) {
                 ...i,
                 transitions: i.transitions.map(t => {
                     if (t.id === action.transitionID) {
-                        return {...t, probability: action.value};
+                        return {...t, probability: Number(action.value).toFixed(4)};
                     }
                     return t;
                 })
@@ -299,7 +348,7 @@ function inputsReducer(simulationInputs: Inputs, action: Action) {
 
         // check if the sum of the transition probabilities exceeds the limit
         // and prevent the change if it would cause an excess of the limit
-        if (constrainValues(newTransitionProbabilities, 1.0000)) {
+        if (constrainValues(newTransitionProbabilities, PROPORTION_MAX)) {
             return simulationInputs;
         }
         return({

@@ -1,6 +1,11 @@
-import type { Transition } from "~/data";
 import { ManagedSlider } from "@components/ui/sliders";
 import { useInputsDispatch } from "@components/input-contexts";
+import type { Transition } from "~/data";
+import {
+    PROPORTION_MIN,
+    PROPORTION_STEP,
+    PROPORTION_MAX
+} from "~/globals";
 
 export default function Transitions(
     { transitions, onTransitionChange }:
@@ -18,9 +23,9 @@ export default function Transitions(
                 <ManagedSlider
                     key={transition.id}
                     name={`Weekly Percent of Population Moving to ${transition.name}`}
-                    min={0}
-                    max={1}
-                    step={0.01}
+                    min={PROPORTION_MIN}
+                    max={PROPORTION_MAX}
+                    step={PROPORTION_STEP}
                     value={transition.probability}
                     managementFunction={(value) =>
                         onTransitionChange(value, transition.id)
@@ -28,10 +33,9 @@ export default function Transitions(
                 />
             ))}
             <ManagedSlider name="Retention Rate"
-                           min={0}
-                           max={1}
-                           step={0.01}
-                           value={Math.max(1-sumProbs, 0).toFixed(5)}
+                           min={PROPORTION_MIN}
+                           max={PROPORTION_MAX}
+                           value={Math.max(PROPORTION_MAX - sumProbs, 0).toFixed(4)}
                            readOnly={true}
             />
         </>
