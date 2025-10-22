@@ -67,7 +67,12 @@ export default function LinePlot(props: LinePlotProps) {
         // the constant 80 was chosen arbitrarily
         svg.append("g")
             .attr("transform", `translate(0, ${height - margin.bottom})`)
-            .call(d3.axisBottom(x).ticks(width / 80).tickSizeOuter(0));
+            .call(
+                d3.axisBottom(x)
+                    .ticks(data.length < 10 ? data.length : width / 80,
+                           data.length < 10 ? "g" : "d")
+                    .tickSizeOuter(0)
+            );
         xTitle ? svg.append("text")
             .attr("transform", `translate(${width / 2}, ${height})`)
             .attr("text-anchor", "middle")
