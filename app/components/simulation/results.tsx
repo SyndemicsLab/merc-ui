@@ -70,42 +70,33 @@ export default function Results() {
                     />
                     <GroupedBarPlot
                         data={[
-                            {cost: Math.random() * 10 ** 8, state: "MA", perspective: "Healthcare"},
-                            {cost: Math.random() * 10 ** 8, state: "MA", perspective: "Societal"},
-                            {cost: Math.random() * 10 ** 8, state: "MA", perspective: "Policymaker"},
+                            {
+                                cost: 10 + Math.random() * 0.5,
+                                state: "MA",
+                                perspective: "Healthcare"
+                            },
+                            {
+                                cost: 4 + Math.random() * 0.5,
+                                state: "MA",
+                                perspective: "Treatment"
+                            },
+                            {
+                                cost: 2 + Math.random() * 0.5,
+                                state: "MA",
+                                perspective: "Pharmaceutical"
+                            },
+                            {
+                                cost: 1 + Math.random() * 0.2,
+                                state: "MA",
+                                perspective: "Overdose"
+                            },
                         ]}
                         primaryKey="state"
                         groupKey="perspective"
                         valueKey="cost"
-                        title="Three-Perspective Analysis"
-                        xTitle="New England State"
-                        yTitle="Cost of Intervention ($)"
-                    />
-                    <GroupedBarPlot
-                        data={[
-                            {cost: Math.random() * 10 ** 5, state: "MA", perspective: "Healthcare"},
-                            {cost: Math.random() * 10 ** 5, state: "MA", perspective: "Societal"},
-                            {cost: Math.random() * 10 ** 5, state: "MA", perspective: "Policymaker"},
-                            {cost: Math.random() * 10 ** 5, state: "MA", perspective: "Charity"},
-                            {cost: Math.random() * 10 ** 5, state: "CT", perspective: "Healthcare"},
-                            {cost: Math.random() * 10 ** 5, state: "CT", perspective: "Societal"},
-                            {cost: Math.random() * 10 ** 5, state: "CT", perspective: "Policymaker"},
-                            {cost: Math.random() * 10 ** 5, state: "CT", perspective: "Charity"},
-                            {cost: Math.random() * 10 ** 5, state: "RI", perspective: "Healthcare"},
-                            {cost: Math.random() * 10 ** 5, state: "RI", perspective: "Societal"},
-                            {cost: Math.random() * 10 ** 5, state: "RI", perspective: "Policymaker"},
-                            {cost: Math.random() * 10 ** 5, state: "RI", perspective: "Charity"},
-                            {cost: Math.random() * 10 ** 5, state: "VT", perspective: "Healthcare"},
-                            {cost: Math.random() * 10 ** 5, state: "VT", perspective: "Societal"},
-                            {cost: Math.random() * 10 ** 5, state: "VT", perspective: "Policymaker"},
-                            {cost: Math.random() * 10 ** 5, state: "VT", perspective: "Charity"},
-                        ]}
-                        primaryKey="state"
-                        groupKey="perspective"
-                        valueKey="cost"
-                        title="Four-Perspective Analysis"
+                        title="Intervention Costs by US State, Perspective"
                         xTitle="US State"
-                        yTitle="Cost of Intervention ($)"
+                        yTitle="Cost of Intervention (USD, billions)"
                     />
                 </div>
             </DialogContent>
