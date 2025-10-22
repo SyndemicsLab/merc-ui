@@ -31,10 +31,14 @@ interface Inputs {
     interventions: Intervention[];
 }
 
+function uniform(a, b) {
+    return a + Math.random() * (b - a);
+}
+
 const raw_inputs: Inputs = {
-    duration: 260,
-    population: 214801,
-    entering: 5784,
+    duration: 52,
+    population: 10000,
+    entering: 0,
     fod: 6.25,
     interventions: [
         {
@@ -47,7 +51,7 @@ const raw_inputs: Inputs = {
             name: "Buprenorphine",
             active: false,
             description: "Buprenorphine is a medication for opioid use disorder and works as a partial opioid agonist. It ‘diminish[es] the effects of physical dependency to opioids, such as withdrawal symptoms and cravings’ (SAMHSA).",
-            population: 1500,
+            population: Math.ceil(uniform(1100, 1250)),
         },
         {
             id: 2,
@@ -55,25 +59,25 @@ const raw_inputs: Inputs = {
             active: false,
             description: "Naltrexone is a medication for opioid use disorder and works as an opioid antagonist, binding opioid receptors and blocking the ‘euphoric and sedative effects of opioids’ (SAMHSA). It can also be used to treat alcohol use disorder. Naltrexone for opioid use disorder should not be started until no opioids have been used for at least 7 days.",
             info: true,
-            population: 2500,
+            population: Math.ceil(uniform(80, 120)),
         },
         {
             id: 3,
             name: "Methadone",
             active: false,
-            population: 3500,
+            population: Math.ceil(uniform(750, 850)),
         },
         {
             id: 4,
             name: "Detox",
             active: false,
-            population: 5000,
+            population: 0,
         },
         {
             id: 5,
             name: "Detention",
             active: false,
-            population: 2000,
+            population: 0,
         },
     ],
 }
@@ -99,10 +103,6 @@ const inputs = {
         }
     )
 };
-
-function uniform(a, b) {
-    return a + Math.random() * (b - a);
-}
 
 function setOverdoses(intervention: Intervention) {
     if (Object.hasOwn(intervention, "overdose")) {
@@ -137,8 +137,24 @@ function setTransitions(interventions: Intervention[]) {
                 i => i.id != intervention.id
             );
             let transitions: Transition[] = other_interventions.map((i) => {
-                let prob = intervention.id === 0 ?
-                    (25 / other_interventions.length).toFixed(4) : 0;
+                let prob = 0;
+                if (intervention.id === 0) {
+                    switch(i.id) {
+                    case 1: {
+                        // Buprenorphine
+                        prob = uniform(0, 0.1);
+                        break;
+                    }
+                    case 5: {
+                        // Corrections
+                        prob = uniform(0.001, 0.01);
+                    }
+                    default: {
+                        // Naltrexone, Methadone, Detox
+                        prob = uniform(0, 0.01);
+                    }
+                    }
+                }
                 return {
                     id: i.id,
                     name: i.name,
