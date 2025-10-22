@@ -169,7 +169,7 @@ function setTransitions(interventions: Intervention[]) {
                      transitions: transitions}
                 );
             } else {
-                let prob = 2;
+                let prob = 19.5 + Math.random();
                 return(
                     {...intervention,
                      transitions: [{
