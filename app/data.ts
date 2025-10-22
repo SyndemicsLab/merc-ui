@@ -158,7 +158,7 @@ function setTransitions(interventions: Intervention[]) {
                 return {
                     id: i.id,
                     name: i.name,
-                    probability: prob % 1.0 !== 0 ? prob.toFixed(4) : prob,
+                    probability: prob % 1.0 !== 0 ? (prob * 100).toFixed(4) : prob,
                 };
             })
 
