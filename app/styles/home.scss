@@ -109,7 +109,7 @@ h1 {
     }
 
     .home-description {
-        color: #a7a7a7;
+        color: var(--plain-text);
         font-family: 'IBM Plex Sans', sans-serif;
         font: 300 18px 'IBM Plex Sans', sans-serif;
         line-height: calc(4 / 3);
@@ -156,7 +156,7 @@ h1 {
     padding: 75px 0;
 
     .home-tile {
-        color: #404040;
+        color: var(--plain-text);
         font-family: 'IBM Plex Sans', sans-serif;
         font-size: 1rem;
         line-height: 1.3;

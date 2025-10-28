@@ -13,8 +13,10 @@
         --primary-color: #3d9be9;
         --secondary-color: #f0325f;
         --tertiary-color: #003771;
+        --plain-text: #404040;
         --accent-gray: #ccc;
         --accent-darkgray: #888;
+        --background: #333;
         --font-family: 'IBM Plex Sans', sans-serif;
         --font-size: 16px;
         --line-height: 1.5;
@@ -83,7 +85,7 @@ html, body {
     font-family: var(--font-family);
     font-size: var(--font-size);
     line-height: var(--line-height);
-    color: #333;
+    color: var(--background);
     scroll-behavior: smooth;
     max-width: 100%;
     overflow-x: hidden;
@@ -155,7 +157,7 @@ a {
 .nav-button {
     background: none;
     border: none;
-    color: #404040;
+    color: var(--plain-text);
     font-family: 'IBM Plex Sans', sans-serif;
     font-weight: 500;
     cursor: pointer;
@@ -181,7 +183,7 @@ a {
 .bar3 {
     width: 35px;
     height: 5px;
-    background-color: #333;
+    background-color: var(--background);
     margin: 6px;
     transition: 0.4s;
 }

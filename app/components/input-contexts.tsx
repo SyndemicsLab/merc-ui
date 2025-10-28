@@ -244,8 +244,8 @@ function inputsReducer(simulationInputs: Inputs, action: Action) {
                     })
                 ],
                 overdose: [
-                    { probability: Math.random().toPrecision(2), injection: true },
-                    { probability: Math.random().toPrecision(2), injection: false }
+                    { probability: (Math.random() * 100).toPrecision(2), injection: true },
+                    { probability: (Math.random() * 100).toPrecision(2), injection: false }
                 ]
             };
         }
