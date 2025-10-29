@@ -70,9 +70,7 @@
 }
 
 .contact-us-button:hover {
-    // must use the explicit value of `--tertiary-color` here because scss
-    // `darken()` does not work on css variables - compiles before css is used
-    background-color: darken(#003771, 5%);
+    background-color: var(--primary-color);
     transform: scale(1.05);
 }
 
