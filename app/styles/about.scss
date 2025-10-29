@@ -92,6 +92,7 @@
         transition-duration: 0.3s;
         overflow: hidden;
         opacity: 0;
+        backdrop-filter: blur(4px);
     }
 
     &:hover .info-card-overlay {
