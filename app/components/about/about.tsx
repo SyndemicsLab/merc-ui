@@ -29,9 +29,9 @@ function InfoCard({ icon, caption, overlay, className = "" }: InfoCardProps) {
                 </div>
                 <span>{caption}</span>
             </div>
-        <div className="info-card-overlay">
-            {overlay}
-        </div>
+            <div className="info-card-overlay">
+                {overlay}
+            </div>
         </div>
     );
 }
