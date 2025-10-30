@@ -51,7 +51,7 @@ const About = () => {
                             caption="Simulates groups of people moving between health states"
                             overlay="More information about RESPOND"
                             icon={<FontAwesomeIcon icon={faHexagonNodes} />}
-                            className="blue"
+                            className="blue-card"
                         />
                         <InfoCard
                             caption="Analyzes the impact of policy changes on health outcomes and costs"
@@ -62,7 +62,7 @@ const About = () => {
                             caption="Presents information about the impact of medication on substance use"
                             overlay="More information about RESPOND"
                             icon={<FontAwesomeIcon icon={faHouseMedical} />}
-                            className="blue"
+                            className="blue-card"
                         />
                     </div>
                 </section>
