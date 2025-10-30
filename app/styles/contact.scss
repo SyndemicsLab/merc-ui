@@ -1,3 +1,4 @@
+@use "sass:color";
 /* CONTACT US */
 
 #contact {
@@ -23,6 +24,10 @@
         background: white;
         border: 1px solid var(--accent-gray);
         border-radius: 5px;
+
+        &::placeholder {
+            color: rgba(from var(--accent-gray) r g b / 70%);
+        }
     }
     input[type=text] {
         width: inherit;
@@ -48,14 +53,14 @@
 .contact-us-input {
     flex: 1;
     padding: 15px 20px;
-    border: 1px solid #dedede;
+    border: 1px solid var(--accent-darkgray);
     font-family: 'IBM Plex Sans', sans-serif;
     font-size: 1rem;
 }
 
 .contact-us-button {
-    background-color: #003771;
-    color: #fff;
+    background-color: var(--tertiary-color);
+    color: white;
     font-family: 'IBM Plex Sans', sans-serif;
     font-size: 1rem;
     padding: 15px 30px;
@@ -65,7 +70,7 @@
 }
 
 .contact-us-button:hover {
-    background-color: #002655;
+    background-color: var(--primary-color);
     transform: scale(1.05);
 }
 

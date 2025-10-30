@@ -525,7 +525,7 @@ button:hover {
 
 #disclaimers .warn {
     font-family: 'IBM Plex Sans', sans-serif;
-    color: #404040;
+    color: var(--plain-text);
 }
 
 .loader {
