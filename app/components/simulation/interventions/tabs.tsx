@@ -9,10 +9,7 @@ import {
 } from "@components/ui/dropdown-menu";
 import { inputs } from "~/data";
 
-function Tab(
-    { intervention, onSelect, onDelete }:
-    { intervention: Intervention, onSelect: Function, onDelete: Function }
-) {
+function Tab({ intervention }: { intervention: Intervention }) {
     const dispatch = useInputsDispatch();
     return (
         <>

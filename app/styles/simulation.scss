@@ -6,6 +6,7 @@
 #simulation {
     min-width: 450px;
     width: 100%;
+    color: var(--tertiary-color);
 
     @media (min-width: 1500px) {
         width: 70%;
@@ -166,6 +167,14 @@ input::-ms-thumb:hover {
     .more-info {
         display: flex;
         flex-direction: row;
+        justify-content: space-between;
+        margin: 0.5rem 0;
+
+        .info-button {
+            height: 4rem;
+            width: -webkit-fill-available;
+            justify-content: center;
+        }
     }
 
     input[type=file] {
@@ -407,6 +416,7 @@ button:hover {
 
     &[data-state="closed"]::before {
         content: '▸ Show ';
+        vertical-align: center;
     }
 
     &[data-state="open"]::before {

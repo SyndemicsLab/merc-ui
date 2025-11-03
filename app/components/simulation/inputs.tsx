@@ -102,9 +102,9 @@ export default function Inputs() {
                 </div>
                 <h1>Intervention Inputs</h1>
                 <Interventions />
+                <AdvancedInputs />
+                <Results />
             </fetcher.Form>
-            <AdvancedInputs />
-            <Results />
         </div>
     );
 }
@@ -116,17 +116,20 @@ export function UploadForm(
     const fetcher = useFetcher();
 
     return (
-        <fetcher.Form id={id} className="upload-form">
+        <>
+            {/* Temporarily commenting out the form while debugging unusual
+              behavior occurring in form submission */}
+            {/* <fetcher.Form id={id} className="upload-form"> */}
             <label className="advancedInputName"
                    htmlFor={`${id}-input`}
-                   form={id}
             >{inputName}</label>
             <input
                 id={`${id}-input`}
                 type="file"
                 accept=".csv"
             />
-        </fetcher.Form>
+            {/* </fetcher.Form> */}
+        </>
     );
 }
 
