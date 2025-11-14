@@ -19,7 +19,9 @@ function TabBody({ children }: ReactNode) {
 function TabbedComponent({ contents }: { contents: Object[] }) {
     return(
         <div className="tab-root">
-
+            {contents.map((content) => {
+                console.log(content);
+            })}
         </div>
     );
 }

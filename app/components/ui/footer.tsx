@@ -59,16 +59,6 @@ const Footer = () => {
                             />
                         </div>
                     </div>
-                    <Logo
-                        image={BMC}
-                        alt="Boston Medical Center"
-                        link="https://bmc.org"
-                    />
-                    <Logo
-                        image={HD2A}
-                        alt="HEAL Data 2 Action"
-                        link="https://www.hd2arasc.org"
-                    />
                 </div>
                 <p className="footer-description">
                     This application is part of a collaboration between Weill
@@ -81,6 +71,25 @@ const Footer = () => {
                     of Treatment Interventions for Substance Use Disorder, HCV,
                     and HIV (CHERISH) P30DA040500.
                 </p>
+            </div>
+            <div className="utility-wrapper">
+                <div className="footer-utility">
+                    <div className="attribution">
+                        Syndemics Lab 2025
+                    </div>
+                    <div className="affiliated-orgs">
+                        <Logo
+                            image={BMC}
+                            alt="Boston Medical Center"
+                            link="https://bmc.org"
+                        />
+                        <Logo
+                            image={HD2A}
+                            alt="HEAL Data 2 Action"
+                            link="https://www.hd2arasc.org"
+                        />
+                    </div>
+                </div>
             </div>
         </footer>
     );
