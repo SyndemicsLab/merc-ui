@@ -252,16 +252,6 @@ a {
     .syndemics {
         display: flex;
         flex-direction: column;
-        .socials {
-            margin-top: 0.5rem;
-            display: flex;
-            flex-direction: row;
-            justify-content: space-evenly;
-            a {
-                @include buttons.circular-button(2rem);
-                color: white;
-            }
-        }
     }
 }
 
@@ -278,6 +268,19 @@ a {
     margin: 0 auto;
     padding: 1rem 3rem;
     justify-content: space-between;
+    align-items: center;
+
+    .socials {
+        margin-top: 0.5rem;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        gap: 2rem;
+        a {
+            @include buttons.circular-button($size: 3rem, $font-size: 1.5rem);
+            color: white;
+        }
+    }
 
     img {
         max-height: 80px;

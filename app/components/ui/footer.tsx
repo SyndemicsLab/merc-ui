@@ -43,21 +43,6 @@ const Footer = () => {
                             alt="The Syndemics Lab at Boston Medical Center"
                             link="https://syndemicslab.org"
                         />
-                        <hr style={{ borderTopWidth: "3px", borderColor: `${SYNDEMICS_BLUE}` }}/>
-                        <div className="socials">
-                            <Social
-                                icon={faInstagram}
-                                link="https://www.instagram.com/syndemicslab/"
-                            />
-                            <Social
-                                icon={faSquareLinkedin}
-                                link="https://www.linkedin.com/company/syndemics-lab/"
-                            />
-                            <Social
-                                icon={faBluesky}
-                                link="https://bsky.app/profile/syndemicslab.bsky.social"
-                            />
-                        </div>
                     </div>
                 </div>
                 <p className="footer-description">
@@ -74,8 +59,19 @@ const Footer = () => {
             </div>
             <div className="utility-wrapper">
                 <div className="footer-utility">
-                    <div className="attribution">
-                        Syndemics Lab 2025
+                    <div className="socials">
+                        <Social
+                            icon={faInstagram}
+                            link="https://www.instagram.com/syndemicslab/"
+                        />
+                        <Social
+                            icon={faSquareLinkedin}
+                            link="https://www.linkedin.com/company/syndemics-lab/"
+                        />
+                        <Social
+                            icon={faBluesky}
+                            link="https://bsky.app/profile/syndemicslab.bsky.social"
+                        />
                     </div>
                     <div className="affiliated-orgs">
                         <Logo
