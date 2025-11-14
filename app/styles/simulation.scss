@@ -151,24 +151,21 @@ input::-ms-thumb:hover {
 #advanced {
     --horizontal-padding: var(--spacing-large);
     height: 0;
-    padding: 0 var(--horizontal-padding);
     overflow: hidden;
-    box-shadow: 0px 4px 18px rgba(0, 0, 0, 0.1);
-    border-radius: var(--border-radius);
+    background-color: rgba(from var(--primary-color) r g b/ 40%);
     transition: height 700ms, padding linear 400ms 300ms;
+    padding: 0 var(--horizontal-padding);
+    @media (min-width: 1500px) {
+        --horizontal-padding: calc(var(--spacing-large) * 3);
+    }
+    border: 0px;
+    border-radius: var(--border-radius);
 
     &.unhidden {
         height: auto;
         padding: var(--spacing-large) var(--horizontal-padding);
         animation: reveal-down 700ms linear;
         transition: padding 0ms 0ms;
-    }
-
-    @media (min-width: 1500px) {
-        --horizontal-padding: calc(var(--spacing-large) * 3);
-        &.unhidden {
-            padding: var(--spacing-large) var(--horizontal-padding);
-        }
     }
 
     h2 {
@@ -190,6 +187,7 @@ input::-ms-thumb:hover {
     }
 
     input[type=file] {
+        background-color: white;
         width: 100%;
         border-radius: 5px;
         border: solid 1px var(--accent-gray);
