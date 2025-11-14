@@ -14,7 +14,11 @@ import { useInputsDispatch } from "@components/input-contexts";
 import { Button } from "@components/ui/button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfo } from "@fortawesome/free-solid-svg-icons";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@radix-ui/react-collapsible";
+import {
+    Collapsible,
+    CollapsibleContent,
+    CollapsibleTrigger
+} from "@radix-ui/react-collapsible";
 
 function InterventionInfo(
     { intervention, onNameChange }:

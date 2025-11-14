@@ -110,31 +110,31 @@ input::-webkit-slider-thumb {
     background: var(--primary-color);
     border: none;
     margin-top: -5px;
+    transition-duration: var(--transition-duration);
 }
 input::-moz-range-thumb {
     height: 18px;
     width: 18px;
     background: var(--primary-color);
     border: none;
+    transition-duration: var(--transition-duration);
 }
 input::-ms-thumb {
     height: 18px;
     width: 18px;
     background: var(--primary-color);
     border: none;
+    transition-duration: var(--transition-duration);
 }
 
 input::-webkit-slider-thumb:hover {
     background: var(--tertiary-color);
-    transition-duration: var(--transition-duration);
 }
 input::-moz-range-thumb:hover {
     background: var(--tertiary-color);
-    transition-duration: var(--transition-duration);
 }
 input::-ms-thumb:hover {
     background: var(--tertiary-color);
-    transition-duration: var(--transition-duration);
 }
 
 .general-inputs {
@@ -149,19 +149,25 @@ input::-ms-thumb:hover {
 }
 
 #advanced {
+    --horizontal-padding: var(--spacing-large);
     height: 0;
+    padding: 0 var(--horizontal-padding);
     overflow: hidden;
     box-shadow: 0px 4px 18px rgba(0, 0, 0, 0.1);
     border-radius: var(--border-radius);
-    animation: hide-up ease-in 700ms;
-    transition: padding 0ms 700ms;
+    transition: height 700ms, padding linear 400ms 300ms;
+
+    &.unhidden {
+        height: auto;
+        padding: var(--spacing-large) var(--horizontal-padding);
+        animation: reveal-down 700ms linear;
+        transition: padding 0ms 0ms;
+    }
 
     @media (min-width: 1500px) {
+        --horizontal-padding: calc(var(--spacing-large) * 3);
         &.unhidden {
-            height: auto;
-            padding: var(--spacing-large) calc(var(--spacing-large) * 3);
-            animation: reveal-down 700ms ease-in;
-            transition: padding 0ms 0ms;
+            padding: var(--spacing-large) var(--horizontal-padding);
         }
     }
 
@@ -202,13 +208,6 @@ input::-ms-thumb:hover {
         &:hover::file-selector-button {
             background: var(--secondary-color);
         }
-    }
-
-    &.unhidden {
-        height: auto;
-        padding: var(--spacing-large);
-        animation: reveal-down 700ms ease-in;
-        transition: padding 0ms 0ms;
     }
 }
 
@@ -313,6 +312,11 @@ button:hover {
 }
 
 .interventionTab .delete-button {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
     height: 20px;
     width: 20px;
     position: absolute;
@@ -325,8 +329,8 @@ button:hover {
     cursor: pointer;
     font-size: 12px;
     padding: 5px;
-    display: none;
-    transition: none;
+    opacity: 0;
+    transition: opacity var(--transition-duration), background-color var(--transition-duration);
 
     &:hover {
         background-color: var(--primary-color);
@@ -335,10 +339,7 @@ button:hover {
 }
 
 .interventionTab:hover .delete-button {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
+    opacity: 1;
 }
 
 .interventionContents {
@@ -398,6 +399,7 @@ button:hover {
         font-size: 1.25rem;
         font-weight: bold;
         cursor: pointer;
+        transition: color var(--transition-duration);
 
         // prevent text selection within element
         -webkit-user-select: none;
@@ -421,7 +423,7 @@ button:hover {
 }
 
 .block-trans-collapsible {
-    transition-duration: 300ms;
+    transition-duration: var(--transition-duration);
     overflow: hidden;
     animation-timing-function: linear;
 
