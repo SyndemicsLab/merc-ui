@@ -41,71 +41,68 @@ export default function Inputs() {
                 visible={!inputsVisible}
             />
             <h1>General Inputs</h1>
-            {/* Temporarily commenting out fetcher.Form to fix disappearing interventions */}
-            {/* <fetcher.Form method="post"> */} 
-                <div id="global-inputs">
-                    <ManagedSlider
-                        name={"Simulation Duration (Weeks)"}
-                        min={1}
-                        max={2600}
-                        step={1}
-                        value={inputs.duration}
-                        managementFunction={
-                            (value) =>
-                            dispatch({
-                                type: 'change duration',
-                                value: value
-                            })
-                        }
-                    />
-                    <ManagedSlider
-                        name={"Initial Total Population"}
-                        min={0}
-                        max={300000}
-                        step={500}
-                        value={inputs.population}
-                        managementFunction={
-                            (value) =>
-                            dispatch({
-                                type: 'change total population',
-                                value: value
-                            })
-                        }
-                    />
-                    <ManagedSlider
-                        name={"Change in Population Per Week (Count)"}
-                        min={-10000}
-                        max={50000}
-                        step={100}
-                        value={inputs.entering}
-                        managementFunction={
-                            (value) =>
-                            dispatch({
-                                type: 'change entering cohort',
-                                value: value
-                            })
-                        }
-                    />
-                    <ManagedSlider
-                        name={"Percent of Overdoses That Result in Death"}
-                        min={PROPORTION_MIN}
-                        max={PROPORTION_MAX}
-                        step={PROPORTION_STEP}
-                        value={inputs.fod}
-                        managementFunction={
-                            (value) =>
-                            dispatch({
-                                type: 'change fatal overdose proportion',
-                                value: value
-                            })
-                        }
-                    />
-                </div>
-                <h1>Intervention Inputs</h1>
-                <Interventions />
-                <AdvancedInputs />
-                <Results />
-            {/* </fetcher.Form> */} 
+            <div id="global-inputs">
+                <ManagedSlider
+                    name={"Simulation Duration (Weeks)"}
+                    min={1}
+                    max={2600}
+                    step={1}
+                    value={inputs.duration}
+                    managementFunction={
+                        (value) =>
+                        dispatch({
+                            type: 'change duration',
+                            value: value
+                        })
+                    }
+                />
+                <ManagedSlider
+                    name={"Initial Total Population"}
+                    min={0}
+                    max={300000}
+                    step={500}
+                    value={inputs.population}
+                    managementFunction={
+                        (value) =>
+                        dispatch({
+                            type: 'change total population',
+                            value: value
+                        })
+                    }
+                />
+                <ManagedSlider
+                    name={"Change in Population Per Week (Count)"}
+                    min={-10000}
+                    max={50000}
+                    step={100}
+                    value={inputs.entering}
+                    managementFunction={
+                        (value) =>
+                        dispatch({
+                            type: 'change entering cohort',
+                            value: value
+                        })
+                    }
+                />
+                <ManagedSlider
+                    name={"Percent of Overdoses That Result in Death"}
+                    min={PROPORTION_MIN}
+                    max={PROPORTION_MAX}
+                    step={PROPORTION_STEP}
+                    value={inputs.fod}
+                    managementFunction={
+                        (value) =>
+                        dispatch({
+                            type: 'change fatal overdose proportion',
+                            value: value
+                        })
+                    }
+                />
+            </div>
+            <h1>Intervention Inputs</h1>
+            <Interventions />
+            <AdvancedInputs />
+            <Results />
         </div>
     );
 }
