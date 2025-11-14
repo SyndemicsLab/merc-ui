@@ -41,7 +41,8 @@ export default function Inputs() {
                 visible={!inputsVisible}
             />
             <h1>General Inputs</h1>
-            <fetcher.Form method="post">
+            {/* Temporarily commenting out fetcher.Form to fix disappearing interventions */}
+            {/* <fetcher.Form method="post"> */} 
                 <div id="global-inputs">
                     <ManagedSlider
                         name={"Simulation Duration (Weeks)"}
@@ -104,7 +105,7 @@ export default function Inputs() {
                 <Interventions />
                 <AdvancedInputs />
                 <Results />
-            </fetcher.Form>
+            {/* </fetcher.Form> */} 
         </div>
     );
 }
@@ -117,9 +118,6 @@ export function UploadForm(
 
     return (
         <>
-            {/* Temporarily commenting out the form while debugging unusual
-              behavior occurring in form submission */}
-            {/* <fetcher.Form id={id} className="upload-form"> */}
             <label className="advancedInputName"
                    htmlFor={`${id}-input`}
             >{inputName}</label>
@@ -128,7 +126,6 @@ export function UploadForm(
                 type="file"
                 accept=".csv"
             />
-            {/* </fetcher.Form> */}
         </>
     );
 }
