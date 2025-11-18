@@ -3,7 +3,7 @@ import { useRef, useEffect } from "react";
 import { type PlotMargins } from "@components/simulation/viz/line-plot";
 
 interface BarPlotProps {
-    data: any;
+    data: object[];
     primaryKey: string;
     groupKey: string;
     valueKey: string;
@@ -14,6 +14,65 @@ interface BarPlotProps {
     width?: number;
     height?: number;
     margin?: PlotMargins;
+}
+
+interface LegendOptions {
+    containerWidth: number;
+    width?: number;
+    height?: number;
+    colorWidth?: number,
+    colorHeight?: number
+    xMargin?: number,
+    yMargin?: number
+    alignRight?: boolean;
+}
+
+function createLegend(
+    svg: object,
+    colors: object,
+    options: LegendOptions
+) {
+    const {
+        containerWidth, // must be passed to this object for right alignment
+        width = 100,
+        height = 50,
+        colorWidth = 10,
+        colorHeight = 10,
+        xMargin = 5,
+        yMargin = 5,
+        alignRight = true,
+    } = options;
+
+    const xPosition = alignRight ?
+          (containerWidth - width) : xMargin;
+    const legendY = d3.scaleBand()
+          .domain(colors.domain())
+          .rangeRound([0, height])
+          .paddingInner(0.2);
+
+    const legend = svg.append("g")
+          .attr("x", xPosition)
+          .attr("y", legendY + yMargin)
+          .attr("height", height)
+          .attr("width", width);
+
+    legend.selectAll("rect")
+        .data(colors.domain())
+        .join("rect")
+        .attr("x", xPosition)
+        .attr("y", legendY)
+        .attr("width", colorWidth)
+        .attr("height", colorHeight)
+        .attr("fill", colors);
+    legend.selectAll("text")
+        .data(colors.domain())
+        .join("text")
+    // gap of 5 after color block
+        .attr("x", xPosition + colorWidth + 5)
+        .attr("y", (d) => legendY(d))
+        .attr("font-size", "0.5rem")
+        .attr("alignment-baseline", "before-edge")
+        .text(d => d);
 }
 
 export default function GroupedBarPlot(props: BarPlotProps) {
@@ -87,12 +146,14 @@ export default function GroupedBarPlot(props: BarPlotProps) {
             .attr("transform", `translate(0, ${height - margin.bottom})`)
             .call(d3.axisBottom(placement).tickSizeOuter(0))
             .call(g => g.selectAll(".domain").remove());
-        xTitle ? svg.append("text")
-            .attr("transform", `translate(${width / 2}, ${height})`)
-            .attr("text-anchor", "middle")
-            .attr("alignment-baseline", "after-edge")
-            .attr("font-size", "0.8rem")
-            .text(xTitle) : null;
+        if (xTitle) {
+            svg.append("text")
+                .attr("transform", `translate(${width / 2}, ${height})`)
+                .attr("text-anchor", "middle")
+                .attr("alignment-baseline", "after-edge")
+                .attr("font-size", "0.8rem")
+                .text(xTitle);
+        }
 
         // Y-axis
         svg.append("g")
@@ -102,45 +163,16 @@ export default function GroupedBarPlot(props: BarPlotProps) {
         // transforming the axis label so that it is 12 units closer to the axis
         // and rotating (-90 degrees) so that the bottom of the text faces the
         // axis
-        yTitle ? svg.append("text")
-            .attr("transform", `translate(12, ${height / 2}) rotate(-90)`)
-            .attr("text-anchor", "middle")
-            .attr("font-size", "0.8rem")
-            .text(yTitle) : null;
+        if (yTitle) {
+            svg.append("text")
+                .attr("transform", `translate(12, ${height / 2}) rotate(-90)`)
+                .attr("text-anchor", "middle")
+                .attr("font-size", "0.8rem")
+                .text(yTitle);
+        }
 
         // legend
-        // arbitrarily choosing 55 units as the maximum height of the legend,
-        // relates to the magic number used for the y-range, as the legend has a
-        // height of 55 and the default top margin is 20, so there's 5 units of
-        // clearance between the legend and the graph
-        const legendY = d3.scaleBand()
-              .domain(color.domain())
-              .rangeRound([5, 55])
-              .paddingInner(0.2);
-        // a width of 100 for the legend was arbitrarily chosen. This width
-        // impacts the subtraction in related x-positions calculated below
-        const legend = svg.append("g")
-              .attr("y", legendY)
-              .attr("x", width - 100)
-              .attr("height", legendY.bandwidth() * color.domain().length)
-              .attr("width", 100);
-        legend.selectAll("rect")
-            .data(color.domain())
-            .join("rect")
-            .attr("y", legendY)
-            .attr("x", width - 100)
-            .attr("height", 10)
-            .attr("width", 10)
-            .attr("fill", color);
-        legend.selectAll("text")
-            .data(color.domain())
-            .join("text")
-            .attr("y", (d) => legendY(d))
-            .attr("x", width - 85)
-            .attr("font-size", "0.5rem")
-            .attr("alignment-baseline", "before-edge")
-            .attr("text-anchor", "left")
-            .text(d => d);
+        createLegend(svg, color, { containerWidth: width });
 
         const tooltip = svg
             .append("text")

@@ -30,7 +30,7 @@ export default function Results() {
                 </DialogHeader>
                 <div className="results-main flex flex-col">
                     {/* All data contained below is dummy data for testing */}
-                    <TimedLoader delay={10000}>
+                    <TimedLoader delay={2000}>
                         <LinePlot
                             data={[
                                 [2020, 2103],
