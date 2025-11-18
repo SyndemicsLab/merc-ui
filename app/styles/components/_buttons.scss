@@ -125,14 +125,18 @@
     $size: 1.5rem,
     $color: var(--primary-color),
     $hover-color: var(--secondary-color),
-    $font-size: 0.75rem
+    $font-size: 1rem
 ) {
     display: flex;
     width: $size;
     height: $size;
+    background-color: $color;
     border-radius: math.div($size, 2);
     justify-content: center;
     align-items: center;
+    &:hover {
+        background-color: $hover-color;
+    }
     & > * {
         height: $font-size;
         width: $font-size;

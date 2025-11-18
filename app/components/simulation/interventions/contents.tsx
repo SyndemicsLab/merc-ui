@@ -14,7 +14,11 @@ import { useInputsDispatch } from "@components/input-contexts";
 import { Button } from "@components/ui/button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfo } from "@fortawesome/free-solid-svg-icons";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@radix-ui/react-collapsible";
+import {
+    Collapsible,
+    CollapsibleContent,
+    CollapsibleTrigger
+} from "@radix-ui/react-collapsible";
 
 function InterventionInfo(
     { intervention, onNameChange }:
@@ -110,11 +114,11 @@ function Content(
                 {/* Intervention transitions default to open for No Treatment */}
                 <Collapsible className="block-trans-root" defaultOpen={intervention.id === 0 ? true: false}>
                     <CollapsibleTrigger asChild>
-                        <h3 className="block-trans-collapsible">
+                        <h3>
                             Transitions Between Interventions
                         </h3>
                     </CollapsibleTrigger>
-                    <CollapsibleContent>
+                    <CollapsibleContent className="block-trans-collapsible">
                         <Transitions
                             transitions={transitions}
                             onTransitionChange={(value, transition) =>

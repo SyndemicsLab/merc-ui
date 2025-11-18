@@ -91,6 +91,12 @@ html, body {
     overflow-x: hidden;
 }
 
+@media (prefers-reduced-motion: no-preference) {
+    html {
+        interpolate-size: allow-keywords;
+    }
+}
+
 #content {
     position: relative;
     display: flex;
@@ -211,14 +217,14 @@ a {
 
 .footer {
     background-color: #f8f8f8;
-    padding: 40px;
     text-align: left;
     width: 100%;
 }
 
 .footer-content {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    padding: 3rem;
     max-width: 1200px;
     margin: 0 auto;
     gap: 30px;
@@ -239,27 +245,56 @@ a {
     user-select: none;
 
     img {
-        max-height: 100px;
-        max-width: 200px;
+        max-height: 200px;
+        max-width: 350px;
     }
 
     .syndemics {
         display: flex;
         flex-direction: column;
-        .socials {
-            margin-top: 0.5rem;
-            display: flex;
-            flex-direction: row;
-            justify-content: space-evenly;
-            a {
-                @include buttons.circular-button;
-                color: white;
-                background-color: var(--primary-color);
-                &:hover {
-                    background-color: var(--secondary-color);
-                }
-            }
+    }
+}
+
+.utility-wrapper {
+    width: 100%;
+    border-top: 1px solid var(--accent-darkgray);
+}
+
+.footer-utility {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem 3rem;
+    justify-content: space-between;
+    align-items: center;
+
+    .socials {
+        margin-top: 0.5rem;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        gap: 2rem;
+        a {
+            @include buttons.circular-button($size: 3rem, $font-size: 1.5rem);
+            color: white;
         }
+    }
+
+    img {
+        max-height: 80px;
+        max-width: 150px;
+    }
+
+    .attribution {
+        align-content: center;
+    }
+
+    .affiliated-orgs {
+        display: flex;
+        flex-direction: row;
+        gap: 2rem;
     }
 }
 

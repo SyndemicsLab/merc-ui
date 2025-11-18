@@ -43,32 +43,7 @@ const Footer = () => {
                             alt="The Syndemics Lab at Boston Medical Center"
                             link="https://syndemicslab.org"
                         />
-                        <hr style={{ borderTopWidth: "3px", borderColor: `${SYNDEMICS_BLUE}` }}/>
-                        <div className="socials">
-                            <Social
-                                icon={faInstagram}
-                                link="https://www.instagram.com/syndemicslab/"
-                            />
-                            <Social
-                                icon={faSquareLinkedin}
-                                link="https://www.linkedin.com/company/syndemics-lab/"
-                            />
-                            <Social
-                                icon={faBluesky}
-                                link="https://bsky.app/profile/syndemicslab.bsky.social"
-                            />
-                        </div>
                     </div>
-                    <Logo
-                        image={BMC}
-                        alt="Boston Medical Center"
-                        link="https://bmc.org"
-                    />
-                    <Logo
-                        image={HD2A}
-                        alt="HEAL Data 2 Action"
-                        link="https://www.hd2arasc.org"
-                    />
                 </div>
                 <p className="footer-description">
                     This application is part of a collaboration between Weill
@@ -81,6 +56,36 @@ const Footer = () => {
                     of Treatment Interventions for Substance Use Disorder, HCV,
                     and HIV (CHERISH) P30DA040500.
                 </p>
+            </div>
+            <div className="utility-wrapper">
+                <div className="footer-utility">
+                    <div className="socials">
+                        <Social
+                            icon={faInstagram}
+                            link="https://www.instagram.com/syndemicslab/"
+                        />
+                        <Social
+                            icon={faSquareLinkedin}
+                            link="https://www.linkedin.com/company/syndemics-lab/"
+                        />
+                        <Social
+                            icon={faBluesky}
+                            link="https://bsky.app/profile/syndemicslab.bsky.social"
+                        />
+                    </div>
+                    <div className="affiliated-orgs">
+                        <Logo
+                            image={BMC}
+                            alt="Boston Medical Center"
+                            link="https://bmc.org"
+                        />
+                        <Logo
+                            image={HD2A}
+                            alt="HEAL Data 2 Action"
+                            link="https://www.hd2arasc.org"
+                        />
+                    </div>
+                </div>
             </div>
         </footer>
     );

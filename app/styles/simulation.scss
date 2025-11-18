@@ -6,6 +6,7 @@
 #simulation {
     min-width: 450px;
     width: 100%;
+    color: var(--tertiary-color);
 
     @media (min-width: 1500px) {
         width: 70%;
@@ -109,31 +110,31 @@ input::-webkit-slider-thumb {
     background: var(--primary-color);
     border: none;
     margin-top: -5px;
+    transition-duration: var(--transition-duration);
 }
 input::-moz-range-thumb {
     height: 18px;
     width: 18px;
     background: var(--primary-color);
     border: none;
+    transition-duration: var(--transition-duration);
 }
 input::-ms-thumb {
     height: 18px;
     width: 18px;
     background: var(--primary-color);
     border: none;
+    transition-duration: var(--transition-duration);
 }
 
 input::-webkit-slider-thumb:hover {
     background: var(--tertiary-color);
-    transition-duration: var(--transition-duration);
 }
 input::-moz-range-thumb:hover {
     background: var(--tertiary-color);
-    transition-duration: var(--transition-duration);
 }
 input::-ms-thumb:hover {
     background: var(--tertiary-color);
-    transition-duration: var(--transition-duration);
 }
 
 .general-inputs {
@@ -148,14 +149,23 @@ input::-ms-thumb:hover {
 }
 
 #advanced {
-    max-height: 0;
+    --horizontal-padding: var(--spacing-large);
+    height: 0;
     overflow: hidden;
-    transition: none;
-
+    background-color: rgba(from var(--primary-color) r g b/ 40%);
+    transition: height 700ms, padding linear 400ms 300ms;
+    padding: 0 var(--horizontal-padding);
     @media (min-width: 1500px) {
-        &.unhidden {
-            padding: var(--spacing-large) calc(var(--spacing-large) * 3);
-        }
+        --horizontal-padding: calc(var(--spacing-large) * 3);
+    }
+    border: 0px;
+    border-radius: var(--border-radius);
+
+    &.unhidden {
+        height: auto;
+        padding: var(--spacing-large) var(--horizontal-padding);
+        animation: reveal-down 700ms linear;
+        transition: padding 0ms 0ms;
     }
 
     h2 {
@@ -166,9 +176,18 @@ input::-ms-thumb:hover {
     .more-info {
         display: flex;
         flex-direction: row;
+        justify-content: space-between;
+        margin: 0.5rem 0;
+
+        .info-button {
+            height: 4rem;
+            width: -webkit-fill-available;
+            justify-content: center;
+        }
     }
 
     input[type=file] {
+        background-color: white;
         width: 100%;
         border-radius: 5px;
         border: solid 1px var(--accent-gray);
@@ -187,14 +206,6 @@ input::-ms-thumb:hover {
         &:hover::file-selector-button {
             background: var(--secondary-color);
         }
-    }
-
-    &.unhidden {
-        max-height: 1000px;
-        box-shadow: 0px 4px 18px rgba(0, 0, 0, 0.1);
-        border-radius: var(--border-radius);
-        padding: var(--spacing-large);
-        transition: max-height linear 0.5s;
     }
 }
 
@@ -299,6 +310,11 @@ button:hover {
 }
 
 .interventionTab .delete-button {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
     height: 20px;
     width: 20px;
     position: absolute;
@@ -311,8 +327,8 @@ button:hover {
     cursor: pointer;
     font-size: 12px;
     padding: 5px;
-    display: none;
-    transition: none;
+    opacity: 0;
+    transition: opacity var(--transition-duration), background-color var(--transition-duration);
 
     &:hover {
         background-color: var(--primary-color);
@@ -321,10 +337,7 @@ button:hover {
 }
 
 .interventionTab:hover .delete-button {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
+    opacity: 1;
 }
 
 .interventionContents {
@@ -375,43 +388,52 @@ button:hover {
     aspect-ratio: 1 / 1;
 }
 
-.block-trans-root[data-state="open"] {
+.block-trans-root {
     *:not(h3) {
         margin-left: 0.5rem;
+    }
+
+    h3 {
+        font-size: 1.25rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: color var(--transition-duration);
+
+        // prevent text selection within element
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+
+        &:hover {
+            color: var(--secondary-color);
+        }
+
+    }
+
+    &[data-state="closed"] h3::before {
+        content: '▸ Show ';
+        vertical-align: center;
+    }
+
+    &[data-state="open"] h3::before {
+        content: '▾ Hide ';
     }
 }
 
 .block-trans-collapsible {
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
-    transition-duration: 300ms;
-
-    // prevent text selection within element
-    -webkit-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-
-    &:hover {
-        color: var(--secondary-color);
-    }
+    transition-duration: var(--transition-duration);
+    overflow: hidden;
+    animation-timing-function: linear;
 
     &[data-state="closed"] {
-        animation: slide-up;
+        animation: hide-up 700ms;
     }
 
     &[data-state="open"] {
-        animation: slide-down;
+        animation: reveal-down 700ms;
         margin-bottom: 1rem;
     }
 
-    &[data-state="closed"]::before {
-        content: '▸ Show ';
-    }
-
-    &[data-state="open"]::before {
-        content: '▾ Hide ';
-    }
 }
 
 #results {
