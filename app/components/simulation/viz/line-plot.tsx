@@ -26,7 +26,7 @@ interface LinePlotProps {
   The default argument values are chosen arbitrarily based on trial and error
 */
 export default function LinePlot(props: LinePlotProps) {
-    let {
+    const {
         data,
         title,
         xTitle,
@@ -94,7 +94,7 @@ export default function LinePlot(props: LinePlotProps) {
             .attr("font-size", "0.8rem")
             .text(yTitle) : null;
 
-        var tooltip = svg
+        const tooltip = svg
             .append("text")
             .attr("x", margin.left)
             .attr("y", margin.top)
@@ -123,7 +123,7 @@ export default function LinePlot(props: LinePlotProps) {
               .attr("r", 2.5)
               .attr("visibility", "hidden");
 
-        let regions = [];
+        const regions = [];
         for (let i = 0; i < data.length; i++) {
             let center = x(data[i][0]), width;
             if (i === 0) {
@@ -177,7 +177,7 @@ export default function LinePlot(props: LinePlotProps) {
 }
 
 export function AltLinePlot(props: LinePlotProps) {
-    let {
+    const {
         data,
         title,
         xTitle,
@@ -240,7 +240,7 @@ export function AltLinePlot(props: LinePlotProps) {
             .attr("font-size", "0.8rem")
             .text(yTitle) : null;
 
-        var tooltip = svg
+        const tooltip = svg
             .append("text")
             .attr("x", margin.left)
             .attr("y", margin.top)
@@ -269,7 +269,7 @@ export function AltLinePlot(props: LinePlotProps) {
               .attr("r", 2.5)
               .attr("visibility", "hidden");
 
-        let regions = [];
+        const regions = [];
         for (let i = 0; i < data.length; i++) {
             let center = x(data[i][0]), width;
             if (i === 0) {

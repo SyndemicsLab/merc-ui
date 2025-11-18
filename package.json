@@ -9,7 +9,7 @@
         "dev": "react-router dev",
         "start": "react-router-serve build/server/index.js",
         "typecheck": "react-router typegen && tsc",
-        "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint ."
+        "lint": "eslint 'app/'"
     },
     "dependencies": {
         "@eslint/config-array": "^0.21.0",
@@ -42,6 +42,7 @@
         "vite-tsconfig-paths": "^5.1.4"
     },
     "devDependencies": {
+        "@eslint/js": "^9.39.1",
         "@react-router/dev": "^7.0.0",
         "@testing-library/react": "^16.2.0",
         "@types/jest": "^29.5.14",
@@ -49,15 +50,18 @@
         "@types/react-dom": "^18.2.7",
         "@typescript-eslint/eslint-plugin": "^6.7.4",
         "@typescript-eslint/parser": "^6.7.4",
-        "eslint": "^8.38.0",
+        "eslint": "^9.39.1",
         "eslint-import-resolver-typescript": "^3.6.1",
         "eslint-plugin-import": "^2.28.1",
         "eslint-plugin-jsx-a11y": "^6.7.1",
-        "eslint-plugin-react": "^7.33.2",
+        "eslint-plugin-react": "^7.37.5",
         "eslint-plugin-react-hooks": "^4.6.0",
+        "globals": "^16.5.0",
+        "jiti": "^2.6.1",
         "sass-embedded": "^1.90.0",
         "tailwindcss": "^4.0.0",
-        "typescript": "^5.1.6"
+        "typescript": "^5.1.6",
+        "typescript-eslint": "^8.46.4"
     },
     "engines": {
         "node": ">=20.19.0"

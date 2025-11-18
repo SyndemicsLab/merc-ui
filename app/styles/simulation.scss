@@ -266,6 +266,7 @@ button:hover {
 .add-intervention-dropdown {
     background-color: white;
     width: var(--radix-dropdown-menu-trigger-width);
+    border: 1px solid var(--accent-gray);
     border-radius: var(--border-radius);
     animation-duration: 0.6s;
     animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
@@ -281,10 +282,27 @@ button:hover {
     .add-intervention-item {
         font-weight: 600;
         border-radius: var(--border-radius);
+        transition: background-color var(--transition-duration);
 
         &:hover {
             background-color: var(--accent-gray);
         }
+    }
+
+    .dropdown-separator {
+        margin: 0.1rem auto;
+        width: 90%;
+        height: 0;
+        border-top: solid 1px var(--accent-gray);
+    }
+
+    .dropdown-label {
+        color: var(--accent-darkgray);
+
+        // prevent text selection within element
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
     }
 }
 
@@ -459,14 +477,14 @@ button:hover {
         background-color: #aaa;
     }
 
-    .line-plot, .bar-plot {
+    & > .line-plot, & > .bar-plot {
         display: flex;
         flex-direction: column;
         align-items: center;
         height: 100%;
     }
 
-    svg {
+    & > svg:not(.load-indicator) {
         flex-grow: 1;
         overflow: visible;
         height: calc(100% - 100px);

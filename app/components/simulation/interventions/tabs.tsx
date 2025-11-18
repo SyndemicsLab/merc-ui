@@ -1,3 +1,4 @@
+import * as React from "react";
 import { useInputsDispatch } from "@components/input-contexts";
 import {
     DropdownMenu,
@@ -44,7 +45,6 @@ function Tab({ intervention }: { intervention: Intervention }) {
 
 export default function Tabs({ interventions }: { interventions: Intervention[] }) {
     const dispatch = useInputsDispatch();
-
     return(
         <>
             <div className="interventionTabs">
@@ -69,6 +69,10 @@ export default function Tabs({ interventions }: { interventions: Intervention[] 
                         >
                             Blank Intervention
                         </DropdownMenuItem>
+                        <DropdownMenuSeparator className="dropdown-separator" />
+                        <DropdownMenuLabel className="dropdown-label">
+                            Presets
+                        </DropdownMenuLabel>
                         {inputs.interventions.map(intervention => (
                                 <DropdownMenuItem
                                     key={intervention.id}

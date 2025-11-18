@@ -17,7 +17,7 @@ interface BarPlotProps {
 }
 
 export default function GroupedBarPlot(props: BarPlotProps) {
-    let {
+    const {
         data,
         primaryKey,
         groupKey,
@@ -142,7 +142,7 @@ export default function GroupedBarPlot(props: BarPlotProps) {
             .attr("text-anchor", "left")
             .text(d => d);
 
-        var tooltip = svg
+        const tooltip = svg
             .append("text")
             .attr("x", margin.left)
             .attr("y", margin.top)

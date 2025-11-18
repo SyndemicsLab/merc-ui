@@ -1,3 +1,4 @@
+import * as React from "react";
 import { Link } from "react-router";
 
 // This is the inputsection that is a shortcut to the simulation page
@@ -16,5 +17,5 @@ const InputsSection = () => (
       </div>
     </section>
   );
-  
+
   export default InputsSection;

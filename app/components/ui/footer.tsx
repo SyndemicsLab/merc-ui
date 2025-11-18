@@ -21,7 +21,7 @@ function Logo(
 
 function Social(
     { icon, link }:
-    { icon: Object, link: string }
+    { icon: object, link: string }
 ) {
     return(
         <>

@@ -129,14 +129,14 @@ function makeEmptyTransition(id: number, name: string): Transition {
 }
 
 function setTransitions(interventions: Intervention[]) {
-    let newInterventions = interventions.map((intervention) => {
+    const newInterventions = interventions.map((intervention) => {
         if (Object.hasOwn(intervention, "transitions")) {
             return intervention.transitions;
         } else {
-            let other_interventions: Intervention[] = interventions.filter(
+            const other_interventions: Intervention[] = interventions.filter(
                 i => i.id != intervention.id
             );
-            let transitions: Transition[] = other_interventions.map((i) => {
+            const transitions: Transition[] = other_interventions.map((i) => {
                 let prob = 0;
                 if (intervention.id === 0) {
                     switch(i.id) {
@@ -169,7 +169,7 @@ function setTransitions(interventions: Intervention[]) {
                      transitions: transitions}
                 );
             } else {
-                let prob = 19.5 + Math.random();
+                const prob = 19.5 + Math.random();
                 return(
                     {...intervention,
                      transitions: [{

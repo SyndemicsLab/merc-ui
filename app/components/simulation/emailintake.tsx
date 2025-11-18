@@ -1,4 +1,6 @@
+import * as React from "react";
 import { Button } from "@components/ui/button";
+
 const EmailIntake = () => {
     return (
         <div className="email-intake">

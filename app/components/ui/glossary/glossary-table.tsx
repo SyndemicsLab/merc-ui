@@ -70,7 +70,7 @@ function DescriptionSection(key: string, value: string, last?: boolean = false) 
 }
 
 function GlossaryRow(item: GlossaryItem, index: number) {
-    let description = [];
+    const description = [];
     for (const [key, value] of Object.entries(item)) {
         if (key != "name") {
             if (key == Object.keys(item)[Object.keys(item).length - 1]) {

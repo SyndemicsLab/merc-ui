@@ -4,7 +4,7 @@ import { Link } from "react-router";
 
 export default function ScrollIndicator(
     { destination, visible = true }:
-    { destination?: string, visible?: Boolean }
+    { destination?: string, visible?: boolean }
 ) {
     return(
         <>

@@ -1,3 +1,4 @@
+import * as React from "react";
 import { Link } from "react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -16,7 +17,7 @@ interface InfoCardProps {
 
 function InfoCard({ icon, caption, overlay, className = "" }: InfoCardProps) {
     // handle class names - add leading space only if className is nonempty
-    let classes = className === "" ? className : ` ${className}`;
+    const classes = className === "" ? className : ` ${className}`;
     return(
         <div className={`info-card${classes}`}>
             <div className="info-card-content">

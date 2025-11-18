@@ -23,7 +23,7 @@ export async function action({ request }: Route.ActionArgs) {
     const bodyParams = await request.formData();
 
     const formJson = Object.fromEntries(bodyParams.entries());
-    for (var x in formJson) {
+    for (const x in formJson) {
         if (formJson[x] === "on") {
             formJson[x] = true;
         }

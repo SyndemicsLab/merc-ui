@@ -1,3 +1,4 @@
+import * as React from "react";
 import { ManagedSlider } from "@components/ui/sliders";
 import { useInputsDispatch } from "@components/input-contexts";
 import type { Transition } from "~/data";
@@ -8,15 +9,15 @@ import {
 } from "~/globals";
 
 export default function Transitions(
-    { transitions, onTransitionChange }:
-    { transitions: Transition[], onTransitionChange: Function }
+    { transitions }: { transitions: Transition[] }
 ) {
-    let summer: Function = (accumulator: number, transition: Transition): number => {
+    const summer: Function = (accumulator: number, transition: Transition): number => {
         // hoping to find a way to avoid needing this parseFloat, but currently
         // without it, this function will concatenate changed values as strings
         return accumulator + parseFloat(transition.probability);
     };
-    let sumProbs: number = transitions.reduce(summer, 0);
+    const sumProbs: number = transitions.reduce(summer, 0);
+    const dispatch = useInputsDispatch();
     return(
         <>
             {transitions.map((transition) => (
