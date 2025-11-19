@@ -27,11 +27,7 @@ interface LegendOptions {
     alignRight?: boolean;
 }
 
-function createLegend(
-    svg: object,
-    colors: object,
-    options: LegendOptions
-) {
+function createLegend(svg: object, colors: object, options: LegendOptions) {
     const {
         containerWidth, // must be passed to this object for right alignment
         width = 100,
@@ -39,7 +35,7 @@ function createLegend(
         colorWidth = 10,
         colorHeight = 10,
         xMargin = 5,
-        yMargin = 5,
+        yMargin = 8,
         alignRight = true,
     } = options;
 
@@ -52,27 +48,50 @@ function createLegend(
 
     const legend = svg.append("g")
           .attr("x", xPosition)
-          .attr("y", legendY + yMargin)
+          .attr("y", yMargin)
           .attr("height", height)
           .attr("width", width);
 
+    // color blocks
     legend.selectAll("rect")
         .data(colors.domain())
         .join("rect")
         .attr("x", xPosition)
-        .attr("y", legendY)
+        .attr("y", d => legendY(d) + 2 * yMargin)
         .attr("width", colorWidth)
         .attr("height", colorHeight)
         .attr("fill", colors);
+    // names
     legend.selectAll("text")
         .data(colors.domain())
         .join("text")
-    // gap of 5 after color block
-        .attr("x", xPosition + colorWidth + 5)
-        .attr("y", (d) => legendY(d))
+        // gap of 5 after color block
+        .attr("x", xPosition + colorWidth + xMargin)
+        .attr("y", (d) => legendY(d) + 2 * yMargin)
         .attr("font-size", "0.5rem")
         .attr("alignment-baseline", "before-edge")
         .text(d => d);
+
+    const boxPosition = xPosition - xMargin;
+
+    legend.append("rect")
+        .attr("x", boxPosition)
+        .attr("y", yMargin)
+        .attr("height", height + 2 * yMargin)
+        .attr("width", width)
+        .attr("stroke", "var(--primary-color)")
+        .attr("stroke-width", 2)
+        .attr("fill", "none");
+
+    legend.append("text")
+        .attr("x", boxPosition + width / 2)
+        .attr("y", yMargin + (height + 2 * yMargin))
+        .attr("font-size", "0.75rem")
+        .attr("text-anchor", "middle")
+        .attr("alignment-baseline", "middle")
+        .attr("font-weight", "600")
+        .attr("fill", "var(--tertiary-color)")
+        .text("Legend");
 }
 
 export default function GroupedBarPlot(props: BarPlotProps) {
