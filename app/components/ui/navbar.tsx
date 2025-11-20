@@ -1,3 +1,4 @@
+import * as React from "react"
 import { useState } from "react";
 import { Link, useLocation } from "react-router";
 import { type Path } from "~/routes";
@@ -6,7 +7,7 @@ import respondlogo from "~/images/respondlogo.png";
 
 function NavMenuTrigger(
     { menuState, onTrigger }:
-    { menuState: boolean, onTrigger: Function}
+    { menuState: boolean, onTrigger: (boolean) => void }
 ) {
     return(
         <div className={`menu-icon ${menuState ? 'change' : ''}`} onClick={() => onTrigger(!menuState)}>
@@ -19,7 +20,7 @@ function NavMenuTrigger(
 
 function NavMenu(
     { paths, menuState, closeMenu }:
-    { paths: Path[], menuState: boolean, closeMenu: Function }
+    { paths: Path[], menuState: boolean, closeMenu: () => void }
 ) {
     if (menuState) {
         return(

@@ -1,3 +1,4 @@
+import * as React from "react";
 import System from "@components/simulation/system";
 import Inputs from "@components/simulation/inputs";
 import type { Route } from "./+types/home";

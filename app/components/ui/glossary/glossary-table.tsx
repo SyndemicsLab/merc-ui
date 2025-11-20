@@ -1,3 +1,5 @@
+import * as React from "react"
+
 export interface GlossaryItem {
     name: string;
     baseText: string;

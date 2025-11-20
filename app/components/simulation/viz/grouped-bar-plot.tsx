@@ -1,3 +1,4 @@
+import * as React from "react";
 import * as d3 from "d3";
 import { useRef, useEffect } from "react";
 import { type PlotMargins } from "@components/simulation/viz/line-plot";
@@ -18,6 +19,7 @@ interface BarPlotProps {
 
 interface LegendOptions {
     containerWidth: number;
+    legendLabel?: string;
     width?: number;
     height?: number;
     colorWidth?: number,
@@ -30,6 +32,7 @@ interface LegendOptions {
 function createLegend(svg: object, colors: object, options: LegendOptions) {
     const {
         containerWidth, // must be passed to this object for right alignment
+        legendLabel = "Legend",
         width = 100,
         height = 50,
         colorWidth = 10,
@@ -58,6 +61,8 @@ function createLegend(svg: object, colors: object, options: LegendOptions) {
         .join("rect")
         .attr("x", xPosition)
         .attr("y", d => legendY(d) + 2 * yMargin)
+        .attr("rx", 3)
+        .attr("ry", 3)
         .attr("width", colorWidth)
         .attr("height", colorHeight)
         .attr("fill", colors);
@@ -72,26 +77,44 @@ function createLegend(svg: object, colors: object, options: LegendOptions) {
         .attr("alignment-baseline", "before-edge")
         .text(d => d);
 
+    // Legend Border
     const boxPosition = xPosition - xMargin;
 
     legend.append("rect")
         .attr("x", boxPosition)
         .attr("y", yMargin)
+        // rounded corners of bounding rectangle
+        .attr("rx", xMargin)
+        .attr("ry", xMargin)
         .attr("height", height + 2 * yMargin)
         .attr("width", width)
         .attr("stroke", "var(--primary-color)")
         .attr("stroke-width", 2)
         .attr("fill", "none");
 
+    // Legend Label
+    const filter = svg.append("filter")
+          .attr("id", "legend-filter")
+          // x of -0.1 and width of 1.2 are complementary - they center the
+          // legend label
+          .attr("x", -0.1)
+          .attr("y", 0)
+          .attr("width", 1.2)
+          .attr("height", 1);
+    filter.append("feFlood")
+        .attr("flood-color", "white");
+    filter.append("feComposite")
+        .attr("in", "SourceGraphic");
     legend.append("text")
-        .attr("x", boxPosition + width / 2)
-        .attr("y", yMargin + (height + 2 * yMargin))
-        .attr("font-size", "0.75rem")
-        .attr("text-anchor", "middle")
-        .attr("alignment-baseline", "middle")
-        .attr("font-weight", "600")
-        .attr("fill", "var(--tertiary-color)")
-        .text("Legend");
+          .attr("x", boxPosition + width / 2)
+          .attr("y", yMargin + (height + 2 * yMargin))
+          .attr("font-size", "0.5rem")
+          .attr("text-anchor", "middle")
+          .attr("alignment-baseline", "middle")
+          .attr("font-weight", "600")
+          .attr("fill", "var(--tertiary-color)")
+          .attr("filter", "url(#legend-filter)")
+          .text(legendLabel);
 }
 
 export default function GroupedBarPlot(props: BarPlotProps) {
@@ -191,7 +214,14 @@ export default function GroupedBarPlot(props: BarPlotProps) {
         }
 
         // legend
-        createLegend(svg, color, { containerWidth: width });
+        createLegend(
+            svg,
+            color,
+            {
+                containerWidth: width,
+                legendLabel: legendLabel
+            }
+        );
 
         const tooltip = svg
             .append("text")
@@ -211,9 +241,9 @@ export default function GroupedBarPlot(props: BarPlotProps) {
             .data(([, d]) => d)
             .join("rect")
                 .attr("x", d => x(d[groupKey]))
-                .attr("y", d => margin.bottom)
+                .attr("y", margin.bottom)
                 .attr("width", x.bandwidth())
-                .attr("height", d => height - margin.top - margin.bottom)
+                .attr("height", height - margin.top - margin.bottom)
             .on("mouseover", (event, d) => tooltip.text(`${d[primaryKey]}, ${d[groupKey]}: ${d[valueKey]}`))
             .on("mouseout", () => tooltip.text("Hover over bar to see value"));
     }, [data, xTitle, yTitle, width, height, margin, plotContainer]);

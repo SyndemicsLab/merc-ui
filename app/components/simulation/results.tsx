@@ -8,7 +8,6 @@ import {
     DialogFooter,
 } from "@components/ui/dialog";
 import { Button } from "@components/ui/button";
-import Disclaimers from "@components/simulation/disclaimers";
 import EmailIntake from "@simulation/emailintake";
 import LinePlot from "@components/simulation/viz/line-plot";
 import GroupedBarPlot from "@components/simulation/viz/grouped-bar-plot";
@@ -30,7 +29,7 @@ export default function Results() {
                 </DialogHeader>
                 <div className="results-main flex flex-col">
                     {/* All data contained below is dummy data for testing */}
-                    <TimedLoader delay={2000}>
+                    <TimedLoader delay={5000}>
                         <LinePlot
                             data={[
                                 [2020, 2103],
@@ -86,6 +85,7 @@ export default function Results() {
                             title="Intervention Costs by US State, Perspective"
                             xTitle="US State"
                             yTitle="Cost of Intervention (USD, billions)"
+                            legendLabel="Perspectives"
                         />
                     </TimedLoader>
                 </div>

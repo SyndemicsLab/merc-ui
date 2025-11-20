@@ -1,5 +1,5 @@
+import * as React from "react";
 import { Link, redirect } from "react-router";
-import InputsSection from "@components/home/inputsection";
 import homecircle from "~/images/homecircle.svg";
 import AboutTool from "@components/home/abouttool";
 import Questionnaire from "@components/home/questionnaire";
@@ -34,9 +34,9 @@ export async function action({ request }: Route.ActionArgs) {
 
     delete formJson.questionnaireVisibility;
 
-    let response;
+    // send the questionnaire to the backend
     if (typeof(process.env.API_URL) !== 'undefined') {
-        response = await fetch(
+        await fetch(
             `${process.env.API_URL}/submit-questionnaire`,
             {
                 method: "POST",

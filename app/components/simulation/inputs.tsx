@@ -1,6 +1,5 @@
 import * as React from "react";
 import { useRef, useState, useEffect } from "react";
-import { useFetcher } from "react-router";
 import { useInputs, useInputsDispatch } from "@components/input-contexts";
 import ScrollIndicator from "@components/ui/scroll-indicator";
 import { ManagedSlider } from "@components/ui/sliders";
@@ -19,12 +18,14 @@ export default function Inputs() {
     const inputs = useInputs();
     const dispatch = useInputsDispatch();
 
-    const fetcher = useFetcher();
     // reference for the input section, used for testing intersection with the
     // viewport
     const inputRef = useRef(false);
     const [inputsVisible, updateInputsVisible] = useState(false);
     useEffect(() => {
+        // ESLint erroneously thinks `observer` is never used, though it is used
+        // in the following line
+        // eslint-disable-next-line
         const observer = new IntersectionObserver((entries, observer) => {
             // can select only the first entry because there is only one element
             // we're checking for intersection with
@@ -112,8 +113,6 @@ export function UploadForm(
     { id, inputName }:
     { id: string, inputName: string }
 ) {
-    const fetcher = useFetcher();
-
     return (
         <>
             <label className="advancedInputName"
