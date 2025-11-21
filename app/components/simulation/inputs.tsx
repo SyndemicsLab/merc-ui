@@ -23,10 +23,7 @@ export default function Inputs() {
     const inputRef = useRef(false);
     const [inputsVisible, updateInputsVisible] = useState(false);
     useEffect(() => {
-        // ESLint erroneously thinks `observer` is never used, though it is used
-        // in the following line
-        // eslint-disable-next-line
-        const observer = new IntersectionObserver((entries, observer) => {
+        const observer = new IntersectionObserver((entries) => {
             // can select only the first entry because there is only one element
             // we're checking for intersection with
             const entry = entries[0];
