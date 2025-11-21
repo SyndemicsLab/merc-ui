@@ -2,6 +2,7 @@ import * as React from "react";
 import { useRef, useState, useEffect } from "react";
 import { useInputs, useInputsDispatch } from "@components/input-contexts";
 import ScrollIndicator from "@components/ui/scroll-indicator";
+import { ScrollDirection } from "@components/ui/scroll-indicator";
 import { ManagedSlider } from "@components/ui/sliders";
 import Interventions from "@simulation/interventions"
 import GlossaryButton from "@simulation/glossary-button";
@@ -22,11 +23,17 @@ export default function Inputs() {
     // viewport
     const inputRef = useRef(false);
     const [inputsVisible, updateInputsVisible] = useState(false);
+    const [direction, updateDirection] = useState(ScrollDirection.Down);
     useEffect(() => {
         const observer = new IntersectionObserver((entries) => {
             // can select only the first entry because there is only one element
             // we're checking for intersection with
             const entry = entries[0];
+            if (entry.boundingClientRect.top < 0) {
+                updateDirection(ScrollDirection.Up);
+            } else {
+                updateDirection(ScrollDirection.Down);
+            }
             updateInputsVisible(entry.isIntersecting);
         }, { threshold: [0.05]});
         observer.observe(inputRef.current);
@@ -37,7 +44,10 @@ export default function Inputs() {
             <GlossaryButton />
             <ScrollIndicator
                 destination="/simulation#inputs"
-                visible={!inputsVisible}
+                props={{
+                    visible: !inputsVisible,
+                    direction: direction
+                }}
             />
             <h1>General Inputs</h1>
             <div id="global-inputs">
