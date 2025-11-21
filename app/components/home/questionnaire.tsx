@@ -1,5 +1,6 @@
+import * as React from "react";
 import { useState } from "react";
-import { Form, useFetcher } from "react-router";
+import { useFetcher } from "react-router";
 
 import Dropdown from "@components/ui/dropdown";
 import States from "@components/ui/questionnaire";
@@ -10,11 +11,10 @@ import {
     DialogTitle,
     DialogDescription
 } from "@components/ui/dialog";
-import { Input } from "@components/ui/input";
 
 function DropdownQuestion(
     { name, question, options }:
-    { name: string, question: string, options: any[] }
+    { name: string, question: string, options: string[] }
 ) {
     return(
         <div className="questionnaire-question">
@@ -35,7 +35,7 @@ function MultiResponseQuestion(
     { name: string, question: string, responses: string[], lastOther?: boolean }) {
     const [otherChecked, setOtherChecked] = useState(false);
     const responseOptions = responses.map((response, index) => {
-        let target: string = name + '_' +
+        const target: string = name + '_' +
             response
             .replace(/(\s|-)/, "_")   // replace hyphens and white space
             .replace(/\/.*/, "")      // remove content from `/` onward
@@ -90,7 +90,7 @@ function MultiResponseQuestion(
 
 const Questionnaire = () => {
     const [open, setOpen] = useState(true);
-    let fetcher = useFetcher();
+    const fetcher = useFetcher();
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>

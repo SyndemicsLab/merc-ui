@@ -1,3 +1,4 @@
+import * as React from "react";
 import type { Transition, Intervention } from "~/data";
 import { ManagedSlider } from "@components/ui/sliders";
 import Transitions from "@simulation/interventions/transitions";
@@ -21,8 +22,8 @@ import {
 } from "@radix-ui/react-collapsible";
 
 function InterventionInfo(
-    { intervention, onNameChange }:
-    { intervention: Intervention, onNameChange: Function }
+    { intervention }:
+    { intervention: Intervention }
 ) {
     const dispatch = useInputsDispatch();
     return(
@@ -76,16 +77,8 @@ function InterventionInfo(
 }
 
 function Content(
-    { intervention,
-      transitions,
-      onNameChange,
-      onTransitionChange,
-      onPopulationChange }:
-    { intervention: Intervention,
-      transitions: Transition[],
-      onNameChange: Function,
-      onTransitionChange: Function,
-      onPopulationChange: Function }
+    { intervention, transitions }:
+    { intervention: Intervention, transitions: Transition[] }
 ) {
     const dispatch = useInputsDispatch();
     return(
@@ -94,7 +87,6 @@ function Content(
                 className={`interventionContent${intervention.active ? " active" : ""}`}>
                 <InterventionInfo
                     intervention={intervention}
-                    onNameChange={onNameChange}
                 />
                 <ManagedSlider
                     name="Intervention Population Size"
@@ -149,16 +141,8 @@ function Content(
 }
 
 export default function Contents(
-    { interventions,
-      onInterventionNameChange,
-      onInterventionChangeTransition,
-      onInterventionPopulationChange }:
-    { interventions: Intervention[],
-      onInterventionNameChange: Function,
-      onInterventionChangeTransition: Function,
-      onInterventionPopulationChange: Function }
+    { interventions }: { interventions: Intervention[] }
 ) {
-    const dispatch = useInputsDispatch();
     return(
         <>
             <div className="interventionContents">
@@ -167,9 +151,6 @@ export default function Contents(
                         key={intervention.id}
                         intervention={intervention}
                         transitions={intervention.transitions}
-                        onNameChange={onInterventionNameChange}
-                        onTransitionChange={() => {}}
-                        onPopulationChange={(value) => onInterventionPopulationChange(value, intervention.id)}
                     />
                 ))}
             </div>

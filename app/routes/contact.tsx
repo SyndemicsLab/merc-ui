@@ -1,3 +1,4 @@
+import * as React from "react";
 import ContactUs from "@components/contact/contactus";
 
 export default function Contact() {

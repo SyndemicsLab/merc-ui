@@ -1,8 +1,8 @@
+import * as React from "react"
 import { Link } from  "react-router";
 import BMC from '~/images/organization-logos/bmc.png';
 import syndemics from '~/images/organization-logos/syndemics.png';
 import HD2A from '~/images/organization-logos/hd2a.svg';
-import { SYNDEMICS_BLUE } from "~/globals";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInstagram, faSquareLinkedin, faBluesky } from "@fortawesome/free-brands-svg-icons";
 
@@ -21,7 +21,7 @@ function Logo(
 
 function Social(
     { icon, link }:
-    { icon: Object, link: string }
+    { icon: object, link: string }
 ) {
     return(
         <>

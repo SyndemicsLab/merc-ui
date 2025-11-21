@@ -1,3 +1,4 @@
+import * as React from "react";
 import { useState, useEffect } from "react";
 import { Popover, PopoverTrigger, PopoverContent } from "@components/ui/popover";
 import { Button } from "@components/ui/button";
@@ -5,7 +6,7 @@ import { Command, CommandInput, CommandList, CommandEmpty, CommandGroup, Command
 import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "~/lib/utils";
 
-function Dropdown({ name, options }: { name: string, options: any[] }) {
+function Dropdown({ name, options }: { name: string, options: string[] }) {
     const [dropdownOpen, dropdownSetOpen] = useState(false);
     const [selected, setSelected] = useState("");
 

@@ -1,3 +1,4 @@
+import * as React from "react";
 import type { Overdose } from "~/data";
 import { NamedSlider } from "@components/ui/sliders";
 import {
@@ -7,8 +8,7 @@ import {
 } from "~/globals";
 
 export default function Overdoses(
-    { overdoses, onOverdoseChange }:
-    { overdoses: Overdose[], onOverdoseChange: Function }
+    { overdoses }: { overdoses: Overdose[] }
 ) {
     return(
         <>
