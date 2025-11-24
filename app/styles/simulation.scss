@@ -1,5 +1,6 @@
 @use "components/buttons" as buttons;
 @use "effects/slide";
+@use "effects/bounce";
 
 /* SIMULATION */
 
@@ -41,6 +42,9 @@
     align-items: center;
     justify-content: center;
     color: white;
+    animation: bounce 500ms;
+    animation-direction: alternate;
+    animation-iteration-count: infinite;
 
     a {
         text-decoration: inherit;
