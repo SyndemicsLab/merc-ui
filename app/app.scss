@@ -278,6 +278,7 @@ a {
         flex-direction: row;
         justify-content: space-evenly;
         gap: 2rem;
+
         a {
             @include buttons.circular-button($size: 3rem, $font-size: 1.5rem);
             color: white;
@@ -286,11 +287,7 @@ a {
 
     img {
         max-height: 80px;
-        max-width: 150px;
-    }
-
-    .attribution {
-        align-content: center;
+        width: 100%;
     }
 
     .affiliated-orgs {
@@ -418,7 +415,7 @@ label {
     .footer-content {
         flex-direction: column;
     }
-    .footer-logos {
+    .footer-utility {
         flex-direction: column;
     }
     .footer-description {
