@@ -44,7 +44,7 @@ export default function Inputs() {
             <GlossaryButton />
             <ScrollIndicator
                 destination="/simulation#inputs"
-                props={{
+                options={{
                     visible: !inputsVisible,
                     direction: direction
                 }}

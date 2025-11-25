@@ -19,14 +19,14 @@ interface ScrollIndicatorProps {
 }
 
 export default function ScrollIndicator(
-    { destination, props = {} }:
-    { destination: string, props?: object }
+    { destination, options = {} }:
+    { destination: string, options?: ScrollIndicatorProps }
 ) {
     // handling default values
     const {
         visible = true,
         direction = ScrollDirection.Down,
-    } = props;
+    } = options;
     return(
         <>
             <Link to={destination}>
