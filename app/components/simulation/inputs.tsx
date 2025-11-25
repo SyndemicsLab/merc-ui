@@ -13,11 +13,13 @@ import {
     PROPORTION_STEP,
     PROPORTION_MAX
 } from "~/globals";
+import { Disclaimers } from "@components/simulation/disclaimers";
 
 export default function Inputs() {
     // use the overarching inputs state and reducer functions (dispatch)
     const inputs = useInputs();
     const dispatch = useInputsDispatch();
+    const foo = "";
 
     // reference for the input section, used for testing intersection with the
     // viewport
