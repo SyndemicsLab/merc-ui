@@ -14,6 +14,6 @@ jobs:
       - uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903
       - run: npm install
       # Add problem matchers for annotations
-      - run: echo "::add-matcher::/.github/eslint-compact.json"
-      - run: echo "::add-matcher::/.github/eslint-stylish.json"
+      - run: echo "::add-matcher::merc-ui/.github/eslint-compact.json"
+      - run: echo "::add-matcher::merc-ui/.github/eslint-stylish.json"
       - run: npm run lint
