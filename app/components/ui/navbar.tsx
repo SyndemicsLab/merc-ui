@@ -71,7 +71,11 @@ export default function Navbar({ paths }: { paths: Path[] }) {
     return (
         <header className="header">
             <Link to="/">
-                <img className="navbarlogo" src={respondlogo} alt="RESPOND Simulation" />
+                <img
+                    className="navbarlogo"
+                    src={syndemicslogo}
+                    alt="RESPOND Simulation"
+                />
             </Link>
             <nav className="nav">
                 <div className={`nav-links ${menuOpen ? "hidden" : ""}`}>
