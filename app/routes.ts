@@ -1,13 +1,9 @@
-import {
-    type RouteConfig,
-    route,
-    index,
-} from "@react-router/dev/routes";
+import { type RouteConfig, route, index } from "@react-router/dev/routes";
 
 export interface Path {
     name: string;
     displayName: string;
-};
+}
 
 export const sitemap: Path[] = [
     {

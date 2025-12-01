@@ -18,7 +18,8 @@
     p {
         padding: 0 0 var(--spacing-large);
     }
-    input, textarea {
+    input,
+    textarea {
         width: 100%;
         padding: 8px;
         background: white;
@@ -29,13 +30,13 @@
             color: rgba(from var(--accent-gray) r g b / 70%);
         }
     }
-    input[type=text] {
+    input[type="text"] {
         width: inherit;
     }
 }
 
 .contact-us-title {
-    font-family: 'IBM Plex Sans', sans-serif;
+    font-family: "IBM Plex Sans", sans-serif;
     font-size: 2rem;
     margin-bottom: 20px;
 }
@@ -54,19 +55,21 @@
     flex: 1;
     padding: 15px 20px;
     border: 1px solid var(--accent-darkgray);
-    font-family: 'IBM Plex Sans', sans-serif;
+    font-family: "IBM Plex Sans", sans-serif;
     font-size: 1rem;
 }
 
 .contact-us-button {
     background-color: var(--tertiary-color);
     color: white;
-    font-family: 'IBM Plex Sans', sans-serif;
+    font-family: "IBM Plex Sans", sans-serif;
     font-size: 1rem;
     padding: 15px 30px;
     border: none;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    transition:
+        background-color 0.3s ease,
+        transform 0.2s ease;
 }
 
 .contact-us-button:hover {

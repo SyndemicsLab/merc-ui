@@ -9,42 +9,52 @@ import {
     DialogContent,
     DialogHeader,
     DialogTitle,
-    DialogDescription
+    DialogDescription,
 } from "@components/ui/dialog";
 
-function DropdownQuestion(
-    { name, question, options }:
-    { name: string, question: string, options: string[] }
-) {
-    return(
+function DropdownQuestion({
+    name,
+    question,
+    options,
+}: {
+    name: string;
+    question: string;
+    options: string[];
+}) {
+    return (
         <div className="questionnaire-question">
-            <span className="dialog-question">
-                {question}
-            </span>
-            <Dropdown
-                name={name}
-                options={options}
-            />
+            <span className="dialog-question">{question}</span>
+            <Dropdown name={name} options={options} />
             <input id={name} type="hidden" name={name} />
         </div>
     );
 }
 
-function MultiResponseQuestion(
-    { name, question, responses, lastOther = false }:
-    { name: string, question: string, responses: string[], lastOther?: boolean }) {
+function MultiResponseQuestion({
+    name,
+    question,
+    responses,
+    lastOther = false,
+}: {
+    name: string;
+    question: string;
+    responses: string[];
+    lastOther?: boolean;
+}) {
     const [otherChecked, setOtherChecked] = useState(false);
     const responseOptions = responses.map((response, index) => {
-        const target: string = name + '_' +
+        const target: string =
+            name +
+            "_" +
             response
-            .replace(/(\s|-)/, "_")   // replace hyphens and white space
-            .replace(/\/.*/, "")      // remove content from `/` onward
-            .replace(/\w/g, x => x.toLowerCase()); // make all letters lowercase
+                .replace(/(\s|-)/, "_") // replace hyphens and white space
+                .replace(/\/.*/, "") // remove content from `/` onward
+                .replace(/\w/g, (x) => x.toLowerCase()); // make all letters lowercase
 
-        return(
+        return (
             <li key={index}>
                 <div className="questionnaire-check">
-                    { index === (responses.length - 1) && lastOther ? (
+                    {index === responses.length - 1 && lastOther ? (
                         <>
                             <input
                                 type="checkbox"
@@ -54,12 +64,16 @@ function MultiResponseQuestion(
                             />
                             <div className="dialog-response">
                                 {`${response}`}
-                                { otherChecked ? (
-                                    <input className="dialog-input rounded-md"
-                                           type="text"
-                                           name={`${name}_other_text`}
-                                           placeholder={name.charAt(0).toUpperCase() + name.slice(1)}
-                                           required
+                                {otherChecked ? (
+                                    <input
+                                        className="dialog-input rounded-md"
+                                        type="text"
+                                        name={`${name}_other_text`}
+                                        placeholder={
+                                            name.charAt(0).toUpperCase() +
+                                            name.slice(1)
+                                        }
+                                        required
                                     />
                                 ) : null}
                             </div>
@@ -97,19 +111,24 @@ const Questionnaire = () => {
             <DialogContent className="rounded-2xl text-left p-[20px] max-w-[600px] min-w-[400px] bg-white dialog-root">
                 <DialogHeader>
                     <DialogTitle>Questionnaire</DialogTitle>
-                    <DialogDescription>Please help us serve you better by answering a few quick questions.</DialogDescription>
+                    <DialogDescription>
+                        Please help us serve you better by answering a few quick
+                        questions.
+                    </DialogDescription>
                 </DialogHeader>
                 <fetcher.Form method="post">
                     <div className="questionnaire">
                         <MultiResponseQuestion
                             name="purpose"
-                            question={"What is the purpose of your site visit? (Select all that apply)"}
+                            question={
+                                "What is the purpose of your site visit? (Select all that apply)"
+                            }
                             responses={[
                                 "Personal Research",
                                 "Policy Development",
                                 "Academic Research",
                                 "Program Development",
-                                "Other"
+                                "Other",
                             ]}
                             lastOther={true}
                         />
@@ -130,7 +149,7 @@ const Questionnaire = () => {
                                 "Education",
                                 "Non-Profit/Community Organization",
                                 "Media/Communications",
-                                "Other"
+                                "Other",
                             ]}
                             lastOther={true}
                         />

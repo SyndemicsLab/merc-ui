@@ -8,7 +8,7 @@
 @use "styles/effects/spin" as spin;
 @use "styles/effects/colors" as colors;
 
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&display=swap");
 
 @layer base {
     :root {
@@ -19,7 +19,7 @@
         --accent-gray: #ccc;
         --accent-darkgray: #888;
         --accent-darkestgray: #333;
-        --font-family: 'IBM Plex Sans', sans-serif;
+        --font-family: "IBM Plex Sans", sans-serif;
         --font-size: 16px;
         --line-height: 1.5;
         --spacing: 6px;
@@ -83,7 +83,8 @@
     }
 }
 
-html, body {
+html,
+body {
     font-family: var(--font-family);
     font-size: var(--font-size);
     line-height: var(--line-height);
@@ -166,7 +167,7 @@ a {
     background: none;
     border: none;
     color: var(--plain-text);
-    font-family: 'IBM Plex Sans', sans-serif;
+    font-family: "IBM Plex Sans", sans-serif;
     font-weight: 500;
     cursor: pointer;
     text-decoration: none;
@@ -200,7 +201,6 @@ a {
 .change .bar2,
 .change .bar3 {
     background-color: #fff;
-
 }
 
 .change .bar1 {
@@ -440,7 +440,9 @@ label {
         -ms-user-select: none;
         user-select: none;
 
-        animation: spin-clockwise 2000ms linear, color-morph 3000ms linear;
+        animation:
+            spin-clockwise 2000ms linear,
+            color-morph 3000ms linear;
         animation-iteration-count: infinite;
     }
 }

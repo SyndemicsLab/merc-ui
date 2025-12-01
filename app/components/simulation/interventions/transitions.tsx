@@ -1,15 +1,13 @@
 import * as React from "react";
 import { ManagedSlider } from "@components/ui/sliders";
 import type { Transition } from "~/data";
-import {
-    PROPORTION_MIN,
-    PROPORTION_STEP,
-    PROPORTION_MAX
-} from "~/globals";
+import { PROPORTION_MIN, PROPORTION_STEP, PROPORTION_MAX } from "~/globals";
 
-export default function Transitions(
-    { transitions }: { transitions: Transition[] }
-) {
+export default function Transitions({
+    transitions,
+}: {
+    transitions: Transition[];
+}) {
     const summer = (accumulator: number, transition: Transition): number => {
         // hoping to find a way to avoid needing this parseFloat, but currently
         // without it, this function will concatenate changed values as strings
@@ -17,7 +15,7 @@ export default function Transitions(
     };
     const sumProbs: number = transitions.reduce(summer, 0);
 
-    return(
+    return (
         <>
             {transitions.map((transition) => (
                 <ManagedSlider
@@ -32,11 +30,12 @@ export default function Transitions(
                     }
                 />
             ))}
-            <ManagedSlider name="Retention Rate"
-                           min={PROPORTION_MIN}
-                           max={PROPORTION_MAX}
-                           value={Math.max(PROPORTION_MAX - sumProbs, 0).toFixed(4)}
-                           readOnly={true}
+            <ManagedSlider
+                name="Retention Rate"
+                min={PROPORTION_MIN}
+                max={PROPORTION_MAX}
+                value={Math.max(PROPORTION_MAX - sumProbs, 0).toFixed(4)}
+                readOnly={true}
             />
         </>
     );

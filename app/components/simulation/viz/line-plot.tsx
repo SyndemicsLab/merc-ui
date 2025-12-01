@@ -38,8 +38,8 @@ export default function LinePlot(props: LinePlotProps) {
             top: 20,
             right: 30,
             bottom: 40,
-            left: 50
-        }
+            left: 50,
+        },
     } = props;
 
     // reference for the SVG container
@@ -51,28 +51,34 @@ export default function LinePlot(props: LinePlotProps) {
         // clear content when refreshing
         svg.selectAll("*").remove();
 
-        const x = d3.scaleLinear()
-              .domain([d3.min(data, d => d[0]), d3.max(data, d => d[0])])
-              .range([margin.left, width - margin.right])
-              .nice();
-        const yMin = d3.min(data, d => d[1]);
-        const y = d3.scaleLinear()
-              .domain([yMin >= 0 ? 0 : yMin, d3.max(data, d => d[1])])
-              .range([height - margin.bottom, margin.top + 15])
-              .nice();
-        const line = d3.line()
-              .x(d => x(d[0]))
-              .y(d => y(d[1]));
+        const x = d3
+            .scaleLinear()
+            .domain([d3.min(data, (d) => d[0]), d3.max(data, (d) => d[0])])
+            .range([margin.left, width - margin.right])
+            .nice();
+        const yMin = d3.min(data, (d) => d[1]);
+        const y = d3
+            .scaleLinear()
+            .domain([yMin >= 0 ? 0 : yMin, d3.max(data, (d) => d[1])])
+            .range([height - margin.bottom, margin.top + 15])
+            .nice();
+        const line = d3
+            .line()
+            .x((d) => x(d[0]))
+            .y((d) => y(d[1]));
 
         // add the x-axis
         // the constant 80 was chosen arbitrarily
         svg.append("g")
             .attr("transform", `translate(0, ${height - margin.bottom})`)
             .call(
-                d3.axisBottom(x)
-                    .ticks(data.length < 10 ? data.length : width / 80,
-                           data.length < 10 ? "g" : "d")
-                    .tickSizeOuter(0)
+                d3
+                    .axisBottom(x)
+                    .ticks(
+                        data.length < 10 ? data.length : width / 80,
+                        data.length < 10 ? "g" : "d",
+                    )
+                    .tickSizeOuter(0),
             );
         if (xTitle) {
             svg.append("text")
@@ -87,7 +93,7 @@ export default function LinePlot(props: LinePlotProps) {
         svg.append("g")
             .attr("transform", `translate(${margin.left}, 0)`)
             .call(d3.axisLeft(y).ticks(20, "s"))
-            .call(g => g.selectAll(".domain").remove());
+            .call((g) => g.selectAll(".domain").remove());
         // transforming the axis label so that it is 12 units closer to the axis
         // and rotating (-90 degrees) so that the bottom of the text faces the
         // axis
@@ -114,37 +120,36 @@ export default function LinePlot(props: LinePlotProps) {
             .attr("d", line(data));
 
         // discrete data points
-        const points = svg.append("g")
-              .attr("fill", `${SYNDEMICS_BLUE}`);
-        points.selectAll()
+        const points = svg.append("g").attr("fill", `${SYNDEMICS_BLUE}`);
+        points
+            .selectAll()
             .data(data)
             .join("circle")
-                .attr("cx", d => x(d[0]))
-                .attr("cy", d => y(d[1]))
-                .attr("r", 1.5);
+            .attr("cx", (d) => x(d[0]))
+            .attr("cy", (d) => y(d[1]))
+            .attr("r", 1.5);
 
-        const currentPoint = svg.append("circle")
-              .attr("fill", `${SYNDEMICS_PINK}`)
-              .attr("r", 2.5)
-              .attr("visibility", "hidden");
+        const currentPoint = svg
+            .append("circle")
+            .attr("fill", `${SYNDEMICS_PINK}`)
+            .attr("r", 2.5)
+            .attr("visibility", "hidden");
 
         const regions = [];
         for (let i = 0; i < data.length; i++) {
             const center = x(data[i][0]);
             let width;
             if (i === 0) {
-                width = x(data[i+1][0]) - x(data[i][0]);
-            }
-            else if (i === data.length - 1) {
-                width = x(data[i][0]) - x(data[i-1][0]);
-            }
-            else {
-                width = (x(data[i+1][0]) - x(data[i-1][0]))/2;
+                width = x(data[i + 1][0]) - x(data[i][0]);
+            } else if (i === data.length - 1) {
+                width = x(data[i][0]) - x(data[i - 1][0]);
+            } else {
+                width = (x(data[i + 1][0]) - x(data[i - 1][0])) / 2;
             }
             regions.push({
-                "position": center - width / 2,
-                "width": width,
-                "point": data[i]
+                position: center - width / 2,
+                width: width,
+                point: data[i],
             });
         }
 
@@ -154,9 +159,9 @@ export default function LinePlot(props: LinePlotProps) {
             .selectAll()
             .data(regions)
             .join("rect")
-            .attr("x", d => d["position"])
+            .attr("x", (d) => d["position"])
             .attr("y", margin.bottom)
-            .attr("width", d => d["width"])
+            .attr("width", (d) => d["width"])
             .attr("height", height - margin.top - margin.bottom)
             .on("mouseover", (event, d) => {
                 tooltip.text(`(${d["point"][0]}, ${d["point"][1]})`);
@@ -173,11 +178,8 @@ export default function LinePlot(props: LinePlotProps) {
 
     return (
         <div className="line-plot">
-            {title ? (<h2>{title}</h2>) : null}
-            <svg
-                viewBox={`0 0 ${width} ${height}`}
-                ref={plotContainer}
-            />
+            {title ? <h2>{title}</h2> : null}
+            <svg viewBox={`0 0 ${width} ${height}`} ref={plotContainer} />
         </div>
     );
 }

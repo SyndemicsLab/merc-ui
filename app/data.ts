@@ -50,14 +50,16 @@ const raw_inputs: Inputs = {
             id: 1,
             name: "Buprenorphine",
             active: false,
-            description: "Buprenorphine is a medication for opioid use disorder and works as a partial opioid agonist. It ‘diminish[es] the effects of physical dependency to opioids, such as withdrawal symptoms and cravings’ (SAMHSA).",
+            description:
+                "Buprenorphine is a medication for opioid use disorder and works as a partial opioid agonist. It ‘diminish[es] the effects of physical dependency to opioids, such as withdrawal symptoms and cravings’ (SAMHSA).",
             population: Math.ceil(uniform(1100, 1250)),
         },
         {
             id: 2,
             name: "Naltrexone",
             active: false,
-            description: "Naltrexone is a medication for opioid use disorder and works as an opioid antagonist, binding opioid receptors and blocking the ‘euphoric and sedative effects of opioids’ (SAMHSA). It can also be used to treat alcohol use disorder. Naltrexone for opioid use disorder should not be started until no opioids have been used for at least 7 days.",
+            description:
+                "Naltrexone is a medication for opioid use disorder and works as an opioid antagonist, binding opioid receptors and blocking the ‘euphoric and sedative effects of opioids’ (SAMHSA). It can also be used to treat alcohol use disorder. Naltrexone for opioid use disorder should not be started until no opioids have been used for at least 7 days.",
             info: true,
             population: Math.ceil(uniform(80, 120)),
         },
@@ -80,7 +82,7 @@ const raw_inputs: Inputs = {
             population: 0,
         },
     ],
-}
+};
 
 const inputs = {
     ...raw_inputs,
@@ -91,17 +93,18 @@ const inputs = {
             }
             // no treatment needs a population size
             const treatedPopulation = raw_inputs.interventions
-                  .filter(i => i.id !== 0)
-                  .reduce(
-                      (accumulator, intervention) => accumulator + parseInt(intervention.population),
-                      0
-                  );
+                .filter((i) => i.id !== 0)
+                .reduce(
+                    (accumulator, intervention) =>
+                        accumulator + parseInt(intervention.population),
+                    0,
+                );
             return {
                 ...setOverdoses(intervention),
-                population: raw_inputs.population - treatedPopulation
+                population: raw_inputs.population - treatedPopulation,
             };
-        }
-    )
+        },
+    ),
 };
 
 function setOverdoses(intervention: Intervention) {
@@ -112,11 +115,10 @@ function setOverdoses(intervention: Intervention) {
             ...intervention,
             overdose: [
                 { probability: Math.ceil(uniform(10, 15)), injection: true },
-                { probability: Math.ceil(uniform(8, 10)), injection: false }
-            ]
+                { probability: Math.ceil(uniform(8, 10)), injection: false },
+            ],
         };
     }
-
 }
 
 function getInterventions(): Intervention[] {
@@ -134,51 +136,51 @@ function setTransitions(interventions: Intervention[]) {
             return intervention.transitions;
         } else {
             const other_interventions: Intervention[] = interventions.filter(
-                i => i.id != intervention.id
+                (i) => i.id != intervention.id,
             );
             const transitions: Transition[] = other_interventions.map((i) => {
                 let prob = 0;
                 if (intervention.id === 0) {
-                    switch(i.id) {
-                    case 1: {
-                        // Buprenorphine
-                        prob = uniform(0, 0.1);
-                        break;
-                    }
-                    case 5: {
-                        // Corrections
-                        prob = uniform(0.001, 0.01);
-                    }
-                    default: {
-                        // Naltrexone, Methadone, Detox
-                        prob = uniform(0, 0.01);
-                    }
+                    switch (i.id) {
+                        case 1: {
+                            // Buprenorphine
+                            prob = uniform(0, 0.1);
+                            break;
+                        }
+                        case 5: {
+                            // Corrections
+                            prob = uniform(0.001, 0.01);
+                        }
+                        default: {
+                            // Naltrexone, Methadone, Detox
+                            prob = uniform(0, 0.01);
+                        }
                     }
                 }
                 return {
                     id: i.id,
                     name: i.name,
-                    probability: prob % 1.0 !== 0 ? (prob * 100).toFixed(4) : prob,
+                    probability:
+                        prob % 1.0 !== 0 ? (prob * 100).toFixed(4) : prob,
                 };
-            })
+            });
 
             // id 0 is reserved for no treatment
             if (intervention.id === 0) {
-                return(
-                    {...intervention,
-                     transitions: transitions}
-                );
+                return { ...intervention, transitions: transitions };
             } else {
                 const prob = 19.5 + Math.random();
-                return(
-                    {...intervention,
-                     transitions: [{
-                         id: intervention.id,
-                         name: `Post-${intervention.name}`,
-                         probability: prob.toFixed(4)
-                     }, ...transitions]
-                    }
-                );
+                return {
+                    ...intervention,
+                    transitions: [
+                        {
+                            id: intervention.id,
+                            name: `Post-${intervention.name}`,
+                            probability: prob.toFixed(4),
+                        },
+                        ...transitions,
+                    ],
+                };
             }
         }
     });
@@ -192,5 +194,5 @@ export {
     Inputs,
     inputs,
     getInterventions,
-    makeEmptyTransition
+    makeEmptyTransition,
 };

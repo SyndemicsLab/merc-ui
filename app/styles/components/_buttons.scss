@@ -4,7 +4,7 @@
 // $hover-color: color of the button when the cursor is hovering over it
 // $text-color: color of the button's text
 // $font-size: the size of text, including SVGs, within buttons
-@mixin info-button (
+@mixin info-button(
     $color: var(--primary-color),
     $hover-color: var(--secondary-color),
     $text-color: #fff,
@@ -25,7 +25,9 @@
     border-radius: var(--border-radius);
     padding: 10px 20px;
     cursor: pointer;
-    transition: background-color var(--transition-duration), transform var(--transition-duration);
+    transition:
+        background-color var(--transition-duration),
+        transform var(--transition-duration);
 
     // prevent text selection within element
     -webkit-user-select: none;
@@ -46,7 +48,7 @@
 // $color - the color of the button
 @mixin nav-button($color: var(--primary-color)) {
     background-color: $color;
-    font-family: 'IBM Plex Sans', sans-serif;
+    font-family: "IBM Plex Sans", sans-serif;
     border-radius: 13px;
     color: #fff;
     font-size: 20px;
@@ -73,7 +75,7 @@
     user-select: none;
 
     &::before {
-        content: '';
+        content: "";
         position: absolute;
         top: 0;
         left: 0;
@@ -87,7 +89,7 @@
     }
 
     &::after {
-        content: '';
+        content: "";
         position: absolute;
         top: 0;
         left: 0;
@@ -121,7 +123,7 @@
 // $color: the color of the button
 // $hover-color: the color of the button when the cursor hovers over it
 // font-size: the font size of the contents of the button
-@mixin circular-button (
+@mixin circular-button(
     $size: 1.5rem,
     $color: var(--primary-color),
     $hover-color: var(--secondary-color),

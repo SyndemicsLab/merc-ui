@@ -1,16 +1,25 @@
-import * as React from "react"
-import { Link } from  "react-router";
-import BMC from '~/images/organization-logos/bmc.svg';
-import syndemics from '~/images/organization-logos/syndemics.svg';
-import HD2A from '~/images/organization-logos/hd2a.svg';
+import * as React from "react";
+import { Link } from "react-router";
+import BMC from "~/images/organization-logos/bmc.svg";
+import syndemics from "~/images/organization-logos/syndemics.svg";
+import HD2A from "~/images/organization-logos/hd2a.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faInstagram, faSquareLinkedin, faBluesky } from "@fortawesome/free-brands-svg-icons";
+import {
+    faInstagram,
+    faSquareLinkedin,
+    faBluesky,
+} from "@fortawesome/free-brands-svg-icons";
 
-function Logo(
-    { image, alt, link }:
-    { image: HTMLImageElement, alt: string, link?: string }
-) {
-    return(
+function Logo({
+    image,
+    alt,
+    link,
+}: {
+    image: HTMLImageElement;
+    alt: string;
+    link?: string;
+}) {
+    return (
         <>
             <Link to={link}>
                 <img src={image} alt={alt} />
@@ -19,11 +28,8 @@ function Logo(
     );
 }
 
-function Social(
-    { icon, link }:
-    { icon: object, link: string }
-) {
-    return(
+function Social({ icon, link }: { icon: object; link: string }) {
+    return (
         <>
             <Link to={link}>
                 <FontAwesomeIcon icon={icon} />

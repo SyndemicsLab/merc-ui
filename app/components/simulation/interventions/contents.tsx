@@ -18,41 +18,35 @@ import { faInfo } from "@fortawesome/free-solid-svg-icons";
 import {
     Collapsible,
     CollapsibleContent,
-    CollapsibleTrigger
+    CollapsibleTrigger,
 } from "@radix-ui/react-collapsible";
 
-function InterventionInfo(
-    { intervention }:
-    { intervention: Intervention }
-) {
+function InterventionInfo({ intervention }: { intervention: Intervention }) {
     const dispatch = useInputsDispatch();
-    return(
+    return (
         <>
             <h2 className="inputName">Intervention Name</h2>
             {intervention.id == 0 ? (
-                <input
-                    type="text"
-                    value={intervention.name}
-                    readOnly={true}
-                />
+                <input type="text" value={intervention.name} readOnly={true} />
             ) : (
                 <input
                     type="text"
                     defaultValue={intervention.name}
-                    onChange={event =>
+                    onChange={(event) =>
                         dispatch({
-                            type: 'intervention rename',
+                            type: "intervention rename",
                             name: event.target.value,
-                            id: intervention.id
-                        })}
+                            id: intervention.id,
+                        })
+                    }
                 />
             )}
-            { (intervention.description && !intervention.info) ? (
+            {intervention.description && !intervention.info ? (
                 <p className="intervention-description">
                     {intervention.description}
                 </p>
-            ) : null }
-            { (intervention.description && intervention.info) ? (
+            ) : null}
+            {intervention.description && intervention.info ? (
                 <Dialog>
                     <DialogTrigger asChild>
                         <Button variant="outline" className="intervention-info">
@@ -71,23 +65,25 @@ function InterventionInfo(
                         </div>
                     </DialogContent>
                 </Dialog>
-            ) : null }
+            ) : null}
         </>
     );
 }
 
-function Content(
-    { intervention, transitions }:
-    { intervention: Intervention, transitions: Transition[] }
-) {
+function Content({
+    intervention,
+    transitions,
+}: {
+    intervention: Intervention;
+    transitions: Transition[];
+}) {
     const dispatch = useInputsDispatch();
-    return(
+    return (
         <>
             <div
-                className={`interventionContent${intervention.active ? " active" : ""}`}>
-                <InterventionInfo
-                    intervention={intervention}
-                />
+                className={`interventionContent${intervention.active ? " active" : ""}`}
+            >
+                <InterventionInfo intervention={intervention} />
                 <ManagedSlider
                     name="Intervention Population Size"
                     min={0}
@@ -96,42 +92,46 @@ function Content(
                     value={intervention.population}
                     managementFunction={(value) =>
                         dispatch({
-                            type: 'intervention change population',
+                            type: "intervention change population",
                             interventionID: intervention.id,
-                            value: value
+                            value: value,
                         })
                     }
                     readOnly={intervention.id === 0 ? true : false}
                 />
                 {/* Intervention transitions default to open for No Treatment */}
-                <Collapsible className="block-trans-root" defaultOpen={intervention.id === 0 ? true: false}>
+                <Collapsible
+                    className="block-trans-root"
+                    defaultOpen={intervention.id === 0 ? true : false}
+                >
                     <CollapsibleTrigger asChild>
-                        <h3>
-                            Transitions Between Interventions
-                        </h3>
+                        <h3>Transitions Between Interventions</h3>
                     </CollapsibleTrigger>
                     <CollapsibleContent className="block-trans-collapsible">
                         <Transitions
                             transitions={transitions}
                             onTransitionChange={(value, transition) =>
                                 dispatch({
-                                    type: 'intervention change transition',
+                                    type: "intervention change transition",
                                     transitionID: transition,
                                     interventionID: intervention.id,
-                                    value: value
-                                })}
+                                    value: value,
+                                })
+                            }
                         />
                     </CollapsibleContent>
                 </Collapsible>
-                <hr style={{ margin: "1em 0", color: "var(--tertiary-color)" }}/>
+                <hr
+                    style={{ margin: "1em 0", color: "var(--tertiary-color)" }}
+                />
                 <Overdoses
                     overdoses={intervention.overdose}
                     onOverdoseChange={(value, injection) =>
                         dispatch({
-                            type: 'intervention change overdose',
+                            type: "intervention change overdose",
                             injection: injection,
                             interventionID: intervention.id,
-                            value: value
+                            value: value,
                         })
                     }
                 />
@@ -140,13 +140,15 @@ function Content(
     );
 }
 
-export default function Contents(
-    { interventions }: { interventions: Intervention[] }
-) {
-    return(
+export default function Contents({
+    interventions,
+}: {
+    interventions: Intervention[];
+}) {
+    return (
         <>
             <div className="interventionContents">
-                {interventions.map(intervention => (
+                {interventions.map((intervention) => (
                     <Content
                         key={intervention.id}
                         intervention={intervention}

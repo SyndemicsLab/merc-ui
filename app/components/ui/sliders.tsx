@@ -1,10 +1,21 @@
-import * as React from "react"
+import * as React from "react";
 import { useState } from "react";
 
-export function NamedSlider(
-    { inputName, min, max, step, defaultValue, readOnly = false }:
-    { inputName: string, min: number, max: number, step: number, defaultValue: number, readOnly?: boolean }
-) {
+export function NamedSlider({
+    inputName,
+    min,
+    max,
+    step,
+    defaultValue,
+    readOnly = false,
+}: {
+    inputName: string;
+    min: number;
+    max: number;
+    step: number;
+    defaultValue: number;
+    readOnly?: boolean;
+}) {
     const [value, setValue] = useState(defaultValue);
     return (
         <>
@@ -56,11 +67,24 @@ export function NamedSlider(
     );
 }
 
-export function ManagedSlider(
-    { name, min, max, step, value, managementFunction, readOnly = false }:
-    { name: string, min: number, max: number, step: number, value: number, managementFunction: (number) => void, readOnly?: boolean }
-) {
-    return(
+export function ManagedSlider({
+    name,
+    min,
+    max,
+    step,
+    value,
+    managementFunction,
+    readOnly = false,
+}: {
+    name: string;
+    min: number;
+    max: number;
+    step: number;
+    value: number;
+    managementFunction: (number) => void;
+    readOnly?: boolean;
+}) {
+    return (
         <>
             <div className="inputName">{name}</div>
             {readOnly ? (
@@ -94,7 +118,8 @@ export function ManagedSlider(
                         value={value}
                         name={`${name}-num`}
                         onChange={(event) =>
-                            managementFunction(event.target.value)}
+                            managementFunction(event.target.value)
+                        }
                     />
                     <input
                         type="range"
@@ -104,7 +129,8 @@ export function ManagedSlider(
                         value={value}
                         id={`${name}-slider`}
                         onChange={(event) =>
-                            managementFunction(event.target.value)}
+                            managementFunction(event.target.value)
+                        }
                     />
                 </div>
             )}

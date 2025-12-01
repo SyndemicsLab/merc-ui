@@ -35,18 +35,15 @@ export async function action({ request }: Route.ActionArgs) {
     delete formJson.questionnaireVisibility;
 
     // send the questionnaire to the backend
-    if (typeof(process.env.API_URL) !== 'undefined') {
-        await fetch(
-            `${process.env.API_URL}/submit-questionnaire`,
-            {
-                method: "POST",
-                mode: "cors",
-                body: JSON.stringify(formJson),
-                headers: {
-                    "Content-Type": "application/json",
-                }
-            }
-        );
+    if (typeof process.env.API_URL !== "undefined") {
+        await fetch(`${process.env.API_URL}/submit-questionnaire`, {
+            method: "POST",
+            mode: "cors",
+            body: JSON.stringify(formJson),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
     }
 
     if (bodyParams.get("questionnaireVisibility") === "hidden") {
@@ -61,7 +58,7 @@ export async function action({ request }: Route.ActionArgs) {
 }
 
 function HomeImage({ image }: { image: HTMLImageElement }) {
-    return(
+    return (
         <div className="home-circle">
             <img src={image} alt="RESPOND at the Syndemics Lab" />
         </div>
@@ -71,9 +68,7 @@ function HomeImage({ image }: { image: HTMLImageElement }) {
 export default function Home({ loaderData }: Route.ComponentProps) {
     return (
         <main className="home">
-            {loaderData.showQuestionnaire ? (
-                <Questionnaire />
-            ) : null}
+            {loaderData.showQuestionnaire ? <Questionnaire /> : null}
             <section className="home-section" id="home">
                 <div className="home-content">
                     <h1 className="welcome-text">
@@ -83,11 +78,22 @@ export default function Home({ loaderData }: Route.ComponentProps) {
                         </span>
                     </h1>
                     <p className="home-description">
-                        RESPOND is a model that simulates a population with high-risk opioid use that experiences movement on and off medication for opioid use disorder. The model provides values describing outcomes such as the number of overdoses and the costs accrued by the population. This online tool is intended to allow users to explore the impact of various policies on these outcomes with a simplified, customizable interface.
+                        RESPOND is a model that simulates a population with
+                        high-risk opioid use that experiences movement on and
+                        off medication for opioid use disorder. The model
+                        provides values describing outcomes such as the number
+                        of overdoses and the costs accrued by the population.
+                        This online tool is intended to allow users to explore
+                        the impact of various policies on these outcomes with a
+                        simplified, customizable interface.
                     </p>
                     <div className="home-nav">
-                        <Link to="/simulation" className="simulation-button">Go to Simulation</Link>
-                        <Link to="/respond" className="about-button">More on RESPOND</Link>
+                        <Link to="/simulation" className="simulation-button">
+                            Go to Simulation
+                        </Link>
+                        <Link to="/respond" className="about-button">
+                            More on RESPOND
+                        </Link>
                     </div>
                 </div>
                 <HomeImage image={homecircle} />
