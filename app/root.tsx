@@ -74,10 +74,7 @@ export function ErrorBoundary({ error }: { error: Route.ErrorBoundaryProps }) {
             <p>{details}</p>
             {stack && (
                 <pre>
-                    <code>
-                        {stack}
-                    </code
-                    >
+                    <code>{stack}</code>
                 </pre>
             )}
         </main>

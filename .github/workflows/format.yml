@@ -1,4 +1,4 @@
-name: Format source code
+name: Check source code formatting
 
 on:
   push:
