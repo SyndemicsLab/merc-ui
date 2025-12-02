@@ -154,6 +154,8 @@ a {
     justify-content: right;
     margin: 0 2em 0 0;
 
+    // remove margins and center content when the page is wide enough for
+    // nav links to be shown instead of the nav menu
     @media (min-width: 1501px) {
         margin: 0;
         justify-content: center;
