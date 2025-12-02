@@ -1,19 +1,8 @@
 {
-    "include": [
-	"**/*.ts",
-	"**/*.tsx",
-        ".react-router/types/**/*"
-    ],
+    "include": ["**/*.ts", "**/*.tsx", ".react-router/types/**/*"],
     "compilerOptions": {
-        "lib": [
-            "DOM",
-            "DOM.Iterable",
-            "ES2022"
-        ],
-        "types": [
-            "@react-router/node",
-            "vite/client"
-        ],
+        "lib": ["DOM", "DOM.Iterable", "ES2022"],
+        "types": ["@react-router/node", "vite/client"],
         "target": "ES2022",
         "module": "ES2022",
         "moduleResolution": "bundler",
@@ -21,9 +10,9 @@
         "rootDirs": [".", "./.react-router/types"],
         "baseUrl": ".",
         "paths": {
-            "~/*": [ "./app/*" ],
-	    "@components/*": [ "./app/components/*" ],
-	    "@simulation/*": [ "./app/components/simulation/*" ]
+            "~/*": ["./app/*"],
+            "@components/*": ["./app/components/*"],
+            "@simulation/*": ["./app/components/simulation/*"]
         },
         "esModuleInterop": true,
         "verbatimModuleSyntax": true,

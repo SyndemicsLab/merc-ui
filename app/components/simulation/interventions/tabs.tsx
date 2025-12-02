@@ -18,23 +18,25 @@ function Tab({ intervention }: { intervention: Intervention }) {
                 className={`interventionTab${intervention.active ? " active" : ""}`}
                 onClick={() =>
                     dispatch({
-                        type: 'intervention select',
-                        id: intervention.id
+                        type: "intervention select",
+                        id: intervention.id,
                     })
                 }
             >
                 {intervention.name}
                 {intervention.id > 0 && (
-                    <button className="delete-button"
-                            onClick={(event) => {
-                                dispatch({
-                                    type: 'intervention delete',
-                                    id: intervention.id
-                                });
-                                // avoid also selecting the tab underneath while
-                                // closing (selection overrides deletion)
-                                event.stopPropagation();
-                            }}>
+                    <button
+                        className="delete-button"
+                        onClick={(event) => {
+                            dispatch({
+                                type: "intervention delete",
+                                id: intervention.id,
+                            });
+                            // avoid also selecting the tab underneath while
+                            // closing (selection overrides deletion)
+                            event.stopPropagation();
+                        }}
+                    >
                         ×
                     </button>
                 )}
@@ -43,29 +45,33 @@ function Tab({ intervention }: { intervention: Intervention }) {
     );
 }
 
-export default function Tabs({ interventions }: { interventions: Intervention[] }) {
+export default function Tabs({
+    interventions,
+}: {
+    interventions: Intervention[];
+}) {
     const dispatch = useInputsDispatch();
-    return(
+    return (
         <>
             <div className="interventionTabs">
-                {interventions.map(intervention => (
-                        <Tab
-                            key={intervention.id}
-                            intervention={intervention}
-                        />
+                {interventions.map((intervention) => (
+                    <Tab key={intervention.id} intervention={intervention} />
                 ))}
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <button className="interventionTab addTab">+ New Intervention</button>
+                        <button className="interventionTab addTab">
+                            + New Intervention
+                        </button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className="add-intervention-dropdown">
                         <DropdownMenuItem
                             className="add-intervention-item"
                             onSelect={() =>
                                 dispatch({
-                                    type: 'intervention add',
+                                    type: "intervention add",
                                     intervention: "Intervention",
-                                })}
+                                })
+                            }
                         >
                             Blank Intervention
                         </DropdownMenuItem>
@@ -73,19 +79,19 @@ export default function Tabs({ interventions }: { interventions: Intervention[] 
                         <DropdownMenuLabel className="dropdown-label">
                             Presets
                         </DropdownMenuLabel>
-                        {inputs.interventions.map(intervention => (
-                                <DropdownMenuItem
-                                    key={intervention.id}
-                                    className="add-intervention-item"
-                                    onSelect={() =>
-                                        dispatch({
-                                            type: "intervention add",
-                                            intervention: `${intervention.name}`,
-                                        })
-                                    }
-                                >
-                                    {intervention.name}
-                                </DropdownMenuItem>
+                        {inputs.interventions.map((intervention) => (
+                            <DropdownMenuItem
+                                key={intervention.id}
+                                className="add-intervention-item"
+                                onSelect={() =>
+                                    dispatch({
+                                        type: "intervention add",
+                                        intervention: `${intervention.name}`,
+                                    })
+                                }
+                            >
+                                {intervention.name}
+                            </DropdownMenuItem>
                         ))}
                     </DropdownMenuContent>
                 </DropdownMenu>

@@ -4,12 +4,12 @@ import {
     isRouteErrorResponse,
     Outlet,
     Scripts,
-    ScrollRestoration
+    ScrollRestoration,
 } from "react-router";
 
-import { sitemap } from "~/routes"
+import { sitemap } from "~/routes";
 import Navbar from "@components/ui/navbar";
-import Footer from "@components/ui/footer"
+import Footer from "@components/ui/footer";
 import appStylesHref from "~/app.scss?url";
 import tailwindStyle from "~/styles/tailwind.css?url";
 import { InputProvider } from "@components/input-contexts";
@@ -17,26 +17,28 @@ import { InputProvider } from "@components/input-contexts";
 export default function App() {
     return (
         <>
-            <Navbar
-                paths={sitemap}
-            />
+            <Navbar paths={sitemap} />
             <Outlet />
             <Footer />
         </>
     );
 }
 
-export function Layout(
-    { children, }: { children: React.ReactNode }
-) {
+export function Layout({ children }: { children: React.ReactNode }) {
     return (
         <html lang="en">
             <head>
                 <meta charSet="utf-8" />
-                <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                <meta
+                    name="viewport"
+                    content="width=device-width, initial-scale=1.0"
+                />
                 <meta name="icon" content="/favicon.ico" />
                 <meta title="RESPOND Simulation" />
-                <meta name="description" content="The Syndemics Lab at Boston Medical Center's RESPOND simulation as a web application." />
+                <meta
+                    name="description"
+                    content="The Syndemics Lab at Boston Medical Center's RESPOND simulation as a web application."
+                />
                 <link rel="stylesheet" href={tailwindStyle} />
                 <link rel="stylesheet" href={appStylesHref} />
                 <link rel="icon" sizes="32x32" href="/favicon.ico" />
@@ -44,27 +46,27 @@ export function Layout(
             </head>
             <body>
                 <div id="content">
-                    <InputProvider>
-                        {children}
-                    </InputProvider>
+                    <InputProvider>{children}</InputProvider>
                 </div>
                 <ScrollRestoration />
                 <Scripts />
             </body>
         </html>
-    )
+    );
 }
 
-export function ErrorBoundary(
-    { error, }: { error: Route.ErrorBoundaryProps, }
-) {
+export function ErrorBoundary({ error }: { error: Route.ErrorBoundaryProps }) {
     let message = "Uh-oh, something went wrong!";
-    let details = "An unknown error occurred. The page you are attempting to see is currently unavailable.";
+    let details =
+        "An unknown error occurred. The page you are attempting to see is currently unavailable.";
     let stack: string | undefined;
 
     if (isRouteErrorResponse(error)) {
         message = error.status === 404 ? "404" : "Error";
-        details = error.status === 404 ? "The requested page could not be found." : error.statusText || details;
+        details =
+            error.status === 404
+                ? "The requested page could not be found."
+                : error.statusText || details;
     }
     return (
         <main id="error-page">

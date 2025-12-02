@@ -14,6 +14,6 @@ const EmailIntake = () => {
             <Button className="email-send">Send</Button>
         </div>
     );
-}
+};
 
 export default EmailIntake;

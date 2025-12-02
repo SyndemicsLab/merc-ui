@@ -1,12 +1,23 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
-import { Popover, PopoverTrigger, PopoverContent } from "@components/ui/popover";
+import {
+    Popover,
+    PopoverTrigger,
+    PopoverContent,
+} from "@components/ui/popover";
 import { Button } from "@components/ui/button";
-import { Command, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem } from "@components/ui/command";
+import {
+    Command,
+    CommandInput,
+    CommandList,
+    CommandEmpty,
+    CommandGroup,
+    CommandItem,
+} from "@components/ui/command";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "~/lib/utils";
 
-function Dropdown({ name, options }: { name: string, options: string[] }) {
+function Dropdown({ name, options }: { name: string; options: string[] }) {
     const [dropdownOpen, dropdownSetOpen] = useState(false);
     const [selected, setSelected] = useState("");
 
@@ -28,14 +39,18 @@ function Dropdown({ name, options }: { name: string, options: string[] }) {
                     className="w-[300px] justify-between"
                 >
                     {selected
-                        ? options.find((option) => option.value === selected)?.label
+                        ? options.find((option) => option.value === selected)
+                              ?.label
                         : "Select option..."}
                     <ChevronsUpDown className="opacity-50" />
                 </Button>
             </PopoverTrigger>
             <PopoverContent className="max-w-[300px] p-0 bg-white">
                 <Command>
-                    <CommandInput placeholder="Search..." className="h-2 px-2" />
+                    <CommandInput
+                        placeholder="Search..."
+                        className="h-2 px-2"
+                    />
                     <CommandList>
                         <CommandEmpty>Not found.</CommandEmpty>
                         <CommandGroup>
@@ -45,15 +60,21 @@ function Dropdown({ name, options }: { name: string, options: string[] }) {
                                     value={option.value}
                                     className="command-item"
                                     onSelect={(currentValue) => {
-                                        setSelected(currentValue === selected ? "" : currentValue)
-                                        dropdownSetOpen(false)
+                                        setSelected(
+                                            currentValue === selected
+                                                ? ""
+                                                : currentValue,
+                                        );
+                                        dropdownSetOpen(false);
                                     }}
                                 >
                                     {option.label}
                                     <Check
                                         className={cn(
                                             "ml-auto",
-                                            selected === option.value ? "opacity-100" : "opacity-0"
+                                            selected === option.value
+                                                ? "opacity-100"
+                                                : "opacity-0",
                                         )}
                                     />
                                 </CommandItem>

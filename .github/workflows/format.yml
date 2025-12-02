@@ -1,13 +1,11 @@
-name: Lint JavaScript/TypeScript
+name: Check source code formatting
 
 on:
-  push:
-    branches: [ "main" ]
   pull_request:
-    branches: [ "main" ]
+    types: [ opened, synchronize ]
 
 jobs:
-  linter:
+  format-check:
     runs-on: ubuntu-latest
     steps:
         # checkout@v6 - using commit hash
@@ -15,7 +13,6 @@ jobs:
         # setup-node@v6 - using commit hash
       - uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903
       - run: npm install
-      # Add problem matchers for annotations
-      - run: echo "::add-matcher::.github/eslint-compact.json"
-      - run: echo "::add-matcher::.github/eslint-stylish.json"
-      - run: npm run lint
+        # `npx prettier --check .` exits with a non-zero exit code if there are
+        # style issues in any file
+      - run: npx prettier --check .

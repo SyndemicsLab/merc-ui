@@ -1,7 +1,8 @@
 import * as React from "react";
 import {
     Dialog,
-    DialogContent, DialogHeader,
+    DialogContent,
+    DialogHeader,
     DialogTitle,
     DialogTrigger,
     DialogDescription,
@@ -17,7 +18,9 @@ export default function Results() {
     return (
         <Dialog id="results">
             <DialogTrigger asChild>
-                <Button variant="outline" className="run-text">RUN</Button>
+                <Button variant="outline" className="run-text">
+                    RUN
+                </Button>
             </DialogTrigger>
             <DialogContent className="rounded-2xl bg-white w-[80%] p-9">
                 <DialogHeader>
@@ -61,22 +64,22 @@ export default function Results() {
                                 {
                                     cost: 10 + Math.random() * 0.5,
                                     state: "MA",
-                                    perspective: "Healthcare"
+                                    perspective: "Healthcare",
                                 },
                                 {
                                     cost: 4 + Math.random() * 0.5,
                                     state: "MA",
-                                    perspective: "Treatment"
+                                    perspective: "Treatment",
                                 },
                                 {
                                     cost: 2 + Math.random() * 0.5,
                                     state: "MA",
-                                    perspective: "Pharmaceutical"
+                                    perspective: "Pharmaceutical",
                                 },
                                 {
                                     cost: 1 + Math.random() * 0.2,
                                     state: "MA",
-                                    perspective: "Overdose"
+                                    perspective: "Overdose",
                                 },
                             ]}
                             primaryKey="state"
@@ -94,5 +97,5 @@ export default function Results() {
                 </DialogFooter>
             </DialogContent>
         </Dialog>
-    )
+    );
 }

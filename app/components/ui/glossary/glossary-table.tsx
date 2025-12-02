@@ -1,4 +1,4 @@
-import * as React from "react"
+import * as React from "react";
 
 export interface GlossaryItem {
     name: string;
@@ -17,57 +17,73 @@ export interface GlossaryTable {
     items: GlossaryItem[];
 }
 
-function DescriptionSection(key: string, value: string, last?: boolean = false) {
-    switch(key) {
-    case "baseText":
-        return(
-            <div key={key}>
-                <p>{value}</p>
-                {!last ? <br /> : null}
-            </div>
-        );
-    case "howItWorks":
-        return(
-            <div key={key}>
-                <p><b>How It Works:</b> {value}</p>
-                {!last ? <br /> : null}
-            </div>
-        );
-    case "treatment":
-        return(
-            <div key={key}>
-                <p><b>Treatment:</b> {value}</p>
-                {!last ? <br /> : null}
-            </div>
-        );
-    case "administration":
-        return(
-            <div key={key}>
-                <p><b>Administration:</b> {value}</p>
-                {!last ? <br /> : null}
-            </div>
-        );
-    case "brands":
-        return(
-            <div key={key}>
-                <p><b>Brands:</b> {value}</p>
-                {!last ? <br /> : null}
-            </div>
-        );
-    case "otherNames":
-        return(
-            <div key={key}>
-                <p><b>Other Names:</b> {value}</p>
-                {!last ? <br /> : null}
-            </div>
-        );
-    case "more":
-        return(
-            <div key={key}>
-                <p><b>For More Information:</b> {value}</p>
-                {!last ? <br /> : null}
-            </div>
-        );
+function DescriptionSection(
+    key: string,
+    value: string,
+    last?: boolean = false,
+) {
+    switch (key) {
+        case "baseText":
+            return (
+                <div key={key}>
+                    <p>{value}</p>
+                    {!last ? <br /> : null}
+                </div>
+            );
+        case "howItWorks":
+            return (
+                <div key={key}>
+                    <p>
+                        <b>How It Works:</b> {value}
+                    </p>
+                    {!last ? <br /> : null}
+                </div>
+            );
+        case "treatment":
+            return (
+                <div key={key}>
+                    <p>
+                        <b>Treatment:</b> {value}
+                    </p>
+                    {!last ? <br /> : null}
+                </div>
+            );
+        case "administration":
+            return (
+                <div key={key}>
+                    <p>
+                        <b>Administration:</b> {value}
+                    </p>
+                    {!last ? <br /> : null}
+                </div>
+            );
+        case "brands":
+            return (
+                <div key={key}>
+                    <p>
+                        <b>Brands:</b> {value}
+                    </p>
+                    {!last ? <br /> : null}
+                </div>
+            );
+        case "otherNames":
+            return (
+                <div key={key}>
+                    <p>
+                        <b>Other Names:</b> {value}
+                    </p>
+                    {!last ? <br /> : null}
+                </div>
+            );
+        case "more":
+            return (
+                <div key={key}>
+                    <p>
+                        <b>For More Information:</b> {value}
+                    </p>
+                    {!last ? <br /> : null}
+                </div>
+            );
     }
 }
 
@@ -82,7 +98,7 @@ function GlossaryRow(item: GlossaryItem, index: number) {
             description.push(DescriptionSection(key, value));
         }
     }
-    return(
+    return (
         <tr key={index}>
             <td>{item.name}</td>
             <td>{description}</td>
@@ -91,18 +107,18 @@ function GlossaryRow(item: GlossaryItem, index: number) {
 }
 
 export function GlossarySection(table: GlossaryTable) {
-    return(
+    return (
         <>
             <h2>{table.section}</h2>
             <table>
                 <tbody>
                     <tr>
                         {table.headers.map((header, index) => {
-                            return(<th key={index}>{header}</th>);
+                            return <th key={index}>{header}</th>;
                         })}
                     </tr>
                     {table.items.map((item, index) => {
-                        return(GlossaryRow(item, index));
+                        return GlossaryRow(item, index);
                     })}
                 </tbody>
             </table>

@@ -4,15 +4,11 @@ import { useInputs, useInputsDispatch } from "@components/input-contexts";
 import ScrollIndicator from "@components/ui/scroll-indicator";
 import { ScrollDirection } from "@components/ui/scroll-indicator";
 import { ManagedSlider } from "@components/ui/sliders";
-import Interventions from "@simulation/interventions"
+import Interventions from "@simulation/interventions";
 import GlossaryButton from "@simulation/glossary-button";
 import Results from "@simulation/results";
-import InfoButton from "@components/ui/info-button.tsx"
-import {
-    PROPORTION_MIN,
-    PROPORTION_STEP,
-    PROPORTION_MAX
-} from "~/globals";
+import InfoButton from "@components/ui/info-button.tsx";
+import { PROPORTION_MIN, PROPORTION_STEP, PROPORTION_MAX } from "~/globals";
 
 export default function Inputs() {
     // use the overarching inputs state and reducer functions (dispatch)
@@ -25,28 +21,31 @@ export default function Inputs() {
     const [inputsVisible, updateInputsVisible] = useState(false);
     const [direction, updateDirection] = useState(ScrollDirection.Down);
     useEffect(() => {
-        const observer = new IntersectionObserver((entries) => {
-            // can select only the first entry because there is only one element
-            // we're checking for intersection with
-            const entry = entries[0];
-            if (entry.boundingClientRect.top < 0) {
-                updateDirection(ScrollDirection.Up);
-            } else {
-                updateDirection(ScrollDirection.Down);
-            }
-            updateInputsVisible(entry.isIntersecting);
-        }, { threshold: [0.05]});
+        const observer = new IntersectionObserver(
+            (entries) => {
+                // can select only the first entry because there is only one element
+                // we're checking for intersection with
+                const entry = entries[0];
+                if (entry.boundingClientRect.top < 0) {
+                    updateDirection(ScrollDirection.Up);
+                } else {
+                    updateDirection(ScrollDirection.Down);
+                }
+                updateInputsVisible(entry.isIntersecting);
+            },
+            { threshold: [0.05] },
+        );
         observer.observe(inputRef.current);
-    }, [])
+    }, []);
 
-    return(
+    return (
         <div id="inputs" ref={inputRef}>
             <GlossaryButton />
             <ScrollIndicator
                 destination="/simulation#inputs"
                 options={{
                     visible: !inputsVisible,
-                    direction: direction
+                    direction: direction,
                 }}
             />
             <h1>General Inputs</h1>
@@ -57,11 +56,10 @@ export default function Inputs() {
                     max={2600}
                     step={1}
                     value={inputs.duration}
-                    managementFunction={
-                        (value) =>
+                    managementFunction={(value) =>
                         dispatch({
-                            type: 'change duration',
-                            value: value
+                            type: "change duration",
+                            value: value,
                         })
                     }
                 />
@@ -71,11 +69,10 @@ export default function Inputs() {
                     max={300000}
                     step={500}
                     value={inputs.population}
-                    managementFunction={
-                        (value) =>
+                    managementFunction={(value) =>
                         dispatch({
-                            type: 'change total population',
-                            value: value
+                            type: "change total population",
+                            value: value,
                         })
                     }
                 />
@@ -85,11 +82,10 @@ export default function Inputs() {
                     max={50000}
                     step={100}
                     value={inputs.entering}
-                    managementFunction={
-                        (value) =>
+                    managementFunction={(value) =>
                         dispatch({
-                            type: 'change entering cohort',
-                            value: value
+                            type: "change entering cohort",
+                            value: value,
                         })
                     }
                 />
@@ -99,11 +95,10 @@ export default function Inputs() {
                     max={PROPORTION_MAX}
                     step={PROPORTION_STEP}
                     value={inputs.fod}
-                    managementFunction={
-                        (value) =>
+                    managementFunction={(value) =>
                         dispatch({
-                            type: 'change fatal overdose proportion',
-                            value: value
+                            type: "change fatal overdose proportion",
+                            value: value,
                         })
                     }
                 />
@@ -116,20 +111,19 @@ export default function Inputs() {
     );
 }
 
-export function UploadForm(
-    { id, inputName }:
-    { id: string, inputName: string }
-) {
+export function UploadForm({
+    id,
+    inputName,
+}: {
+    id: string;
+    inputName: string;
+}) {
     return (
         <>
-            <label className="advancedInputName"
-                   htmlFor={`${id}-input`}
-            >{inputName}</label>
-            <input
-                id={`${id}-input`}
-                type="file"
-                accept=".csv"
-            />
+            <label className="advancedInputName" htmlFor={`${id}-input`}>
+                {inputName}
+            </label>
+            <input id={`${id}-input`} type="file" accept=".csv" />
         </>
     );
 }
@@ -145,9 +139,7 @@ const AdvancedInputs = () => {
                 onChange={(event) => setShowAdvanced(event.target.checked)}
             />
             <label htmlFor="show-advanced" id="advanced-options">
-                <div className="advanced-options-text">
-                    Advanced Options
-                </div>
+                <div className="advanced-options-text">Advanced Options</div>
             </label>
             <div id="advanced" className={showAdvanced ? "unhidden" : null}>
                 <h2>For More Information</h2>
@@ -167,17 +159,47 @@ const AdvancedInputs = () => {
                     />
                 </div>
                 <h2>Tabular Data Upload Forms</h2>
-                <UploadForm id="sim-conf" inputName="General Configuration File (sim.conf)" />
-                <UploadForm id="overdose" inputName="All Types Overdose (all_types_overdose.csv)" />
-                <UploadForm id="mort" inputName="Background Mortality (background_mortality.csv)" />
-                <UploadForm id="smr" inputName="Standardized Mortality Ratio (SMR.csv)" />
-                <UploadForm id="init_effect" inputName="Treatment Initialization Effect (block_init_effect.csv)" />
-                <UploadForm id="block_trans" inputName="Treatment Transition Proportions (block_trans.csv)" />
-                <UploadForm id="entering" inputName="Entering Cohort (entering_cohort.csv)" />
-                <UploadForm id="fod" inputName="Fatal Overdose Proportions (fatal_overdose.csv)" />
-                <UploadForm id="initial" inputName="Initial Population (init_cohort.csv)" />
-                <UploadForm id="oud" inputName="Drug Use State Transitions (oud_trans.csv)" />
+                <UploadForm
+                    id="sim-conf"
+                    inputName="General Configuration File (sim.conf)"
+                />
+                <UploadForm
+                    id="overdose"
+                    inputName="All Types Overdose (all_types_overdose.csv)"
+                />
+                <UploadForm
+                    id="mort"
+                    inputName="Background Mortality (background_mortality.csv)"
+                />
+                <UploadForm
+                    id="smr"
+                    inputName="Standardized Mortality Ratio (SMR.csv)"
+                />
+                <UploadForm
+                    id="init_effect"
+                    inputName="Treatment Initialization Effect (block_init_effect.csv)"
+                />
+                <UploadForm
+                    id="block_trans"
+                    inputName="Treatment Transition Proportions (block_trans.csv)"
+                />
+                <UploadForm
+                    id="entering"
+                    inputName="Entering Cohort (entering_cohort.csv)"
+                />
+                <UploadForm
+                    id="fod"
+                    inputName="Fatal Overdose Proportions (fatal_overdose.csv)"
+                />
+                <UploadForm
+                    id="initial"
+                    inputName="Initial Population (init_cohort.csv)"
+                />
+                <UploadForm
+                    id="oud"
+                    inputName="Drug Use State Transitions (oud_trans.csv)"
+                />
             </div>
         </div>
     );
-}
+};

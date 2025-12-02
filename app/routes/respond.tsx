@@ -4,7 +4,7 @@ import ModelMaterials from "@components/about/modelmaterials";
 import Publications from "@components/about/publications";
 
 export default function RESPOND() {
-    return(
+    return (
         <div id="respond">
             <About />
             <ModelMaterials />

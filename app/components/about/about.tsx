@@ -5,7 +5,7 @@ import {
     faPeopleLine,
     faHexagonNodes,
     faBookMedical,
-    faHouseMedical
+    faHouseMedical,
 } from "@fortawesome/free-solid-svg-icons";
 
 interface InfoCardProps {
@@ -18,17 +18,13 @@ interface InfoCardProps {
 function InfoCard({ icon, caption, overlay, className = "" }: InfoCardProps) {
     // handle class names - add leading space only if className is nonempty
     const classes = className === "" ? className : ` ${className}`;
-    return(
+    return (
         <div className={`info-card${classes}`}>
             <div className="info-card-content">
-                <div className="icon">
-                    {icon}
-                </div>
+                <div className="icon">{icon}</div>
                 <span>{caption}</span>
             </div>
-            <div className="info-card-overlay">
-                {overlay}
-            </div>
+            <div className="info-card-overlay">{overlay}</div>
         </div>
     );
 }
@@ -40,7 +36,23 @@ const About = () => {
                 <section className="about-section">
                     <h2 className="about-title">About RESPOND</h2>
                     <p className="about-description">
-                        RESPOND (Researching Effective Strategies to Prevent Opioid Death) is a cohort-based state transition simulation model designed to help understand and address opioid use. It tracks a population at high risk for opioid use, modeling how people start and stop medication for opioid use disorder (MOUD) and how this affects outcomes like overdose, mortality, quality of life, and costs. RESPOND can evaluate the impact and cost-effectiveness of different strategies, including expanding MOUD access. While it uses data specific to Massachusetts, it can be adapted for other locations with the right data. Explore our <Link to="https://syndemicslab.github.io/respond">documentation</Link> and <Link to="#modelmaterials">model materials</Link> to learn more.
+                        RESPOND (Researching Effective Strategies to Prevent
+                        Opioid Death) is a cohort-based state transition
+                        simulation model designed to help understand and address
+                        opioid use. It tracks a population at high risk for
+                        opioid use, modeling how people start and stop
+                        medication for opioid use disorder (MOUD) and how this
+                        affects outcomes like overdose, mortality, quality of
+                        life, and costs. RESPOND can evaluate the impact and
+                        cost-effectiveness of different strategies, including
+                        expanding MOUD access. While it uses data specific to
+                        Massachusetts, it can be adapted for other locations
+                        with the right data. Explore our{" "}
+                        <Link to="https://syndemicslab.github.io/respond">
+                            documentation
+                        </Link>{" "}
+                        and <Link to="#modelmaterials">model materials</Link> to
+                        learn more.
                     </p>
                     <div className="about-svg-grid">
                         <InfoCard
