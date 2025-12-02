@@ -5,8 +5,10 @@ import { PROPORTION_MIN, PROPORTION_STEP, PROPORTION_MAX } from "~/globals";
 
 export default function Transitions({
     transitions,
+    onTransitionChange,
 }: {
     transitions: Transition[];
+    onTransitionChange: (number) => void
 }) {
     const summer = (accumulator: number, transition: Transition): number => {
         // hoping to find a way to avoid needing this parseFloat, but currently
