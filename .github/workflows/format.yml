@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  linter:
+  format-check:
     runs-on: ubuntu-latest
     steps:
         # checkout@v6 - using commit hash
