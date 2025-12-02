@@ -1,4 +1,4 @@
-name: Lint JavaScript/TypeScript
+name: Format source code
 
 on:
   push:
@@ -15,7 +15,6 @@ jobs:
         # setup-node@v6 - using commit hash
       - uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903
       - run: npm install
-      # Add problem matchers for annotations
-      - run: echo "::add-matcher::.github/eslint-compact.json"
-      - run: echo "::add-matcher::.github/eslint-stylish.json"
-      - run: npm run lint
+        # `npx prettier --check .` exits with a non-zero exit code if there are
+        # style issues in any file
+      - run: npx prettier --check .
