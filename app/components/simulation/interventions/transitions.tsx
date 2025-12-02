@@ -8,7 +8,7 @@ export default function Transitions({
     onTransitionChange,
 }: {
     transitions: Transition[];
-    onTransitionChange: (number) => void
+    onTransitionChange: (number) => void;
 }) {
     const summer = (accumulator: number, transition: Transition): number => {
         // hoping to find a way to avoid needing this parseFloat, but currently
