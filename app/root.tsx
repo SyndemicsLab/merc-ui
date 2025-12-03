@@ -10,7 +10,7 @@ import {
 import { sitemap } from "~/routes";
 import Navbar from "@components/ui/navbar";
 import Footer from "@components/ui/footer";
-import appStylesHref from "~/app.scss?url";
+import appStylesHref from "~/globals.scss?url";
 import tailwindStyle from "~/styles/tailwind.css?url";
 import { InputProvider } from "@components/input-contexts";
 
