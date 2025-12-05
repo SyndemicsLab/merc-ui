@@ -305,6 +305,16 @@ a {
         display: flex;
         flex-direction: row;
         gap: 2rem;
+
+        // adjust direction for mobile devices
+        @media (max-width: 500px) {
+            flex-direction: column;
+            img {
+                max-height: unset;
+                width: 70%;
+                margin: auto;
+            }
+        }
     }
 }
 

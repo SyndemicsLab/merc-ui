@@ -68,7 +68,11 @@ function HomeImage({ image }: { image: HTMLImageElement }) {
 export default function Home({ loaderData }: Route.ComponentProps) {
     return (
         <main className="home">
-            {loaderData.showQuestionnaire ? <Questionnaire /> : null}
+            {/*
+               Temporarily commenting out the questionnaire while there's no
+               backend to send data to yet
+              */}
+            {/* {loaderData.showQuestionnaire ? <Questionnaire /> : null} */}
             <section className="home-section" id="home">
                 <div className="home-content">
                     <h1 className="welcome-text">
