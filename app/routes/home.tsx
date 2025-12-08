@@ -2,7 +2,7 @@ import * as React from "react";
 import { Link, redirect } from "react-router";
 import homecircle from "~/images/homecircle.svg";
 import AboutTool from "@components/home/abouttool";
-import Questionnaire from "@components/home/questionnaire";
+// import Questionnaire from "@components/home/questionnaire";
 import type { Route } from "./+types/home";
 
 import { userPrefs } from "~/cookies";
