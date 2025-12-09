@@ -2,7 +2,6 @@ import * as React from "react";
 import { Link, redirect } from "react-router";
 import homecircle from "~/images/homecircle.svg";
 import AboutTool from "@components/home/abouttool";
-import Questionnaire from "@components/home/questionnaire";
 import type { Route } from "./+types/home";
 
 import { userPrefs } from "~/cookies";
@@ -68,7 +67,12 @@ function HomeImage({ image }: { image: HTMLImageElement }) {
 export default function Home({ loaderData }: Route.ComponentProps) {
     return (
         <main className="home">
-            {loaderData.showQuestionnaire ? <Questionnaire /> : null}
+            {/*
+               Temporarily removing the questionnaire while there's no backend
+               to send data to yet - replace the first `null` below with
+               <Questionnaire /> when reintroducing it
+              */}
+            {loaderData.showQuestionnaire ? null : null}
             <section className="home-section" id="home">
                 <div className="home-content">
                     <h1 className="welcome-text">
