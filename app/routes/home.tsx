@@ -73,7 +73,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
                to send data to yet - replace the first `null` below with
                <Questionnaire /> when reintroducing it
               */}
-            { loaderData.showQuestionnaire ? null : null}
+            {loaderData.showQuestionnaire ? null : null}
             <section className="home-section" id="home">
                 <div className="home-content">
                     <h1 className="welcome-text">
