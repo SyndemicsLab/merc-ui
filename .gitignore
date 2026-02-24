@@ -1,5 +1,8 @@
 .DS_Store
 
+data/*
+!data/.gitkeep
+
 .react-router/
 
 *build/

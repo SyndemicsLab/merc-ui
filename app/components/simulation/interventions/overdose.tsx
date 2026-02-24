@@ -1,6 +1,6 @@
 import * as React from "react";
 import type { Overdose } from "~/data";
-import { NamedSlider } from "@components/ui/sliders";
+import { NamedSlider } from "~/components/ui/slider";
 import { PROPORTION_MIN, PROPORTION_MAX, PROPORTION_STEP } from "~/globals";
 
 export default function Overdoses({ overdoses }: { overdoses: Overdose[] }) {

@@ -1,4 +1,4 @@
-import { type RouteConfig, route, index } from "@react-router/dev/routes";
+import { type RouteConfig, route, index, layout } from "@react-router/dev/routes";
 
 export interface Path {
     name: string;
@@ -30,6 +30,9 @@ export const sitemap: Path[] = [
 
 export default [
     index("routes/home.tsx"),
+    layout("routes/simulation.tsx", [
+        route("routes/simulation/:interventionId", "routes/simulation/input.tsx")
+    ]),
     route("simulation", "routes/simulation.tsx"),
     route("respond", "routes/respond.tsx"),
     route("glossary", "routes/glossary.tsx"),

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ManagedSlider } from "@components/ui/sliders";
+import { ManagedSlider } from "~/components/ui/slider";
 import type { Transition } from "~/data";
 import { PROPORTION_MIN, PROPORTION_STEP, PROPORTION_MAX } from "~/globals";
 

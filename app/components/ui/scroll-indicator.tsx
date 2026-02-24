@@ -1,14 +1,15 @@
-import * as React from "react";
+import { Link } from "react-router";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router";
+import type { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 
 export enum ScrollDirection {
     Up = 0,
     Down = 1,
 }
 
-const icons: Dictionary<ScrollDirection> = {
+const icons: Record<ScrollDirection, IconDefinition> = {
     0: faChevronUp,
     1: faChevronDown,
 };

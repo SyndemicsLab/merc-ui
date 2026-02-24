@@ -1,6 +1,6 @@
 import * as React from "react";
 import type { Transition, Intervention } from "~/data";
-import { ManagedSlider } from "@components/ui/sliders";
+import { ManagedSlider } from "~/components/ui/slider";
 import Transitions from "@simulation/interventions/transitions";
 import Overdoses from "@simulation/interventions/overdose";
 import {
