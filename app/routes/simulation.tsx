@@ -1,16 +1,16 @@
 // Package types
 import type { Route } from "./+types/home";
 
-// React Router imports
-import { Outlet } from "react-router";
-
-// React imports
+// Node, React, and React Router imports
+import { Outlet, redirect } from "react-router";
 import { useRef, useState, useEffect } from "react";
+import { exec } from 'child_process';
 
 // Component imports
 import ScrollIndicator, { ScrollDirection } from "@components/ui/scroll-indicator";
 import InfoButton from "@components/ui/info-button";
 import Slider from "@components/ui/slider";
+import { getSession, commitSession } from "~/sessions.server";
 
 // Asset imports
 import respond from "~/images/diagram/system.svg";
@@ -18,7 +18,27 @@ import { PROPORTION_MIN, PROPORTION_STEP, PROPORTION_MAX } from "~/globals";
 
 // Action and Loader Hooks
 export async function loader({ request }: Route.LoaderArgs) {
-    // This should load all the interventions and behaviors from the database as well as the sim.conf data containing the duration.
+    const session = await getSession(request.headers.get("Cookie"));
+    if (!session.has("uuid")) {
+        // Hi Dimitri :) 
+        // UUID = Universally Unique Identifier. It prevents collisions between users without requiring a login system.
+        const uuid = crypto.randomUUID();
+
+        // Node.js allowing us to run the AWS CLI S3 sync command to copy the data folder to the tmp folder. Now all new sessions generate a new copy of the data folder to work with. We should schedule a cron job to clean up the tmp folder periodically to prevent it from filling up with old data folders
+        exec('aws s3 sync s3://respond-db/data /tmp/${uuid}/data', (error, stdout, stderr) => {
+            if (error) {
+                console.error('Error syncing database:', error);
+                return;
+            }
+        })
+
+        session.set("uuid", uuid);
+        return redirect("/simulation/input", {
+            headers: { "Set-Cookie": await commitSession(session) }
+        })
+    }
+
+    // After ensuring the user has a session we can load from the user copy of the database and config file.
     const interventions = (await fetch('/api/interventions')).json();
     const behaviors = (await fetch('/api/behaviors')).json();
     const sim_conf = (await fetch('/api/config')).json(); // ini to json
