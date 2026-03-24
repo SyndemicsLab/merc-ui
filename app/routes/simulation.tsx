@@ -20,9 +20,58 @@ export async function loader({ request }: Route.LoaderArgs) {
     // const behaviors = (await fetch('/api/behaviors')).json();
     // const general_defaults = (await fetch('/api/config')).json(); // ini to json
 
-    const interventions = (await fetch(`${process.env.BACKEND_API_URL}/data/interventions`)).json();
+    // const interventions = (await fetch(`${process.env.BACKEND_API_URL}/data/interventions`)).json();
 
-    const slider_defaults = (await fetch(`${process.env.BACKEND_API_URL}/data/defaults`)).json();
+    // const slider_defaults = (await fetch(`${process.env.BACKEND_API_URL}/data/defaults`)).json();
+
+    let slider_defaults = [
+        {
+            "inputName": "Simulation Duration (Weeks)",
+            "min": "1",
+            "max": "2600",
+            "step": "1",
+            "defaultValue": "52"
+        },
+        {
+            "inputName": "Initial Total Population",
+            "min": "0",
+            "max": "300000",
+            "step": "500",
+            "defaultValue": "100000"
+        },
+        {
+            "inputName": "Change in Population Per Week (Count)",
+            "min": "-10000",
+            "max": "50000",
+            "step": "100",
+            "defaultValue": "0"
+        },
+        {
+            "inputName": "Percent of Overdoses That Result in Death",
+            "min": "0",
+            "max": "100",
+            "step": "1",
+            "defaultValue": "0.0625"
+        }
+    ];
+    let interventions = [{
+        1: "no_treatment",
+        2:  "early_buprenorphine",
+        3:  "early_methadone",
+        4:  "early_naltrexone",
+        5:  "buprenorphine",
+        6:  "methadone",
+        7:  "naltrexone",
+        8:  "detox",
+        9:  "corrections",
+        10: "residential",
+        11: "post_buprenorphine",
+        12: "post_methadone",
+        13: "post_naltrexone",
+        14: "post_detox",
+        15: "post_corrections",
+        16: "post_residential"
+    }];
 
     return { slider_defaults, interventions };
 }
@@ -42,8 +91,6 @@ export default function Simulation({ loaderData }: Route.ComponentProps) {
     const [inputsVisible, updateInputsVisible] = useState(false);
     const [direction, updateDirection] = useState(ScrollDirection.Down);
     useEffect(() => {
-        // Safety check to ensure ref is not null
-        if (!inputRef.current) return;
         const observer = new IntersectionObserver(
             (entries) => {
                 // can select only the first entry because there is only one element
@@ -68,14 +115,19 @@ export default function Simulation({ loaderData }: Route.ComponentProps) {
                 alt="RESPOND model structure diagram"
                 className="system-image"
             />
-            <div id="inputs">
+            {/*
+               `ref={inputRef}` is necessary here so that the
+               IntersectionObserver API functions to hide the scroll indicator
+               when this section is visible.
+              */}
+            <div id="inputs" ref={inputRef}>
                 <InfoButton
                     className="glossary-button"
                     text="Open Glossary"
                     destination="/glossary"
                 />
                 <ScrollIndicator
-                    destination="/simulation#inputs"
+                    destination="/simulation/1#inputs"
                     options={{
                         visible: !inputsVisible,
                         direction: direction,

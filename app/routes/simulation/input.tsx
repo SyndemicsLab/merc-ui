@@ -13,12 +13,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfo } from "@fortawesome/free-solid-svg-icons";
 
 export async function loader({ params }: Route.LoaderArgs) {
-    const res = await fetch(`${process.env.BACKEND_API_URL}/data/interventions`)
+    // const res = await fetch(`${process.env.BACKEND_API_URL}/data/interventions`)
     // const intervention = await getIntervention(params.id);
 
     // Temp data for testing
-    const intervention =
-    {
+    const intervention = {
         id: 1,
         name: "No Treatment",
         helper: "Population not involved in any community based intervention treatments for opioid use disorder.",
