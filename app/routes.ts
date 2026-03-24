@@ -30,12 +30,8 @@ export const sitemap: Path[] = [
 
 export default [
     index("routes/home.tsx"),
-    ...prefix("simulation", [
-        layout("routes/simulation.tsx", [
-            route(":interventionId", "routes/simulation/input.tsx")
-        ])
-    ]),
+    route("simulation", "routes/simulation.tsx"),
     route("respond", "routes/respond.tsx"),
     route("glossary", "routes/glossary.tsx"),
-    route("contact", "routes/contact.tsx"),
+    route("contact", "routes/contact.tsx")
 ] satisfies RouteConfig;

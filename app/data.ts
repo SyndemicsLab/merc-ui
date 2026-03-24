@@ -31,7 +31,7 @@ interface Inputs {
     interventions: Intervention[];
 }
 
-function uniform(a, b) {
+export function uniform(a, b) {
     return a + Math.random() * (b - a);
 }
 
@@ -122,7 +122,10 @@ function setOverdoses(intervention: Intervention) {
 }
 
 function getInterventions(): Intervention[] {
-    const interventions: Intervention[] = setTransitions(inputs.getAll());
+    const interventions: Intervention[] =
+          setTransitions(inputs.interventions).map((intervention) => {
+              return(setOverdoses(intervention))
+          });
     return interventions;
 }
 

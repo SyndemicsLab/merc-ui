@@ -9,9 +9,14 @@ import { useRef, useState, useEffect } from "react";
 import ScrollIndicator, { ScrollDirection } from "@components/ui/scroll-indicator";
 import InfoButton from "@components/ui/info-button";
 import Slider from "@components/ui/slider";
+import Tabs from "@simulation/interventions/tabs";
+import Contents from "@simulation/interventions/contents";
 
 // Asset imports
 import respond from "~/images/diagram/system.svg";
+
+// Method imports
+import { uniform, getInterventions } from "~/data";
 
 // Action and Loader Hooks
 export async function loader({ request }: Route.LoaderArgs) {
@@ -57,24 +62,7 @@ export async function loader({ request }: Route.LoaderArgs) {
             "defaultValue": "0.0625"
         }
     ];
-    let interventions = [{
-        1: "no_treatment",
-        2:  "early_buprenorphine",
-        3:  "early_methadone",
-        4:  "early_naltrexone",
-        5:  "buprenorphine",
-        6:  "methadone",
-        7:  "naltrexone",
-        8:  "detox",
-        9:  "corrections",
-        10: "residential",
-        11: "post_buprenorphine",
-        12: "post_methadone",
-        13: "post_naltrexone",
-        14: "post_detox",
-        15: "post_corrections",
-        16: "post_residential"
-    }];
+    let interventions = getInterventions();
 
     return { slider_defaults, interventions };
 }
@@ -139,8 +127,9 @@ export default function Simulation({ loaderData }: Route.ComponentProps) {
                 />
                 <h1>General Inputs</h1>
                 <div id="global-inputs">
-                    {slider_defaults.map((slider) => (
+                    {slider_defaults.map((slider, index) => (
                         <Slider
+                            key={index}
                             inputName={slider.inputName}
                             min={slider.min}
                             max={slider.max}
@@ -151,24 +140,9 @@ export default function Simulation({ loaderData }: Route.ComponentProps) {
                 </div>
                 <h1>Intervention Inputs</h1>
                 <div id="interventions">
-                    {interventions.map((intervention) => (
-
-                        <NavLink
-                            className={({ isActive, isPending }) =>
-                                isActive
-                                    ? "interventionTabactive"
-                                    : isPending
-                                        ? "interventionTabpending"
-                                        : "interventionTab"}
-                            to={`/routes/simulation/${intervention.name}`}
-                        >
-                            {intervention.name}
-                        </NavLink>
-
-                    ))}
-                    <Outlet />
+                    <Tabs interventions={interventions} />
+                    <Contents interventions={interventions} />
                 </div>
-
             </div>
         </main>
     );
