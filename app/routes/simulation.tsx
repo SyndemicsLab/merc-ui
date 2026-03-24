@@ -15,7 +15,10 @@ import respond from "~/images/diagram/system.svg";
 
 // Action and Loader Hooks
 export async function loader({ request }: Route.LoaderArgs) {
-    // After ensuring the user has a session we can load from the user copy of the database and config file. This shouldn't be a fetch but rather just a getter from the filesystem.
+    // After ensuring the user has a session we can load from the user copy of
+    // the database and config file. This shouldn't be a fetch but rather just a
+    // getter from the filesystem.
+
     // const interventions = (await fetch('/api/interventions')).json();
     // const behaviors = (await fetch('/api/behaviors')).json();
     // const general_defaults = (await fetch('/api/config')).json(); // ini to json
@@ -81,7 +84,8 @@ export async function action({ request }: Route.ActionArgs) {
     const formJson = Object.fromEntries(formData.entries());
 }
 
-// Main Layout for the simulation page, including the general inputs and the Outlet for the intervention specific inputs
+// Main Layout for the simulation page, including the general inputs and the
+// Outlet for the intervention specific inputs
 export default function Simulation({ loaderData }: Route.ComponentProps) {
     const { slider_defaults, interventions } = loaderData;
 
@@ -93,8 +97,8 @@ export default function Simulation({ loaderData }: Route.ComponentProps) {
     useEffect(() => {
         const observer = new IntersectionObserver(
             (entries) => {
-                // can select only the first entry because there is only one element
-                // we're checking for intersection with
+                // can select only the first entry because there is only one
+                // element we're checking for intersection with
                 const entry = entries[0];
                 if (entry.boundingClientRect.top < 0) {
                     updateDirection(ScrollDirection.Up);
