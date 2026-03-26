@@ -84,7 +84,7 @@ const raw_inputs: Inputs = {
     ],
 };
 
-const inputs = {
+let inputs = {
     ...raw_inputs,
     interventions: setTransitions(raw_inputs.interventions).map(
         (intervention) => {
@@ -185,6 +185,10 @@ function setTransitions(interventions: Intervention[]) {
         }
     });
     return newInterventions;
+}
+
+async function setInterventions(interventions) {
+    inputs.interventions = interventions;
 }
 
 export {

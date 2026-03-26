@@ -107,6 +107,9 @@ function constrainValues(
 
 function inputsReducer(simulationInputs: Inputs, action: Action) {
     switch (action.type) {
+        case "set inputs": {
+            return action.inputs;
+        }
         case "change duration": {
             return {
                 ...simulationInputs,

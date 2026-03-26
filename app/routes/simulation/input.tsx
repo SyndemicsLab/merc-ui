@@ -17,6 +17,7 @@ import { Form, useFetcher } from "react-router";
 // component imports
 import Tabs from "@simulation/interventions/tabs";
 import Contents from "@simulation/interventions/contents";
+import { TabButton } from "@simulation/interventions/nav";
 
 // method imports
 import { useInputs } from "@components/input-contexts";
@@ -29,17 +30,29 @@ export async function clientLoader({ params }: Route.LoaderArgs) {
     return interventions;
 }
 
+export async function action({
+    params,
+    request
+}: Route.ActionArgs) {
+    const formData = await request.formData();
+}
+
 export default function Input({ loaderData }: Route.ComponentProps) {
-    // const inputs = useInputs();
     const fetcher = useFetcher();
     const interventions = loaderData;
-    console.log(interventions);
 
     return (
         <>
             <div id="interventions">
-                <Tabs interventions={interventions} />
-                <Contents interventions={interventions} />
+                {interventions.map((intervention, index) => {
+                    return(
+                        <TabButton
+                            key={index}
+                            className="interventionTab"
+                            name={intervention.name}
+                        />
+                    );
+                })}
             </div>
         </>
     )
