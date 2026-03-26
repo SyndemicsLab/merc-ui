@@ -31,7 +31,7 @@ interface Inputs {
     interventions: Intervention[];
 }
 
-export function uniform(a, b) {
+function uniform(a, b) {
     return a + Math.random() * (b - a);
 }
 
@@ -121,12 +121,9 @@ function setOverdoses(intervention: Intervention) {
     }
 }
 
-function getInterventions(): Intervention[] {
-    const interventions: Intervention[] =
-          setTransitions(inputs.interventions).map((intervention) => {
-              return(setOverdoses(intervention))
-          });
-    return interventions;
+async function getInterventions(): Intervention[] {
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    return inputs.interventions;
 }
 
 function makeEmptyTransition(id: number, name: string): Transition {

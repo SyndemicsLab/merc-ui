@@ -9,14 +9,9 @@ import { useRef, useState, useEffect } from "react";
 import ScrollIndicator, { ScrollDirection } from "@components/ui/scroll-indicator";
 import InfoButton from "@components/ui/info-button";
 import Slider from "@components/ui/slider";
-import Tabs from "@simulation/interventions/tabs";
-import Contents from "@simulation/interventions/contents";
 
 // Asset imports
 import respond from "~/images/diagram/system.svg";
-
-// Method imports
-import { uniform, getInterventions } from "~/data";
 
 // Action and Loader Hooks
 export async function loader({ request }: Route.LoaderArgs) {
@@ -62,9 +57,8 @@ export async function loader({ request }: Route.LoaderArgs) {
             "defaultValue": "0.0625"
         }
     ];
-    let interventions = getInterventions();
 
-    return { slider_defaults, interventions };
+    return { slider_defaults };
 }
 
 export async function action({ request }: Route.ActionArgs) {
@@ -77,11 +71,12 @@ export async function action({ request }: Route.ActionArgs) {
 export default function Simulation({ loaderData }: Route.ComponentProps) {
     const { slider_defaults, interventions } = loaderData;
 
-    // reference for the input section, used for testing intersection with the
+    // reference for the input section, used for checking intersection with the
     // viewport
     const inputRef = useRef(null);
     const [inputsVisible, updateInputsVisible] = useState(false);
     const [direction, updateDirection] = useState(ScrollDirection.Down);
+
     useEffect(() => {
         const observer = new IntersectionObserver(
             (entries) => {
@@ -119,7 +114,7 @@ export default function Simulation({ loaderData }: Route.ComponentProps) {
                     destination="/glossary"
                 />
                 <ScrollIndicator
-                    destination="/simulation/1#inputs"
+                    destination="/simulation#inputs"
                     options={{
                         visible: !inputsVisible,
                         direction: direction,
@@ -139,10 +134,7 @@ export default function Simulation({ loaderData }: Route.ComponentProps) {
                     ))}
                 </div>
                 <h1>Intervention Inputs</h1>
-                <div id="interventions">
-                    <Tabs interventions={interventions} />
-                    <Contents interventions={interventions} />
-                </div>
+                <Outlet />
             </div>
         </main>
     );

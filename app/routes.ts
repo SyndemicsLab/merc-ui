@@ -30,7 +30,9 @@ export const sitemap: Path[] = [
 
 export default [
     index("routes/home.tsx"),
-    route("simulation", "routes/simulation.tsx"),
+    route("simulation", "routes/simulation.tsx", [
+        index("routes/simulation/input.tsx")
+    ]),
     route("respond", "routes/respond.tsx"),
     route("glossary", "routes/glossary.tsx"),
     route("contact", "routes/contact.tsx")

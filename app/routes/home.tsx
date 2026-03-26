@@ -1,10 +1,14 @@
+// module imports
 import * as React from "react";
 import { Link, redirect } from "react-router";
-import homecircle from "~/images/homecircle.svg";
-import AboutTool from "@components/home/abouttool";
 import type { Route } from "./+types/home";
 
+// component imports
+import AboutTool from "@components/home/abouttool";
 import { userPrefs } from "~/cookies";
+
+// asset imports
+import homecircle from "~/images/homecircle.svg";
 
 export async function loader({ request }: Route.LoaderArgs) {
     const cookieHeader = request.headers.get("Cookie");

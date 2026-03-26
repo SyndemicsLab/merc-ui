@@ -148,9 +148,9 @@ export default function Contents({
     return (
         <>
             <div className="interventionContents">
-                {interventions.map((intervention) => (
+                {interventions.map((intervention, index) => (
                     <Content
-                        key={intervention.id}
+                        key={index}
                         intervention={intervention}
                         transitions={intervention.transitions}
                     />
