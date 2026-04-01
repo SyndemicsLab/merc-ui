@@ -37,9 +37,9 @@ function uniform(a, b) {
 
 const raw_inputs: Inputs = {
     duration: 52,
-    population: 10000,
-    entering: 0,
-    fod: 6.25,
+    total_population: 10000,
+    changing_population: 0,
+    fatal_overdoses: 6.25,
     interventions: [
         {
             id: 0,

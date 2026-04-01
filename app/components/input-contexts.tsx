@@ -108,7 +108,7 @@ function constrainValues(
 function inputsReducer(simulationInputs: Inputs, action: Action) {
     switch (action.type) {
         case "set inputs": {
-            return action.inputs;
+            return action.value;
         }
         case "change duration": {
             return {
@@ -142,20 +142,20 @@ function inputsReducer(simulationInputs: Inputs, action: Action) {
 
             return {
                 ...simulationInputs,
-                population: value,
+                total_population: value,
                 interventions: newInterventions,
             };
         }
-        case "change entering cohort": {
+        case "change changing population": {
             return {
                 ...simulationInputs,
-                entering: action.value,
+                changing_population: action.value,
             };
         }
         case "change fatal overdose proportion":
             return {
                 ...simulationInputs,
-                fod: action.value,
+                fatal_overdoses: action.value,
             };
         case "intervention select": {
             return {

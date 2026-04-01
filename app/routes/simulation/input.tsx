@@ -12,8 +12,6 @@ import { Button } from "@components/ui/button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfo } from "@fortawesome/free-solid-svg-icons";
 
-import { Form, useFetcher } from "react-router";
-
 // component imports
 import Tabs from "@simulation/interventions/tabs";
 import Contents from "@simulation/interventions/contents";
@@ -30,30 +28,23 @@ export async function clientLoader({ params }: Route.LoaderArgs) {
     return interventions;
 }
 
-export async function action({
-    params,
-    request
-}: Route.ActionArgs) {
-    const formData = await request.formData();
-}
-
 export default function Input({ loaderData }: Route.ComponentProps) {
-    const fetcher = useFetcher();
     const interventions = loaderData;
 
     return (
-        <>
-            <div id="interventions">
-                {interventions.map((intervention, index) => {
-                    return(
-                        <TabButton
-                            key={index}
-                            className="interventionTab"
-                            name={intervention.name}
-                        />
-                    );
-                })}
-            </div>
-        </>
+        <div id="interventions">
+            {interventions.map((intervention, index) => {
+                return(
+                    <TabButton
+                        key={index}
+                        className={
+                            `interventionTab${intervention.active ? " active" : ""}`
+                        }
+                        id={intervention.id}
+                        name={intervention.name}
+                    />
+                );
+            })}
+        </div>
     )
 }

@@ -1,7 +1,8 @@
 import { useState, type ChangeEvent } from "react";
 
 export default function Slider({
-    inputName,
+    inputVar,
+    inputText,
     min,
     max,
     step,
@@ -9,7 +10,8 @@ export default function Slider({
     managementFunction,
     readOnly = false,
 }: {
-    inputName: string;
+    inputVar: string;
+    inputText: string;
     min: number;
     max: number;
     step: number;
@@ -17,18 +19,20 @@ export default function Slider({
     managementFunction?: (arg0: number) => void;
     readOnly?: boolean;
 }) {
+    const [value, setValue] = useState(defaultValue);
+
     if (!managementFunction) {
-        const [value, setValue] = useState(defaultValue);
         managementFunction = setValue;
     }
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         managementFunction(Number(event.target.value));
+        setValue(Number(event.target.value));
     };
 
     return (
         <>
-            <div className="inputName">{inputName}</div>
+            <div className="inputName">{inputText}</div>
             {readOnly ? (
                 <div className="slider">
                     <input
@@ -36,8 +40,8 @@ export default function Slider({
                         min={min}
                         max={max}
                         step={step}
-                        value={defaultValue}
-                        name={`${inputName}-num`}
+                        value={value}
+                        name={`${inputVar}`}
                         readOnly={readOnly}
                     />
                     <input
@@ -45,8 +49,8 @@ export default function Slider({
                         min={min}
                         max={max}
                         step={step}
-                        value={defaultValue}
-                        id={`${inputName}-slider`}
+                        value={value}
+                        id={`${inputVar}-slider`}
                         readOnly={readOnly}
                     />
                 </div>
@@ -57,8 +61,8 @@ export default function Slider({
                         min={min}
                         max={max}
                         step={step}
-                        value={defaultValue}
-                        name={`${inputName}-num`}
+                        value={value}
+                        name={`${inputVar}`}
                         onChange={handleChange}
                     />
                     <input
@@ -66,8 +70,8 @@ export default function Slider({
                         min={min}
                         max={max}
                         step={step}
-                        value={defaultValue}
-                        id={`${inputName}-slider`}
+                        value={value}
+                        id={`${inputVar}-slider`}
                         onChange={handleChange}
                     />
                 </div>

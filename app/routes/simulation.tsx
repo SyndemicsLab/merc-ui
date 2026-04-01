@@ -2,16 +2,18 @@
 import type { Route } from "./+types/simulation";
 
 // Node, React, and React Router imports
-import { Outlet, redirect, NavLink } from "react-router";
+import { Outlet, redirect, NavLink, useFetcher } from "react-router";
 import { useRef, useState, useEffect } from "react";
 
 // Component imports
 import ScrollIndicator, { ScrollDirection } from "@components/ui/scroll-indicator";
 import InfoButton from "@components/ui/info-button";
 import Slider from "@components/ui/slider";
+import { useInputsDispatch, useInputs } from "@components/input-contexts";
 
 // Asset imports
 import respond from "~/images/diagram/system.svg";
+import { inputs } from "~/data";
 
 // Action and Loader Hooks
 export async function loader({ request }: Route.LoaderArgs) {
@@ -27,49 +29,132 @@ export async function loader({ request }: Route.LoaderArgs) {
 
     // const slider_defaults = (await fetch(`${process.env.BACKEND_API_URL}/data/defaults`)).json();
 
-    let slider_defaults = [
-        {
-            "inputName": "Simulation Duration (Weeks)",
-            "min": "1",
-            "max": "2600",
-            "step": "1",
-            "defaultValue": "52"
-        },
-        {
-            "inputName": "Initial Total Population",
-            "min": "0",
-            "max": "300000",
-            "step": "500",
-            "defaultValue": "100000"
-        },
-        {
-            "inputName": "Change in Population Per Week (Count)",
-            "min": "-10000",
-            "max": "50000",
-            "step": "100",
-            "defaultValue": "0"
-        },
-        {
-            "inputName": "Percent of Overdoses That Result in Death",
-            "min": "0",
-            "max": "100",
-            "step": "1",
-            "defaultValue": "0.0625"
-        }
-    ];
+    // let slider_defaults = [
+    //     {
+    //         "inputVar": "duration",
+    //         "inputText": "Simulation Duration (Weeks)",
+    //         "min": "1",
+    //         "max": "2600",
+    //         "step": "1",
+    //         "defaultValue": "52"
+    //     },
+    //     {
+    //         "inputVar": "total_population",
+    //         "inputText": "Initial Total Population",
+    //         "min": "0",
+    //         "max": "300000",
+    //         "step": "500",
+    //         "defaultValue": "123500"
+    //     },
+    //     {
+    //         "inputVar": "changing_population",
+    //         "inputText": "Change in Population Per Week (Count)",
+    //         "min": "-10000",
+    //         "max": "50000",
+    //         "step": "100",
+    //         "defaultValue": "0"
+    //     },
+    //     {
+    //         "inputVar": "fatal_overdoses",
+    //         "inputText": "Percent of Overdoses That Result in Death",
+    //         "min": "0",
+    //         "max": "100",
+    //         "step": "0.25",
+    //         "defaultValue": "6.25"
+    //     }
+    // ];
 
-    return { slider_defaults };
+    // return { slider_defaults };
+    return inputs;
 }
 
 export async function action({ request }: Route.ActionArgs) {
-    const formData = await request.formData();
-    const formJson = Object.fromEntries(formData.entries());
+    const data = await request.json();
+    // const formData = await request.formData();
+    // const formJson = Object.fromEntries(formData.entries());
+
+    console.log(data);
 }
 
 // Main Layout for the simulation page, including the general inputs and the
 // Outlet for the intervention specific inputs
 export default function Simulation({ loaderData }: Route.ComponentProps) {
-    const { slider_defaults, interventions } = loaderData;
+    // const { slider_defaults } = loaderData;
+    const inputs = useInputs();
+    const dispatch = useInputsDispatch();
+
+    // assign inputs to the value of loaderData
+    if (inputs == null) {
+        dispatch({
+            type: "set inputs",
+            value: loaderData
+        });
+    }
+
+    let slider_defaults = [
+        {
+            "inputVar": "duration",
+            "inputText": "Simulation Duration (Weeks)",
+            "min": 1,
+            "max": 2600,
+            "step": 1,
+            "defaultValue": inputs.duration,
+            "action": ((value) => dispatch({
+                type: "change duration",
+                value: value
+            }))
+        },
+        {
+            "inputVar": "total_population",
+            "inputText": "Initial Total Population",
+            "min": 0,
+            "max": 300000,
+            "step": 500,
+            "defaultValue": inputs.total_population,
+            "action": ((value) => dispatch({
+                type: "change total population",
+                value: value
+            }))
+        },
+        {
+            "inputVar": "changing_population",
+            "inputText": "Change in Population Per Week (Count)",
+            "min": -10000,
+            "max": 50000,
+            "step": 100,
+            "defaultValue": inputs.changing_population,
+            "action": ((value) => dispatch({
+                type: "change changing population",
+                value: value
+            }))
+        },
+        {
+            "inputVar": "fatal_overdoses",
+            "inputText": "Percent of Overdoses That Result in Death",
+            "min": 0,
+            "max": 100,
+            "step": 0.25,
+            "defaultValue": inputs.fatal_overdoses,
+            "action": ((value) => dispatch({
+                type: "change fatal overdose proportion",
+                value: value
+            }))
+        }
+    ];
+
+    const fetcher = useFetcher();
+
+    const handleSubmit = () => {
+        console.log(JSON.stringify(inputs));
+        // fetcher.submit(
+        //     JSON.stringify(inputs),
+        //     {
+        //         action: "/simulation",
+        //         method: "post",
+        //         encType: "application/json"
+        //     }
+        // );
+    }
 
     // reference for the input section, used for checking intersection with the
     // viewport
@@ -108,33 +193,38 @@ export default function Simulation({ loaderData }: Route.ComponentProps) {
                when this section is visible.
               */}
             <div id="inputs" ref={inputRef}>
-                <InfoButton
-                    className="glossary-button"
-                    text="Open Glossary"
-                    destination="/glossary"
-                />
-                <ScrollIndicator
-                    destination="/simulation#inputs"
-                    options={{
-                        visible: !inputsVisible,
-                        direction: direction,
-                    }}
-                />
-                <h1>General Inputs</h1>
-                <div id="global-inputs">
-                    {slider_defaults.map((slider, index) => (
-                        <Slider
-                            key={index}
-                            inputName={slider.inputName}
-                            min={slider.min}
-                            max={slider.max}
-                            step={slider.step}
-                            defaultValue={slider.defaultValue}
-                        />
-                    ))}
-                </div>
-                <h1>Intervention Inputs</h1>
-                <Outlet />
+                <fetcher.Form method="post">
+                    <InfoButton
+                        className="glossary-button"
+                        text="Open Glossary"
+                        destination="/glossary"
+                    />
+                    <ScrollIndicator
+                        destination="/simulation#inputs"
+                        options={{
+                            visible: !inputsVisible,
+                            direction: direction,
+                        }}
+                    />
+                    <h1>General Inputs</h1>
+                    <div id="global-inputs">
+                        {slider_defaults.map((slider) => (
+                            <Slider
+                                key={slider.inputVar}
+                                inputVar={slider.inputVar}
+                                inputText={slider.inputText}
+                                min={slider.min}
+                                max={slider.max}
+                                step={slider.step}
+                                managementFunction={slider.action}
+                                defaultValue={slider.defaultValue}
+                            />
+                        ))}
+                    </div>
+                    <h1>Intervention Inputs</h1>
+                    <Outlet />
+                    <button type="submit" onClick={handleSubmit}>Run</button>
+                </fetcher.Form>
             </div>
         </main>
     );

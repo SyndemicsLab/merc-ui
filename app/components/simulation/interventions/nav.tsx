@@ -1,24 +1,19 @@
 // module imports
 import * as React from "react";
-import { useFetcher } from "react-router";
 
 // component imports
 
-function TabButton ({ name }) {
-    const fetcher = useFetcher();
-
+function TabButton ({ name, id, className }) {
     return(
-        <>
-            <fetcher.Form method="post">
-                <button
-                    aria-label={`Switch to ${name} tab`}
-                    value={name}
-                >
-                    {name}
-                </button>
-            </fetcher.Form>
-        </>
-    )
+        <button
+            className={className}
+            aria-label={`Switch to ${name} tab`}
+            name="active_intervention_id"
+            value={id}
+        >
+            {name}
+        </button>
+    );
 }
 
 export {
