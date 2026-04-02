@@ -328,7 +328,7 @@ function inputsReducer(simulationInputs: Inputs, action: Action) {
                     newInterventions
                         .filter((i) => i.id !== 0)
                         .map((i) => i.population),
-                    simulationInputs.population,
+                    simulationInputs.total_population
                 )
             ) {
                 return simulationInputs;
@@ -342,7 +342,7 @@ function inputsReducer(simulationInputs: Inputs, action: Action) {
                 }, 0);
             newInterventions[0] = {
                 ...newInterventions[0],
-                population: simulationInputs.population - treatedPopulation,
+                population: simulationInputs.total_population - treatedPopulation,
             };
             return {
                 ...simulationInputs,

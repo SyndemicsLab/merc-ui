@@ -101,7 +101,7 @@ let inputs = {
                 );
             return {
                 ...setOverdoses(intervention),
-                population: raw_inputs.population - treatedPopulation,
+                population: raw_inputs.total_population - treatedPopulation,
             };
         },
     ),

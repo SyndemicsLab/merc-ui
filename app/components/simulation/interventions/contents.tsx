@@ -85,11 +85,12 @@ function Content({
             >
                 <InterventionInfo intervention={intervention} />
                 <Slider
-                    name="Intervention Population Size"
+                    inputText="Intervention Population Size"
+                    inputVar={`${intervention.name}_population`}
                     min={0}
                     max={200000}
                     step={1000}
-                    value={intervention.population}
+                    defaultValue={intervention.population}
                     managementFunction={(value) =>
                         dispatch({
                             type: "intervention change population",

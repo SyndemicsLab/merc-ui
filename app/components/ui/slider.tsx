@@ -40,7 +40,7 @@ export default function Slider({
                         min={min}
                         max={max}
                         step={step}
-                        value={value}
+                        value={defaultValue}
                         name={`${inputVar}`}
                         readOnly={readOnly}
                     />
@@ -49,8 +49,7 @@ export default function Slider({
                         min={min}
                         max={max}
                         step={step}
-                        value={value}
-                        id={`${inputVar}-slider`}
+                        value={defaultValue}
                         readOnly={readOnly}
                     />
                 </div>
@@ -61,7 +60,7 @@ export default function Slider({
                         min={min}
                         max={max}
                         step={step}
-                        value={value}
+                        value={managementFunction ? defaultValue : value}
                         name={`${inputVar}`}
                         onChange={handleChange}
                     />
@@ -70,8 +69,7 @@ export default function Slider({
                         min={min}
                         max={max}
                         step={step}
-                        value={value}
-                        id={`${inputVar}-slider`}
+                        value={managementFunction ? defaultValue : value}
                         onChange={handleChange}
                     />
                 </div>

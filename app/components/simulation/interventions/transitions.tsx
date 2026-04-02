@@ -22,21 +22,21 @@ export default function Transitions({
             {transitions.map((transition) => (
                 <Slider
                     key={transition.id}
-                    name={`Weekly Percent of Population Moving to ${transition.name}`}
+                    inputText={`Weekly Percent of Population Moving to ${transition.name}`}
                     min={PROPORTION_MIN}
                     max={PROPORTION_MAX}
                     step={PROPORTION_STEP}
-                    value={transition.probability}
+                    defaultValue={transition.probability}
                     managementFunction={(value) =>
                         onTransitionChange(value, transition.id)
                     }
                 />
             ))}
             <Slider
-                name="Retention Rate"
+                inputText="Retention Rate"
                 min={PROPORTION_MIN}
                 max={PROPORTION_MAX}
-                value={Math.max(PROPORTION_MAX - sumProbs, 0).toFixed(4)}
+                defaultValue={Math.max(PROPORTION_MAX - sumProbs, 0).toFixed(4)}
                 readOnly={true}
             />
         </>

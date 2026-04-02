@@ -10,6 +10,8 @@ import ScrollIndicator, { ScrollDirection } from "@components/ui/scroll-indicato
 import InfoButton from "@components/ui/info-button";
 import Slider from "@components/ui/slider";
 import { useInputsDispatch, useInputs } from "@components/input-contexts";
+import Contents from "@simulation/interventions/contents";
+import Tabs from "@simulation/interventions/tabs";
 
 // Asset imports
 import respond from "~/images/diagram/system.svg";
@@ -21,56 +23,13 @@ export async function loader({ request }: Route.LoaderArgs) {
     // the database and config file. This shouldn't be a fetch but rather just a
     // getter from the filesystem.
 
-    // const interventions = (await fetch('/api/interventions')).json();
-    // const behaviors = (await fetch('/api/behaviors')).json();
-    // const general_defaults = (await fetch('/api/config')).json(); // ini to json
-
-    // const interventions = (await fetch(`${process.env.BACKEND_API_URL}/data/interventions`)).json();
-
-    // const slider_defaults = (await fetch(`${process.env.BACKEND_API_URL}/data/defaults`)).json();
-
-    // let slider_defaults = [
-    //     {
-    //         "inputVar": "duration",
-    //         "inputText": "Simulation Duration (Weeks)",
-    //         "min": "1",
-    //         "max": "2600",
-    //         "step": "1",
-    //         "defaultValue": "52"
-    //     },
-    //     {
-    //         "inputVar": "total_population",
-    //         "inputText": "Initial Total Population",
-    //         "min": "0",
-    //         "max": "300000",
-    //         "step": "500",
-    //         "defaultValue": "123500"
-    //     },
-    //     {
-    //         "inputVar": "changing_population",
-    //         "inputText": "Change in Population Per Week (Count)",
-    //         "min": "-10000",
-    //         "max": "50000",
-    //         "step": "100",
-    //         "defaultValue": "0"
-    //     },
-    //     {
-    //         "inputVar": "fatal_overdoses",
-    //         "inputText": "Percent of Overdoses That Result in Death",
-    //         "min": "0",
-    //         "max": "100",
-    //         "step": "0.25",
-    //         "defaultValue": "6.25"
-    //     }
-    // ];
-
-    // return { slider_defaults };
+    // const inputs = (await fetch('/api/inputs')).json();
     return inputs;
 }
 
 export async function action({ request }: Route.ActionArgs) {
     const data = await request.json();
-    // const formData = await request.formData();
+    // const data = JSON.parse(formData.get("data"));
     // const formJson = Object.fromEntries(formData.entries());
 
     console.log(data);
@@ -145,15 +104,12 @@ export default function Simulation({ loaderData }: Route.ComponentProps) {
     const fetcher = useFetcher();
 
     const handleSubmit = () => {
-        console.log(JSON.stringify(inputs));
-        // fetcher.submit(
-        //     JSON.stringify(inputs),
-        //     {
-        //         action: "/simulation",
-        //         method: "post",
-        //         encType: "application/json"
-        //     }
-        // );
+        fetcher.submit(
+            inputs, {
+                method: "post",
+                encType: "application/json"
+            }
+        );
     }
 
     // reference for the input section, used for checking intersection with the
@@ -191,40 +147,47 @@ export default function Simulation({ loaderData }: Route.ComponentProps) {
                `ref={inputRef}` is necessary here so that the
                IntersectionObserver API functions to hide the scroll indicator
                when this section is visible.
-              */}
+             */}
             <div id="inputs" ref={inputRef}>
-                <fetcher.Form method="post">
-                    <InfoButton
-                        className="glossary-button"
-                        text="Open Glossary"
-                        destination="/glossary"
-                    />
-                    <ScrollIndicator
-                        destination="/simulation#inputs"
-                        options={{
-                            visible: !inputsVisible,
-                            direction: direction,
-                        }}
-                    />
-                    <h1>General Inputs</h1>
-                    <div id="global-inputs">
-                        {slider_defaults.map((slider) => (
-                            <Slider
-                                key={slider.inputVar}
-                                inputVar={slider.inputVar}
-                                inputText={slider.inputText}
-                                min={slider.min}
-                                max={slider.max}
-                                step={slider.step}
-                                managementFunction={slider.action}
-                                defaultValue={slider.defaultValue}
-                            />
-                        ))}
-                    </div>
-                    <h1>Intervention Inputs</h1>
-                    <Outlet />
-                    <button type="submit" onClick={handleSubmit}>Run</button>
-                </fetcher.Form>
+                <InfoButton
+                    className="glossary-button"
+                    text="Open Glossary"
+                    destination="/glossary"
+                />
+                <ScrollIndicator
+                    destination="/simulation#inputs"
+                    options={{
+                        visible: !inputsVisible,
+                        direction: direction,
+                    }}
+                />
+                <h1>General Inputs</h1>
+                <div id="global-inputs">
+                    {slider_defaults.map((slider) => (
+                        <Slider
+                            key={slider.inputVar}
+                            inputVar={slider.inputVar}
+                            inputText={slider.inputText}
+                            min={slider.min}
+                            max={slider.max}
+                            step={slider.step}
+                            managementFunction={slider.action}
+                            defaultValue={slider.defaultValue}
+                        />
+                    ))}
+                </div>
+                <h1>Intervention Inputs</h1>
+                <div id="interventions">
+                    <Tabs interventions={inputs.interventions} />
+                    <Contents interventions={inputs.interventions} />
+                </div>
+                <button
+                    className="run-text"
+                    type="submit"
+                    onClick={handleSubmit}
+                >
+                    RUN
+                </button>
             </div>
         </main>
     );
