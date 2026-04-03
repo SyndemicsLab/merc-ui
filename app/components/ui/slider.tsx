@@ -7,7 +7,7 @@ export default function Slider({
     max,
     step,
     defaultValue,
-    managementFunction,
+    managementFunction = null,
     readOnly = false,
 }: {
     inputVar: string;
@@ -19,15 +19,17 @@ export default function Slider({
     managementFunction?: (arg0: number) => void;
     readOnly?: boolean;
 }) {
-    const [value, setValue] = useState(defaultValue);
+    const [value, setValue] = useState(Number(defaultValue));
 
-    if (!managementFunction) {
+    const displayValue = managementFunction === null ? value : defaultValue;
+    // when there's no external management function, simply use the state setter
+    if (managementFunction === null) {
         managementFunction = setValue;
     }
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+        console.log(value);
         managementFunction(Number(event.target.value));
-        setValue(Number(event.target.value));
     };
 
     return (
@@ -60,7 +62,7 @@ export default function Slider({
                         min={min}
                         max={max}
                         step={step}
-                        value={managementFunction ? defaultValue : value}
+                        value={displayValue}
                         name={`${inputVar}`}
                         onChange={handleChange}
                     />
@@ -69,7 +71,7 @@ export default function Slider({
                         min={min}
                         max={max}
                         step={step}
-                        value={managementFunction ? defaultValue : value}
+                        value={displayValue}
                         onChange={handleChange}
                     />
                 </div>
