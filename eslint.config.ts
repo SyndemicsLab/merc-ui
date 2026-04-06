@@ -6,7 +6,7 @@ import { defineConfig } from "eslint/config";
 
 export default defineConfig([
     tseslint.configs.recommended,
-    pluginReact.configs.flat['jsx-runtime'],
+    pluginReact.configs.flat["jsx-runtime"],
     // {
     //     ...pluginReact.configs.flat.recommended,
     //     settings: {
