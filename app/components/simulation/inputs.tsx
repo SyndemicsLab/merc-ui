@@ -1,4 +1,3 @@
-import * as React from "react";
 import { useRef, useState, useEffect } from "react";
 import { useInputs, useInputsDispatch } from "@components/input-contexts";
 import ScrollIndicator from "@components/ui/scroll-indicator";

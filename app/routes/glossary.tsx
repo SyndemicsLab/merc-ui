@@ -1,4 +1,3 @@
-import * as React from "react";
 import type { GlossaryTable } from "@components/ui/glossary/glossary-table";
 import { GlossarySection } from "@components/ui/glossary/glossary-table";
 

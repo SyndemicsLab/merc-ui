@@ -84,7 +84,7 @@ const raw_inputs: Inputs = {
     ],
 };
 
-let inputs = {
+const inputs = {
     ...raw_inputs,
     interventions: setTransitions(raw_inputs.interventions).map(
         (intervention) => {

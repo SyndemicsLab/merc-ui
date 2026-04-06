@@ -2,7 +2,7 @@
 import type { Route } from "./+types/simulation";
 
 // Node, React, and React Router imports
-import { Outlet, redirect, NavLink, useFetcher } from "react-router";
+import { useFetcher } from "react-router";
 import { useRef, useState, useEffect } from "react";
 
 // Component imports
@@ -20,7 +20,8 @@ import respond from "~/images/diagram/system.svg";
 import { inputs } from "~/data";
 
 // Action and Loader Hooks
-export async function loader({ request }: Route.LoaderArgs) {
+// export async function loader({ request }: Route.LoaderArgs) {
+export async function loader() {
     // After ensuring the user has a session we can load from the user copy of
     // the database and config file. This shouldn't be a fetch but rather just a
     // getter from the filesystem.
@@ -50,7 +51,7 @@ export default function Simulation({ loaderData }: Route.ComponentProps) {
         });
     }
 
-    let slider_defaults = [
+    const slider_defaults = [
         {
             inputVar: "duration",
             inputText: "Simulation Duration (Weeks)",

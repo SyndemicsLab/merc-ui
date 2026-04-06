@@ -1,4 +1,3 @@
-import * as React from "react";
 import { Link } from "react-router";
 import BMC from "~/images/organization-logos/bmc.svg";
 import syndemics from "~/images/organization-logos/syndemics.svg";

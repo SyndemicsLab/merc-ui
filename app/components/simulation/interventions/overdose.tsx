@@ -1,4 +1,3 @@
-import * as React from "react";
 import type { Overdose } from "~/data";
 import Slider from "@components/ui/slider";
 import { PROPORTION_MIN, PROPORTION_MAX, PROPORTION_STEP } from "~/globals";
@@ -8,7 +7,7 @@ export default function Overdoses({
     onOverdoseChange,
 }: {
     overdoses: Overdose[];
-    onOverdoseChange: Function;
+    onOverdoseChange: (arg1, arg2) => void;
 }) {
     return (
         <>

@@ -1,4 +1,3 @@
-import * as React from "react";
 import Slider from "~/components/ui/slider";
 import type { Transition } from "~/data";
 import { PROPORTION_MIN, PROPORTION_STEP, PROPORTION_MAX } from "~/globals";

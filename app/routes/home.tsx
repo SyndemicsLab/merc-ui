@@ -1,5 +1,4 @@
 // module imports
-import * as React from "react";
 import { Link, redirect } from "react-router";
 import type { Route } from "./+types/home";
 

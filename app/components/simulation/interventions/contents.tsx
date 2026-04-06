@@ -1,4 +1,3 @@
-import * as React from "react";
 import type { Transition, Intervention } from "~/data";
 import Slider from "~/components/ui/slider";
 import Transitions from "@simulation/interventions/transitions";

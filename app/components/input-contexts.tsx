@@ -1,4 +1,3 @@
-import * as React from "react";
 import { createContext, useContext, useReducer, type ReactNode } from "react";
 import {
     type Intervention,

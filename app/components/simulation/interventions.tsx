@@ -1,4 +1,3 @@
-import * as React from "react";
 import { useInputs } from "@components/input-contexts";
 import Tabs from "@simulation/interventions/tabs";
 import Contents from "@simulation/interventions/contents";

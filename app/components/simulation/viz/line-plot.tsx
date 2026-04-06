@@ -1,4 +1,3 @@
-import * as React from "react";
 import * as d3 from "d3";
 import { useRef, useEffect } from "react";
 import { SYNDEMICS_PINK, SYNDEMICS_CYAN, SYNDEMICS_BLUE } from "~/globals";
