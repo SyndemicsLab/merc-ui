@@ -121,11 +121,6 @@ function setOverdoses(intervention: Intervention) {
     }
 }
 
-async function getInterventions(): Intervention[] {
-    await new Promise((resolve) => setTimeout(resolve, 500));
-    return inputs.interventions;
-}
-
 function makeEmptyTransition(id: number, name: string): Transition {
     return { id: id, name: name, probability: 0 };
 }
@@ -187,16 +182,11 @@ function setTransitions(interventions: Intervention[]) {
     return newInterventions;
 }
 
-async function setInterventions(interventions) {
-    inputs.interventions = interventions;
-}
-
 export {
     Intervention,
     Transition,
     Overdose,
     Inputs,
     inputs,
-    getInterventions,
     makeEmptyTransition,
 };

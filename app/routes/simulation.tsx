@@ -29,20 +29,18 @@ export async function loader({ request }: Route.LoaderArgs) {
 
 export async function action({ request }: Route.ActionArgs) {
     const data = await request.json();
-    // const data = JSON.parse(formData.get("data"));
-    // const formJson = Object.fromEntries(formData.entries());
 
     console.log(data);
+    // use the fetch api to send the json to the backend
 }
 
-// Main Layout for the simulation page, including the general inputs and the
-// Outlet for the intervention specific inputs
 export default function Simulation({ loaderData }: Route.ComponentProps) {
     // const { slider_defaults } = loaderData;
     const inputs = useInputs();
     const dispatch = useInputsDispatch();
 
-    // assign inputs to the value of loaderData
+    // assign inputs to the value of loaderData, but only if the inputs have not
+    // already been assigned from data from the backend
     if (inputs == null) {
         dispatch({
             type: "set inputs",

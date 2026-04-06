@@ -54,8 +54,8 @@ export default function Tabs({
     return (
         <>
             <div className="interventionTabs">
-                {interventions.map((intervention, index) => (
-                    <Tab key={index} intervention={intervention} />
+                {interventions.map((intervention) => (
+                    <Tab key={intervention.id} intervention={intervention} />
                 ))}
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>

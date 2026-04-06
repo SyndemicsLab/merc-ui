@@ -358,7 +358,10 @@ function inputsReducer(simulationInputs: Inputs, action: Action) {
                     ...i,
                     transitions: i.transitions.map((t) => {
                         if (t.id === action.transitionID) {
-                            return { ...t, probability: Number(action.value) };
+                            return {
+                                ...t,
+                                probability: Number(action.value).toFixed(4)
+                            };
                         }
                         return t;
                     }),
