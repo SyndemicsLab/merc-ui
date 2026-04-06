@@ -2,14 +2,11 @@ import * as React from "react";
 import type { Overdose } from "~/data";
 import Slider from "@components/ui/slider";
 import { PROPORTION_MIN, PROPORTION_MAX, PROPORTION_STEP } from "~/globals";
-import { useInputsDispatch } from "@components/input-contexts";
 
 export default function Overdoses(
     { overdoses, onOverdoseChange }:
     { overdoses: Overdose[], onOverdoseChange: Function }
 ) {
-    const dispatch = useInputsDispatch();
-
     return (
         <>
             {overdoses.map((overdose) => (
