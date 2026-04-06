@@ -33,5 +33,5 @@ export default [
     route("simulation", "routes/simulation.tsx"),
     route("respond", "routes/respond.tsx"),
     route("glossary", "routes/glossary.tsx"),
-    route("contact", "routes/contact.tsx")
+    route("contact", "routes/contact.tsx"),
 ] satisfies RouteConfig;

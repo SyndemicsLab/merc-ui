@@ -328,7 +328,7 @@ function inputsReducer(simulationInputs: Inputs, action: Action) {
                     newInterventions
                         .filter((i) => i.id !== 0)
                         .map((i) => i.population),
-                    simulationInputs.total_population
+                    simulationInputs.total_population,
                 )
             ) {
                 return simulationInputs;
@@ -342,7 +342,8 @@ function inputsReducer(simulationInputs: Inputs, action: Action) {
                 }, 0);
             newInterventions[0] = {
                 ...newInterventions[0],
-                population: simulationInputs.total_population - treatedPopulation,
+                population:
+                    simulationInputs.total_population - treatedPopulation,
             };
             return {
                 ...simulationInputs,
@@ -360,7 +361,7 @@ function inputsReducer(simulationInputs: Inputs, action: Action) {
                         if (t.id === action.transitionID) {
                             return {
                                 ...t,
-                                probability: Number(action.value).toFixed(4)
+                                probability: Number(action.value).toFixed(4),
                             };
                         }
                         return t;

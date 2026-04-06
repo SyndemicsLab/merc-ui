@@ -6,7 +6,9 @@ import { Outlet, redirect, NavLink, useFetcher } from "react-router";
 import { useRef, useState, useEffect } from "react";
 
 // Component imports
-import ScrollIndicator, { ScrollDirection } from "@components/ui/scroll-indicator";
+import ScrollIndicator, {
+    ScrollDirection,
+} from "@components/ui/scroll-indicator";
 import InfoButton from "@components/ui/info-button";
 import Slider from "@components/ui/slider";
 import { useInputsDispatch, useInputs } from "@components/input-contexts";
@@ -44,71 +46,73 @@ export default function Simulation({ loaderData }: Route.ComponentProps) {
     if (inputs == null) {
         dispatch({
             type: "set inputs",
-            value: loaderData
+            value: loaderData,
         });
     }
 
     let slider_defaults = [
         {
-            "inputVar": "duration",
-            "inputText": "Simulation Duration (Weeks)",
-            "min": 1,
-            "max": 2600,
-            "step": 1,
-            "defaultValue": inputs.duration,
-            "action": ((value) => dispatch({
-                type: "change duration",
-                value: value
-            }))
+            inputVar: "duration",
+            inputText: "Simulation Duration (Weeks)",
+            min: 1,
+            max: 2600,
+            step: 1,
+            defaultValue: inputs.duration,
+            action: (value) =>
+                dispatch({
+                    type: "change duration",
+                    value: value,
+                }),
         },
         {
-            "inputVar": "total_population",
-            "inputText": "Initial Total Population",
-            "min": 0,
-            "max": 300000,
-            "step": 500,
-            "defaultValue": inputs.total_population,
-            "action": ((value) => dispatch({
-                type: "change total population",
-                value: value
-            }))
+            inputVar: "total_population",
+            inputText: "Initial Total Population",
+            min: 0,
+            max: 300000,
+            step: 500,
+            defaultValue: inputs.total_population,
+            action: (value) =>
+                dispatch({
+                    type: "change total population",
+                    value: value,
+                }),
         },
         {
-            "inputVar": "changing_population",
-            "inputText": "Change in Population Per Week (Count)",
-            "min": -10000,
-            "max": 50000,
-            "step": 100,
-            "defaultValue": inputs.changing_population,
-            "action": ((value) => dispatch({
-                type: "change changing population",
-                value: value
-            }))
+            inputVar: "changing_population",
+            inputText: "Change in Population Per Week (Count)",
+            min: -10000,
+            max: 50000,
+            step: 100,
+            defaultValue: inputs.changing_population,
+            action: (value) =>
+                dispatch({
+                    type: "change changing population",
+                    value: value,
+                }),
         },
         {
-            "inputVar": "fatal_overdoses",
-            "inputText": "Percent of Overdoses That Result in Death",
-            "min": 0,
-            "max": 100,
-            "step": 0.25,
-            "defaultValue": inputs.fatal_overdoses,
-            "action": ((value) => dispatch({
-                type: "change fatal overdose proportion",
-                value: value
-            }))
-        }
+            inputVar: "fatal_overdoses",
+            inputText: "Percent of Overdoses That Result in Death",
+            min: 0,
+            max: 100,
+            step: 0.25,
+            defaultValue: inputs.fatal_overdoses,
+            action: (value) =>
+                dispatch({
+                    type: "change fatal overdose proportion",
+                    value: value,
+                }),
+        },
     ];
 
     const fetcher = useFetcher();
 
     const handleSubmit = () => {
-        fetcher.submit(
-            inputs, {
-                method: "post",
-                encType: "application/json"
-            }
-        );
-    }
+        fetcher.submit(inputs, {
+            method: "post",
+            encType: "application/json",
+        });
+    };
 
     // reference for the input section, used for checking intersection with the
     // viewport

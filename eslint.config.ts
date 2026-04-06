@@ -13,7 +13,7 @@ export default defineConfig([
         rules: {
             "no-unused-vars": "warn",
             "no-undef": "warn",
-            "react/react-in-jsx-scope": "off"
+            "react/react-in-jsx-scope": "off",
         },
     },
     tseslint.configs.recommended,

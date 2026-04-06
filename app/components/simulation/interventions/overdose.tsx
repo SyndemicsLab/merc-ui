@@ -3,10 +3,13 @@ import type { Overdose } from "~/data";
 import Slider from "@components/ui/slider";
 import { PROPORTION_MIN, PROPORTION_MAX, PROPORTION_STEP } from "~/globals";
 
-export default function Overdoses(
-    { overdoses, onOverdoseChange }:
-    { overdoses: Overdose[], onOverdoseChange: Function }
-) {
+export default function Overdoses({
+    overdoses,
+    onOverdoseChange,
+}: {
+    overdoses: Overdose[];
+    onOverdoseChange: Function;
+}) {
     return (
         <>
             {overdoses.map((overdose) => (
@@ -17,10 +20,9 @@ export default function Overdoses(
                     max={PROPORTION_MAX}
                     step={PROPORTION_STEP}
                     defaultValue={overdose.probability}
-                    managementFunction={(value) => onOverdoseChange(
-                        value,
-                        overdose.injection
-                    )}
+                    managementFunction={(value) =>
+                        onOverdoseChange(value, overdose.injection)
+                    }
                 />
             ))}
         </>
