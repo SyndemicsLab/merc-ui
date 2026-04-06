@@ -28,7 +28,6 @@ export default function Slider({
     }
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-        console.log(value);
         managementFunction(Number(event.target.value));
     };
 
