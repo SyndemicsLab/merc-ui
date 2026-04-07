@@ -1,21 +1,197 @@
-import * as React from "react";
-import System from "@components/simulation/system";
-import Inputs from "@components/simulation/inputs";
-import type { Route } from "./+types/home";
+// Package types
+import type { Route } from "./+types/simulation";
 
-export async function action({ request }: Route.ActionArgs) {
-    const formData = await request.formData();
-    console.log(formData);
+// Node, React, and React Router imports
+import { useFetcher } from "react-router";
+import { useRef, useState, useEffect } from "react";
 
-    const formJson = Object.fromEntries(formData.entries());
-    console.log(formJson);
+// Component imports
+import ScrollIndicator, {
+    ScrollDirection,
+} from "@components/ui/scroll-indicator";
+import InfoButton from "@components/ui/info-button";
+import Slider from "@components/ui/slider";
+import { useInputsDispatch, useInputs } from "@components/input-contexts";
+import Contents from "@simulation/interventions/contents";
+import Tabs from "@simulation/interventions/tabs";
+
+// Asset imports
+import respond from "~/images/diagram/system.svg";
+import { inputs } from "~/data";
+
+// Action and Loader Hooks
+// export async function loader({ request }: Route.LoaderArgs) {
+export async function loader() {
+    // After ensuring the user has a session we can load from the user copy of
+    // the database and config file. This shouldn't be a fetch but rather just a
+    // getter from the filesystem.
+
+    // const inputs = (await fetch('/api/inputs')).json();
+    return inputs;
 }
 
-export default function Index() {
+export async function action({ request }: Route.ActionArgs) {
+    const data = await request.json();
+
+    console.log(data);
+    // use the fetch api to send the json to the backend
+}
+
+export default function Simulation({ loaderData }: Route.ComponentProps) {
+    // const { slider_defaults } = loaderData;
+    const inputs = useInputs();
+    const dispatch = useInputsDispatch();
+
+    // assign inputs to the value of loaderData, but only if the inputs have not
+    // already been assigned from data from the backend
+    if (inputs == null) {
+        dispatch({
+            type: "set inputs",
+            value: loaderData,
+        });
+    }
+
+    const slider_defaults = [
+        {
+            inputVar: "duration",
+            inputText: "Simulation Duration (Weeks)",
+            min: 1,
+            max: 2600,
+            step: 1,
+            defaultValue: inputs.duration,
+            action: (value) =>
+                dispatch({
+                    type: "change duration",
+                    value: value,
+                }),
+        },
+        {
+            inputVar: "total_population",
+            inputText: "Initial Total Population",
+            min: 0,
+            max: 300000,
+            step: 500,
+            defaultValue: inputs.total_population,
+            action: (value) =>
+                dispatch({
+                    type: "change total population",
+                    value: value,
+                }),
+        },
+        {
+            inputVar: "changing_population",
+            inputText: "Change in Population Per Week (Count)",
+            min: -10000,
+            max: 50000,
+            step: 100,
+            defaultValue: inputs.changing_population,
+            action: (value) =>
+                dispatch({
+                    type: "change changing population",
+                    value: value,
+                }),
+        },
+        {
+            inputVar: "fatal_overdoses",
+            inputText: "Percent of Overdoses That Result in Death",
+            min: 0,
+            max: 100,
+            step: 0.25,
+            defaultValue: inputs.fatal_overdoses,
+            action: (value) =>
+                dispatch({
+                    type: "change fatal overdose proportion",
+                    value: value,
+                }),
+        },
+    ];
+
+    const fetcher = useFetcher();
+
+    const handleSubmit = () => {
+        fetcher.submit(inputs, {
+            method: "post",
+            encType: "application/json",
+        });
+    };
+
+    // reference for the input section, used for checking intersection with the
+    // viewport
+    const inputRef = useRef(null);
+    const [inputsVisible, updateInputsVisible] = useState(false);
+    const [direction, updateDirection] = useState(ScrollDirection.Down);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                // can select only the first entry because there is only one
+                // element we're checking for intersection with
+                const entry = entries[0];
+                if (entry.boundingClientRect.top < 0) {
+                    updateDirection(ScrollDirection.Up);
+                } else {
+                    updateDirection(ScrollDirection.Down);
+                }
+                updateInputsVisible(entry.isIntersecting);
+            },
+            { threshold: [0.05] },
+        );
+        observer.observe(inputRef.current);
+    }, []);
+
     return (
         <main id="simulation">
-            <System />
-            <Inputs />
+            <img
+                src={respond}
+                alt="RESPOND model structure diagram"
+                className="system-image"
+            />
+            {/*
+               `ref={inputRef}` is necessary here so that the
+               IntersectionObserver API functions to hide the scroll indicator
+               when this section is visible.
+             */}
+            <div id="inputs" ref={inputRef}>
+                <InfoButton
+                    className="glossary-button"
+                    text="Open Glossary"
+                    destination="/glossary"
+                />
+                <ScrollIndicator
+                    destination="/simulation#inputs"
+                    options={{
+                        visible: !inputsVisible,
+                        direction: direction,
+                    }}
+                />
+                <h1>General Inputs</h1>
+                <div id="global-inputs">
+                    {slider_defaults.map((slider) => (
+                        <Slider
+                            key={slider.inputVar}
+                            inputVar={slider.inputVar}
+                            inputText={slider.inputText}
+                            min={slider.min}
+                            max={slider.max}
+                            step={slider.step}
+                            managementFunction={slider.action}
+                            defaultValue={slider.defaultValue}
+                        />
+                    ))}
+                </div>
+                <h1>Intervention Inputs</h1>
+                <div id="interventions">
+                    <Tabs interventions={inputs.interventions} />
+                    <Contents interventions={inputs.interventions} />
+                </div>
+                <button
+                    className="run-text"
+                    type="submit"
+                    onClick={handleSubmit}
+                >
+                    RUN
+                </button>
+            </div>
         </main>
     );
 }

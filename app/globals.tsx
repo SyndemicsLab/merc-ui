@@ -5,5 +5,5 @@ export const SYNDEMICS_BLUE = "#003771";
 // Using overarching variables so that the transition between percentages and
 // proportions can be easier
 export const PROPORTION_MIN = 0;
-export const PROPORTION_STEP = 1;
+export const PROPORTION_STEP = 0.25;
 export const PROPORTION_MAX = 100;

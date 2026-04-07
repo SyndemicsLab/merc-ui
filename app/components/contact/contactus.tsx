@@ -1,5 +1,3 @@
-import * as React from "react";
-
 const ContactUs = () => {
     return (
         <div className="contact-us-container">

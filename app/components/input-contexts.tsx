@@ -1,4 +1,3 @@
-import * as React from "react";
 import { createContext, useContext, useReducer, type ReactNode } from "react";
 import {
     type Intervention,
@@ -107,6 +106,9 @@ function constrainValues(
 
 function inputsReducer(simulationInputs: Inputs, action: Action) {
     switch (action.type) {
+        case "set inputs": {
+            return action.value;
+        }
         case "change duration": {
             return {
                 ...simulationInputs,
@@ -139,20 +141,20 @@ function inputsReducer(simulationInputs: Inputs, action: Action) {
 
             return {
                 ...simulationInputs,
-                population: value,
+                total_population: value,
                 interventions: newInterventions,
             };
         }
-        case "change entering cohort": {
+        case "change changing population": {
             return {
                 ...simulationInputs,
-                entering: action.value,
+                changing_population: action.value,
             };
         }
         case "change fatal overdose proportion":
             return {
                 ...simulationInputs,
-                fod: action.value,
+                fatal_overdoses: action.value,
             };
         case "intervention select": {
             return {
@@ -325,7 +327,7 @@ function inputsReducer(simulationInputs: Inputs, action: Action) {
                     newInterventions
                         .filter((i) => i.id !== 0)
                         .map((i) => i.population),
-                    simulationInputs.population,
+                    simulationInputs.total_population,
                 )
             ) {
                 return simulationInputs;
@@ -339,7 +341,8 @@ function inputsReducer(simulationInputs: Inputs, action: Action) {
                 }, 0);
             newInterventions[0] = {
                 ...newInterventions[0],
-                population: simulationInputs.population - treatedPopulation,
+                population:
+                    simulationInputs.total_population - treatedPopulation,
             };
             return {
                 ...simulationInputs,
@@ -355,7 +358,10 @@ function inputsReducer(simulationInputs: Inputs, action: Action) {
                     ...i,
                     transitions: i.transitions.map((t) => {
                         if (t.id === action.transitionID) {
-                            return { ...t, probability: Number(action.value) };
+                            return {
+                                ...t,
+                                probability: Number(action.value).toFixed(4),
+                            };
                         }
                         return t;
                     }),

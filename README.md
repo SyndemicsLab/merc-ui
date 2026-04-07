@@ -1,6 +1,8 @@
 # RESPOND Web App
 
-A web interface for the [RESPOND](https://github.com/SyndemicsLab/RESPONDSimulationv2) simulation model.
+[Website](https://respond.syndemicslab.org)
+
+A web interface for the [RESPOND](https://github.com/SyndemicsLab/respond) simulation model.
 
 Per section C.4.4 of the HEAL D2A Modeling and Economic Resource Center (MERC) grant proposal:
 

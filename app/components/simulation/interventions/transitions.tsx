@@ -1,5 +1,4 @@
-import * as React from "react";
-import { ManagedSlider } from "@components/ui/sliders";
+import Slider from "~/components/ui/slider";
 import type { Transition } from "~/data";
 import { PROPORTION_MIN, PROPORTION_STEP, PROPORTION_MAX } from "~/globals";
 
@@ -20,23 +19,23 @@ export default function Transitions({
     return (
         <>
             {transitions.map((transition) => (
-                <ManagedSlider
+                <Slider
                     key={transition.id}
-                    name={`Weekly Percent of Population Moving to ${transition.name}`}
+                    inputText={`Weekly Percent of Population Moving to ${transition.name}`}
                     min={PROPORTION_MIN}
                     max={PROPORTION_MAX}
                     step={PROPORTION_STEP}
-                    value={transition.probability}
+                    defaultValue={transition.probability}
                     managementFunction={(value) =>
                         onTransitionChange(value, transition.id)
                     }
                 />
             ))}
-            <ManagedSlider
-                name="Retention Rate"
+            <Slider
+                inputText="Retention Rate"
                 min={PROPORTION_MIN}
                 max={PROPORTION_MAX}
-                value={Math.max(PROPORTION_MAX - sumProbs, 0).toFixed(4)}
+                defaultValue={Math.max(PROPORTION_MAX - sumProbs, 0).toFixed(4)}
                 readOnly={true}
             />
         </>

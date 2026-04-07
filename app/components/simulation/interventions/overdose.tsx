@@ -1,19 +1,27 @@
-import * as React from "react";
 import type { Overdose } from "~/data";
-import { NamedSlider } from "@components/ui/sliders";
+import Slider from "@components/ui/slider";
 import { PROPORTION_MIN, PROPORTION_MAX, PROPORTION_STEP } from "~/globals";
 
-export default function Overdoses({ overdoses }: { overdoses: Overdose[] }) {
+export default function Overdoses({
+    overdoses,
+    onOverdoseChange,
+}: {
+    overdoses: Overdose[];
+    onOverdoseChange: (arg1, arg2) => void;
+}) {
     return (
         <>
             {overdoses.map((overdose) => (
-                <NamedSlider
+                <Slider
                     key={overdose.injection ? 1 : 0}
-                    inputName={`Weekly Percent of Active ${overdose.injection ? "Injector" : "Non-injector"} Population that Overdoses `}
+                    inputText={`Weekly Percent of Active ${overdose.injection ? "Injector" : "Non-injector"} Population that Overdoses `}
                     min={PROPORTION_MIN}
                     max={PROPORTION_MAX}
                     step={PROPORTION_STEP}
                     defaultValue={overdose.probability}
+                    managementFunction={(value) =>
+                        onOverdoseChange(value, overdose.injection)
+                    }
                 />
             ))}
         </>

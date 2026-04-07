@@ -1,4 +1,3 @@
-import * as React from "react";
 import InfoButton from "@components/ui/info-button";
 
 export default function GlossaryButton() {

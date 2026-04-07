@@ -1,6 +1,5 @@
-import * as React from "react";
 import type { Transition, Intervention } from "~/data";
-import { ManagedSlider } from "@components/ui/sliders";
+import Slider from "~/components/ui/slider";
 import Transitions from "@simulation/interventions/transitions";
 import Overdoses from "@simulation/interventions/overdose";
 import {
@@ -84,12 +83,13 @@ function Content({
                 className={`interventionContent${intervention.active ? " active" : ""}`}
             >
                 <InterventionInfo intervention={intervention} />
-                <ManagedSlider
-                    name="Intervention Population Size"
+                <Slider
+                    inputText="Intervention Population Size"
+                    inputVar={`${intervention.name}_population`}
                     min={0}
                     max={200000}
                     step={1000}
-                    value={intervention.population}
+                    defaultValue={intervention.population}
                     managementFunction={(value) =>
                         dispatch({
                             type: "intervention change population",

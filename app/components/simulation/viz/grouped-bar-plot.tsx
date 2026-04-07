@@ -1,4 +1,3 @@
-import * as React from "react";
 import * as d3 from "d3";
 import { useRef, useEffect } from "react";
 import { type PlotMargins } from "@components/simulation/viz/line-plot";

@@ -37,9 +37,9 @@ function uniform(a, b) {
 
 const raw_inputs: Inputs = {
     duration: 52,
-    population: 10000,
-    entering: 0,
-    fod: 6.25,
+    total_population: 10000,
+    changing_population: 0,
+    fatal_overdoses: 6.25,
     interventions: [
         {
             id: 0,
@@ -101,7 +101,7 @@ const inputs = {
                 );
             return {
                 ...setOverdoses(intervention),
-                population: raw_inputs.population - treatedPopulation,
+                population: raw_inputs.total_population - treatedPopulation,
             };
         },
     ),
@@ -119,11 +119,6 @@ function setOverdoses(intervention: Intervention) {
             ],
         };
     }
-}
-
-function getInterventions(): Intervention[] {
-    const interventions: Intervention[] = setTransitions(inputs.getAll());
-    return interventions;
 }
 
 function makeEmptyTransition(id: number, name: string): Transition {
@@ -193,6 +188,5 @@ export {
     Overdose,
     Inputs,
     inputs,
-    getInterventions,
     makeEmptyTransition,
 };

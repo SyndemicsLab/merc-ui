@@ -1,9 +1,8 @@
-import * as React from "react";
 import { useRef, useState, useEffect } from "react";
 import { useInputs, useInputsDispatch } from "@components/input-contexts";
 import ScrollIndicator from "@components/ui/scroll-indicator";
 import { ScrollDirection } from "@components/ui/scroll-indicator";
-import { ManagedSlider } from "@components/ui/sliders";
+import { ManagedSlider } from "~/components/ui/slider";
 import Interventions from "@simulation/interventions";
 import GlossaryButton from "@simulation/glossary-button";
 import Results from "@simulation/results";
