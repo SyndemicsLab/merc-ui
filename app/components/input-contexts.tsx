@@ -295,20 +295,21 @@ function inputsReducer(simulationInputs: Inputs, action: Action) {
                         // add the population taken from deletion to No
                         // Treatment
                         if (newIntervention.id === 0) {
-                            const ntPopulation = newIntervention.population +
-                                  toDelete.population;
+                            const ntPopulation =
+                                newIntervention.population +
+                                toDelete.population;
                             // open no treatment when deleting the active
                             // intervention tab
                             if (deletingActive) {
                                 return {
                                     ...newIntervention,
                                     active: true,
-                                    population: ntPopulation
+                                    population: ntPopulation,
                                 };
                             }
                             return {
                                 ...newIntervention,
-                                population: ntPopulation
+                                population: ntPopulation,
                             };
                         }
                         return newIntervention;

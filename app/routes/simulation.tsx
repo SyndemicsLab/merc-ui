@@ -35,8 +35,10 @@ export async function action({ request }: Route.ActionArgs) {
     // use the fetch api to send the json to the backend
     const response = await fetch(`${process.env.API_URL}/run`, {
         method: "POST",
-        body: data
+        body: data,
     });
+
+    return response;
 }
 
 export default function Simulation({ loaderData }: Route.ComponentProps) {
