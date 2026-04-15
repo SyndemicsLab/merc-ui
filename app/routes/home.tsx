@@ -38,7 +38,7 @@ export async function action({ request }: Route.ActionArgs) {
 
     // send the questionnaire to the backend
     if (typeof process.env.API_URL !== "undefined") {
-        await fetch(`${process.env.API_URL}/submit-questionnaire`, {
+        await fetch(`${process.env.API_URL}/questionnaire_response`, {
             method: "POST",
             mode: "cors",
             body: JSON.stringify(formJson),
