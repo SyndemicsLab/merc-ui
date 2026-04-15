@@ -284,18 +284,32 @@ function inputsReducer(simulationInputs: Inputs, action: Action) {
             let newInterventions: Intervention[] =
                 simulationInputs.interventions.map(
                     (intervention: Intervention) => {
-                        // remove the transition associated with the intervention
-                        // being deleted
+                        // remove the transition associated with the
+                        // intervention being deleted
                         const newIntervention: Intervention = {
                             ...intervention,
                             transitions: intervention.transitions.filter(
                                 (t) => t.id !== action.id,
                             ),
                         };
-                        // open no treatment when deleting the active intervention
-                        // tab
-                        if (deletingActive && newIntervention.id === 0) {
-                            return { ...newIntervention, active: true };
+                        // add the population taken from deletion to No
+                        // Treatment
+                        if (newIntervention.id === 0) {
+                            const ntPopulation = newIntervention.population +
+                                  toDelete.population;
+                            // open no treatment when deleting the active
+                            // intervention tab
+                            if (deletingActive) {
+                                return {
+                                    ...newIntervention,
+                                    active: true,
+                                    population: ntPopulation
+                                };
+                            }
+                            return {
+                                ...newIntervention,
+                                population: ntPopulation
+                            };
                         }
                         return newIntervention;
                     },
@@ -309,8 +323,8 @@ function inputsReducer(simulationInputs: Inputs, action: Action) {
             };
         }
         case "intervention change population": {
-            // copy the interventions, changing the population size of the chosen
-            // intervention
+            // copy the interventions, changing the population size of the
+            // chosen intervention
             const newInterventions = simulationInputs.interventions.map(
                 (i: Intervention) => {
                     if (i.id === action.interventionID) {
@@ -320,8 +334,8 @@ function inputsReducer(simulationInputs: Inputs, action: Action) {
                 },
             );
 
-            // test that the change in population size doesn't cause the system to
-            // have too many people; if it does, reject the change
+            // test that the change in population size doesn't cause the system
+            // to have too many people; if it does, reject the change
             if (
                 constrainValues(
                     newInterventions
@@ -372,8 +386,9 @@ function inputsReducer(simulationInputs: Inputs, action: Action) {
                 .find((i) => i.id === action.interventionID)
                 .transitions.map((t) => t.probability);
 
-            // check if the sum of the transition probabilities exceeds the limit
-            // and prevent the change if it would cause an excess of the limit
+            // check if the sum of the transition probabilities exceeds the
+            // limit and prevent the change if it would cause an excess of the
+            // limit
             if (constrainValues(newTransitionProbabilities, PROPORTION_MAX)) {
                 return simulationInputs;
             }
