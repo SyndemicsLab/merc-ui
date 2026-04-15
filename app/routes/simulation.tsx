@@ -17,7 +17,6 @@ import Tabs from "@simulation/interventions/tabs";
 
 // Asset imports
 import respond from "~/images/diagram/system.svg";
-import { inputs } from "~/data";
 
 // Action and Loader Hooks
 // export async function loader({ request }: Route.LoaderArgs) {
@@ -33,8 +32,11 @@ export async function loader() {
 export async function action({ request }: Route.ActionArgs) {
     const data = await request.json();
 
-    console.log(data);
     // use the fetch api to send the json to the backend
+    const response = await fetch(`${process.env.API_URL}/run`, {
+        method: "POST",
+        body: data
+    });
 }
 
 export default function Simulation({ loaderData }: Route.ComponentProps) {
