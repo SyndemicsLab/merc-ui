@@ -2,8 +2,8 @@
 import type { Route } from "./+types/simulation";
 
 // Node, React, and React Router imports
-import { useFetcher } from "react-router";
-import { useRef, useState, useEffect } from "react";
+import { useFetcher, Await } from "react-router";
+import { useRef, useState, useEffect, Suspense } from "react";
 
 // Component imports
 import ScrollIndicator, {
@@ -162,51 +162,57 @@ export default function Simulation({ loaderData }: Route.ComponentProps) {
                 alt="RESPOND model structure diagram"
                 className="system-image"
             />
-            {/*
-               `ref={inputRef}` is necessary here so that the
-               IntersectionObserver API functions to hide the scroll indicator
-               when this section is visible.
-             */}
+                {/*
+                   `ref={inputRef}` is necessary here so that the
+                   IntersectionObserver API functions to hide the scroll indicator
+                   when this section is visible.
+                 */}
             <div id="inputs" ref={inputRef}>
-                <InfoButton
-                    className="glossary-button"
-                    text="Open Glossary"
-                    destination="/glossary"
-                />
-                <ScrollIndicator
-                    destination="/simulation#inputs"
-                    options={{
-                        visible: !inputsVisible,
-                        direction: direction,
-                    }}
-                />
-                <h1>General Inputs</h1>
-                <div id="global-inputs">
-                    {slider_defaults.map((slider) => (
-                        <Slider
-                            key={slider.inputVar}
-                            inputVar={slider.inputVar}
-                            inputText={slider.inputText}
-                            min={slider.min}
-                            max={slider.max}
-                            step={slider.step}
-                            managementFunction={slider.action}
-                            defaultValue={slider.defaultValue}
+                <Suspense fallback={<div>Loading...</div>}>
+                    <Await resolve={loaderData}>
+                    {() => (
+                        <InfoButton
+                            className="glossary-button"
+                            text="Open Glossary"
+                            destination="/glossary"
                         />
-                    ))}
-                </div>
-                <h1>Intervention Inputs</h1>
-                <div id="interventions">
-                    <Tabs interventions={inputs.interventions} />
-                    <Contents interventions={inputs.interventions} />
-                </div>
-                <button
-                    className="run-text"
-                    type="submit"
-                    onClick={handleSubmit}
-                >
-                    RUN
-                </button>
+                        <ScrollIndicator
+                            destination="/simulation#inputs"
+                            options={{
+                                visible: !inputsVisible,
+                                direction: direction,
+                            }}
+                        />
+                        <h1>General Inputs</h1>
+                        <div id="global-inputs">
+                            {slider_defaults.map((slider) => (
+                                <Slider
+                                    key={slider.inputVar}
+                                    inputVar={slider.inputVar}
+                                    inputText={slider.inputText}
+                                    min={slider.min}
+                                    max={slider.max}
+                                    step={slider.step}
+                                    managementFunction={slider.action}
+                                    defaultValue={slider.defaultValue}
+                                />
+                            ))}
+                        </div>
+                        <h1>Intervention Inputs</h1>
+                        <div id="interventions">
+                            <Tabs interventions={inputs.interventions} />
+                            <Contents interventions={inputs.interventions} />
+                        </div>
+                        <button
+                            className="run-text"
+                            type="submit"
+                            onClick={handleSubmit}
+                        >
+                            RUN
+                        </button>
+                    )}
+                    </Await>
+                </Suspense>
             </div>
         </main>
     );
