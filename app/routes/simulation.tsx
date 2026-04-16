@@ -25,6 +25,8 @@ export async function loader({ request }: Route.LoaderArgs) {
             method: "GET",
         });
 
+        console.log(response);
+
         if (!response.ok) {
             throw new Response("Failed to fetch data", {
                 status: response.status,
