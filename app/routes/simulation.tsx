@@ -31,7 +31,7 @@ export async function loader() {
         }
     ));
 
-    const inputs = await response.json();
+    const inputs = await new Promise(() => response.json());
     return inputs;
 }
 
