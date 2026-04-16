@@ -19,20 +19,23 @@ import Tabs from "@simulation/interventions/tabs";
 import respond from "~/images/diagram/system.svg";
 
 // Action and Loader Hooks
-// export async function loader({ request }: Route.LoaderArgs) {
-export async function loader() {
-    // After ensuring the user has a session we can load from the user copy of
-    // the database and config file. This shouldn't be a fetch but rather just a
-    // getter from the filesystem.
+export async function loader({ request }: Route.LoaderArgs) {
+    try {
+        const response = await fetch(`${process.env.API_URL}/defaults`, {
+            method: "GET",
+        });
 
-    const response = await fetch(
-        `${process.env.API_URL}/defaults`, {
-            method: "GET"
+        if (!response.ok) {
+            throw new Response("Failed to fetch data", {
+                status: response.status,
+            });
         }
-    );
 
-    const inputs = await response.json();
-    return inputs;
+        const inputs = await response.json();
+        return inputs;
+    } catch (error) {
+        throw json({ message: "Error loading data"}, { status: 500 });
+    }
 }
 
 export async function action({ request }: Route.ActionArgs) {
