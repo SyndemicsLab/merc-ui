@@ -62,12 +62,10 @@ export default function Simulation({ loaderData }: Route.ComponentProps) {
 
     // assign inputs to the value of loaderData, but only if the inputs have not
     // already been assigned from data from the backend
-    if (inputs == null) {
-        dispatch({
-            type: "set inputs",
-            value: loaderData,
-        });
-    }
+    dispatch({
+        type: "set inputs",
+        value: loaderData,
+    });
 
     const slider_defaults = [
         {
