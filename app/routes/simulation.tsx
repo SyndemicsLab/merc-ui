@@ -170,48 +170,50 @@ export default function Simulation({ loaderData }: Route.ComponentProps) {
             <div id="inputs" ref={inputRef}>
                 <Suspense fallback={<div>Loading...</div>}>
                     <Await resolve={loaderData}>
-                    {() => (
-                        <InfoButton
-                            className="glossary-button"
-                            text="Open Glossary"
-                            destination="/glossary"
-                        />
-                        <ScrollIndicator
-                            destination="/simulation#inputs"
-                            options={{
-                                visible: !inputsVisible,
-                                direction: direction,
-                            }}
-                        />
-                        <h1>General Inputs</h1>
-                        <div id="global-inputs">
-                            {slider_defaults.map((slider) => (
-                                <Slider
-                                    key={slider.inputVar}
-                                    inputVar={slider.inputVar}
-                                    inputText={slider.inputText}
-                                    min={slider.min}
-                                    max={slider.max}
-                                    step={slider.step}
-                                    managementFunction={slider.action}
-                                    defaultValue={slider.defaultValue}
-                                />
-                            ))}
-                        </div>
-                        <h1>Intervention Inputs</h1>
-                        <div id="interventions">
-                            <Tabs interventions={inputs.interventions} />
-                            <Contents interventions={inputs.interventions} />
-                        </div>
-                        <button
-                            className="run-text"
-                            type="submit"
-                            onClick={handleSubmit}
-                        >
-                            RUN
-                        </button>
-                    )}
-                    </Await>
+                    {() =>
+                        return(
+                            <InfoButton
+                                className="glossary-button"
+                                text="Open Glossary"
+                                destination="/glossary"
+                            />
+                            <ScrollIndicator
+                                destination="/simulation#inputs"
+                                options={{
+                                    visible: !inputsVisible,
+                                    direction: direction,
+                                }}
+                            />
+                            <h1>General Inputs</h1>
+                            <div id="global-inputs">
+                                {slider_defaults.map((slider) => (
+                                    <Slider
+                                        key={slider.inputVar}
+                                        inputVar={slider.inputVar}
+                                        inputText={slider.inputText}
+                                        min={slider.min}
+                                        max={slider.max}
+                                        step={slider.step}
+                                        managementFunction={slider.action}
+                                        defaultValue={slider.defaultValue}
+                                    />
+                                ))}
+                            </div>
+                            <h1>Intervention Inputs</h1>
+                            <div id="interventions">
+                                <Tabs interventions={inputs.interventions} />
+                                <Contents interventions={inputs.interventions} />
+                            </div>
+                            <button
+                                className="run-text"
+                                type="submit"
+                                onClick={handleSubmit}
+                            >
+                                RUN
+                            </button>
+                        );
+                    }
+                </Await>
                 </Suspense>
             </div>
         </main>
