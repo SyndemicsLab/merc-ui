@@ -34,7 +34,7 @@ export async function loader({ request }: Route.LoaderArgs) {
         const inputs = await response.json();
         return inputs;
     } catch (error) {
-        throw json({ message: "Error loading data"}, { status: 500 });
+        throw new Response({ message: "Error loading data"}, { status: 500 });
     }
 }
 
