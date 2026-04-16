@@ -25,13 +25,13 @@ export async function loader() {
     // the database and config file. This shouldn't be a fetch but rather just a
     // getter from the filesystem.
 
-    const response = (await fetch(
+    const response = await fetch(
         `${process.env.API_URL}/defaults`, {
             method: "GET"
         }
-    ));
+    );
 
-    const inputs = await new Promise(() => response.json());
+    const inputs = await response.json();
     return inputs;
 }
 
