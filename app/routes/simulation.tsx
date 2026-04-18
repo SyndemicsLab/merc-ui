@@ -2,7 +2,7 @@
 import type { Route } from "./+types/simulation";
 
 // Node, React, and React Router imports
-import { useFetcher, Await } from "react-router";
+import { useFetcher, Await, useAsyncValue, useLoaderData } from "react-router";
 import { useRef, useState, useEffect, Suspense } from "react";
 
 // Component imports
@@ -20,27 +20,14 @@ import respond from "~/images/diagram/system.svg";
 
 // Action and Loader Hooks
 export async function loader({ request }: Route.LoaderArgs) {
-    try {
-        const response = await fetch(`${process.env.API_URL}/defaults`, {
-            method: "GET",
-        });
-
-        console.log(response);
-
-        if (!response.ok) {
-            throw new Response("Failed to fetch data", {
-                status: response.status,
-            });
+    const response = fetch(`${process.env.API_URL}/defaults`, {
+        method: "GET",
+        headers: {
+            "x-api-key": `${process.env.API_KEY}`
         }
+    });
 
-        const inputs = await response.json();
-
-        console.log(inputs);
-
-        return inputs;
-    } catch (error) {
-        throw new Response({ message: "Error loading data"}, { status: 500 });
-    }
+    return response;
 }
 
 export async function action({ request }: Route.ActionArgs) {
@@ -55,17 +42,40 @@ export async function action({ request }: Route.ActionArgs) {
     return response;
 }
 
-export default function Simulation({ loaderData }: Route.ComponentProps) {
-    // const { slider_defaults } = loaderData;
+function InputWrapper() {
+    const loaderData = useLoaderData();
     const inputs = useInputs();
     const dispatch = useInputsDispatch();
 
-    // assign inputs to the value of loaderData, but only if the inputs have not
-    // already been assigned from data from the backend
-    dispatch({
-        type: "set inputs",
-        value: loaderData,
-    });
+    useEffect(() => {
+        dispatch({
+            type: "set inputs",
+            value: loaderData,
+        });
+    }, [loaderData, dispatch])
+
+    return (
+        <>
+            <Suspense fallback={<div>Loading...</div>}>
+                <Await
+                    resolve={loaderData}>
+                    <TestInput inputs={inputs} />
+                </Await>
+            </Suspense>
+        </>
+    );
+}
+
+function TestInput({inputs}) {
+    console.log(inputs);
+
+    return(
+        <div>Inputs should be accessible</div>
+    );
+}
+
+function Input({ inputs }) {
+    console.log(inputs);
 
     const slider_defaults = [
         {
@@ -76,10 +86,10 @@ export default function Simulation({ loaderData }: Route.ComponentProps) {
             step: 1,
             defaultValue: inputs.duration,
             action: (value) =>
-                dispatch({
-                    type: "change duration",
-                    value: value,
-                }),
+            dispatch({
+                type: "change duration",
+                value: value,
+            }),
         },
         {
             inputVar: "total_population",
@@ -89,10 +99,10 @@ export default function Simulation({ loaderData }: Route.ComponentProps) {
             step: 500,
             defaultValue: inputs.total_population,
             action: (value) =>
-                dispatch({
-                    type: "change total population",
-                    value: value,
-                }),
+            dispatch({
+                type: "change total population",
+                value: value,
+            }),
         },
         {
             inputVar: "changing_population",
@@ -102,10 +112,10 @@ export default function Simulation({ loaderData }: Route.ComponentProps) {
             step: 100,
             defaultValue: inputs.changing_population,
             action: (value) =>
-                dispatch({
-                    type: "change changing population",
-                    value: value,
-                }),
+            dispatch({
+                type: "change changing population",
+                value: value,
+            }),
         },
         {
             inputVar: "fatal_overdoses",
@@ -115,13 +125,48 @@ export default function Simulation({ loaderData }: Route.ComponentProps) {
             step: 0.25,
             defaultValue: inputs.fatal_overdoses,
             action: (value) =>
-                dispatch({
-                    type: "change fatal overdose proportion",
-                    value: value,
-                }),
+            dispatch({
+                type: "change fatal overdose proportion",
+                value: value,
+            }),
         },
     ];
 
+    return (
+        <>
+            <h1>General Inputs</h1>
+            <div id="global-inputs">
+                {slider_defaults.map((slider) => (
+                    <Slider
+                        key={slider.inputVar}
+                        inputVar={slider.inputVar}
+                        inputText={slider.inputText}
+                        min={slider.min}
+                        max={slider.max}
+                        step={slider.step}
+                        managementFunction={slider.action}
+                        defaultValue={slider.defaultValue}
+                    />
+                ))}
+            </div>
+            <h1>Intervention Inputs</h1>
+            <div id="interventions">
+                <Tabs interventions={inputs.interventions} />
+                <Contents interventions={inputs.interventions} />
+            </div>
+            <button
+                className="run-text"
+                type="submit"
+                onClick={handleSubmit}
+            >
+                RUN
+            </button>
+        </>
+    );
+}
+
+export default function Simulation() {
+    const inputs = useInputs();
     const fetcher = useFetcher();
 
     const handleSubmit = () => {
@@ -162,58 +207,26 @@ export default function Simulation({ loaderData }: Route.ComponentProps) {
                 alt="RESPOND model structure diagram"
                 className="system-image"
             />
-                {/*
-                   `ref={inputRef}` is necessary here so that the
-                   IntersectionObserver API functions to hide the scroll indicator
-                   when this section is visible.
-                 */}
+            {/*
+               `ref={inputRef}` is necessary here so that the
+               IntersectionObserver API functions to hide the scroll indicator
+               when this section is visible.
+             */}
             <div id="inputs" ref={inputRef}>
-                <Suspense fallback={<div>Loading...</div>}>
-                    <Await resolve={loaderData}>
-                        {(value) => (
-                            <InfoButton
-                                className="glossary-button"
-                                text="Open Glossary"
-                                destination="/glossary"
-                            />
-                            <ScrollIndicator
-                                destination="/simulation#inputs"
-                                options={{
-                                    visible: !inputsVisible,
-                                    direction: direction,
-                                }}
-                            />
-                            <h1>General Inputs</h1>
-                            <div id="global-inputs">
-                                {slider_defaults.map((slider) => (
-                                    <Slider
-                                        key={slider.inputVar}
-                                        inputVar={slider.inputVar}
-                                        inputText={slider.inputText}
-                                        min={slider.min}
-                                        max={slider.max}
-                                        step={slider.step}
-                                        managementFunction={slider.action}
-                                        defaultValue={slider.defaultValue}
-                                    />
-                                ))}
-                            </div>
-                            <h1>Intervention Inputs</h1>
-                            <div id="interventions">
-                                <Tabs interventions={inputs.interventions} />
-                                <Contents interventions={inputs.interventions} />
-                            </div>
-                            <button
-                                className="run-text"
-                                type="submit"
-                                onClick={handleSubmit}
-                            >
-                                RUN
-                            </button>
-                        )}
-                </Await>
-            </Suspense>
-        </div>
+                <InfoButton
+                    className="glossary-button"
+                    text="Open Glossary"
+                    destination="/glossary"
+                />
+                <ScrollIndicator
+                    destination="/simulation#inputs"
+                    options={{
+                        visible: !inputsVisible,
+                        direction: direction,
+                    }}
+                />
+                <InputWrapper />
+            </div>
         </main>
     );
 }
