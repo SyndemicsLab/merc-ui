@@ -2,7 +2,7 @@
 import type { Route } from "./+types/simulation";
 
 // Node, React, and React Router imports
-import { useFetcher, Await, useAsyncValue, useLoaderData } from "react-router";
+import { useFetcher, Await, useLoaderData } from "react-router";
 import { useRef, useState, useEffect, Suspense } from "react";
 
 // Component imports
@@ -19,12 +19,12 @@ import Tabs from "@simulation/interventions/tabs";
 import respond from "~/images/diagram/system.svg";
 
 // Action and Loader Hooks
-export async function loader({ request }: Route.LoaderArgs) {
+export async function loader() {
     const response = fetch(`${process.env.API_URL}/defaults`, {
         method: "GET",
         headers: {
-            "x-api-key": `${process.env.API_KEY}`
-        }
+            "x-api-key": `${process.env.API_KEY}`,
+        },
     });
 
     return response;
@@ -54,24 +54,19 @@ function InputWrapper({ handleSubmit }) {
                 value: loaderData,
             });
         }
-    }, [loaderData, dispatch])
+    }, [loaderData, dispatch]);
 
     return (
         <>
             <Suspense fallback={<div>Loading...</div>}>
-                <Await
-                    resolve={loaderData}>
-                    {(inputs != null && inputs != undefined) ? (
-                        <Input
-                            inputs={inputs}
-                            handleSubmit={handleSubmit}
-                        />
+                <Await resolve={loaderData}>
+                    {inputs != null && inputs != undefined ? (
+                        <Input inputs={inputs} handleSubmit={handleSubmit} />
                     ) : (
                         <div className="loading-inputs">
                             Loading simulation defaults...
                         </div>
-                    )
-                    }
+                    )}
                 </Await>
             </Suspense>
         </>
@@ -90,10 +85,10 @@ function Input({ inputs, handleSubmit }) {
             step: 1,
             defaultValue: inputs.duration,
             action: (value) =>
-            dispatch({
-                type: "change duration",
-                value: value,
-            }),
+                dispatch({
+                    type: "change duration",
+                    value: value,
+                }),
         },
         {
             inputVar: "total_population",
@@ -103,10 +98,10 @@ function Input({ inputs, handleSubmit }) {
             step: 500,
             defaultValue: inputs.total_population,
             action: (value) =>
-            dispatch({
-                type: "change total population",
-                value: value,
-            }),
+                dispatch({
+                    type: "change total population",
+                    value: value,
+                }),
         },
         {
             inputVar: "changing_population",
@@ -116,10 +111,10 @@ function Input({ inputs, handleSubmit }) {
             step: 100,
             defaultValue: inputs.changing_population,
             action: (value) =>
-            dispatch({
-                type: "change changing population",
-                value: value,
-            }),
+                dispatch({
+                    type: "change changing population",
+                    value: value,
+                }),
         },
         {
             inputVar: "fatal_overdoses",
@@ -129,10 +124,10 @@ function Input({ inputs, handleSubmit }) {
             step: 0.25,
             defaultValue: inputs.fatal_overdoses,
             action: (value) =>
-            dispatch({
-                type: "change fatal overdose proportion",
-                value: value,
-            }),
+                dispatch({
+                    type: "change fatal overdose proportion",
+                    value: value,
+                }),
         },
     ];
 
@@ -158,11 +153,7 @@ function Input({ inputs, handleSubmit }) {
                 <Tabs interventions={inputs.interventions} />
                 <Contents interventions={inputs.interventions} />
             </div>
-            <button
-                className="run-text"
-                type="submit"
-                onClick={handleSubmit}
-            >
+            <button className="run-text" type="submit" onClick={handleSubmit}>
                 RUN
             </button>
         </>

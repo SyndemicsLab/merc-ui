@@ -15,11 +15,7 @@ export interface GlossaryTable {
     items: GlossaryItem[];
 }
 
-function DescriptionSection(
-    key: string,
-    value: string,
-    last: boolean = false,
-) {
+function DescriptionSection(key: string, value: string, last: boolean = false) {
     switch (key) {
         case "baseText":
             return (
