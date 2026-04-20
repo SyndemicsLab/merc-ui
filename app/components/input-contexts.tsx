@@ -3,7 +3,6 @@ import {
     type Intervention,
     type Transition,
     type Inputs,
-    realInputs,
     makeEmptyTransition,
 } from "~/data";
 import { PROPORTION_MAX } from "~/globals";

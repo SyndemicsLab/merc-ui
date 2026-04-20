@@ -42,16 +42,18 @@ export async function action({ request }: Route.ActionArgs) {
     return response;
 }
 
-function InputWrapper() {
+function InputWrapper({ handleSubmit }) {
     const loaderData = useLoaderData();
     const inputs = useInputs();
     const dispatch = useInputsDispatch();
 
     useEffect(() => {
-        dispatch({
-            type: "set inputs",
-            value: loaderData,
-        });
+        if (inputs == null || inputs == undefined) {
+            dispatch({
+                type: "set inputs",
+                value: loaderData,
+            });
+        }
     }, [loaderData, dispatch])
 
     return (
@@ -59,15 +61,25 @@ function InputWrapper() {
             <Suspense fallback={<div>Loading...</div>}>
                 <Await
                     resolve={loaderData}>
-                    <Input inputs={inputs} />
+                    {(inputs != null && inputs != undefined) ? (
+                        <Input
+                            inputs={inputs}
+                            handleSubmit={handleSubmit}
+                        />
+                    ) : (
+                        <div className="loading-inputs">
+                            Loading simulation defaults...
+                        </div>
+                    )
+                    }
                 </Await>
             </Suspense>
         </>
     );
 }
 
-function Input({ inputs }) {
-    console.log(inputs);
+function Input({ inputs, handleSubmit }) {
+    const dispatch = useInputsDispatch();
 
     const slider_defaults = [
         {
@@ -217,7 +229,7 @@ export default function Simulation() {
                         direction: direction,
                     }}
                 />
-                <InputWrapper />
+                <InputWrapper handleSubmit={handleSubmit} />
             </div>
         </main>
     );

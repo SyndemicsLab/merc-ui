@@ -7,7 +7,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@components/ui/dropdown-menu";
-import { realInputs } from "~/data";
+import { inputs } from "~/data";
 
 function Tab({ intervention }: { intervention: Intervention }) {
     const dispatch = useInputsDispatch();
