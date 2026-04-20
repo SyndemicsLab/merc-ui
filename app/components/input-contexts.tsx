@@ -3,7 +3,6 @@ import {
     type Intervention,
     type Transition,
     type Inputs,
-    inputs,
     makeEmptyTransition,
 } from "~/data";
 import { PROPORTION_MAX } from "~/globals";
@@ -22,7 +21,7 @@ export const InputsContext = createContext(null);
 export const InputsDispatchContext = createContext(null);
 
 export function InputProvider({ children }: { children: ReactNode }) {
-    const [simulationInputs, dispatch] = useReducer(inputsReducer, inputs);
+    const [simulationInputs, dispatch] = useReducer(inputsReducer, null);
     return (
         <InputsContext.Provider value={simulationInputs}>
             <InputsDispatchContext.Provider value={dispatch}>

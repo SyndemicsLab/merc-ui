@@ -2,8 +2,8 @@
 import type { Route } from "./+types/simulation";
 
 // Node, React, and React Router imports
-import { useFetcher } from "react-router";
-import { useRef, useState, useEffect } from "react";
+import { useFetcher, Await, useLoaderData } from "react-router";
+import { useRef, useState, useEffect, Suspense } from "react";
 
 // Component imports
 import ScrollIndicator, {
@@ -19,14 +19,15 @@ import Tabs from "@simulation/interventions/tabs";
 import respond from "~/images/diagram/system.svg";
 
 // Action and Loader Hooks
-// export async function loader({ request }: Route.LoaderArgs) {
 export async function loader() {
-    // After ensuring the user has a session we can load from the user copy of
-    // the database and config file. This shouldn't be a fetch but rather just a
-    // getter from the filesystem.
+    const response = fetch(`${process.env.API_URL}/defaults`, {
+        method: "GET",
+        headers: {
+            "x-api-key": `${process.env.API_KEY}`,
+        },
+    });
 
-    const inputs = (await fetch(`${process.env.API_URL}/defaults`)).json();
-    return inputs;
+    return response;
 }
 
 export async function action({ request }: Route.ActionArgs) {
@@ -41,19 +42,39 @@ export async function action({ request }: Route.ActionArgs) {
     return response;
 }
 
-export default function Simulation({ loaderData }: Route.ComponentProps) {
-    // const { slider_defaults } = loaderData;
+function InputWrapper({ handleSubmit }) {
+    const loaderData = useLoaderData();
     const inputs = useInputs();
     const dispatch = useInputsDispatch();
 
-    // assign inputs to the value of loaderData, but only if the inputs have not
-    // already been assigned from data from the backend
-    if (inputs == null) {
-        dispatch({
-            type: "set inputs",
-            value: loaderData,
-        });
-    }
+    useEffect(() => {
+        if (inputs == null || inputs == undefined) {
+            dispatch({
+                type: "set inputs",
+                value: loaderData,
+            });
+        }
+    }, [loaderData, dispatch]);
+
+    return (
+        <>
+            <Suspense fallback={<div>Loading...</div>}>
+                <Await resolve={loaderData}>
+                    {inputs != null && inputs != undefined ? (
+                        <Input inputs={inputs} handleSubmit={handleSubmit} />
+                    ) : (
+                        <div className="loading-inputs">
+                            Loading simulation defaults...
+                        </div>
+                    )}
+                </Await>
+            </Suspense>
+        </>
+    );
+}
+
+function Input({ inputs, handleSubmit }) {
+    const dispatch = useInputsDispatch();
 
     const slider_defaults = [
         {
@@ -110,6 +131,37 @@ export default function Simulation({ loaderData }: Route.ComponentProps) {
         },
     ];
 
+    return (
+        <>
+            <h1>General Inputs</h1>
+            <div id="global-inputs">
+                {slider_defaults.map((slider) => (
+                    <Slider
+                        key={slider.inputVar}
+                        inputVar={slider.inputVar}
+                        inputText={slider.inputText}
+                        min={slider.min}
+                        max={slider.max}
+                        step={slider.step}
+                        managementFunction={slider.action}
+                        defaultValue={slider.defaultValue}
+                    />
+                ))}
+            </div>
+            <h1>Intervention Inputs</h1>
+            <div id="interventions">
+                <Tabs interventions={inputs.interventions} />
+                <Contents interventions={inputs.interventions} />
+            </div>
+            <button className="run-text" type="submit" onClick={handleSubmit}>
+                RUN
+            </button>
+        </>
+    );
+}
+
+export default function Simulation() {
+    const inputs = useInputs();
     const fetcher = useFetcher();
 
     const handleSubmit = () => {
@@ -168,33 +220,7 @@ export default function Simulation({ loaderData }: Route.ComponentProps) {
                         direction: direction,
                     }}
                 />
-                <h1>General Inputs</h1>
-                <div id="global-inputs">
-                    {slider_defaults.map((slider) => (
-                        <Slider
-                            key={slider.inputVar}
-                            inputVar={slider.inputVar}
-                            inputText={slider.inputText}
-                            min={slider.min}
-                            max={slider.max}
-                            step={slider.step}
-                            managementFunction={slider.action}
-                            defaultValue={slider.defaultValue}
-                        />
-                    ))}
-                </div>
-                <h1>Intervention Inputs</h1>
-                <div id="interventions">
-                    <Tabs interventions={inputs.interventions} />
-                    <Contents interventions={inputs.interventions} />
-                </div>
-                <button
-                    className="run-text"
-                    type="submit"
-                    onClick={handleSubmit}
-                >
-                    RUN
-                </button>
+                <InputWrapper handleSubmit={handleSubmit} />
             </div>
         </main>
     );

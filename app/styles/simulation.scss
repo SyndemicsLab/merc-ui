@@ -145,6 +145,17 @@ input::-ms-thumb:hover {
     margin-bottom: var(--spacing-large);
 }
 
+.loading-inputs {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    min-height: 10rem;
+    font-size: 1.5rem;
+}
+
 .inputName,
 .advancedInputName {
     display: block;
