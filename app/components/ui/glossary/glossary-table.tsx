@@ -18,7 +18,7 @@ export interface GlossaryTable {
 function DescriptionSection(
     key: string,
     value: string,
-    last?: boolean = false,
+    last: boolean = false,
 ) {
     switch (key) {
         case "baseText":

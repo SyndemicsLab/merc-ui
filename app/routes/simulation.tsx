@@ -59,18 +59,10 @@ function InputWrapper() {
             <Suspense fallback={<div>Loading...</div>}>
                 <Await
                     resolve={loaderData}>
-                    <TestInput inputs={inputs} />
+                    <Input inputs={inputs} />
                 </Await>
             </Suspense>
         </>
-    );
-}
-
-function TestInput({inputs}) {
-    console.log(inputs);
-
-    return(
-        <div>Inputs should be accessible</div>
     );
 }
 
