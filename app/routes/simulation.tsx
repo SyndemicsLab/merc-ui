@@ -54,16 +54,43 @@ export async function clientLoader({ serverLoader }) {
 }
 clientLoader.hydrate = true;
 
+async function processResponse(response) {
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    let result = "";
+
+    while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        // Decode raw bytes to string
+        const chunk = decoder.decode(value, { stream: true });
+        result += chunk;
+    }
+
+    // Final flush
+    result += decoder.decode();
+
+    return result;
+}
+
 export async function action({ request }: Route.ActionArgs) {
     const data = await request.json();
 
     // use the fetch api to send the json to the backend
     const response = await fetch(`${process.env.API_URL}/run`, {
         method: "POST",
-        body: data,
+        body: JSON.stringify(data),
+        headers: {
+            "x-api-key": `${process.env.API_KEY}`,
+        }
     });
 
-    return response;
+    console.log(response);
+
+    const result = await processResponse(response);
+    console.log(result);
+
+    // return response;
 }
 
 function InputWrapper({ handleSubmit }) {
@@ -190,7 +217,7 @@ export default function Simulation() {
 
     const handleSubmit = () => {
         fetcher.submit(inputs, {
-            method: "post",
+            method: "POST",
             encType: "application/json",
         });
     };
