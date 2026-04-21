@@ -14,7 +14,7 @@ export default function Overdoses({
             {overdoses.map((overdose) => (
                 <Slider
                     key={overdose.injection ? 1 : 0}
-                    inputText={`Weekly Percent of Active ${overdose.injection ? "Injector" : "Non-injector"} Population that Overdoses `}
+                    inputText={`Percent of Active ${overdose.injection ? "Injector" : "Non-injector"} Population that Overdoses Per Week`}
                     min={PROPORTION_MIN}
                     max={PROPORTION_MAX}
                     step={PROPORTION_STEP}
