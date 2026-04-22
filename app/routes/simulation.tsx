@@ -82,15 +82,15 @@ export async function action({ request }: Route.ActionArgs) {
         body: JSON.stringify(data),
         headers: {
             "x-api-key": `${process.env.API_KEY}`,
-        }
+            "content-type": "application/json",
+        },
     });
 
+    // `console.log()` calls will be replaced once the backend is squared away
     console.log(response);
 
     const result = await processResponse(response);
     console.log(result);
-
-    // return response;
 }
 
 function InputWrapper({ handleSubmit }) {
