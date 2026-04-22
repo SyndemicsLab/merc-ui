@@ -30,16 +30,56 @@ export async function loader() {
     return response;
 }
 
+export async function clientLoader({ serverLoader }) {
+    // return the data from the cache, if it exists
+    const cachedData = sessionStorage.getItem("default-inputs");
+    if (cachedData) {
+        return cachedData;
+    }
+
+    const serverData = serverLoader();
+    sessionStorage.setItem("default-inputs", serverData);
+    return serverData;
+}
+clientLoader.hydrate = true;
+
+async function processResponse(response) {
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    let result = "";
+
+    while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        // Decode raw bytes to string
+        const chunk = decoder.decode(value, { stream: true });
+        result += chunk;
+    }
+
+    // Final flush
+    result += decoder.decode();
+
+    return result;
+}
+
 export async function action({ request }: Route.ActionArgs) {
     const data = await request.json();
 
     // use the fetch api to send the json to the backend
     const response = await fetch(`${process.env.API_URL}/run`, {
         method: "POST",
-        body: data,
+        body: JSON.stringify(data),
+        headers: {
+            "x-api-key": `${process.env.API_KEY}`,
+            "content-type": "application/json",
+        },
     });
 
-    return response;
+    // `console.log()` calls will be replaced once the backend is squared away
+    console.log(response);
+
+    const result = await processResponse(response);
+    console.log(result);
 }
 
 function InputWrapper({ handleSubmit }) {
@@ -166,7 +206,7 @@ export default function Simulation() {
 
     const handleSubmit = () => {
         fetcher.submit(inputs, {
-            method: "post",
+            method: "POST",
             encType: "application/json",
         });
     };

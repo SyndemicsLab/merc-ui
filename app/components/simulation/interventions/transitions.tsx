@@ -21,7 +21,7 @@ export default function Transitions({
             {transitions.map((transition) => (
                 <Slider
                     key={transition.id}
-                    inputText={`Weekly Percent of Population Moving to ${transition.name}`}
+                    inputText={`Percent of Population Moving to ${transition.name} Per Week`}
                     min={PROPORTION_MIN}
                     max={PROPORTION_MAX}
                     step={PROPORTION_STEP}
