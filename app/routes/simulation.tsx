@@ -30,24 +30,13 @@ export async function loader() {
     return response;
 }
 
-let isInitialRequest = true;
-
 export async function clientLoader({ serverLoader }) {
-    if (isInitialRequest) {
-        isInitialRequest = false;
-        const serverData = serverLoader();
-        sessionStorage.setItem("default-inputs", serverData);
-        return serverData;
-    }
-
     // return the data from the cache, if it exists
     const cachedData = sessionStorage.getItem("default-inputs");
     if (cachedData) {
         return cachedData;
     }
 
-    // shouldn't reach this, but if somehow you do, just fall back to fetching
-    // and caching the data
     const serverData = serverLoader();
     sessionStorage.setItem("default-inputs", serverData);
     return serverData;
