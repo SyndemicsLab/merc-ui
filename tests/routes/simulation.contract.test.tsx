@@ -22,7 +22,9 @@ describe("Simulation route contract", () => {
         // Ensure presets and editable initial state are separate object graphs.
         expect(mapped.initialInputs).not.toBe(mapped.presets as unknown);
         expect(mapped.initialInputs.interventions).not.toBe(mapped.presets);
-        expect(mapped.initialInputs.interventions[0]).not.toBe(mapped.presets[0]);
+        expect(mapped.initialInputs.interventions[0]).not.toBe(
+            mapped.presets[0],
+        );
     });
 
     it("maps run request into a plain JSON payload", () => {
@@ -65,7 +67,9 @@ describe("Simulation route contract", () => {
     });
 
     it("renders success run status", () => {
-        render(<RunStatus pending={false} result={{ ok: true, status: 200 }} />);
+        render(
+            <RunStatus pending={false} result={{ ok: true, status: 200 }} />,
+        );
 
         expect(screen.getByText("Simulation complete.")).toBeTruthy();
     });

@@ -160,7 +160,9 @@ export default function LinePlot(props: LinePlotProps) {
             let regionWidth;
             if (i === 0) {
                 regionWidth =
-                    data.length === 1 ? width - margin.left - margin.right : x(data[i + 1][0]) - x(data[i][0]);
+                    data.length === 1
+                        ? width - margin.left - margin.right
+                        : x(data[i + 1][0]) - x(data[i][0]);
             } else if (i === data.length - 1) {
                 regionWidth = x(data[i][0]) - x(data[i - 1][0]);
             } else {

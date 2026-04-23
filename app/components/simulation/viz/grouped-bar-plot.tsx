@@ -176,7 +176,9 @@ export default function GroupedBarPlot(props: BarPlotProps) {
             .paddingInner(0.04)
             .paddingOuter(0.1);
 
-        const groups = Array.from(new Set(data.map((d) => String(d[groupKey]))));
+        const groups = Array.from(
+            new Set(data.map((d) => String(d[groupKey]))),
+        );
         const x = d3
             .scaleBand()
             .domain(groups)

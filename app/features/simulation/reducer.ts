@@ -14,28 +14,28 @@ export type SimulationAction =
     | { type: "intervention select"; id: number }
     | { type: "intervention rename"; id: number; name: string }
     | {
-        type: "intervention add";
-        intervention: string;
-        preset?: Intervention;
-    }
+          type: "intervention add";
+          intervention: string;
+          preset?: Intervention;
+      }
     | { type: "intervention delete"; id: number }
     | {
-        type: "intervention change population";
-        interventionID: number;
-        value: number;
-    }
+          type: "intervention change population";
+          interventionID: number;
+          value: number;
+      }
     | {
-        type: "intervention change transition";
-        interventionID: number;
-        transitionID: number;
-        value: number;
-    }
+          type: "intervention change transition";
+          interventionID: number;
+          transitionID: number;
+          value: number;
+      }
     | {
-        type: "intervention change overdose";
-        interventionID: number;
-        injection: boolean;
-        value: number;
-    };
+          type: "intervention change overdose";
+          interventionID: number;
+          injection: boolean;
+          value: number;
+      };
 
 // Internal utility helpers
 function makeTransitionsFromExistingIntervention(
@@ -212,7 +212,10 @@ export function addIntervention(
 }
 
 // Deletes an intervention, removes inbound references, and rebalances No Treatment.
-export function deleteIntervention(simulationInputs: Inputs, id: number): Inputs {
+export function deleteIntervention(
+    simulationInputs: Inputs,
+    id: number,
+): Inputs {
     const toDelete = simulationInputs.interventions.find(
         (i: Intervention) => i.id === id,
     );
@@ -224,10 +227,13 @@ export function deleteIntervention(simulationInputs: Inputs, id: number): Inputs
         (intervention: Intervention) => {
             const newIntervention: Intervention = {
                 ...intervention,
-                transitions: intervention.transitions.filter((t) => t.id !== id),
+                transitions: intervention.transitions.filter(
+                    (t) => t.id !== id,
+                ),
             };
             if (newIntervention.id === 0) {
-                const ntPopulation = newIntervention.population + toDelete.population;
+                const ntPopulation =
+                    newIntervention.population + toDelete.population;
                 if (deletingActive) {
                     return {
                         ...newIntervention,
@@ -244,7 +250,9 @@ export function deleteIntervention(simulationInputs: Inputs, id: number): Inputs
         },
     );
 
-    newInterventions = newInterventions.filter((i: Intervention) => i.id !== id);
+    newInterventions = newInterventions.filter(
+        (i: Intervention) => i.id !== id,
+    );
     return {
         ...simulationInputs,
         interventions: newInterventions,
@@ -253,7 +261,10 @@ export function deleteIntervention(simulationInputs: Inputs, id: number): Inputs
 
 // Domain helpers: top-level scalar inputs
 // Updates simulation duration.
-export function changeDuration(simulationInputs: Inputs, value: number): Inputs {
+export function changeDuration(
+    simulationInputs: Inputs,
+    value: number,
+): Inputs {
     return {
         ...simulationInputs,
         duration: value,
@@ -275,13 +286,14 @@ export function changeTotalPopulation(
         return simulationInputs;
     }
 
-    const newInterventions: Intervention[] =
-        simulationInputs.interventions.map((i) => {
+    const newInterventions: Intervention[] = simulationInputs.interventions.map(
+        (i) => {
             if (i.id !== 0) {
                 return i;
             }
             return { ...i, population: value - currentMinPopulation };
-        });
+        },
+    );
 
     return {
         ...simulationInputs,
@@ -330,9 +342,7 @@ export function changeInterventionPopulation(
 
     if (
         constrainValues(
-            newInterventions
-                .filter((i) => i.id !== 0)
-                .map((i) => i.population),
+            newInterventions.filter((i) => i.id !== 0).map((i) => i.population),
             simulationInputs.total_population,
         )
     ) {
@@ -385,9 +395,8 @@ export function changeInterventionTransition(
     if (activeIntervention === undefined) {
         return simulationInputs;
     }
-    const newTransitionProbabilities: number[] = activeIntervention.transitions.map(
-        (t) => t.probability,
-    );
+    const newTransitionProbabilities: number[] =
+        activeIntervention.transitions.map((t) => t.probability);
 
     if (constrainValues(newTransitionProbabilities, PROPORTION_MAX)) {
         return simulationInputs;
@@ -438,7 +447,10 @@ export function inputsReducer(
         case "change changing population":
             return changeChangingPopulation(simulationInputs, action.value);
         case "change fatal overdose proportion":
-            return changeFatalOverdoseProportion(simulationInputs, action.value);
+            return changeFatalOverdoseProportion(
+                simulationInputs,
+                action.value,
+            );
         case "intervention select": {
             return {
                 ...simulationInputs,

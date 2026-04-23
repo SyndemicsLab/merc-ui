@@ -33,7 +33,9 @@ describe("Simulation reducer domain transitions", () => {
         expect(postTransition?.name).toBe("Post-<no name>");
 
         const naltrexone = next.interventions.find((i) => i.id === 2);
-        const transitionToRenamed = naltrexone?.transitions.find((t) => t.id === 1);
+        const transitionToRenamed = naltrexone?.transitions.find(
+            (t) => t.id === 1,
+        );
         expect(transitionToRenamed?.name).toBe("<no name>");
     });
 
@@ -63,7 +65,9 @@ describe("Simulation reducer domain transitions", () => {
             type: "intervention select",
             id: 1,
         });
-        const beforeNoTreatment = selected.interventions.find((i) => i.id === 0);
+        const beforeNoTreatment = selected.interventions.find(
+            (i) => i.id === 0,
+        );
         const toDelete = selected.interventions.find((i) => i.id === 1);
 
         const next = deleteIntervention(selected, 1);
@@ -78,7 +82,9 @@ describe("Simulation reducer domain transitions", () => {
 
         next.interventions.forEach((intervention) => {
             expect(
-                intervention.transitions.some((transition) => transition.id === 1),
+                intervention.transitions.some(
+                    (transition) => transition.id === 1,
+                ),
             ).toBe(false);
         });
     });
@@ -115,7 +121,9 @@ describe("Simulation reducer domain transitions", () => {
 
         const next = changeInterventionTransition(state, 1, 0, 12.345678);
         const intervention = next.interventions.find((i) => i.id === 1);
-        const updatedTransition = intervention?.transitions.find((t) => t.id === 0);
+        const updatedTransition = intervention?.transitions.find(
+            (t) => t.id === 0,
+        );
 
         expect(updatedTransition?.probability).toBe(12.3457);
     });
@@ -123,7 +131,9 @@ describe("Simulation reducer domain transitions", () => {
     it("rejects transition updates that exceed probability limit", () => {
         const state = makeState();
         const naltrexone = state.interventions.find((i) => i.id === 2);
-        const unchanged = naltrexone?.transitions.find((t) => t.id === 0)?.probability;
+        const unchanged = naltrexone?.transitions.find(
+            (t) => t.id === 0,
+        )?.probability;
 
         const next = changeInterventionTransition(
             state,
@@ -144,8 +154,12 @@ describe("Simulation reducer domain transitions", () => {
 
         const next = changeInterventionOverdose(state, 1, true, 3.5);
         const intervention = next.interventions.find((i) => i.id === 1);
-        const injector = intervention?.overdose.find((od) => od.injection === true);
-        const nonInjector = intervention?.overdose.find((od) => od.injection === false);
+        const injector = intervention?.overdose.find(
+            (od) => od.injection === true,
+        );
+        const nonInjector = intervention?.overdose.find(
+            (od) => od.injection === false,
+        );
 
         expect(injector?.probability).toBe(3.5);
         expect(nonInjector?.probability).toBe(

@@ -24,7 +24,10 @@ export function InputProvider({
     children: ReactNode;
     initialState: Inputs;
 }) {
-    const [simulationInputs, dispatch] = useReducer(inputsReducer, initialState);
+    const [simulationInputs, dispatch] = useReducer(
+        inputsReducer,
+        initialState,
+    );
     return (
         <InputsContext.Provider value={simulationInputs}>
             <InputsDispatchContext.Provider value={dispatch}>

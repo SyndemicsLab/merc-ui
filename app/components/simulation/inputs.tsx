@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useRef, useState, useEffect } from "react";
 import { useInputs, useInputsDispatch } from "@components/input-contexts";
 import ScrollIndicator from "@components/ui/scroll-indicator";
@@ -17,7 +16,7 @@ export default function Inputs() {
 
     // reference for the input section, used for testing intersection with the
     // viewport
-    const inputRef = useRef(false);
+    const inputRef = useRef<HTMLDivElement | null>(null);
     const [inputsVisible, updateInputsVisible] = useState(false);
     const [direction, updateDirection] = useState(ScrollDirection.Down);
     useEffect(() => {
@@ -35,7 +34,11 @@ export default function Inputs() {
             },
             { threshold: [0.05] },
         );
-        observer.observe(inputRef.current);
+        if (inputRef.current) {
+            observer.observe(inputRef.current);
+        }
+
+        return () => observer.disconnect();
     }, []);
 
     return (
@@ -145,7 +148,10 @@ const AdvancedInputs = () => {
             <label htmlFor="show-advanced" id="advanced-options">
                 <div className="advanced-options-text">Advanced Options</div>
             </label>
-            <div id="advanced" className={showAdvanced ? "unhidden" : undefined}>
+            <div
+                id="advanced"
+                className={showAdvanced ? "unhidden" : undefined}
+            >
                 <h2>For More Information</h2>
                 <div className="more-info">
                     <InfoButton

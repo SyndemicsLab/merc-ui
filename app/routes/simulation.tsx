@@ -60,12 +60,17 @@ export function mapRunRequest(inputs: Inputs): unknown {
     return JSON.parse(JSON.stringify(inputs));
 }
 
-export function mapRunResponse(response: Response, result: string): SimulationRunResponse {
+export function mapRunResponse(
+    response: Response,
+    result: string,
+): SimulationRunResponse {
     if (!response.ok) {
         return {
             ok: false,
             status: response.status,
-            error: result || `Simulation run failed with status ${response.status}.`,
+            error:
+                result ||
+                `Simulation run failed with status ${response.status}.`,
         };
     }
 
@@ -163,7 +168,11 @@ export function RunStatus({
         return null;
     }
     if (!result.ok) {
-        return <p className="run-status" role="alert">{result.error}</p>;
+        return (
+            <p className="run-status" role="alert">
+                {result.error}
+            </p>
+        );
     }
     return <p className="run-status">Simulation complete.</p>;
 }
@@ -380,8 +389,12 @@ export default function Simulation() {
         <Suspense fallback={<div>Loading...</div>}>
             <Await resolve={loaderData}>
                 {(resolvedLoaderData: SimulationLoaderData) => (
-                    <InputProvider initialState={resolvedLoaderData.initialInputs}>
-                        <SimulationContent presets={resolvedLoaderData.presets} />
+                    <InputProvider
+                        initialState={resolvedLoaderData.initialInputs}
+                    >
+                        <SimulationContent
+                            presets={resolvedLoaderData.presets}
+                        />
                     </InputProvider>
                 )}
             </Await>
