@@ -1,4 +1,4 @@
-import { default as ContactUs } from "../../app/routes/contactus";
+import { default as ContactUs } from "../../app/routes/contact";
 import { render } from "@testing-library/react";
 
 describe("ContactUs Test suite", () => {

@@ -2,8 +2,10 @@ import * as d3 from "d3";
 import { useRef, useEffect } from "react";
 import { type PlotMargins } from "@components/simulation/viz/line-plot";
 
+type BarDatum = Record<string, string | number>;
+
 interface BarPlotProps {
-    data: object[];
+    data: BarDatum[];
     primaryKey: string;
     groupKey: string;
     valueKey: string;
@@ -28,7 +30,11 @@ interface LegendOptions {
     alignRight?: boolean;
 }
 
-function createLegend(svg: object, colors: object, options: LegendOptions) {
+function createLegend(
+    svg: d3.Selection<SVGSVGElement, unknown, null, undefined>,
+    colors: d3.ScaleOrdinal<string, string>,
+    options: LegendOptions,
+) {
     const {
         containerWidth, // must be passed to this object for right alignment
         legendLabel = "Legend",
@@ -42,9 +48,10 @@ function createLegend(svg: object, colors: object, options: LegendOptions) {
     } = options;
 
     const xPosition = alignRight ? containerWidth - width : xMargin;
+    const colorDomain = colors.domain();
     const legendY = d3
         .scaleBand()
-        .domain(colors.domain())
+        .domain(colorDomain)
         .rangeRound([0, height])
         .paddingInner(0.2);
 
@@ -58,23 +65,23 @@ function createLegend(svg: object, colors: object, options: LegendOptions) {
     // color blocks
     legend
         .selectAll("rect")
-        .data(colors.domain())
+        .data(colorDomain)
         .join("rect")
         .attr("x", xPosition)
-        .attr("y", (d) => legendY(d) + 2 * yMargin)
+        .attr("y", (d) => (legendY(d) ?? 0) + 2 * yMargin)
         .attr("rx", 3)
         .attr("ry", 3)
         .attr("width", colorWidth)
         .attr("height", colorHeight)
-        .attr("fill", colors);
+        .attr("fill", (d) => colors(d));
     // names
     legend
         .selectAll("text")
-        .data(colors.domain())
+        .data(colorDomain)
         .join("text")
         // gap of 5 after color block
         .attr("x", xPosition + colorWidth + xMargin)
-        .attr("y", (d) => legendY(d) + 2 * yMargin)
+        .attr("y", (d) => (legendY(d) ?? 0) + 2 * yMargin)
         .attr("font-size", "0.5rem")
         .attr("alignment-baseline", "before-edge")
         .text((d) => d);
@@ -141,23 +148,35 @@ export default function GroupedBarPlot(props: BarPlotProps) {
     } = props;
 
     // reference for the SVG container
-    const plotContainer = useRef(null);
+    const plotContainer = useRef<SVGSVGElement | null>(null);
 
     useEffect(() => {
+        if (!plotContainer.current) {
+            return;
+        }
+
         const svg = d3.select(plotContainer.current);
 
         // clear content when refreshing
         svg.selectAll("*").remove();
 
+        if (data.length === 0) {
+            return;
+        }
+
+        const primaryDomain = Array.from(
+            new Set(data.map((d) => String(d[primaryKey]))),
+        );
+
         // define the function that determines where the bar is drawn
         const placement = d3
             .scaleBand()
-            .domain(new Set(data.map((d) => d[primaryKey])))
+            .domain(primaryDomain)
             .range([margin.left, width - margin.right])
             .paddingInner(0.04)
             .paddingOuter(0.1);
 
-        const groups = new Set(data.map((d) => d[groupKey]));
+        const groups = Array.from(new Set(data.map((d) => String(d[groupKey]))));
         const x = d3
             .scaleBand()
             .domain(groups)
@@ -173,23 +192,27 @@ export default function GroupedBarPlot(props: BarPlotProps) {
         // tooltip)
         const y = d3
             .scaleLinear()
-            .domain([0, d3.max(data, (d) => d[valueKey])])
+            .domain([0, d3.max(data, (d) => Number(d[valueKey])) ?? 0])
             .nice()
             .range([height - margin.bottom, margin.top + 40]);
 
         svg.append("g")
-            .selectAll()
-            .data(d3.group(data, (d) => d[primaryKey]))
+            .selectAll<SVGGElement, [string, BarDatum[]]>("g")
+            .data(
+                Array.from(
+                    d3.group(data, (d) => String(d[primaryKey])).entries(),
+                ),
+            )
             .join("g")
             .attr("transform", ([key]) => `translate(${placement(key)}, 0)`)
-            .selectAll()
+            .selectAll<SVGRectElement, BarDatum>("rect")
             .data(([, d]) => d)
             .join("rect")
-            .attr("x", (d) => x(d[groupKey]))
-            .attr("y", (d) => y(d[valueKey]))
+            .attr("x", (d) => x(String(d[groupKey])) ?? 0)
+            .attr("y", (d) => y(Number(d[valueKey])))
             .attr("width", x.bandwidth())
-            .attr("height", (d) => y(0) - y(d[valueKey]))
-            .attr("fill", (d) => color(d[groupKey]));
+            .attr("height", (d) => y(0) - y(Number(d[valueKey])))
+            .attr("fill", (d) => color(String(d[groupKey])));
 
         // X-axis
         svg.append("g")
@@ -235,22 +258,28 @@ export default function GroupedBarPlot(props: BarPlotProps) {
             .text("Hover over bar to see value");
 
         svg.append("g")
-            .selectAll()
-            .data(d3.group(data, (d) => d[primaryKey]))
+            .selectAll<SVGGElement, [string, BarDatum[]]>("g")
+            .data(
+                Array.from(
+                    d3.group(data, (d) => String(d[primaryKey])).entries(),
+                ),
+            )
             .join("g")
             .attr("transform", ([key]) => `translate(${placement(key)}, 0)`)
             .attr("pointer-events", "all")
             .attr("fill", "none")
-            .selectAll()
+            .selectAll<SVGRectElement, BarDatum>("rect")
             .data(([, d]) => d)
             .join("rect")
-            .attr("x", (d) => x(d[groupKey]))
+            .attr("x", (d) => x(String(d[groupKey])) ?? 0)
             .attr("y", margin.bottom)
             .attr("width", x.bandwidth())
             .attr("height", height - margin.top - margin.bottom)
-            .on("mouseover", (event, d) =>
+            .on("mouseover", (_event, d) =>
                 tooltip.text(
-                    `${d[primaryKey]}, ${d[groupKey]}: ${d[valueKey]}`,
+                    `${String(d[primaryKey])}, ${String(d[groupKey])}: ${String(
+                        d[valueKey],
+                    )}`,
                 ),
             )
             .on("mouseout", () => tooltip.text("Hover over bar to see value"));

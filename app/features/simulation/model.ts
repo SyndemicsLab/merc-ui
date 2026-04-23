@@ -1,6 +1,3 @@
-// This is meant to be a temporary file replicating what would be held in a
-// cloud data source
-
 interface Intervention {
     id: number;
     name: string;
@@ -25,9 +22,9 @@ interface Overdose {
 
 interface Inputs {
     duration: number;
-    population: number;
-    entering: number;
-    fod: number;
+    total_population: number;
+    changing_population: number;
+    fatal_overdoses: number;
     interventions: Intervention[];
 }
 
@@ -332,11 +329,5 @@ function makeEmptyTransition(id: number, name: string): Transition {
     return { id: id, name: name, probability: 0 };
 }
 
-export {
-    Intervention,
-    Transition,
-    Overdose,
-    Inputs,
-    inputs,
-    makeEmptyTransition,
-};
+export type { Intervention, Transition, Overdose, Inputs };
+export { inputs, makeEmptyTransition };

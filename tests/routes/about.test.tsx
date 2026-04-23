@@ -1,4 +1,4 @@
-import { default as About } from "../../app/routes/about";
+import { default as About } from "../../app/routes/respond";
 import { render } from "@testing-library/react";
 
 describe("About Test suite", () => {

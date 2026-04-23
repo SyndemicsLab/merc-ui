@@ -2,6 +2,14 @@ import * as d3 from "d3";
 import { useRef, useEffect } from "react";
 import { SYNDEMICS_PINK, SYNDEMICS_CYAN, SYNDEMICS_BLUE } from "~/globals";
 
+type Point = [number, number];
+
+interface Region {
+    position: number;
+    width: number;
+    point: Point;
+}
+
 export interface PlotMargins {
     top: number;
     right: number;
@@ -10,7 +18,7 @@ export interface PlotMargins {
 }
 
 interface LinePlotProps {
-    data: number[][]; // data is an array of arrays
+    data: Point[];
     title: string;
     xTitle?: string;
     yTitle?: string;
@@ -42,27 +50,39 @@ export default function LinePlot(props: LinePlotProps) {
     } = props;
 
     // reference for the SVG container
-    const plotContainer = useRef(null);
+    const plotContainer = useRef<SVGSVGElement | null>(null);
 
     useEffect(() => {
+        if (!plotContainer.current) {
+            return;
+        }
+
         const svg = d3.select(plotContainer.current);
 
         // clear content when refreshing
         svg.selectAll("*").remove();
 
+        if (data.length === 0) {
+            return;
+        }
+
+        const xMin = d3.min(data, (d) => d[0]) ?? 0;
+        const xMax = d3.max(data, (d) => d[0]) ?? 0;
+
         const x = d3
             .scaleLinear()
-            .domain([d3.min(data, (d) => d[0]), d3.max(data, (d) => d[0])])
+            .domain([xMin, xMax])
             .range([margin.left, width - margin.right])
             .nice();
-        const yMin = d3.min(data, (d) => d[1]);
+        const yMin = d3.min(data, (d) => d[1]) ?? 0;
+        const yMax = d3.max(data, (d) => d[1]) ?? 0;
         const y = d3
             .scaleLinear()
-            .domain([yMin >= 0 ? 0 : yMin, d3.max(data, (d) => d[1])])
+            .domain([yMin >= 0 ? 0 : yMin, yMax])
             .range([height - margin.bottom, margin.top + 15])
             .nice();
         const line = d3
-            .line()
+            .line<Point>()
             .x((d) => x(d[0]))
             .y((d) => y(d[1]));
 
@@ -121,7 +141,7 @@ export default function LinePlot(props: LinePlotProps) {
         // discrete data points
         const points = svg.append("g").attr("fill", `${SYNDEMICS_BLUE}`);
         points
-            .selectAll()
+            .selectAll<SVGCircleElement, Point>("circle")
             .data(data)
             .join("circle")
             .attr("cx", (d) => x(d[0]))
@@ -134,20 +154,21 @@ export default function LinePlot(props: LinePlotProps) {
             .attr("r", 2.5)
             .attr("visibility", "hidden");
 
-        const regions = [];
+        const regions: Region[] = [];
         for (let i = 0; i < data.length; i++) {
             const center = x(data[i][0]);
-            let width;
+            let regionWidth;
             if (i === 0) {
-                width = x(data[i + 1][0]) - x(data[i][0]);
+                regionWidth =
+                    data.length === 1 ? width - margin.left - margin.right : x(data[i + 1][0]) - x(data[i][0]);
             } else if (i === data.length - 1) {
-                width = x(data[i][0]) - x(data[i - 1][0]);
+                regionWidth = x(data[i][0]) - x(data[i - 1][0]);
             } else {
-                width = (x(data[i + 1][0]) - x(data[i - 1][0])) / 2;
+                regionWidth = (x(data[i + 1][0]) - x(data[i - 1][0])) / 2;
             }
             regions.push({
-                position: center - width / 2,
-                width: width,
+                position: center - regionWidth / 2,
+                width: regionWidth,
                 point: data[i],
             });
         }
@@ -155,18 +176,18 @@ export default function LinePlot(props: LinePlotProps) {
         svg.append("g")
             .attr("pointer-events", "all")
             .attr("fill", "none")
-            .selectAll()
+            .selectAll<SVGRectElement, Region>("rect")
             .data(regions)
             .join("rect")
-            .attr("x", (d) => d["position"])
+            .attr("x", (d) => d.position)
             .attr("y", margin.bottom)
-            .attr("width", (d) => d["width"])
+            .attr("width", (d) => d.width)
             .attr("height", height - margin.top - margin.bottom)
-            .on("mouseover", (event, d) => {
-                tooltip.text(`(${d["point"][0]}, ${d["point"][1]})`);
+            .on("mouseover", (_event, d) => {
+                tooltip.text(`(${d.point[0]}, ${d.point[1]})`);
                 currentPoint
-                    .attr("cx", x(d["point"][0]))
-                    .attr("cy", y(d["point"][1]))
+                    .attr("cx", x(d.point[0]))
+                    .attr("cy", y(d.point[1]))
                     .attr("visibility", "visible");
             })
             .on("mouseout", () => {

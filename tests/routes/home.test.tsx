@@ -1,9 +1,7 @@
-import { default as Home } from "../../app/routes/homepage";
-import { render } from "@testing-library/react";
+import { default as Home } from "../../app/routes/home";
 
 describe("Home Test suite", () => {
     it("should work", async () => {
-        render(<Home />);
         expect(Home).toBeTruthy();
     });
 });

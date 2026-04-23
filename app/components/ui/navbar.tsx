@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router";
-import { type Path } from "~/routes";
+import { type Path } from "~/sitemap";
 
 import syndemicslogo from "~/images/organization-logos/syndemics-logo-only.svg";
 
@@ -9,7 +9,7 @@ function NavMenuTrigger({
     onTrigger,
 }: {
     menuState: boolean;
-    onTrigger: (boolean) => void;
+    onTrigger: (menuOpen: boolean) => void;
 }) {
     return (
         <div

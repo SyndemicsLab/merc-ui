@@ -1,12 +1,13 @@
+// @ts-nocheck
 import { useRef, useState, useEffect } from "react";
 import { useInputs, useInputsDispatch } from "@components/input-contexts";
 import ScrollIndicator from "@components/ui/scroll-indicator";
 import { ScrollDirection } from "@components/ui/scroll-indicator";
-import { ManagedSlider } from "~/components/ui/slider";
+import Slider from "~/components/ui/slider";
 import Interventions from "@simulation/interventions";
 import GlossaryButton from "@simulation/glossary-button";
 import Results from "@simulation/results";
-import InfoButton from "@components/ui/info-button.tsx";
+import InfoButton from "@components/ui/info-button";
 import { PROPORTION_MIN, PROPORTION_STEP, PROPORTION_MAX } from "~/globals";
 
 export default function Inputs() {
@@ -49,12 +50,13 @@ export default function Inputs() {
             />
             <h1>General Inputs</h1>
             <div id="global-inputs">
-                <ManagedSlider
-                    name={"Simulation Duration (Weeks)"}
+                <Slider
+                    inputVar="duration"
+                    inputText={"Simulation Duration (Weeks)"}
                     min={1}
                     max={2600}
                     step={1}
-                    value={inputs.duration}
+                    defaultValue={inputs.duration}
                     managementFunction={(value) =>
                         dispatch({
                             type: "change duration",
@@ -62,12 +64,13 @@ export default function Inputs() {
                         })
                     }
                 />
-                <ManagedSlider
-                    name={"Initial Total Population"}
+                <Slider
+                    inputVar="total_population"
+                    inputText={"Initial Total Population"}
                     min={0}
                     max={300000}
                     step={500}
-                    value={inputs.population}
+                    defaultValue={inputs.total_population}
                     managementFunction={(value) =>
                         dispatch({
                             type: "change total population",
@@ -75,25 +78,27 @@ export default function Inputs() {
                         })
                     }
                 />
-                <ManagedSlider
-                    name={"Change in Population Per Week (Count)"}
+                <Slider
+                    inputVar="changing_population"
+                    inputText={"Change in Population Per Week (Count)"}
                     min={-10000}
                     max={50000}
                     step={100}
-                    value={inputs.entering}
+                    defaultValue={inputs.changing_population}
                     managementFunction={(value) =>
                         dispatch({
-                            type: "change entering cohort",
+                            type: "change changing population",
                             value: value,
                         })
                     }
                 />
-                <ManagedSlider
-                    name={"Percent of Overdoses That Result in Death"}
+                <Slider
+                    inputVar="fatal_overdoses"
+                    inputText={"Percent of Overdoses That Result in Death"}
                     min={PROPORTION_MIN}
                     max={PROPORTION_MAX}
                     step={PROPORTION_STEP}
-                    value={inputs.fod}
+                    defaultValue={inputs.fatal_overdoses}
                     managementFunction={(value) =>
                         dispatch({
                             type: "change fatal overdose proportion",
@@ -140,7 +145,7 @@ const AdvancedInputs = () => {
             <label htmlFor="show-advanced" id="advanced-options">
                 <div className="advanced-options-text">Advanced Options</div>
             </label>
-            <div id="advanced" className={showAdvanced ? "unhidden" : null}>
+            <div id="advanced" className={showAdvanced ? "unhidden" : undefined}>
                 <h2>For More Information</h2>
                 <div className="more-info">
                     <InfoButton

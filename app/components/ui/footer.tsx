@@ -3,6 +3,7 @@ import BMC from "~/images/organization-logos/bmc.svg";
 import syndemics from "~/images/organization-logos/syndemics.svg";
 import HD2A from "~/images/organization-logos/hd2a.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import type { IconProp } from "@fortawesome/fontawesome-svg-core";
 import {
     faInstagram,
     faSquareLinkedin,
@@ -14,20 +15,27 @@ function Logo({
     alt,
     link,
 }: {
-    image: HTMLImageElement;
+    image: string;
     alt: string;
     link?: string;
 }) {
+    if (link) {
+        return (
+            <>
+                <Link to={link}>
+                    <img src={image} alt={alt} />
+                </Link>
+            </>
+        );
+    }
     return (
         <>
-            <Link to={link}>
-                <img src={image} alt={alt} />
-            </Link>
+            <img src={image} alt={alt} />
         </>
     );
 }
 
-function Social({ icon, link }: { icon: object; link: string }) {
+function Social({ icon, link }: { icon: IconProp; link: string }) {
     return (
         <>
             <Link to={link}>
