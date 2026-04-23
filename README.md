@@ -103,32 +103,27 @@ This diagram shows preferred import direction across folders/modules.
 
 ```mermaid
 flowchart LR
-	R[app/routes folder\nRoute modules]
-	C[app/components folder\nUI + feature composition]
-	P[app/components/input-contexts.tsx\nProvider/hooks]
-	F[app/features/simulation folder\nModel + reducer (pure domain)]
-	U[app/components/ui folder\nReusable primitives]
-	T[tests folder\nUnit + contract tests]
+    R["app/routes folder<br/>Route modules"];
+    C["app/components folder<br/>UI and feature composition"];
+    P["app/components/input-contexts.tsx<br/>Provider and hooks"];
+    F["app/features/simulation folder<br/>Model and reducer"];
+    U["app/components/ui folder<br/>Reusable primitives"];
+    T["tests folder<br/>Unit and contract tests"];
 
-	R --> C
-	R --> P
-	R --> F
-	C --> P
-	C --> F
-	C --> U
-	P --> F
-	T --> R
-	T --> C
-	T --> F
+    R --> C;
+    R --> P;
+    R --> F;
+    C --> P;
+    C --> F;
+    C --> U;
+    P --> F;
+    T --> R;
+    T --> C;
+    T --> F;
 
-	K[Discouraged: app/features to app/routes]
-	L[Discouraged: app/features to app/components]
-	M[Discouraged: app/components/ui to app/routes]
-	N[Discouraged: cross-feature imports via app/components]
-
-	F -.X.-> R
-	F -.X.-> C
-	U -.X.-> R
+    F -. disallowed .-> R;
+    F -. disallowed .-> C;
+    U -. disallowed .-> R;
 ```
 
 Import boundary rules:
