@@ -103,12 +103,12 @@ This diagram shows preferred import direction across folders/modules.
 
 ```mermaid
 flowchart LR
-	R[app/routes/*\nRoute modules]
-	C[app/components/*\nUI + feature composition]
+	R[app/routes folder\nRoute modules]
+	C[app/components folder\nUI + feature composition]
 	P[app/components/input-contexts.tsx\nProvider/hooks]
-	F[app/features/simulation/*\nModel + reducer (pure domain)]
-	U[app/components/ui/*\nReusable primitives]
-	T[tests/*\nUnit + contract tests]
+	F[app/features/simulation folder\nModel + reducer (pure domain)]
+	U[app/components/ui folder\nReusable primitives]
+	T[tests folder\nUnit + contract tests]
 
 	R --> C
 	R --> P
@@ -121,10 +121,10 @@ flowchart LR
 	T --> C
 	T --> F
 
-	K[Discouraged: app/features/* -> app/routes/*]
-	L[Discouraged: app/features/* -> app/components/*]
-	M[Discouraged: app/components/ui/* -> app/routes/*]
-	N[Discouraged: cross-feature imports via app/components/*]
+	K[Discouraged: app/features to app/routes]
+	L[Discouraged: app/features to app/components]
+	M[Discouraged: app/components/ui to app/routes]
+	N[Discouraged: cross-feature imports via app/components]
 
 	F -.X.-> R
 	F -.X.-> C
