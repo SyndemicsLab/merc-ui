@@ -7,7 +7,7 @@ import {
     ScrollRestoration,
 } from "react-router";
 
-import { sitemap } from "~/routes";
+import { sitemap } from "~/sitemap";
 import Navbar from "@components/ui/navbar";
 import Footer from "@components/ui/footer";
 import appStylesHref from "~/globals.scss?url";

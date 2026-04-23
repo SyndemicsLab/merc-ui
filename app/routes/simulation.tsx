@@ -37,7 +37,7 @@ export async function clientLoader({ serverLoader }) {
         return cachedData;
     }
 
-    const serverData = serverLoader();
+    const serverData = await serverLoader();
     sessionStorage.setItem("default-inputs", serverData);
     return serverData;
 }
@@ -75,11 +75,12 @@ export async function action({ request }: Route.ActionArgs) {
         },
     });
 
-    // `console.log()` calls will be replaced once the backend is squared away
     console.log(response);
 
     const result = await processResponse(response);
     console.log(result);
+
+    return result;
 }
 
 function InputWrapper({ handleSubmit }) {
