@@ -10,7 +10,10 @@ export default function Transitions({
     onTransitionChange: (value: number, transitionID: number) => void;
 }) {
     const summer = (accumulator: number, transition: Transition): number => {
-        const p = typeof (transition.probability) == "string" ? parseFloat(transition.probability) : transition.probability;
+        const p =
+            typeof transition.probability == "string"
+                ? parseFloat(transition.probability)
+                : transition.probability;
         return accumulator + p;
     };
     const sumProbs: number = transitions.reduce(summer, 0);
