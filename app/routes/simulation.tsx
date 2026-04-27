@@ -35,6 +35,19 @@ export interface SimulationRunResponse {
     error?: string;
 }
 
+interface SimulationSessionMeta {
+    schemaVersion: number;
+    lastUpdated: number;
+}
+
+type SimulationStorage = Pick<Storage, "getItem" | "setItem" | "removeItem">;
+
+const DEFAULT_INPUTS_KEY = "default-inputs";
+const SESSION_INPUTS_KEY = "simulation-session-inputs";
+const SESSION_META_KEY = "simulation-session-meta";
+const SESSION_SCHEMA_VERSION = 1;
+const SESSION_WRITE_DEBOUNCE_MS = 200;
+
 function cloneIntervention(intervention: Intervention): Intervention {
     return {
         ...intervention,
@@ -42,6 +55,255 @@ function cloneIntervention(intervention: Intervention): Intervention {
             ...transition,
         })),
         overdose: intervention.overdose.map((overdose) => ({ ...overdose })),
+    };
+}
+
+function cloneInputs(inputs: Inputs): Inputs {
+    return {
+        ...inputs,
+        interventions: inputs.interventions.map(cloneIntervention),
+    };
+}
+
+function isTransitionLike(value: unknown): boolean {
+    if (typeof value !== "object" || value === null) {
+        return false;
+    }
+    const candidate = value as {
+        id?: unknown;
+        name?: unknown;
+        probability?: unknown;
+    };
+    return (
+        typeof candidate.id === "number" &&
+        typeof candidate.name === "string" &&
+        typeof candidate.probability === "number"
+    );
+}
+
+function isOverdoseLike(value: unknown): boolean {
+    if (typeof value !== "object" || value === null) {
+        return false;
+    }
+    const candidate = value as { probability?: unknown; injection?: unknown };
+    return (
+        typeof candidate.probability === "number" &&
+        typeof candidate.injection === "boolean"
+    );
+}
+
+function isInterventionLike(value: unknown): boolean {
+    if (typeof value !== "object" || value === null) {
+        return false;
+    }
+
+    const candidate = value as {
+        id?: unknown;
+        name?: unknown;
+        active?: unknown;
+        population?: unknown;
+        transitions?: unknown;
+        overdose?: unknown;
+    };
+
+    if (
+        typeof candidate.id !== "number" ||
+        typeof candidate.name !== "string" ||
+        typeof candidate.active !== "boolean" ||
+        typeof candidate.population !== "number"
+    ) {
+        return false;
+    }
+
+    if (
+        !Array.isArray(candidate.transitions) ||
+        !Array.isArray(candidate.overdose)
+    ) {
+        return false;
+    }
+
+    return (
+        candidate.transitions.every(isTransitionLike) &&
+        candidate.overdose.every(isOverdoseLike)
+    );
+}
+
+function isInputsLike(value: unknown): value is Inputs {
+    if (typeof value !== "object" || value === null) {
+        return false;
+    }
+
+    const candidate = value as {
+        duration?: unknown;
+        total_population?: unknown;
+        changing_population?: unknown;
+        fatal_overdoses?: unknown;
+        interventions?: unknown;
+    };
+
+    if (
+        typeof candidate.duration !== "number" ||
+        typeof candidate.total_population !== "number" ||
+        typeof candidate.changing_population !== "number" ||
+        typeof candidate.fatal_overdoses !== "number" ||
+        !Array.isArray(candidate.interventions)
+    ) {
+        return false;
+    }
+
+    return candidate.interventions.every(isInterventionLike);
+}
+
+function isSimulationLoaderDataLike(
+    value: unknown,
+): value is SimulationLoaderData {
+    if (typeof value !== "object" || value === null) {
+        return false;
+    }
+
+    const candidate = value as {
+        initialInputs?: unknown;
+        presets?: unknown;
+    };
+
+    if (
+        !isInputsLike(candidate.initialInputs) ||
+        !Array.isArray(candidate.presets)
+    ) {
+        return false;
+    }
+
+    return candidate.presets.every(isInterventionLike);
+}
+
+function parseJson(raw: string): unknown {
+    try {
+        return JSON.parse(raw);
+    } catch {
+        return null;
+    }
+}
+
+function parseSessionMeta(raw: string | null): SimulationSessionMeta | null {
+    if (raw === null) {
+        return null;
+    }
+
+    const parsed = parseJson(raw);
+    if (typeof parsed !== "object" || parsed === null) {
+        return null;
+    }
+
+    const candidate = parsed as {
+        schemaVersion?: unknown;
+        lastUpdated?: unknown;
+    };
+
+    if (
+        typeof candidate.schemaVersion !== "number" ||
+        typeof candidate.lastUpdated !== "number"
+    ) {
+        return null;
+    }
+
+    return {
+        schemaVersion: candidate.schemaVersion,
+        lastUpdated: candidate.lastUpdated,
+    };
+}
+
+export function parseCachedDefaults(
+    raw: string | null,
+): SimulationLoaderData | null {
+    if (raw === null) {
+        return null;
+    }
+
+    const parsed = parseJson(raw);
+    return normalizeLoaderData(parsed);
+}
+
+export function normalizeLoaderData(
+    data: unknown,
+): SimulationLoaderData | null {
+    if (isSimulationLoaderDataLike(data)) {
+        return {
+            initialInputs: cloneInputs(data.initialInputs),
+            presets: data.presets.map(cloneIntervention),
+        };
+    }
+
+    // Backward compatibility for any previous payload that stored plain Inputs.
+    if (isInputsLike(data)) {
+        return makeLoaderData(data);
+    }
+
+    return null;
+}
+
+export function readSessionInputsFromStorage(
+    storage: SimulationStorage = sessionStorage,
+): Inputs | null {
+    const rawMeta = storage.getItem(SESSION_META_KEY);
+    const meta = parseSessionMeta(rawMeta);
+
+    if (
+        rawMeta !== null &&
+        (meta === null || meta.schemaVersion !== SESSION_SCHEMA_VERSION)
+    ) {
+        storage.removeItem(SESSION_INPUTS_KEY);
+        storage.removeItem(SESSION_META_KEY);
+        return null;
+    }
+
+    const rawInputs = storage.getItem(SESSION_INPUTS_KEY);
+    if (rawInputs === null) {
+        return null;
+    }
+
+    const parsed = parseJson(rawInputs);
+    if (!isInputsLike(parsed)) {
+        storage.removeItem(SESSION_INPUTS_KEY);
+        storage.removeItem(SESSION_META_KEY);
+        return null;
+    }
+
+    return cloneInputs(parsed);
+}
+
+export function persistSessionInputsToStorage(
+    inputs: Inputs,
+    storage: SimulationStorage = sessionStorage,
+    now: number = Date.now(),
+): void {
+    storage.setItem(SESSION_INPUTS_KEY, JSON.stringify(inputs));
+    storage.setItem(
+        SESSION_META_KEY,
+        JSON.stringify({
+            schemaVersion: SESSION_SCHEMA_VERSION,
+            lastUpdated: now,
+        }),
+    );
+}
+
+export function clearSessionInputsFromStorage(
+    storage: SimulationStorage = sessionStorage,
+): void {
+    storage.removeItem(SESSION_INPUTS_KEY);
+    storage.removeItem(SESSION_META_KEY);
+}
+
+export function applySessionInputsToLoaderData(
+    baseLoaderData: SimulationLoaderData,
+    sessionInputs: Inputs | null,
+): SimulationLoaderData {
+    if (sessionInputs === null) {
+        return baseLoaderData;
+    }
+
+    return {
+        ...baseLoaderData,
+        initialInputs: cloneInputs(sessionInputs),
     };
 }
 
@@ -83,27 +345,53 @@ export function mapRunResponse(
 
 // Action and Loader Hooks
 export async function loader() {
-    const response = fetch(`${process.env.API_URL}/defaults`, {
+    const response = await fetch(`${process.env.API_URL}/defaults`, {
         method: "GET",
         headers: {
             "x-api-key": `${process.env.API_KEY}`,
         },
     });
 
-    return response;
+    if (!response.ok) {
+        throw new Response("Failed to fetch simulation defaults.", {
+            status: response.status,
+            statusText: response.statusText,
+        });
+    }
+
+    const rawData = (await response.json()) as unknown;
+    const normalizedData = normalizeLoaderData(rawData);
+
+    if (normalizedData === null) {
+        throw new Response("Invalid simulation defaults payload.", {
+            status: 500,
+        });
+    }
+
+    return normalizedData;
 }
 
 export async function clientLoader({ serverLoader }: Route.ClientLoaderArgs) {
-    // return the data from the cache, if it exists
-    const cachedData = sessionStorage.getItem("default-inputs");
-    if (cachedData) {
-        return JSON.parse(cachedData) as SimulationLoaderData;
+    const sessionInputs = readSessionInputsFromStorage();
+
+    // Return cached API defaults when available, then apply current session state.
+    const cachedDefaults = parseCachedDefaults(
+        sessionStorage.getItem(DEFAULT_INPUTS_KEY),
+    );
+    if (cachedDefaults !== null) {
+        return applySessionInputsToLoaderData(cachedDefaults, sessionInputs);
     }
 
-    const serverData = (await serverLoader()) as Inputs;
-    const loaderData = makeLoaderData(serverData);
-    sessionStorage.setItem("default-inputs", JSON.stringify(loaderData));
-    return loaderData;
+    const serverData = (await serverLoader()) as unknown;
+    const loaderData = normalizeLoaderData(serverData);
+
+    if (loaderData === null) {
+        throw new Error("Invalid simulation loader data.");
+    }
+
+    sessionStorage.setItem(DEFAULT_INPUTS_KEY, JSON.stringify(loaderData));
+
+    return applySessionInputsToLoaderData(loaderData, sessionInputs);
 }
 clientLoader.hydrate = true;
 
@@ -300,7 +588,7 @@ function Input({
                 onClick={handleSubmit}
                 disabled={pending}
             >
-                {pending ? "RUNNING..." : "RUN"}
+                {pending ? "Running..." : "Run"}
             </button>
             <RunStatus pending={pending} result={runResult} />
         </>
@@ -318,6 +606,12 @@ function SimulationContent({ presets }: { presets: Intervention[] }) {
             encType: "application/json",
         });
     };
+
+    const handleReset = () => {
+        clearSessionInputsFromStorage();
+        window.location.reload();
+    };
+
     const pending = fetcher.state !== "idle";
 
     // reference for the input section, used for checking intersection with the
@@ -345,6 +639,16 @@ function SimulationContent({ presets }: { presets: Intervention[] }) {
             observer.observe(inputRef.current);
         }
     }, []);
+
+    useEffect(() => {
+        const timeoutId = window.setTimeout(() => {
+            persistSessionInputsToStorage(inputs);
+        }, SESSION_WRITE_DEBOUNCE_MS);
+
+        return () => {
+            window.clearTimeout(timeoutId);
+        };
+    }, [inputs]);
 
     return (
         <main id="simulation">
@@ -377,6 +681,14 @@ function SimulationContent({ presets }: { presets: Intervention[] }) {
                     pending={pending}
                     runResult={fetcher.data}
                 />
+                <button
+                    className="run-text"
+                    type="button"
+                    onClick={handleReset}
+                    disabled={pending}
+                >
+                    Reset Data
+                </button>
             </div>
         </main>
     );

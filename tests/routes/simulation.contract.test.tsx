@@ -3,9 +3,12 @@
 import { render, screen } from "@testing-library/react";
 import { inputs } from "../../app/features/simulation/model";
 import {
+    applySessionInputsToLoaderData,
     makeLoaderData,
     mapRunRequest,
     mapRunResponse,
+    normalizeLoaderData,
+    parseCachedDefaults,
     RunStatus,
 } from "../../app/routes/simulation";
 
@@ -25,6 +28,73 @@ describe("Simulation route contract", () => {
         expect(mapped.initialInputs.interventions[0]).not.toBe(
             mapped.presets[0],
         );
+    });
+
+    it("parses cached defaults stored as SimulationLoaderData", () => {
+        const loaderData = makeLoaderData(inputs);
+
+        const parsed = parseCachedDefaults(JSON.stringify(loaderData));
+
+        expect(parsed).toBeDefined();
+        expect(parsed?.initialInputs.duration).toBe(inputs.duration);
+        expect(parsed?.presets.length).toBe(inputs.interventions.length);
+    });
+
+    it("parses cached defaults stored as legacy Inputs payload", () => {
+        const parsed = parseCachedDefaults(JSON.stringify(inputs));
+
+        expect(parsed).toBeDefined();
+        expect(parsed?.initialInputs.total_population).toBe(
+            inputs.total_population,
+        );
+        expect(parsed?.presets[0].id).toBe(inputs.interventions[0].id);
+    });
+
+    it("returns null for invalid cached defaults", () => {
+        const parsed = parseCachedDefaults("{invalid-json");
+
+        expect(parsed).toBeNull();
+    });
+
+    it("normalizes SimulationLoaderData payloads", () => {
+        const loaderData = makeLoaderData(inputs);
+
+        const normalized = normalizeLoaderData(loaderData);
+
+        expect(normalized).toBeDefined();
+        expect(normalized?.initialInputs.duration).toBe(inputs.duration);
+        expect(normalized?.presets[0].id).toBe(inputs.interventions[0].id);
+    });
+
+    it("normalizes legacy Inputs payloads", () => {
+        const normalized = normalizeLoaderData(inputs);
+
+        expect(normalized).toBeDefined();
+        expect(normalized?.initialInputs.total_population).toBe(
+            inputs.total_population,
+        );
+    });
+
+    it("returns null when normalizing invalid payloads", () => {
+        const normalized = normalizeLoaderData({ initialInputs: null });
+
+        expect(normalized).toBeNull();
+    });
+
+    it("applies session inputs over loader defaults", () => {
+        const defaults = makeLoaderData(inputs);
+        const sessionInputs = {
+            ...inputs,
+            duration: inputs.duration + 10,
+        };
+
+        const hydrated = applySessionInputsToLoaderData(
+            defaults,
+            sessionInputs,
+        );
+
+        expect(hydrated.initialInputs.duration).toBe(inputs.duration + 10);
+        expect(hydrated.presets[0].id).toBe(defaults.presets[0].id);
     });
 
     it("maps run request into a plain JSON payload", () => {
