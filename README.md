@@ -10,7 +10,7 @@ Per section C.4.4 of the HEAL D2A Modeling and Economic Resource Center (MERC) g
 
 ## Codebase Structure (Maintainability Guide)
 
-This project uses React Router route modules and a feature-first organization for simulation logic.
+This project uses React Router v7 Framework Mode route modules and a feature-first organization for simulation logic.
 
 ### Top-level directories
 
