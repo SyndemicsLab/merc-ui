@@ -1,5 +1,3 @@
-/// <reference types="jest" />
-
 import { render, screen } from "@testing-library/react";
 import { inputs } from "../../app/features/simulation/model";
 import {

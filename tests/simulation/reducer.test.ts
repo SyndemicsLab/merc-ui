@@ -1,5 +1,3 @@
-/// <reference types="jest" />
-
 import { inputs, type Inputs } from "../../app/features/simulation/model";
 import {
     addIntervention,
