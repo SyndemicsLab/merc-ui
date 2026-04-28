@@ -19,6 +19,17 @@ import {
 } from "@components/input-contexts";
 import Contents from "@simulation/interventions/contents";
 import Tabs from "@simulation/interventions/tabs";
+import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+    DialogDescription,
+    DialogFooter,
+} from "@components/ui/dialog";
+import EmailIntake from "@simulation/emailintake";
+import LinePlot from "@components/simulation/viz/line-plot";
 
 // Asset imports
 import respond from "~/images/diagram/system.svg";
@@ -462,10 +473,31 @@ export function RunStatus({
             </p>
         );
     }
-    return <p className="run-status">Simulation complete.</p>;
+
+    const modelOutcome = JSON.parse(result["result"])["result"][0];
+    const bgDeathData = modelOutcome["background_death"].map(
+        (timestep, index) => {
+            return [index, timestep.reduce((acc, x) => acc + x, 0)];
+        }
+    )
+
+    return (
+        <>
+            <p className="run-status">
+                Simulation complete.
+            </p>
+            <hr />
+            <LinePlot
+                data={bgDeathData}
+                title="Background Death Count Over Time"
+                xTitle="Week"
+                yTitle="Deaths"
+            />
+        </>
+    );
 }
 
-function InputWrapper({
+function Input({
     handleSubmit,
     presets,
     pending,
@@ -477,32 +509,6 @@ function InputWrapper({
     runResult?: SimulationRunResponse;
 }) {
     const inputs = useInputs();
-    return (
-        <>
-            <Input
-                inputs={inputs}
-                handleSubmit={handleSubmit}
-                presets={presets}
-                pending={pending}
-                runResult={runResult}
-            />
-        </>
-    );
-}
-
-function Input({
-    inputs,
-    handleSubmit,
-    presets,
-    pending,
-    runResult,
-}: {
-    inputs: Inputs;
-    handleSubmit: () => void;
-    presets: Intervention[];
-    pending: boolean;
-    runResult?: SimulationRunResponse;
-}) {
     const dispatch = useInputsDispatch();
 
     const slider_defaults = [
@@ -582,15 +588,34 @@ function Input({
                 <Tabs interventions={inputs.interventions} presets={presets} />
                 <Contents interventions={inputs.interventions} />
             </div>
-            <button
-                className="run-text"
-                type="submit"
-                onClick={handleSubmit}
-                disabled={pending}
-            >
-                {pending ? "Running..." : "Run"}
-            </button>
-            <RunStatus pending={pending} result={runResult} />
+            <Dialog>
+                <DialogTrigger asChild>
+                    <button
+                        className="run-text"
+                        variant="outline"
+                        type="submit"
+                        onClick={handleSubmit}
+                        disabled={pending}
+                    >
+                        {pending ? "Running..." : "Run"}
+                    </button>
+                </DialogTrigger>
+                <DialogContent className="rounded-2xl bg-white w-[80%] p-9">
+                    <DialogHeader>
+                        <DialogTitle>Simulation Results</DialogTitle>
+                        <DialogDescription>
+                            It may take several minutes for the model to execute and
+                            for results to populate.
+                        </DialogDescription>
+                    </DialogHeader>
+                    <div className="results-main flex flex-col">
+                        <RunStatus pending={pending} result={runResult} />
+                    </div>
+                    <DialogFooter>
+                        <EmailIntake />
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
         </>
     );
 }
@@ -675,7 +700,7 @@ function SimulationContent({ presets }: { presets: Intervention[] }) {
                         direction: direction,
                     }}
                 />
-                <InputWrapper
+                <Input
                     handleSubmit={handleSubmit}
                     presets={presets}
                     pending={pending}
