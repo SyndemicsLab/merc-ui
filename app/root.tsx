@@ -7,12 +7,11 @@ import {
     ScrollRestoration,
 } from "react-router";
 
-import { sitemap } from "~/routes";
+import { sitemap } from "~/sitemap";
 import Navbar from "@components/ui/navbar";
 import Footer from "@components/ui/footer";
 import appStylesHref from "~/globals.scss?url";
 import tailwindStyle from "~/styles/tailwind.css?url";
-import { InputProvider } from "@components/input-contexts";
 
 export default function App() {
     return (
@@ -45,9 +44,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
                 <title>RESPOND — Syndemics Lab</title>
             </head>
             <body>
-                <div id="content">
-                    <InputProvider>{children}</InputProvider>
-                </div>
+                <div id="content">{children}</div>
                 <ScrollRestoration />
                 <Scripts />
             </body>

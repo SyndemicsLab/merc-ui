@@ -25,7 +25,10 @@ export async function action({ request }: Route.ActionArgs) {
     const cookie = (await userPrefs.parse(cookieHeader)) || {};
     const bodyParams = await request.formData();
 
-    const formJson = Object.fromEntries(bodyParams.entries());
+    const formJson = Object.fromEntries(bodyParams.entries()) as Record<
+        string,
+        string | boolean | null
+    >;
     for (const x in formJson) {
         if (formJson[x] === "on") {
             formJson[x] = true;
@@ -61,7 +64,7 @@ export async function action({ request }: Route.ActionArgs) {
     });
 }
 
-function HomeImage({ image }: { image: HTMLImageElement }) {
+function HomeImage({ image }: { image: string }) {
     return (
         <div className="home-circle">
             <img src={image} alt="RESPOND at the Syndemics Lab" />

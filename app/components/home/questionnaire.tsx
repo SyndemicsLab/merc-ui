@@ -11,6 +11,11 @@ import {
     DialogDescription,
 } from "@components/ui/dialog";
 
+interface DropdownOption {
+    value: string;
+    label: string;
+}
+
 function DropdownQuestion({
     name,
     question,
@@ -18,7 +23,7 @@ function DropdownQuestion({
 }: {
     name: string;
     question: string;
-    options: string[];
+    options: DropdownOption[];
 }) {
     return (
         <div className="questionnaire-question">

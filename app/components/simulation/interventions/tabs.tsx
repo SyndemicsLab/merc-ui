@@ -7,7 +7,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@components/ui/dropdown-menu";
-import { inputs } from "~/data";
+import type { Intervention } from "~/features/simulation/model";
 
 function Tab({ intervention }: { intervention: Intervention }) {
     const dispatch = useInputsDispatch();
@@ -46,8 +46,10 @@ function Tab({ intervention }: { intervention: Intervention }) {
 
 export default function Tabs({
     interventions,
+    presets,
 }: {
     interventions: Intervention[];
+    presets: Intervention[];
 }) {
     const dispatch = useInputsDispatch();
     return (
@@ -78,7 +80,7 @@ export default function Tabs({
                         <DropdownMenuLabel className="dropdown-label">
                             Presets
                         </DropdownMenuLabel>
-                        {inputs.interventions.map((intervention) => (
+                        {presets.map((intervention) => (
                             <DropdownMenuItem
                                 key={intervention.id}
                                 className="add-intervention-item"
@@ -86,6 +88,7 @@ export default function Tabs({
                                     dispatch({
                                         type: "intervention add",
                                         intervention: `${intervention.name}`,
+                                        preset: intervention,
                                     })
                                 }
                             >

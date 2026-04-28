@@ -7,7 +7,7 @@ export default function Slider({
     max,
     step,
     defaultValue,
-    managementFunction = null,
+    managementFunction,
     readOnly = false,
 }: {
     inputVar: string;
@@ -21,9 +21,10 @@ export default function Slider({
 }) {
     const [value, setValue] = useState(Number(defaultValue));
 
-    const displayValue = managementFunction === null ? value : defaultValue;
+    const hasManagementFunction = typeof managementFunction === "function";
+    const displayValue = hasManagementFunction ? defaultValue : value;
     // when there's no external management function, simply use the state setter
-    if (managementFunction === null) {
+    if (!managementFunction) {
         managementFunction = setValue;
     }
 

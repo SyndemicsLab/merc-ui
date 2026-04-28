@@ -1,4 +1,4 @@
-import type { Transition, Intervention } from "~/data";
+import type { Transition, Intervention } from "~/features/simulation/model";
 import Slider from "~/components/ui/slider";
 import Transitions from "@simulation/interventions/transitions";
 import Overdoses from "@simulation/interventions/overdose";

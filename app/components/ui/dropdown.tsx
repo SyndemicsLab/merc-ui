@@ -16,7 +16,18 @@ import {
 import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "~/lib/utils";
 
-function Dropdown({ name, options }: { name: string; options: string[] }) {
+interface DropdownOption {
+    value: string;
+    label: string;
+}
+
+function Dropdown({
+    name,
+    options,
+}: {
+    name: string;
+    options: DropdownOption[];
+}) {
     const [dropdownOpen, dropdownSetOpen] = useState(false);
     const [selected, setSelected] = useState("");
 
@@ -26,7 +37,7 @@ function Dropdown({ name, options }: { name: string; options: string[] }) {
         if (hiddenInput) {
             hiddenInput.value = selected;
         }
-    }, [selected]);
+    }, [name, selected]);
 
     return (
         <Popover open={dropdownOpen} onOpenChange={dropdownSetOpen}>

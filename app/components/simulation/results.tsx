@@ -15,7 +15,7 @@ import TimedLoader from "@components/ui/mock/timed-loader";
 
 export default function Results() {
     return (
-        <Dialog id="results">
+        <Dialog>
             <DialogTrigger asChild>
                 <Button variant="outline" className="run-text">
                     RUN
