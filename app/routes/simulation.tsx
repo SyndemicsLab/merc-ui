@@ -30,6 +30,7 @@ import {
 } from "@components/ui/dialog";
 import EmailIntake from "@simulation/emailintake";
 import LinePlot from "@components/simulation/viz/line-plot";
+import { Loader } from "@components/ui/mock/timed-loader";
 
 // Asset imports
 import respond from "~/images/diagram/system.svg";
@@ -461,7 +462,8 @@ export function RunStatus({
     result?: SimulationRunResponse;
 }) {
     if (pending) {
-        return <p className="run-status">Running simulation...</p>;
+        // return <p className="run-status">Running simulation...</p>;
+        return <Loader />
     }
     if (!result) {
         return null;
@@ -480,16 +482,23 @@ export function RunStatus({
             return [index, timestep.reduce((acc, x) => acc + x, 0)];
         }
     )
+    let cumulativeBGDeathData = bgDeathData.map(x => [x[0], x[1]]);
+    for (let i = 1; i < cumulativeBGDeathData.length; i++) {
+        cumulativeBGDeathData[i][1] = cumulativeBGDeathData[i][1]
+            + cumulativeBGDeathData[i - 1][1];
+    }
 
     return (
         <>
-            <p className="run-status">
-                Simulation complete.
-            </p>
-            <hr />
             <LinePlot
                 data={bgDeathData}
                 title="Background Death Count Over Time"
+                xTitle="Week"
+                yTitle="Deaths"
+            />
+            <LinePlot
+                data={cumulativeBGDeathData}
+                title="Cumulative Background Death Count Over Time"
                 xTitle="Week"
                 yTitle="Deaths"
             />
@@ -604,16 +613,19 @@ function Input({
                     <DialogHeader>
                         <DialogTitle>Simulation Results</DialogTitle>
                         <DialogDescription>
-                            It may take several minutes for the model to execute and
-                            for results to populate.
+                            It may take several minutes for the model to execute
+                            and for results to populate.
                         </DialogDescription>
                     </DialogHeader>
                     <div className="results-main flex flex-col">
                         <RunStatus pending={pending} result={runResult} />
                     </div>
-                    <DialogFooter>
-                        <EmailIntake />
-                    </DialogFooter>
+                    {/*
+                       Commenting out the email intake until it's functional
+                        <DialogFooter>
+                            <EmailIntake />
+                        </DialogFooter>
+                    */}
                 </DialogContent>
             </Dialog>
         </>
