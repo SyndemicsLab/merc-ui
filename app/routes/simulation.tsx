@@ -26,9 +26,9 @@ import {
     DialogTitle,
     DialogTrigger,
     DialogDescription,
-    DialogFooter,
+    // DialogFooter,
 } from "@components/ui/dialog";
-import EmailIntake from "@simulation/emailintake";
+// import EmailIntake from "@simulation/emailintake";
 import LinePlot from "@components/simulation/viz/line-plot";
 import { Loader } from "@components/ui/mock/timed-loader";
 
@@ -463,7 +463,7 @@ export function RunStatus({
 }) {
     if (pending) {
         // return <p className="run-status">Running simulation...</p>;
-        return <Loader />
+        return <Loader />;
     }
     if (!result) {
         return null;
@@ -480,7 +480,7 @@ export function RunStatus({
         return [index, timestep.reduce((acc, x) => acc + x, 0)];
     };
     const cumulativeState = (outcome) => {
-        let to_return = outcome.map(x => [x[0], x[1]]);
+        const to_return = outcome.map((x) => [x[0], x[1]]);
         for (let i = 1; i < to_return.length; i++) {
             to_return[i][1] = to_return[i][1] + to_return[i - 1][1];
         }
@@ -489,7 +489,7 @@ export function RunStatus({
     const modelOutcome = JSON.parse(result["result"])["result"][0];
     // background death
     const bgDeathData =
-          modelOutcome["background_death"].map(accumulateTimesteps);
+        modelOutcome["background_death"].map(accumulateTimesteps);
     const cumulativeBGDeathData = cumulativeState(bgDeathData);
     // overdose
     const totalOD = modelOutcome["total_overdose"].map(accumulateTimesteps);
@@ -501,7 +501,7 @@ export function RunStatus({
     const population = modelOutcome["state"].map(accumulateTimesteps);
     // intervention admissions
     const moudAdmissions =
-          modelOutcome["intervention_admission"].map(accumulateTimesteps);
+        modelOutcome["intervention_admission"].map(accumulateTimesteps);
 
     return (
         <>
