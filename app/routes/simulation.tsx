@@ -30,7 +30,7 @@ import {
 } from "@components/ui/dialog";
 // import EmailIntake from "@simulation/emailintake";
 import LinePlot from "@components/simulation/viz/line-plot";
-import { Loader } from "@components/ui/mock/timed-loader";
+import { LoadIndicator } from "@components/ui/mock/timed-loader";
 
 // Asset imports
 import respond from "~/images/diagram/system.svg";
@@ -462,8 +462,7 @@ export function RunStatus({
     result?: SimulationRunResponse;
 }) {
     if (pending) {
-        // return <p className="run-status">Running simulation...</p>;
-        return <Loader />;
+        return <LoadIndicator />;
     }
     if (!result) {
         return null;
