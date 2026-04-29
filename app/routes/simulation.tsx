@@ -1,6 +1,7 @@
 // Package types
 import type { Route } from "./+types/simulation";
 import type { Inputs, Intervention } from "~/features/simulation/model";
+import type { Point } from "@simulation/viz/line-plot";
 
 // Node, React, and React Router imports
 import { useFetcher, Await, useLoaderData } from "react-router";
@@ -19,6 +20,18 @@ import {
 } from "@components/input-contexts";
 import Contents from "@simulation/interventions/contents";
 import Tabs from "@simulation/interventions/tabs";
+import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+    DialogDescription,
+    // DialogFooter,
+} from "@components/ui/dialog";
+// import EmailIntake from "@simulation/emailintake";
+import LinePlot from "@components/simulation/viz/line-plot";
+import { LoadIndicator } from "@components/ui/mock/timed-loader";
 
 // Asset imports
 import respond from "~/images/diagram/system.svg";
@@ -450,7 +463,7 @@ export function RunStatus({
     result?: SimulationRunResponse;
 }) {
     if (pending) {
-        return <p className="run-status">Running simulation...</p>;
+        return <LoadIndicator />;
     }
     if (!result) {
         return null;
@@ -462,10 +475,97 @@ export function RunStatus({
             </p>
         );
     }
-    return <p className="run-status">Simulation complete.</p>;
+
+    const accumulateTimesteps = (timestep: number[], index: number): Point => {
+        return [index, timestep.reduce((acc: number, x: number) => acc + x, 0)];
+    };
+    const cumulativeState = (outcome: Point[]) => {
+        const to_return: Point[] = outcome.map((x: number[]) => [x[0], x[1]]);
+        for (let i = 1; i < to_return.length; i++) {
+            to_return[i][1] = to_return[i][1] + to_return[i - 1][1];
+        }
+        return to_return;
+    };
+
+    // confirm there's a usable body. exit with warning if not.
+    const resultBody: string =
+        typeof result["result"] === "string" ? result["result"] : "";
+    if (resultBody === "") {
+        return <p>There was an issue with the simulation outcomes.</p>;
+    }
+
+    const modelOutcome = JSON.parse(resultBody)["result"][0];
+    // background death
+    const bgDeathData =
+        modelOutcome["background_death"].map(accumulateTimesteps);
+    const cumulativeBGDeathData = cumulativeState(bgDeathData);
+    // overdose
+    const totalOD = modelOutcome["total_overdose"].map(accumulateTimesteps);
+    const cumulativeTotalOD = cumulativeState(totalOD);
+    // fatal overdoses
+    const fatalOD = modelOutcome["fatal_overdose"].map(accumulateTimesteps);
+    const cumulativeFatalOD = cumulativeState(fatalOD);
+    // state (total population) -- no cumulative because that doesn't make sense
+    const population = modelOutcome["state"].map(accumulateTimesteps);
+    // intervention admissions
+    const moudAdmissions =
+        modelOutcome["intervention_admission"].map(accumulateTimesteps);
+
+    return (
+        <>
+            <LinePlot
+                data={bgDeathData}
+                title="Background Death Count Over Time"
+                xTitle="Week"
+                yTitle="Deaths"
+            />
+            <LinePlot
+                data={cumulativeBGDeathData}
+                title="Cumulative Background Death Count Over Time"
+                xTitle="Week"
+                yTitle="Deaths"
+            />
+            <LinePlot
+                data={totalOD}
+                title="Total Overdose Count Over Time"
+                xTitle="Week"
+                yTitle="Overdoses"
+            />
+            <LinePlot
+                data={cumulativeTotalOD}
+                title="Cumulative Total Overdose Count Over Time"
+                xTitle="Week"
+                yTitle="Overdoses"
+            />
+            <LinePlot
+                data={fatalOD}
+                title="Fatal Overdose Count Over Time"
+                xTitle="Week"
+                yTitle="Overdose Deaths"
+            />
+            <LinePlot
+                data={cumulativeFatalOD}
+                title="Cumulative Fatal Overdose Count Over Time"
+                xTitle="Week"
+                yTitle="Overdose Deaths"
+            />
+            <LinePlot
+                data={population}
+                title="Population Count Over Time"
+                xTitle="Week"
+                yTitle="Population"
+            />
+            <LinePlot
+                data={moudAdmissions}
+                title="MOUD Admissions Per Timestep"
+                xTitle="Week"
+                yTitle="Admissions"
+            />
+        </>
+    );
 }
 
-function InputWrapper({
+function Input({
     handleSubmit,
     presets,
     pending,
@@ -477,32 +577,6 @@ function InputWrapper({
     runResult?: SimulationRunResponse;
 }) {
     const inputs = useInputs();
-    return (
-        <>
-            <Input
-                inputs={inputs}
-                handleSubmit={handleSubmit}
-                presets={presets}
-                pending={pending}
-                runResult={runResult}
-            />
-        </>
-    );
-}
-
-function Input({
-    inputs,
-    handleSubmit,
-    presets,
-    pending,
-    runResult,
-}: {
-    inputs: Inputs;
-    handleSubmit: () => void;
-    presets: Intervention[];
-    pending: boolean;
-    runResult?: SimulationRunResponse;
-}) {
     const dispatch = useInputsDispatch();
 
     const slider_defaults = [
@@ -582,15 +656,36 @@ function Input({
                 <Tabs interventions={inputs.interventions} presets={presets} />
                 <Contents interventions={inputs.interventions} />
             </div>
-            <button
-                className="run-text"
-                type="submit"
-                onClick={handleSubmit}
-                disabled={pending}
-            >
-                {pending ? "Running..." : "Run"}
-            </button>
-            <RunStatus pending={pending} result={runResult} />
+            <Dialog>
+                <DialogTrigger asChild>
+                    <button
+                        className="run-text"
+                        type="submit"
+                        onClick={handleSubmit}
+                        disabled={pending}
+                    >
+                        {pending ? "Running..." : "Run"}
+                    </button>
+                </DialogTrigger>
+                <DialogContent className="rounded-2xl bg-white w-[80%] p-9">
+                    <DialogHeader>
+                        <DialogTitle>Simulation Results</DialogTitle>
+                        <DialogDescription>
+                            It may take several minutes for the model to execute
+                            and for results to populate.
+                        </DialogDescription>
+                    </DialogHeader>
+                    <div className="results-main flex flex-col">
+                        <RunStatus pending={pending} result={runResult} />
+                    </div>
+                    {/*
+                       Commenting out the email intake until it's functional
+                        <DialogFooter>
+                            <EmailIntake />
+                        </DialogFooter>
+                    */}
+                </DialogContent>
+            </Dialog>
         </>
     );
 }
@@ -675,7 +770,7 @@ function SimulationContent({ presets }: { presets: Intervention[] }) {
                         direction: direction,
                     }}
                 />
-                <InputWrapper
+                <Input
                     handleSubmit={handleSubmit}
                     presets={presets}
                     pending={pending}

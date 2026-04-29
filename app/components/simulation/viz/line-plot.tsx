@@ -2,7 +2,7 @@ import * as d3 from "d3";
 import { useRef, useEffect } from "react";
 import { SYNDEMICS_PINK, SYNDEMICS_CYAN, SYNDEMICS_BLUE } from "~/globals";
 
-type Point = [number, number];
+export type Point = [number, number];
 
 interface Region {
     position: number;

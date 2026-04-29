@@ -2,7 +2,7 @@ import * as React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
-export function Loader() {
+export function LoadIndicator() {
     return (
         <div className="loader">
             <FontAwesomeIcon className="load-indicator" icon={faSpinner} />
@@ -19,5 +19,5 @@ export default function TimedLoader({
 }) {
     const [loaded, setLoaded] = React.useState(false);
     setTimeout(() => setLoaded(true), delay);
-    return <>{loaded ? <>{children}</> : <Loader />}</>;
+    return <>{loaded ? <>{children}</> : <LoadIndicator />}</>;
 }
