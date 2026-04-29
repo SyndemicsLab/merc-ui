@@ -19,5 +19,5 @@ export default function TimedLoader({
 }) {
     const [loaded, setLoaded] = React.useState(false);
     setTimeout(() => setLoaded(true), delay);
-    return <>{loaded ? <>{children}</> : <Loader />}</>;
+    return <>{loaded ? <>{children}</> : <LoadIndicator />}</>;
 }

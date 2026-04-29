@@ -1,6 +1,7 @@
 // Package types
 import type { Route } from "./+types/simulation";
 import type { Inputs, Intervention } from "~/features/simulation/model";
+import type { Point } from "@simulation/viz/line-plot";
 
 // Node, React, and React Router imports
 import { useFetcher, Await, useLoaderData } from "react-router";
@@ -475,17 +476,25 @@ export function RunStatus({
         );
     }
 
-    const accumulateTimesteps = (timestep, index) => {
-        return [index, timestep.reduce((acc, x) => acc + x, 0)];
+    const accumulateTimesteps = (timestep: number[], index: number): Point => {
+        return [index, timestep.reduce((acc: number, x: number) => acc + x, 0)];
     };
-    const cumulativeState = (outcome) => {
-        const to_return = outcome.map((x) => [x[0], x[1]]);
+    const cumulativeState = (outcome: Point[]) => {
+        const to_return: Point[] = outcome.map((x: number[]) => [x[0], x[1]]);
         for (let i = 1; i < to_return.length; i++) {
             to_return[i][1] = to_return[i][1] + to_return[i - 1][1];
         }
         return to_return;
     };
-    const modelOutcome = JSON.parse(result["result"])["result"][0];
+
+    // confirm there's a usable body. exit with warning if not.
+    const resultBody: string =
+        typeof result["result"] === "string" ? result["result"] : "";
+    if (resultBody === "") {
+        return <p>There was an issue with the simulation outcomes.</p>;
+    }
+
+    const modelOutcome = JSON.parse(resultBody)["result"][0];
     // background death
     const bgDeathData =
         modelOutcome["background_death"].map(accumulateTimesteps);
@@ -651,7 +660,6 @@ function Input({
                 <DialogTrigger asChild>
                     <button
                         className="run-text"
-                        variant="outline"
                         type="submit"
                         onClick={handleSubmit}
                         disabled={pending}
