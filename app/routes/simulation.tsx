@@ -476,17 +476,32 @@ export function RunStatus({
         );
     }
 
-    const modelOutcome = JSON.parse(result["result"])["result"][0];
-    const bgDeathData = modelOutcome["background_death"].map(
-        (timestep, index) => {
-            return [index, timestep.reduce((acc, x) => acc + x, 0)];
+    const accumulateTimesteps = (timestep, index) => {
+        return [index, timestep.reduce((acc, x) => acc + x, 0)];
+    };
+    const cumulativeState = (outcome) => {
+        let to_return = outcome.map(x => [x[0], x[1]]);
+        for (let i = 1; i < to_return.length; i++) {
+            to_return[i][1] = to_return[i][1] + to_return[i - 1][1];
         }
-    )
-    let cumulativeBGDeathData = bgDeathData.map(x => [x[0], x[1]]);
-    for (let i = 1; i < cumulativeBGDeathData.length; i++) {
-        cumulativeBGDeathData[i][1] = cumulativeBGDeathData[i][1]
-            + cumulativeBGDeathData[i - 1][1];
-    }
+        return to_return;
+    };
+    const modelOutcome = JSON.parse(result["result"])["result"][0];
+    // background death
+    const bgDeathData =
+          modelOutcome["background_death"].map(accumulateTimesteps);
+    const cumulativeBGDeathData = cumulativeState(bgDeathData);
+    // overdose
+    const totalOD = modelOutcome["total_overdose"].map(accumulateTimesteps);
+    const cumulativeTotalOD = cumulativeState(totalOD);
+    // fatal overdoses
+    const fatalOD = modelOutcome["fatal_overdose"].map(accumulateTimesteps);
+    const cumulativeFatalOD = cumulativeState(fatalOD);
+    // state (total population) -- no cumulative because that doesn't make sense
+    const population = modelOutcome["state"].map(accumulateTimesteps);
+    // intervention admissions
+    const moudAdmissions =
+          modelOutcome["intervention_admission"].map(accumulateTimesteps);
 
     return (
         <>
@@ -501,6 +516,42 @@ export function RunStatus({
                 title="Cumulative Background Death Count Over Time"
                 xTitle="Week"
                 yTitle="Deaths"
+            />
+            <LinePlot
+                data={totalOD}
+                title="Total Overdose Count Over Time"
+                xTitle="Week"
+                yTitle="Overdoses"
+            />
+            <LinePlot
+                data={cumulativeTotalOD}
+                title="Cumulative Total Overdose Count Over Time"
+                xTitle="Week"
+                yTitle="Overdoses"
+            />
+            <LinePlot
+                data={fatalOD}
+                title="Fatal Overdose Count Over Time"
+                xTitle="Week"
+                yTitle="Overdose Deaths"
+            />
+            <LinePlot
+                data={cumulativeFatalOD}
+                title="Cumulative Fatal Overdose Count Over Time"
+                xTitle="Week"
+                yTitle="Overdose Deaths"
+            />
+            <LinePlot
+                data={population}
+                title="Population Count Over Time"
+                xTitle="Week"
+                yTitle="Population"
+            />
+            <LinePlot
+                data={moudAdmissions}
+                title="MOUD Admissions Per Timestep"
+                xTitle="Week"
+                yTitle="Admissions"
             />
         </>
     );
