@@ -432,7 +432,7 @@ async function processResponse(response: Response) {
 }
 
 export async function action({ request }: Route.ActionArgs) {
-    const data = await request.json();
+    // const data = await request.json();
 
     try {
         // use the fetch api to send the json to the backend
