@@ -362,6 +362,7 @@ export async function loader() {
         method: "GET",
         headers: {
             "x-api-key": `${process.env.API_KEY}`,
+            operation: "get_default_inputs",
         },
     });
 
@@ -431,9 +432,9 @@ async function processResponse(response: Response) {
 }
 
 export async function action({ request }: Route.ActionArgs) {
-    const data = await request.json();
-
     try {
+        const data = await request.json();
+
         // use the fetch api to send the json to the backend
         const response = await fetch(`${process.env.API_URL}/run`, {
             method: "POST",
@@ -441,6 +442,7 @@ export async function action({ request }: Route.ActionArgs) {
             headers: {
                 "x-api-key": `${process.env.API_KEY}`,
                 "content-type": "application/json",
+                operation: "run_model",
             },
         });
 
