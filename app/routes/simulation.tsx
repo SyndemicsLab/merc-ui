@@ -432,14 +432,22 @@ async function processResponse(response: Response) {
 }
 
 export async function action({ request }: Route.ActionArgs) {
-    // const data = await request.json();
-
     try {
+        const formData = await request.formData();
+        const payload = formData.get("payload");
+        if (typeof payload !== "string") {
+            return {
+                ok: false,
+                status: 400,
+                error: "Missing simulation payload.",
+            } as SimulationRunResponse;
+        }
+        const data = JSON.parse(payload) as unknown;
+
         // use the fetch api to send the json to the backend
         const response = await fetch(`${process.env.API_URL}/run`, {
             method: "POST",
-            body: "{}",
-            // body: JSON.stringify(data),
+            body: JSON.stringify(data),
             headers: {
                 "x-api-key": `${process.env.API_KEY}`,
                 "content-type": "application/json",
@@ -699,10 +707,10 @@ function SimulationContent({ presets }: { presets: Intervention[] }) {
 
     const handleSubmit = () => {
         const submission = mapRunRequest(inputs);
-        fetcher.submit(submission as never, {
-            method: "POST",
-            encType: "application/json",
-        });
+        fetcher.submit(
+            { payload: JSON.stringify(submission) },
+            { method: "POST" },
+        );
     };
 
     const handleReset = () => {
