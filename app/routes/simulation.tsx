@@ -362,7 +362,7 @@ export async function loader() {
         method: "GET",
         headers: {
             "x-api-key": `${process.env.API_KEY}`,
-            "operation": "get_default_inputs"
+            operation: "get_default_inputs",
         },
     });
 
@@ -442,7 +442,7 @@ export async function action({ request }: Route.ActionArgs) {
             headers: {
                 "x-api-key": `${process.env.API_KEY}`,
                 "content-type": "application/json",
-                "operation": "run_model"
+                operation: "run_model",
             },
         });
 
