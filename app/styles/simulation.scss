@@ -482,6 +482,21 @@ button:hover {
     height: auto;
     margin: auto;
 
+    h2 {
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--tertiary-color);
+    }
+
+    @media (max-width: 700px) {
+        width: 100%;
+        margin: auto;
+
+        h2 {
+            font-size: 0.7rem;
+        }
+    }
+
     &::-webkit-scrollbar {
         display: -webkit-box !important;
         background-color: #eee;
@@ -507,12 +522,6 @@ button:hover {
         flex-grow: 1;
         overflow: visible;
         height: calc(100% - 100px);
-    }
-
-    h2 {
-        font-size: 24px;
-        font-weight: 600;
-        color: var(--tertiary-color);
     }
 }
 

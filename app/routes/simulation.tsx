@@ -669,7 +669,7 @@ function Input({
                         {pending ? "Running..." : "Run"}
                     </button>
                 </DialogTrigger>
-                <DialogContent className="rounded-2xl bg-white w-[80%] p-9">
+                <DialogContent className="rounded-2xl bg-white">
                     <DialogHeader>
                         <DialogTitle>Simulation Results</DialogTitle>
                         <DialogDescription>
