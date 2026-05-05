@@ -24,6 +24,7 @@
 }
 
 .glossary-button {
+    outline: none;
     position: absolute;
     right: 0;
 }
@@ -58,9 +59,39 @@
 #inputs {
     position: relative;
     background-color: #fff;
-    padding: calc(var(--spacing) * 3);
+    padding: 0;
+    margin: calc(var(--spacing) * 3);
     border-radius: var(--border-radius);
-    margin-bottom: var(--spacing);
+
+    @media (min-width: 1500px) {
+        margin: 0 0 var(--spacing) 0;
+        padding: calc(var(--spacing)  * 3);
+    }
+}
+
+.more-inputs {
+    background-color: white;
+    border: 1px solid var(--accent-gray);
+    border-radius: var(--border-radius);
+    animation-duration: 0.6s;
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+
+    &[data-side="top"] {
+        animation-name: slide-up;
+    }
+
+    &[data-side="bottom"] {
+        animation-name: slide-down;
+    }
+
+    .dropdown-label {
+        color: var(--accent-darkgray);
+
+        // prevent text selection within element
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
 }
 
 input[type="text"] {

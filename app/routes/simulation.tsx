@@ -4,14 +4,13 @@ import type { Inputs, Intervention } from "~/features/simulation/model";
 import type { Point } from "@simulation/viz/line-plot";
 
 // Node, React, and React Router imports
-import { useFetcher, Await, useLoaderData } from "react-router";
+import { useFetcher, Await, useLoaderData, useNavigate } from "react-router";
 import { useRef, useState, useEffect, Suspense } from "react";
 
 // Component imports
 import ScrollIndicator, {
     ScrollDirection,
 } from "@components/ui/scroll-indicator";
-import InfoButton from "@components/ui/info-button";
 import Slider from "@components/ui/slider";
 import {
     InputProvider,
@@ -29,6 +28,14 @@ import {
     DialogDescription,
     // DialogFooter,
 } from "@components/ui/dialog";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@components/ui/dropdown-menu";
 // import EmailIntake from "@simulation/emailintake";
 import LinePlot from "@components/simulation/viz/line-plot";
 import { LoadIndicator } from "@components/ui/mock/timed-loader";
@@ -695,6 +702,7 @@ function Input({
 function SimulationContent({ presets }: { presets: Intervention[] }) {
     const inputs = useInputs();
     const fetcher = useFetcher<SimulationRunResponse>();
+    let navigate = useNavigate();
 
     const handleSubmit = () => {
         const submission = mapRunRequest(inputs);
@@ -760,11 +768,35 @@ function SimulationContent({ presets }: { presets: Intervention[] }) {
                when this section is visible.
              */}
             <div id="inputs" ref={inputRef}>
-                <InfoButton
-                    className="glossary-button"
-                    text="Open Glossary"
-                    destination="/glossary"
-                />
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <button className="glossary-button">
+                            More
+                        </button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="more-inputs">
+                        <DropdownMenuLabel className="dropdown-label">
+                            Input Settings
+                        </DropdownMenuLabel>
+                        <DropdownMenuItem
+                            className="reset-data"
+                            onSelect={handleReset}
+                        >
+                            Reset Data
+                        </DropdownMenuItem>
+                        <DropdownMenuLabel className="dropdown-label">
+                            Information
+                        </DropdownMenuLabel>
+                        <DropdownMenuItem
+                            className="to-glossary"
+                            onSelect={() => {
+                                navigate("/glossary");
+                            }}
+                        >
+                            Glossary
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
                 <ScrollIndicator
                     destination="/simulation#inputs"
                     options={{
@@ -778,14 +810,6 @@ function SimulationContent({ presets }: { presets: Intervention[] }) {
                     pending={pending}
                     runResult={fetcher.data}
                 />
-                <button
-                    className="run-text"
-                    type="button"
-                    onClick={handleReset}
-                    disabled={pending}
-                >
-                    Reset Data
-                </button>
             </div>
         </main>
     );
