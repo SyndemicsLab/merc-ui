@@ -1,5 +1,5 @@
 @use "components/buttons" as buttons;
-@use "effects/slide";
+@use "components/dropdown" as dropdown;
 @use "effects/bounce";
 
 /* SIMULATION */
@@ -70,28 +70,7 @@
 }
 
 .more-inputs {
-    background-color: white;
-    border: 1px solid var(--accent-gray);
-    border-radius: var(--border-radius);
-    animation-duration: 0.6s;
-    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
-
-    &[data-side="top"] {
-        animation-name: slide-up;
-    }
-
-    &[data-side="bottom"] {
-        animation-name: slide-down;
-    }
-
-    .dropdown-label {
-        color: var(--accent-darkgray);
-
-        // prevent text selection within element
-        -webkit-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-    }
+    @include dropdown.dropdown();
 }
 
 input[type="text"] {
@@ -314,46 +293,7 @@ button:hover {
 }
 
 .add-intervention-dropdown {
-    background-color: white;
-    width: var(--radix-dropdown-menu-trigger-width);
-    border: 1px solid var(--accent-gray);
-    border-radius: var(--border-radius);
-    animation-duration: 0.6s;
-    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
-
-    &[data-side="top"] {
-        animation-name: slide-up;
-    }
-
-    &[data-side="bottom"] {
-        animation-name: slide-down;
-    }
-
-    .add-intervention-item {
-        font-weight: 600;
-        border-radius: var(--border-radius);
-        transition: background-color var(--transition-duration);
-
-        &:hover {
-            background-color: var(--accent-gray);
-        }
-    }
-
-    .dropdown-separator {
-        margin: 0.1rem auto;
-        width: 90%;
-        height: 0;
-        border-top: solid 1px var(--accent-gray);
-    }
-
-    .dropdown-label {
-        color: var(--accent-darkgray);
-
-        // prevent text selection within element
-        -webkit-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-    }
+    @include dropdown.dropdown();
 }
 
 .interventionTab {
