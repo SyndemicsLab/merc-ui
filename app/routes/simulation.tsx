@@ -37,7 +37,7 @@ import {
     DropdownMenuTrigger,
 } from "@components/ui/dropdown-menu";
 // import EmailIntake from "@simulation/emailintake";
-import LinePlot from "@components/simulation/viz/line-plot";
+import LinePlot, { MultiLinePlot } from "@components/simulation/viz/line-plot";
 import { LoadIndicator } from "@components/ui/mock/timed-loader";
 
 // Asset imports
@@ -522,6 +522,15 @@ export function RunStatus({
 
     return (
         <>
+            <MultiLinePlot
+                data={[
+                    { value: cumulativeBGDeathData, name: "Cumulative" },
+                    { value: bgDeathData, name: "Timestep" },
+                ]}
+                title="Background Death Count Over Time"
+                xTitle="Week"
+                yTitle="Deaths"
+            />
             <LinePlot
                 data={bgDeathData}
                 title="Background Death Count Over Time"
@@ -702,7 +711,7 @@ function Input({
 function SimulationContent({ presets }: { presets: Intervention[] }) {
     const inputs = useInputs();
     const fetcher = useFetcher<SimulationRunResponse>();
-    let navigate = useNavigate();
+    const navigate = useNavigate();
 
     const handleSubmit = () => {
         const submission = mapRunRequest(inputs);
@@ -770,11 +779,9 @@ function SimulationContent({ presets }: { presets: Intervention[] }) {
             <div id="inputs" ref={inputRef}>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <button className="glossary-button">
-                            More
-                        </button>
+                        <button className="glossary-button">More</button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent className="more-inputs">
+                    <DropdownMenuContent className="more-inputs" align="end">
                         <DropdownMenuLabel className="dropdown-label">
                             Input Settings
                         </DropdownMenuLabel>
@@ -784,6 +791,7 @@ function SimulationContent({ presets }: { presets: Intervention[] }) {
                         >
                             Reset Data
                         </DropdownMenuItem>
+                        <DropdownMenuSeparator />
                         <DropdownMenuLabel className="dropdown-label">
                             Information
                         </DropdownMenuLabel>
