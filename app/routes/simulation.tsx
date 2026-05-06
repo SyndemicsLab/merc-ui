@@ -466,21 +466,21 @@ export async function action({ request }: Route.ActionArgs) {
 
 export function RunStatus({
     pending,
+    reset,
     result,
 }: {
     pending: boolean;
+    reset: boolean;
     result?: SimulationRunResponse;
 }) {
-    if (pending) {
+    if (pending || reset) {
         return <LoadIndicator />;
     }
-    if (!result) {
-        return null;
-    }
-    if (!result.ok) {
+    if (!result || !result.ok) {
         return (
             <p className="run-status" role="alert">
-                {result.error}
+                An error happened while attempting to run the simulation. Please
+                try again.
             </p>
         );
     }
@@ -596,6 +596,20 @@ function Input({
 }) {
     const inputs = useInputs();
     const dispatch = useInputsDispatch();
+    const [resultsOpen, setResultsOpen] = useState(false);
+
+    // prevents the last set of results from flashing in before a new simulation
+    // starts running
+    const [resultsReset, setResultsReset] = useState(false);
+    function resetResults(open: boolean) {
+        const wait = () => new Promise((resolve => setTimeout(resolve, 100)));
+        if (!open) {
+            setResultsReset(true);
+        } else {
+            wait().then(() => setResultsReset(false));
+        }
+        setResultsOpen(open);
+    }
 
     const slider_defaults = [
         {
@@ -674,7 +688,7 @@ function Input({
                 <Tabs interventions={inputs.interventions} presets={presets} />
                 <Contents interventions={inputs.interventions} />
             </div>
-            <Dialog>
+            <Dialog open={resultsOpen} onOpenChange={resetResults}>
                 <DialogTrigger asChild>
                     <button
                         className="run-text"
@@ -694,7 +708,7 @@ function Input({
                         </DialogDescription>
                     </DialogHeader>
                     <div className="results-main flex flex-col">
-                        <RunStatus pending={pending} result={runResult} />
+                        <RunStatus pending={pending} reset={resultsReset} result={runResult} />
                     </div>
                     {/*
                        Commenting out the email intake until it's functional
@@ -779,7 +793,7 @@ function SimulationContent({ presets }: { presets: Intervention[] }) {
             <div id="inputs" ref={inputRef}>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <button className="glossary-button">More</button>
+                        <button className="input-menu">More</button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className="more-inputs" align="end">
                         <DropdownMenuLabel className="dropdown-label">

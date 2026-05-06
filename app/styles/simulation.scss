@@ -23,12 +23,6 @@
     width: 100%;
 }
 
-.glossary-button {
-    outline: none;
-    position: absolute;
-    right: 0;
-}
-
 .scrolldown {
     position: fixed;
     left: 0;
@@ -67,6 +61,12 @@
         margin: 0 0 var(--spacing) 0;
         padding: calc(var(--spacing) * 3);
     }
+}
+
+.input-menu {
+    outline: none;
+    position: absolute;
+    right: 0;
 }
 
 .more-inputs {
