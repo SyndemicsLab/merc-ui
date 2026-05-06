@@ -602,7 +602,7 @@ function Input({
     // starts running
     const [resultsReset, setResultsReset] = useState(false);
     function resetResults(open: boolean) {
-        const wait = () => new Promise((resolve => setTimeout(resolve, 100)));
+        const wait = () => new Promise((resolve) => setTimeout(resolve, 100));
         if (!open) {
             setResultsReset(true);
         } else {
@@ -708,7 +708,11 @@ function Input({
                         </DialogDescription>
                     </DialogHeader>
                     <div className="results-main flex flex-col">
-                        <RunStatus pending={pending} reset={resultsReset} result={runResult} />
+                        <RunStatus
+                            pending={pending}
+                            reset={resultsReset}
+                            result={runResult}
+                        />
                     </div>
                     {/*
                        Commenting out the email intake until it's functional
