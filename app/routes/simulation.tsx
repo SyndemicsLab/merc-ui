@@ -521,7 +521,7 @@ export function RunStatus({
         modelOutcome["intervention_admission"].map(accumulateTimesteps);
 
     return (
-        <>
+        <div role="result-visualization">
             <MultiLinePlot
                 data={[
                     { value: cumulativeBGDeathData, name: "Cumulative" },
@@ -579,7 +579,7 @@ export function RunStatus({
                 xTitle="Week"
                 yTitle="Admissions"
             />
-        </>
+        </div>
     );
 }
 

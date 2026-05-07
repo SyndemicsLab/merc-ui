@@ -128,28 +128,73 @@ describe("Simulation route contract", () => {
         expect(mapped.error).toBe("backend error");
     });
 
-    it("renders pending run status", () => {
-        render(<RunStatus pending={true} />);
+    it("renders pending run loading", () => {
+        render(<RunStatus pending={true} reset={false} />);
 
-        expect(screen.getByText("Running simulation...")).toBeTruthy();
+        expect(screen.getByRole("loading-placeholder")).toBeTruthy();
     });
 
-    it("renders success run status", () => {
+    it("renders reset run loading", () => {
+        render(<RunStatus pending={false} reset={true} />);
+
+        expect(screen.getByRole("loading-placeholder")).toBeTruthy();
+    });
+
+    it("renders empty run body", () => {
         render(
-            <RunStatus pending={false} result={{ ok: true, status: 200 }} />,
+            <RunStatus
+                pending={false}
+                reset={false}
+                result={{ ok: true, status: 200 }}
+            />,
         );
 
-        expect(screen.getByText("Simulation complete.")).toBeTruthy();
+        expect(
+            screen.getByText(
+                "There was an issue with the simulation outcomes.",
+            ),
+        ).toBeTruthy();
+    });
+
+    it("renders successful run results", () => {
+        render(
+            <RunStatus
+                pending={false}
+                reset={false}
+                result={{
+                    ok: true,
+                    status: 200,
+                    result: JSON.stringify({
+                        result: [
+                            {
+                                background_death: [[0], [0], [0]],
+                                total_overdose: [[0], [0], [0]],
+                                fatal_overdose: [[0], [0], [0]],
+                                state: [[0], [0], [0]],
+                                intervention_admission: [[0], [0], [0]],
+                            },
+                        ],
+                    }),
+                }}
+            />,
+        );
+
+        expect(screen.getByRole("result-visualization")).toBeTruthy();
     });
 
     it("renders error run status", () => {
         render(
             <RunStatus
                 pending={false}
+                reset={false}
                 result={{ ok: false, status: 500, error: "Failed" }}
             />,
         );
 
-        expect(screen.getByRole("alert").textContent).toBe("Failed");
+        expect(
+            screen.getByText(
+                "An error happened while attempting to run the simulation. Please try again.",
+            ),
+        ).toBeTruthy();
     });
 });

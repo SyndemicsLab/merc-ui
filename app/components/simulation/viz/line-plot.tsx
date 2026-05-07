@@ -299,8 +299,8 @@ export function MultiLinePlot(props: MultiLinePlotProps) {
             .range([height - margin.bottom, margin.top + 15])
             .nice();
 
-        const colors = d3
-            .scaleOrdinal()
+        const colors: d3.ScaleOrdinal<number, string, never> = d3
+            .scaleOrdinal<number, string, never>()
             .range([SYNDEMICS_PINK, SYNDEMICS_BLUE, SYNDEMICS_CYAN]);
 
         const maxPoints = Math.max(...data.map((p) => p.value.length));
@@ -357,7 +357,7 @@ export function MultiLinePlot(props: MultiLinePlotProps) {
             .join("path")
             .attr("d", (d) => line(d.value))
             .attr("fill", "transparent")
-            .attr("stroke", (_, i) => colors(i));
+            .attr("stroke", (_, i: number): string => colors(i));
     }, [data, xTitle, yTitle, width, height, margin, plotContainer]);
 
     return (

@@ -4,7 +4,7 @@ import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 export function LoadIndicator() {
     return (
-        <div className="loader">
+        <div className="loader" role="loading-placeholder">
             <FontAwesomeIcon className="load-indicator" icon={faSpinner} />
         </div>
     );
