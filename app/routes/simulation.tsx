@@ -616,7 +616,8 @@ function Input({
             inputVar: "duration",
             inputText: "Simulation Duration (Weeks)",
             min: 1,
-            max: 2600,
+            // limiting duration to 7 years in Alpha
+            max: 364,
             step: 1,
             defaultValue: inputs.duration,
             action: (value: number) =>
