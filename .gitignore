@@ -5,7 +5,9 @@ data/*
 
 .react-router/
 
-*build/
+build/*
+!build/.gitkeep
+public/*
 /packages/*/dist/
 /packages/*/LICENSE.md
 node_modules/
