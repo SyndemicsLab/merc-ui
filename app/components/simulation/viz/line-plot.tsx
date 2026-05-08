@@ -27,6 +27,44 @@ interface LinePlotProps {
     margin?: PlotMargins;
 }
 
+interface MultiLineData {
+    value: Point[];
+    name: string;
+}
+
+interface MultiLinePlotProps {
+    data: MultiLineData[];
+    title: string;
+    xTitle?: string;
+    yTitle?: string;
+    width?: number;
+    height?: number;
+    margin?: PlotMargins;
+}
+
+function pointRange(
+    data: (Point | MultiLineData)[],
+    dim: number,
+): [number, number] | undefined {
+    if (dim > 1 || dim < 0) {
+        return undefined;
+    }
+    const values: number[] = [];
+    for (const item of data) {
+        if ("value" in item) {
+            // MultiLineData
+            values.push(...item.value.map((p) => p[dim]));
+        } else {
+            // Point
+            values.push(item[dim]);
+        }
+    }
+
+    const min = d3.min(values) ?? 0;
+    const max = d3.max(values) ?? 0;
+    return [min, max];
+}
+
 /*
   Draws a line plot from data of the shape [2, N], e.g. [[0,0], [1,1], [2,2]],
   where N is the number of points in the data set.
@@ -196,6 +234,130 @@ export default function LinePlot(props: LinePlotProps) {
                 tooltip.text("Use your cursor to see detailed values");
                 currentPoint.attr("visibility", "hidden");
             });
+    }, [data, xTitle, yTitle, width, height, margin, plotContainer]);
+
+    return (
+        <div className="line-plot">
+            {title ? <h2>{title}</h2> : null}
+            <svg viewBox={`0 0 ${width} ${height}`} ref={plotContainer} />
+        </div>
+    );
+}
+
+export function MultiLinePlot(props: MultiLinePlotProps) {
+    const {
+        data,
+        title,
+        xTitle,
+        yTitle,
+        width = 650,
+        height = 500,
+        margin = {
+            top: 20,
+            right: 30,
+            bottom: 40,
+            left: 50,
+        },
+    } = props;
+
+    // reference for the SVG container
+    const plotContainer = useRef<SVGSVGElement | null>(null);
+
+    useEffect(() => {
+        if (!plotContainer.current) {
+            return;
+        }
+
+        const svg = d3.select(plotContainer.current);
+
+        // clear content when refreshing
+        svg.selectAll("*").remove();
+
+        if (data.length === 0) {
+            return;
+        }
+
+        const xRange = pointRange(data, 0);
+        if (!xRange) {
+            return;
+        }
+        const [xMin, xMax] = xRange;
+        const x = d3
+            .scaleLinear()
+            .domain([xMin, xMax])
+            .range([margin.left, width - margin.right])
+            .nice();
+
+        const yRange = pointRange(data, 1);
+        if (!yRange) {
+            return;
+        }
+        const [yMin, yMax] = yRange;
+        const y = d3
+            .scaleLinear()
+            .domain([yMin >= 0 ? 0 : yMin, yMax])
+            .range([height - margin.bottom, margin.top + 15])
+            .nice();
+
+        const colors: d3.ScaleOrdinal<number, string, never> = d3
+            .scaleOrdinal<number, string, never>()
+            .range([SYNDEMICS_PINK, SYNDEMICS_BLUE, SYNDEMICS_CYAN]);
+
+        const maxPoints = Math.max(...data.map((p) => p.value.length));
+
+        // add the x-axis
+        // the constant 80 was chosen arbitrarily
+        svg.append("g")
+            .attr("transform", `translate(0, ${height - margin.bottom})`)
+            .call(
+                d3
+                    .axisBottom(x)
+                    .ticks(
+                        maxPoints < 10 ? maxPoints : width / 80,
+                        maxPoints < 10 ? "g" : "d",
+                    )
+                    .tickSizeOuter(0),
+            );
+        if (xTitle) {
+            svg.append("text")
+                .attr("transform", `translate(${width / 2}, ${height})`)
+                .attr("text-anchor", "middle")
+                .attr("alignment-baseline", "after-edge")
+                .attr("font-size", "0.8rem")
+                .text(xTitle);
+        }
+
+        // add the y-axis
+        svg.append("g")
+            .attr("transform", `translate(${margin.left}, 0)`)
+            .call(d3.axisLeft(y).ticks(20, "s"))
+            .call((g) => g.selectAll(".domain").remove());
+        // transforming the axis label so that it is 12 units closer to the axis
+        // and rotating (-90 degrees) so that the bottom of the text faces the
+        // axis
+        if (yTitle) {
+            svg.append("text")
+                .attr("transform", `translate(12, ${height / 2}) rotate(-90)`)
+                .attr("text-anchor", "middle")
+                .attr("font-size", "0.8rem")
+                .text(yTitle);
+        }
+
+        const line = d3
+            .line<Point>()
+            .x((d) => x(d[0]))
+            .y((d) => y(d[1]))
+            .curve(d3.curveNatural);
+
+        // line
+        svg.append("g")
+            .attr("stroke-width", 2)
+            .selectAll("path")
+            .data(data)
+            .join("path")
+            .attr("d", (d) => line(d.value))
+            .attr("fill", "transparent")
+            .attr("stroke", (_, i: number): string => colors(i));
     }, [data, xTitle, yTitle, width, height, margin, plotContainer]);
 
     return (

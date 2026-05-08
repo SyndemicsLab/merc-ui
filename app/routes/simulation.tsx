@@ -4,14 +4,13 @@ import type { Inputs, Intervention } from "~/features/simulation/model";
 import type { Point } from "@simulation/viz/line-plot";
 
 // Node, React, and React Router imports
-import { useFetcher, Await, useLoaderData } from "react-router";
+import { useFetcher, Await, useLoaderData, useNavigate } from "react-router";
 import { useRef, useState, useEffect, Suspense } from "react";
 
 // Component imports
 import ScrollIndicator, {
     ScrollDirection,
 } from "@components/ui/scroll-indicator";
-import InfoButton from "@components/ui/info-button";
 import Slider from "@components/ui/slider";
 import {
     InputProvider,
@@ -29,8 +28,16 @@ import {
     DialogDescription,
     // DialogFooter,
 } from "@components/ui/dialog";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@components/ui/dropdown-menu";
 // import EmailIntake from "@simulation/emailintake";
-import LinePlot from "@components/simulation/viz/line-plot";
+import LinePlot, { MultiLinePlot } from "@components/simulation/viz/line-plot";
 import { LoadIndicator } from "@components/ui/mock/timed-loader";
 
 // Asset imports
@@ -459,21 +466,21 @@ export async function action({ request }: Route.ActionArgs) {
 
 export function RunStatus({
     pending,
+    reset,
     result,
 }: {
     pending: boolean;
+    reset: boolean;
     result?: SimulationRunResponse;
 }) {
-    if (pending) {
+    if (pending || reset) {
         return <LoadIndicator />;
     }
-    if (!result) {
-        return null;
-    }
-    if (!result.ok) {
+    if (!result || !result.ok) {
         return (
             <p className="run-status" role="alert">
-                {result.error}
+                An error happened while attempting to run the simulation. Please
+                try again.
             </p>
         );
     }
@@ -514,7 +521,16 @@ export function RunStatus({
         modelOutcome["intervention_admission"].map(accumulateTimesteps);
 
     return (
-        <>
+        <div role="result-visualization">
+            <MultiLinePlot
+                data={[
+                    { value: cumulativeBGDeathData, name: "Cumulative" },
+                    { value: bgDeathData, name: "Timestep" },
+                ]}
+                title="Background Death Count Over Time"
+                xTitle="Week"
+                yTitle="Deaths"
+            />
             <LinePlot
                 data={bgDeathData}
                 title="Background Death Count Over Time"
@@ -563,7 +579,7 @@ export function RunStatus({
                 xTitle="Week"
                 yTitle="Admissions"
             />
-        </>
+        </div>
     );
 }
 
@@ -580,6 +596,20 @@ function Input({
 }) {
     const inputs = useInputs();
     const dispatch = useInputsDispatch();
+    const [resultsOpen, setResultsOpen] = useState(false);
+
+    // prevents the last set of results from flashing in before a new simulation
+    // starts running
+    const [resultsReset, setResultsReset] = useState(false);
+    function resetResults(open: boolean) {
+        const wait = () => new Promise((resolve) => setTimeout(resolve, 100));
+        if (!open) {
+            setResultsReset(true);
+        } else {
+            wait().then(() => setResultsReset(false));
+        }
+        setResultsOpen(open);
+    }
 
     const slider_defaults = [
         {
@@ -658,7 +688,7 @@ function Input({
                 <Tabs interventions={inputs.interventions} presets={presets} />
                 <Contents interventions={inputs.interventions} />
             </div>
-            <Dialog>
+            <Dialog open={resultsOpen} onOpenChange={resetResults}>
                 <DialogTrigger asChild>
                     <button
                         className="run-text"
@@ -669,7 +699,7 @@ function Input({
                         {pending ? "Running..." : "Run"}
                     </button>
                 </DialogTrigger>
-                <DialogContent className="rounded-2xl bg-white w-[80%] p-9">
+                <DialogContent className="rounded-2xl bg-white">
                     <DialogHeader>
                         <DialogTitle>Simulation Results</DialogTitle>
                         <DialogDescription>
@@ -678,7 +708,11 @@ function Input({
                         </DialogDescription>
                     </DialogHeader>
                     <div className="results-main flex flex-col">
-                        <RunStatus pending={pending} result={runResult} />
+                        <RunStatus
+                            pending={pending}
+                            reset={resultsReset}
+                            result={runResult}
+                        />
                     </div>
                     {/*
                        Commenting out the email intake until it's functional
@@ -695,6 +729,7 @@ function Input({
 function SimulationContent({ presets }: { presets: Intervention[] }) {
     const inputs = useInputs();
     const fetcher = useFetcher<SimulationRunResponse>();
+    const navigate = useNavigate();
 
     const handleSubmit = () => {
         const submission = mapRunRequest(inputs);
@@ -760,11 +795,34 @@ function SimulationContent({ presets }: { presets: Intervention[] }) {
                when this section is visible.
              */}
             <div id="inputs" ref={inputRef}>
-                <InfoButton
-                    className="glossary-button"
-                    text="Open Glossary"
-                    destination="/glossary"
-                />
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <button className="input-menu">More</button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="more-inputs" align="end">
+                        <DropdownMenuLabel className="dropdown-label">
+                            Input Settings
+                        </DropdownMenuLabel>
+                        <DropdownMenuItem
+                            className="reset-data"
+                            onSelect={handleReset}
+                        >
+                            Reset Data
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuLabel className="dropdown-label">
+                            Information
+                        </DropdownMenuLabel>
+                        <DropdownMenuItem
+                            className="to-glossary"
+                            onSelect={() => {
+                                navigate("/glossary");
+                            }}
+                        >
+                            Glossary
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
                 <ScrollIndicator
                     destination="/simulation#inputs"
                     options={{
@@ -778,14 +836,6 @@ function SimulationContent({ presets }: { presets: Intervention[] }) {
                     pending={pending}
                     runResult={fetcher.data}
                 />
-                <button
-                    className="run-text"
-                    type="button"
-                    onClick={handleReset}
-                    disabled={pending}
-                >
-                    Reset Data
-                </button>
             </div>
         </main>
     );
