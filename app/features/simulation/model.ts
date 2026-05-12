@@ -5,6 +5,7 @@ interface Intervention {
     description?: string;
     info?: boolean;
     population: number;
+    postPopulation?: number;
     overdose: Overdose[];
     transitions: Transition[];
 }

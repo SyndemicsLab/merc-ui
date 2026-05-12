@@ -375,13 +375,15 @@ export function changeInterventionTransition(
         if (i.id !== interventionID) {
             return i;
         }
+        const newTransition = Number(Number(value).toFixed(4));
         return {
             ...i,
+            postPopulation: i.population * newTransition / 100,
             transitions: i.transitions.map((t) => {
                 if (t.id === transitionID) {
                     return {
                         ...t,
-                        probability: Number(Number(value).toFixed(4)),
+                        probability: newTransition,
                     };
                 }
                 return t;
