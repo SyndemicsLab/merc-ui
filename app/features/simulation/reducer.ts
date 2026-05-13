@@ -235,7 +235,9 @@ export function deleteIntervention(
             };
             if (newIntervention.id === 0) {
                 const ntPopulation =
-                    newIntervention.population + toDelete.population + toDelete.postPopulation;
+                    newIntervention.population +
+                    toDelete.population +
+                    toDelete.postPopulation;
                 if (deletingActive) {
                     return {
                         ...newIntervention,
@@ -346,11 +348,12 @@ export function changeInterventionPopulation(
                     population: value,
                     // initial population in post-treatment is the initial
                     // population times the transition proportion
-                    postPopulation:
-                        Math.round((value *
+                    postPopulation: Math.round(
+                        (value *
                             i.transitions.filter((t) => t.id === i.id)[0]
                                 .probability) /
-                        100),
+                            100,
+                    ),
                 };
             }
             return i;
@@ -399,9 +402,14 @@ export function changeInterventionTransition(
             return i;
         }
         const newTransition = Number(Number(value).toFixed(4));
-        const postPopulation = transitionID === i.id ? {
-            postPopulation: Math.round((i.population * newTransition) / 100),
-        } : {};
+        const postPopulation =
+            transitionID === i.id
+                ? {
+                      postPopulation: Math.round(
+                          (i.population * newTransition) / 100,
+                      ),
+                  }
+                : {};
         return {
             ...i,
             ...postPopulation,
@@ -427,15 +435,10 @@ export function changeInterventionTransition(
         activeIntervention.transitions.map((t) => t.probability);
 
     const treatedPopulation = newInterventions
-          .filter((i) => i.id !== 0)
-          .map((i) => i.population + i.postPopulation);
+        .filter((i) => i.id !== 0)
+        .map((i) => i.population + i.postPopulation);
 
-    if (
-        constrainValues(
-            treatedPopulation,
-            simulationInputs.total_population,
-        )
-    ) {
+    if (constrainValues(treatedPopulation, simulationInputs.total_population)) {
         return simulationInputs;
     }
 
@@ -443,9 +446,9 @@ export function changeInterventionTransition(
         return simulationInputs;
     }
 
-    newInterventions.find((i) => i.id === 0).population = simulationInputs.total_population -
-        treatedPopulation
-        .reduce((accumulator, value) => {
+    newInterventions.find((i) => i.id === 0).population =
+        simulationInputs.total_population -
+        treatedPopulation.reduce((accumulator, value) => {
             return accumulator + value;
         }, 0);
 
