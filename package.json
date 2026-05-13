@@ -56,7 +56,7 @@
         "prettier": "3.6.2",
         "sass-embedded": "^1.99.0",
         "tailwindcss": "^4.0.0",
-        "typescript": "^5.9.3",
+        "typescript": "^6.0.3",
         "typescript-eslint": "^8.59.3",
         "vitest": "^3.2.4"
     },
