@@ -106,11 +106,7 @@ function Content({
                         min={0}
                         max={200000}
                         step={1000}
-                        defaultValue={
-                            typeof intervention.postPopulation === "number"
-                                ? intervention.postPopulation
-                                : 0
-                        }
+                        defaultValue={intervention.postPopulation ?? 0}
                         readOnly={true}
                     />
                 ) : null}
