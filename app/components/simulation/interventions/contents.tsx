@@ -99,6 +99,17 @@ function Content({
                     }
                     readOnly={intervention.id === 0 ? true : false}
                 />
+                {intervention.id !== 0 ? (
+                    <Slider
+                        inputText="Post-Treatment Population Size"
+                        inputVar={`post_${intervention.name}_population`}
+                        min={0}
+                        max={200000}
+                        step={1000}
+                        defaultValue={intervention.postPopulation ?? 0}
+                        readOnly={true}
+                    />
+                ) : null}
                 {/* Intervention transitions default to open for No Treatment */}
                 <Collapsible
                     className="block-trans-root"

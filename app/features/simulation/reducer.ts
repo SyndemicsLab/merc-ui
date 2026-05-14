@@ -174,6 +174,7 @@ export function addIntervention(
             name: name,
             active: true,
             population: 0,
+            postPopulation: 0,
             transitions: makeTransitionsFromExistingIntervention(
                 name,
                 id,
@@ -187,6 +188,7 @@ export function addIntervention(
             name: name,
             active: true,
             population: 0,
+            postPopulation: 0,
             transitions: [
                 makeEmptyTransition(id, `Post-${name}`),
                 ...newInterventions.map((i) => {
@@ -231,22 +233,20 @@ export function deleteIntervention(
                     (t) => t.id !== id,
                 ),
             };
-            if (newIntervention.id === 0) {
-                const ntPopulation =
-                    newIntervention.population + toDelete.population;
-                if (deletingActive) {
-                    return {
-                        ...newIntervention,
-                        active: true,
-                        population: ntPopulation,
-                    };
-                }
-                return {
-                    ...newIntervention,
-                    population: ntPopulation,
-                };
+            if (newIntervention.id !== 0) {
+                return newIntervention;
             }
-            return newIntervention;
+            if (!toDelete.postPopulation) {
+                return intervention;
+            }
+            return {
+                ...newIntervention,
+                active: intervention.active || deletingActive,
+                population:
+                    intervention.population +
+                    toDelete.population +
+                    toDelete.postPopulation,
+            };
         },
     );
 
@@ -279,7 +279,14 @@ export function changeTotalPopulation(
     const currentMinPopulation: number = simulationInputs.interventions
         .filter((i) => i.id !== 0)
         .reduce((accumulator, intervention) => {
-            return accumulator + intervention.population;
+            if (!intervention.postPopulation) {
+                return accumulator + intervention.population;
+            }
+            return (
+                accumulator +
+                intervention.population +
+                intervention.postPopulation
+            );
         }, 0);
 
     if (constrainValues([value], currentMinPopulation, "min")) {
@@ -331,10 +338,22 @@ export function changeInterventionPopulation(
     interventionID: number,
     value: number,
 ): Inputs {
+    // can safely change postPopulation here because NT population is read only
     const newInterventions = simulationInputs.interventions.map(
         (i: Intervention) => {
             if (i.id === interventionID) {
-                return { ...i, population: value };
+                return {
+                    ...i,
+                    population: value,
+                    // initial population in post-treatment is the initial
+                    // population times the transition proportion
+                    postPopulation: Math.round(
+                        (value *
+                            i.transitions.filter((t) => t.id === i.id)[0]
+                                .probability) /
+                            100,
+                    ),
+                };
             }
             return i;
         },
@@ -342,7 +361,13 @@ export function changeInterventionPopulation(
 
     if (
         constrainValues(
-            newInterventions.filter((i) => i.id !== 0).map((i) => i.population),
+            newInterventions
+                .filter((i) => i.id !== 0)
+                .map((i) =>
+                    i.postPopulation
+                        ? i.population + i.postPopulation
+                        : i.population,
+                ),
             simulationInputs.total_population,
         )
     ) {
@@ -352,7 +377,14 @@ export function changeInterventionPopulation(
     const treatedPopulation: number = newInterventions
         .filter((i) => i.id !== 0)
         .reduce((accumulator, intervention) => {
-            return accumulator + intervention.population;
+            if (!intervention.postPopulation) {
+                return accumulator + intervention.population;
+            }
+            return (
+                accumulator +
+                intervention.population +
+                intervention.postPopulation
+            );
         }, 0);
     newInterventions[0] = {
         ...newInterventions[0],
@@ -375,13 +407,23 @@ export function changeInterventionTransition(
         if (i.id !== interventionID) {
             return i;
         }
+        const newTransition = Number(Number(value).toFixed(4));
+        const postPopulation =
+            transitionID === i.id
+                ? {
+                      postPopulation: Math.round(
+                          (i.population * newTransition) / 100,
+                      ),
+                  }
+                : {};
         return {
             ...i,
+            ...postPopulation,
             transitions: i.transitions.map((t) => {
                 if (t.id === transitionID) {
                     return {
                         ...t,
-                        probability: Number(Number(value).toFixed(4)),
+                        probability: newTransition,
                     };
                 }
                 return t;
@@ -398,9 +440,31 @@ export function changeInterventionTransition(
     const newTransitionProbabilities: number[] =
         activeIntervention.transitions.map((t) => t.probability);
 
+    const treatedPopulation = newInterventions
+        .filter((i) => i.id !== 0)
+        .map((i) =>
+            i.postPopulation ? i.population + i.postPopulation : i.population,
+        );
+
+    if (constrainValues(treatedPopulation, simulationInputs.total_population)) {
+        return simulationInputs;
+    }
+
     if (constrainValues(newTransitionProbabilities, PROPORTION_MAX)) {
         return simulationInputs;
     }
+
+    const noTreatment: Intervention | undefined = newInterventions.find(
+        (i) => i.id === 0,
+    );
+    if (noTreatment) {
+        noTreatment.population =
+            simulationInputs.total_population -
+            treatedPopulation.reduce((accumulator, value) => {
+                return accumulator + value;
+            }, 0);
+    }
+
     return {
         ...simulationInputs,
         interventions: newInterventions,
