@@ -1,16 +1,18 @@
-import { useInputsDispatch } from "@components/input-contexts";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "@components/ui/dropdown-menu";
+// commented temporarily for alpha
+// import { useInputsDispatch } from "@components/input-contexts";
+// import {
+//     DropdownMenu,
+//     DropdownMenuContent,
+//     DropdownMenuItem,
+//     DropdownMenuLabel,
+//     DropdownMenuSeparator,
+//     DropdownMenuTrigger,
+// } from "@components/ui/dropdown-menu";
 import type { Intervention } from "~/features/simulation/model";
 
 function Tab({ intervention }: { intervention: Intervention }) {
-    const dispatch = useInputsDispatch();
+    // commented temporarily for alpha
+    // const dispatch = useInputsDispatch();
     return (
         <>
             <div
@@ -46,12 +48,15 @@ function Tab({ intervention }: { intervention: Intervention }) {
 
 export default function Tabs({
     interventions,
-    presets,
+    // commented temporarily for alpha
+    // presets,
 }: {
     interventions: Intervention[];
-    presets: Intervention[];
+    // commented temporarily for alpha
+    // presets: Intervention[];
 }) {
-    const dispatch = useInputsDispatch();
+    // commented temporarily for alpha
+    // const dispatch = useInputsDispatch();
     return (
         <>
             <div className="interventionTabs">
