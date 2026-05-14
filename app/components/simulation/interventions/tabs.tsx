@@ -58,9 +58,15 @@ export default function Tabs({
                 {interventions.map((intervention) => (
                     <Tab key={intervention.id} intervention={intervention} />
                 ))}
+                {/* Remove this button and uncomment the dropdown menu after
+                    alpha */}
+                <button className="interventionTab addTab disabled" disabled={true}>
+                    + New Intervention
+                </button>
+                {/* Temporarily commenting out this element for Alpha
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <button className="interventionTab addTab">
+                        <button className="interventionTab addTab disabled">
                             + New Intervention
                         </button>
                     </DropdownMenuTrigger>
@@ -97,6 +103,7 @@ export default function Tabs({
                         ))}
                     </DropdownMenuContent>
                 </DropdownMenu>
+                 */}
             </div>
         </>
     );
