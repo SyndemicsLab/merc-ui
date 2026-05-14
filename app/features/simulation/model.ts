@@ -76,7 +76,7 @@ const inputs: Inputs = {
                     injection: false,
                 },
             ],
-            population: 127042,
+            population: 111428,
         },
         {
             id: 1,
@@ -85,6 +85,7 @@ const inputs: Inputs = {
             description:
                 "Buprenorphine is a medication for opioid use disorder and works as a partial opioid agonist. It ‘diminish[es] the effects of physical dependency to opioids, such as withdrawal symptoms and cravings’ (SAMHSA).",
             population: 56376,
+            postPopulation: 8220,
             transitions: [
                 {
                     id: 1,
@@ -136,6 +137,7 @@ const inputs: Inputs = {
                 "Naltrexone is a medication for opioid use disorder and works as an opioid antagonist, binding opioid receptors and blocking the ‘euphoric and sedative effects of opioids’ (SAMHSA). It can also be used to treat alcohol use disorder. Naltrexone for opioid use disorder should not be started until no opioids have been used for at least 7 days.",
             info: true,
             population: 9479,
+            postPopulation: 1382,
             transitions: [
                 {
                     id: 2,
@@ -184,6 +186,7 @@ const inputs: Inputs = {
             name: "Methadone",
             active: false,
             population: 29459,
+            postPopulation: 1326,
             transitions: [
                 {
                     id: 3,
@@ -232,6 +235,7 @@ const inputs: Inputs = {
             name: "Detox",
             active: false,
             population: 4487,
+            postPopulation: 4487,
             transitions: [
                 {
                     id: 4,
@@ -280,6 +284,7 @@ const inputs: Inputs = {
             name: "Detention",
             active: false,
             population: 1049,
+            postPopulation: 199,
             transitions: [
                 {
                     id: 5,

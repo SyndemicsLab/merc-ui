@@ -75,7 +75,9 @@ describe("Simulation reducer domain transitions", () => {
         const afterNoTreatment = next.interventions.find((i) => i.id === 0);
         expect(afterNoTreatment?.active).toBe(true);
         expect(afterNoTreatment?.population).toBe(
-            (beforeNoTreatment?.population ?? 0) + (toDelete?.population ?? 0),
+            (beforeNoTreatment?.population ?? 0) +
+                (toDelete?.population ?? 0) +
+                (toDelete?.postPopulation ?? 0),
         );
 
         next.interventions.forEach((intervention) => {
@@ -95,9 +97,17 @@ describe("Simulation reducer domain transitions", () => {
         const intervention = next.interventions.find((i) => i.id === 1);
         expect(intervention?.population).toBe(50000);
 
+        const newPost = Math.round(
+            ((intervention?.transitions[0].probability ?? 0) / 100) * 50000,
+        );
+        expect(intervention?.postPopulation).toBe(newPost);
+
         const treated = next.interventions
             .filter((i) => i.id !== 0)
-            .reduce((acc, i) => acc + i.population, 0);
+            .reduce(
+                (acc, i) => acc + i.population + (i.postPopulation ?? 0),
+                0,
+            );
         const noTreatment = next.interventions.find((i) => i.id === 0);
         expect(noTreatment?.population).toBe(next.total_population - treated);
     });
@@ -184,7 +194,10 @@ describe("Simulation reducer domain transitions", () => {
         expect(next.total_population).toBe(250000);
         const treated = next.interventions
             .filter((i) => i.id !== 0)
-            .reduce((acc, i) => acc + i.population, 0);
+            .reduce(
+                (acc, i) => acc + i.population + (i.postPopulation ?? 0),
+                0,
+            );
         const noTreatment = next.interventions.find((i) => i.id === 0);
         expect(noTreatment?.population).toBe(250000 - treated);
     });
@@ -193,7 +206,10 @@ describe("Simulation reducer domain transitions", () => {
         const state = makeState();
         const treatedMinimum = state.interventions
             .filter((i) => i.id !== 0)
-            .reduce((acc, i) => acc + i.population, 0);
+            .reduce(
+                (acc, i) => acc + i.population + (i.postPopulation ?? 0),
+                0,
+            );
 
         const next = changeTotalPopulation(state, treatedMinimum - 1);
 
