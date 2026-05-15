@@ -63,7 +63,7 @@ function Dropdown({
                     />
                     <CommandList>
                         <CommandEmpty>Not found.</CommandEmpty>
-                        <CommandGroup>
+                        <CommandGroup heading="US States">
                             {options.map((option) => (
                                 <CommandItem
                                     key={option.value}
@@ -78,7 +78,7 @@ function Dropdown({
                                         dropdownSetOpen(false);
                                     }}
                                 >
-                                    {option.label}
+                                    <span>{option.label}</span>
                                     <Check
                                         className={cn(
                                             "ml-auto",
