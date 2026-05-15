@@ -1,5 +1,5 @@
 // commented temporarily for alpha
-// import { useInputsDispatch } from "@components/input-contexts";
+import { useInputsDispatch } from "@components/input-contexts";
 // import {
 //     DropdownMenu,
 //     DropdownMenuContent,
@@ -12,7 +12,7 @@ import type { Intervention } from "~/features/simulation/model";
 
 function Tab({ intervention }: { intervention: Intervention }) {
     // commented temporarily for alpha
-    // const dispatch = useInputsDispatch();
+    const dispatch = useInputsDispatch();
     return (
         <>
             <div
