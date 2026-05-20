@@ -454,6 +454,9 @@ export async function action({ request }: Route.ActionArgs) {
         });
 
         const result = await processResponse(response);
+        if (!response.ok) {
+            console.log(result);
+        }
         return mapRunResponse(response, result);
     } catch (error) {
         return {
