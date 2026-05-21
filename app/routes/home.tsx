@@ -26,21 +26,21 @@ export async function action({ request }: Route.ActionArgs) {
     const bodyParams = await request.formData();
 
     const raw_json: Record<string, string | boolean> = {
-        "purpose_personal_research": false,
-        "purpose_policy_development": false,
-        "purpose_academic_research": false,
-        "purpose_program_development": false,
-        "purpose_other_text": "N/A",
-        "us_state": "N/A",
-        "occupation_healthcare": false,
-        "occupation_public_health": false,
-        "occupation_research": false,
-        "occupation_policy": false,
-        "occupation_government": false,
-        "occupation_education": false,
-        "occupation_non_profit": false,
-        "occupation_media": false,
-        "occupation_other_text": "N/A"
+        purpose_personal_research: false,
+        purpose_policy_development: false,
+        purpose_academic_research: false,
+        purpose_program_development: false,
+        purpose_other_text: "N/A",
+        us_state: "N/A",
+        occupation_healthcare: false,
+        occupation_public_health: false,
+        occupation_research: false,
+        occupation_policy: false,
+        occupation_government: false,
+        occupation_education: false,
+        occupation_non_profit: false,
+        occupation_media: false,
+        occupation_other_text: "N/A",
     };
 
     const formJson = Object.fromEntries(bodyParams.entries()) as Record<
