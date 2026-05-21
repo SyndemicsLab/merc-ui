@@ -89,7 +89,7 @@ export async function action({ request }: Route.ActionArgs) {
 
 function HomeImage({ image }: { image: string }) {
     return (
-        <div className="home-circle">
+        <div className="home-image">
             <img src={image} alt="RESPOND at the Syndemics Lab" />
         </div>
     );

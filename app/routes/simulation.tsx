@@ -454,6 +454,9 @@ export async function action({ request }: Route.ActionArgs) {
         });
 
         const result = await processResponse(response);
+        if (!response.ok) {
+            console.log(result);
+        }
         return mapRunResponse(response, result);
     } catch (error) {
         return {
@@ -585,12 +588,14 @@ export function RunStatus({
 
 function Input({
     handleSubmit,
-    presets,
+    // temporarily commenting for Alpha
+    // presets,
     pending,
     runResult,
 }: {
     handleSubmit: () => void;
-    presets: Intervention[];
+    // temporarily commenting for Alpha
+    // presets: Intervention[];
     pending: boolean;
     runResult?: SimulationRunResponse;
 }) {
@@ -686,7 +691,12 @@ function Input({
             </div>
             <h1>Intervention Inputs</h1>
             <div id="interventions">
-                <Tabs interventions={inputs.interventions} presets={presets} />
+                {/*
+                   Commenting out temporarily for Alpha - replace Tabs below
+                   with
+                   <Tabs interventions={inputs.interventions} presets={presets} />
+                  */}
+                <Tabs interventions={inputs.interventions} />
                 <Contents interventions={inputs.interventions} />
             </div>
             <Dialog open={resultsOpen} onOpenChange={resetResults}>
@@ -727,7 +737,9 @@ function Input({
     );
 }
 
-function SimulationContent({ presets }: { presets: Intervention[] }) {
+// temporarily commenting out for Alpha
+// function SimulationContent({ presets }: { presets: Intervention[] }) {
+function SimulationContent() {
     const inputs = useInputs();
     const fetcher = useFetcher<SimulationRunResponse>();
     const navigate = useNavigate();
@@ -831,9 +843,17 @@ function SimulationContent({ presets }: { presets: Intervention[] }) {
                         direction: direction,
                     }}
                 />
+                {/*
+                   Temporarily commenting out for Alpha
+                   <Input
+                   handleSubmit={handleSubmit}
+                   presets={presets}
+                   pending={pending}
+                   runResult={fetcher.data}
+                   />
+                 */}
                 <Input
                     handleSubmit={handleSubmit}
-                    presets={presets}
                     pending={pending}
                     runResult={fetcher.data}
                 />
@@ -852,9 +872,13 @@ export default function Simulation() {
                     <InputProvider
                         initialState={resolvedLoaderData.initialInputs}
                     >
+                        {/*
+                           Temporarily commenting out for Alpha
                         <SimulationContent
-                            presets={resolvedLoaderData.presets}
+                                presets={resolvedLoaderData.presets}
                         />
+                         */}
+                        <SimulationContent />
                     </InputProvider>
                 )}
             </Await>

@@ -301,11 +301,18 @@ button:hover {
     display: inline-flex;
     margin: 0 var(--spacing) var(--spacing) 0;
     position: relative;
-}
 
-.interventionTab.addTab {
-    background-color: var(--secondary-color);
-    outline: none;
+    &.addTab {
+        background-color: var(--secondary-color);
+        outline: none;
+
+        // only for alpha
+        cursor: not-allowed;
+        // only for alpha
+        &.disabled {
+            background-color: gray;
+        }
+    }
 }
 
 .interventionTab.active {

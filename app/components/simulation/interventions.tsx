@@ -7,7 +7,11 @@ export default function Interventions() {
     const interventions = inputs.interventions;
     return (
         <div id="interventions">
-            <Tabs interventions={interventions} presets={interventions} />
+            {/*
+               Temporarily commenting for Alpha - replace the element below with
+               <Tabs interventions={interventions} presets={interventions} />
+             */}
+            <Tabs interventions={interventions} />
             <Contents interventions={interventions} />
         </div>
     );

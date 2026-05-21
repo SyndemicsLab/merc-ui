@@ -4,6 +4,7 @@ export default {
     ssr: true,
     allowedActionOrigins: ["respond.syndemicslab.org"],
     async prerender() {
-        return ["/respond", "/glossary", "/contact"];
+        // temporarily removing `/contact` for alpha
+        return ["/respond", "/glossary"];
     },
 } satisfies Config;

@@ -137,10 +137,8 @@ h1 {
     }
 }
 
-/* fix this scaling thing */
-.home-circle {
+.home-image {
     flex-grow: 1;
-    scale: 140%;
     z-index: -1;
 
     // prevent text selection within element
@@ -196,7 +194,7 @@ h1 {
         width: 80%;
     }
 
-    .home-circle {
+    .home-image {
         display: none;
     }
 }

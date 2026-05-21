@@ -1,4 +1,5 @@
 import type { Transition, Intervention } from "~/features/simulation/model";
+import { useState } from "react";
 import Slider from "~/components/ui/slider";
 import Transitions from "@simulation/interventions/transitions";
 import Overdoses from "@simulation/interventions/overdose";
@@ -22,6 +23,7 @@ import {
 
 function InterventionInfo({ intervention }: { intervention: Intervention }) {
     const dispatch = useInputsDispatch();
+    const [name] = useState(intervention.name);
     return (
         <>
             <h2 className="inputName">Intervention Name</h2>
@@ -54,9 +56,9 @@ function InterventionInfo({ intervention }: { intervention: Intervention }) {
                     </DialogTrigger>
                     <DialogContent className="bg-white lg:max-w-[1000px] max-w-[425px] p-9">
                         <DialogHeader>
-                            <DialogTitle>{intervention.name}</DialogTitle>
+                            <DialogTitle>{name}</DialogTitle>
                             <DialogDescription>
-                                {`More information about ${intervention.name}.`}
+                                {`More information about ${name}.`}
                             </DialogDescription>
                         </DialogHeader>
                         <div className="grid gap-4 py-4">
