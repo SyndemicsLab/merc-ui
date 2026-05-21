@@ -65,7 +65,10 @@ export default function Tabs({
                 ))}
                 {/* Remove this button and uncomment the dropdown menu after
                     alpha */}
-                <button className="interventionTab addTab disabled" disabled={true}>
+                <button
+                    className="interventionTab addTab disabled"
+                    disabled={true}
+                >
                     + New Intervention
                 </button>
                 {/* Temporarily commenting out this element for Alpha
