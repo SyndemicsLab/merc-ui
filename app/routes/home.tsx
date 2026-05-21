@@ -25,16 +25,39 @@ export async function action({ request }: Route.ActionArgs) {
     const cookie = (await userPrefs.parse(cookieHeader)) || {};
     const bodyParams = await request.formData();
 
+    const raw_json: Record<string, string | boolean> = {
+        "purpose_personal_research": false,
+        "purpose_policy_development": false,
+        "purpose_academic_research": false,
+        "purpose_program_development": false,
+        "purpose_other_text": "N/A",
+        "us_state": "N/A",
+        "occupation_healthcare": false,
+        "occupation_public_health": false,
+        "occupation_research": false,
+        "occupation_policy": false,
+        "occupation_government": false,
+        "occupation_education": false,
+        "occupation_non_profit": false,
+        "occupation_media": false,
+        "occupation_other_text": "N/A"
+    };
+
     const formJson = Object.fromEntries(bodyParams.entries()) as Record<
         string,
         string | boolean | null
     >;
     for (const x in formJson) {
-        if (formJson[x] === "on") {
-            formJson[x] = true;
+        if (!(x in raw_json)) {
+            continue;
         }
-        if (formJson[x] === "") {
-            formJson[x] = null;
+        const value = formJson[x];
+        if (value === "on") {
+            raw_json[x] = true;
+        } else if (value === "") {
+            raw_json[x] = false;
+        } else if (typeof value === "string") {
+            raw_json[x] = value;
         }
     }
 
@@ -45,7 +68,7 @@ export async function action({ request }: Route.ActionArgs) {
         await fetch(`${process.env.API_URL}/questionnaire_response`, {
             method: "POST",
             mode: "cors",
-            body: JSON.stringify(formJson),
+            body: JSON.stringify(raw_json),
             headers: {
                 "Content-Type": "application/json",
                 "x-api-key": `${process.env.API_KEY}`,
