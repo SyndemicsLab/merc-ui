@@ -59,7 +59,9 @@ function normalizeInterventionName(name: string): string {
     return name.trim().replace(/\s+/g, " ");
 }
 
-function validateInterventionNames(interventions: Intervention[]): string | null {
+function validateInterventionNames(
+    interventions: Intervention[],
+): string | null {
     const seen = new Set<string>();
 
     for (const intervention of interventions) {

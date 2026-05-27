@@ -99,7 +99,10 @@ function Content({
             <div
                 className={`interventionContent${intervention.active ? " active" : ""}`}
             >
-                <InterventionInfo intervention={intervention} nameError={nameError} />
+                <InterventionInfo
+                    intervention={intervention}
+                    nameError={nameError}
+                />
                 <Slider
                     inputText="Intervention Population Size"
                     inputVar={`${intervention.name}_population`}
