@@ -5,6 +5,7 @@ import Contents from "@simulation/interventions/contents";
 export default function Interventions() {
     const inputs = useInputs();
     const interventions = inputs.interventions;
+    const nameErrorsById: Record<number, string> = {};
     return (
         <div id="interventions">
             {/*
@@ -12,7 +13,10 @@ export default function Interventions() {
                <Tabs interventions={interventions} presets={interventions} />
              */}
             <Tabs interventions={interventions} />
-            <Contents interventions={interventions} />
+            <Contents
+                interventions={interventions}
+                nameErrorsById={nameErrorsById}
+            />
         </div>
     );
 }
