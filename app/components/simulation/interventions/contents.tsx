@@ -50,9 +50,10 @@ function InterventionInfo({
                     }
                 />
             )}
-            {nameError ? (
+            {nameError && !intervention.info ? (
                 <p className="intervention-name-error" role="alert">
-                    {nameError} This intervention will not run.
+                    {nameError} The simulation cannot run until this is
+                    resolved.
                 </p>
             ) : null}
             {intervention.description && !intervention.info ? (
@@ -79,6 +80,12 @@ function InterventionInfo({
                         </div>
                     </DialogContent>
                 </Dialog>
+            ) : null}
+            {nameError && intervention.info ? (
+                <p className="intervention-name-error" role="alert">
+                    {nameError} The simulation cannot run until this is
+                    resolved.
+                </p>
             ) : null}
         </>
     );

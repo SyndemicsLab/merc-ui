@@ -393,13 +393,12 @@ button:hover {
     font-size: 14px;
 }
 
-.intervention-name-input-error {
-    border: 1px solid #c53030;
-    box-shadow: 0 0 0 1px #c53030;
+input[type="text"].intervention-name-input-error {
+    border: 2px solid var(--secondary-color);
 }
 
 .intervention-name-error {
-    color: #c53030;
+    color: var(--secondary-color);
     font-size: 0.85rem;
     margin-top: 0.35rem;
 }
@@ -546,6 +545,15 @@ button:hover {
     justify-content: center;
     width: 100%;
     font-size: 24px;
+
+    &[disabled] {
+        background-color: var(--accent-darkgray);
+        cursor: not-allowed;
+    }
+}
+
+.run-status[role="alert"] {
+    color: var(--secondary-color);
 }
 
 #show-advanced {

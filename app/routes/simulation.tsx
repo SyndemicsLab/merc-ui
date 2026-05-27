@@ -95,10 +95,10 @@ function getInterventionNameErrors(
     for (const intervention of interventions) {
         const normalizedName = normalizeInterventionName(intervention.name);
         if (normalizedName === "") {
-            errors[intervention.id] = "Intervention name cannot be blank.";
+            errors[intervention.id] = "Intervention names cannot be blank.";
         } else if ((counts.get(normalizedName) ?? 0) > 1) {
             errors[intervention.id] =
-                "Intervention name must be unique. This name is duplicated.";
+                "Intervention names must be unique. This name is duplicated.";
         }
     }
 
@@ -773,7 +773,8 @@ function Input({
                 </DialogTrigger>
                 {nameValidationError ? (
                     <p className="run-status" role="alert" aria-live="polite">
-                        {nameValidationError}
+                        There is at least one error related to intervention
+                        names. Resolve all errors to run the simulation.
                     </p>
                 ) : null}
                 <DialogContent className="rounded-2xl bg-white">
