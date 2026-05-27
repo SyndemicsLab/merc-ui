@@ -8,7 +8,7 @@ import Questionnaire from "@components/home/questionnaire";
 import { userPrefs } from "~/cookies";
 
 // asset imports
-import homecircle from "~/images/homecircle.svg";
+import homecircle from "~/images/respond-questions.svg";
 
 export async function loader({ request }: Route.LoaderArgs) {
     const cookieHeader = request.headers.get("Cookie");
