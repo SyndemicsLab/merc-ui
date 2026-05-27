@@ -55,6 +55,54 @@ export interface SimulationRunResponse {
     error?: string;
 }
 
+function normalizeInterventionName(name: string): string {
+    return name.trim().replace(/\s+/g, " ");
+}
+
+function validateInterventionNames(interventions: Intervention[]): string | null {
+    const seen = new Set<string>();
+
+    for (const intervention of interventions) {
+        const normalizedName = normalizeInterventionName(intervention.name);
+
+        if (normalizedName === "") {
+            return "Intervention names cannot be blank.";
+        }
+
+        if (seen.has(normalizedName)) {
+            return "Intervention names must be unique.";
+        }
+
+        seen.add(normalizedName);
+    }
+
+    return null;
+}
+
+function getInterventionNameErrors(
+    interventions: Intervention[],
+): Record<number, string> {
+    const counts = new Map<string, number>();
+
+    for (const intervention of interventions) {
+        const normalizedName = normalizeInterventionName(intervention.name);
+        counts.set(normalizedName, (counts.get(normalizedName) ?? 0) + 1);
+    }
+
+    const errors: Record<number, string> = {};
+    for (const intervention of interventions) {
+        const normalizedName = normalizeInterventionName(intervention.name);
+        if (normalizedName === "") {
+            errors[intervention.id] = "Intervention name cannot be blank.";
+        } else if ((counts.get(normalizedName) ?? 0) > 1) {
+            errors[intervention.id] =
+                "Intervention name must be unique. This name is duplicated.";
+        }
+    }
+
+    return errors;
+}
+
 interface SimulationSessionMeta {
     schemaVersion: number;
     lastUpdated: number;
@@ -588,12 +636,16 @@ export function RunStatus({
 
 function Input({
     handleSubmit,
+    nameValidationError,
+    interventionNameErrors,
     // temporarily commenting for Alpha
     // presets,
     pending,
     runResult,
 }: {
-    handleSubmit: () => void;
+    handleSubmit: () => boolean;
+    nameValidationError: string | null;
+    interventionNameErrors: Record<number, string>;
     // temporarily commenting for Alpha
     // presets: Intervention[];
     pending: boolean;
@@ -697,19 +749,31 @@ function Input({
                    <Tabs interventions={inputs.interventions} presets={presets} />
                   */}
                 <Tabs interventions={inputs.interventions} />
-                <Contents interventions={inputs.interventions} />
+                <Contents
+                    interventions={inputs.interventions}
+                    nameErrorsById={interventionNameErrors}
+                />
             </div>
             <Dialog open={resultsOpen} onOpenChange={resetResults}>
                 <DialogTrigger asChild>
                     <button
                         className="run-text"
                         type="submit"
-                        onClick={handleSubmit}
-                        disabled={pending}
+                        onClick={(event) => {
+                            if (!handleSubmit()) {
+                                event.preventDefault();
+                            }
+                        }}
+                        disabled={pending || nameValidationError !== null}
                     >
                         {pending ? "Running..." : "Run"}
                     </button>
                 </DialogTrigger>
+                {nameValidationError ? (
+                    <p className="run-status" role="alert" aria-live="polite">
+                        {nameValidationError}
+                    </p>
+                ) : null}
                 <DialogContent className="rounded-2xl bg-white">
                     <DialogHeader>
                         <DialogTitle>Simulation Results</DialogTitle>
@@ -743,13 +807,22 @@ function SimulationContent() {
     const inputs = useInputs();
     const fetcher = useFetcher<SimulationRunResponse>();
     const navigate = useNavigate();
+    const nameValidationError = validateInterventionNames(inputs.interventions);
+    const interventionNameErrors = getInterventionNameErrors(
+        inputs.interventions,
+    );
 
-    const handleSubmit = () => {
+    const handleSubmit = (): boolean => {
+        if (nameValidationError !== null) {
+            return false;
+        }
+
         const submission = mapRunRequest(inputs);
         fetcher.submit(submission as never, {
             method: "POST",
             encType: "application/json",
         });
+        return true;
     };
 
     const handleReset = () => {
@@ -854,6 +927,8 @@ function SimulationContent() {
                  */}
                 <Input
                     handleSubmit={handleSubmit}
+                    nameValidationError={nameValidationError}
+                    interventionNameErrors={interventionNameErrors}
                     pending={pending}
                     runResult={fetcher.data}
                 />

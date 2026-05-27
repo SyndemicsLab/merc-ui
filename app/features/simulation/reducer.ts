@@ -109,7 +109,7 @@ export function renameIntervention(
     id: number,
     name: string,
 ): Inputs {
-    const updatedName = name === "" ? "<no name>" : name;
+    const updatedName = name;
     return {
         ...simulationInputs,
         interventions: simulationInputs.interventions.map(

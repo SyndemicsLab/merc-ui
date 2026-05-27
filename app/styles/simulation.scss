@@ -393,6 +393,17 @@ button:hover {
     font-size: 14px;
 }
 
+.intervention-name-input-error {
+    border: 1px solid #c53030;
+    box-shadow: 0 0 0 1px #c53030;
+}
+
+.intervention-name-error {
+    color: #c53030;
+    font-size: 0.85rem;
+    margin-top: 0.35rem;
+}
+
 .intervention-info {
     @include buttons.info-button($font-size: 11px);
     display: inline-flex;
