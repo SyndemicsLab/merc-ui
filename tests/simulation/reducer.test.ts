@@ -1,3 +1,15 @@
+/*
+ * File: reducer.test.ts
+ * Project: merc-ui
+ * Created Date: 2026-05-28
+ * Author: Matthew Carroll
+ * -----
+ * Last Modified: 2026-05-28
+ * Modified By: Matthew Carroll
+ * -----
+ * Copyright (c) 2026 Your Company
+ */
+
 import { inputs, type Inputs } from "../../app/features/simulation/model";
 import {
     addIntervention,
@@ -25,16 +37,16 @@ describe("Simulation reducer domain transitions", () => {
         const next = renameIntervention(state, 1, "");
 
         const renamed = next.interventions.find((i) => i.id === 1);
-        expect(renamed?.name).toBe("<no name>");
+        expect(renamed?.name).toBe("");
 
         const postTransition = renamed?.transitions.find((t) => t.id === 1);
-        expect(postTransition?.name).toBe("Post-<no name>");
+        expect(postTransition?.name).toBe("Post-");
 
         const naltrexone = next.interventions.find((i) => i.id === 2);
         const transitionToRenamed = naltrexone?.transitions.find(
             (t) => t.id === 1,
         );
-        expect(transitionToRenamed?.name).toBe("<no name>");
+        expect(transitionToRenamed?.name).toBe("");
     });
 
     it("adds a blank intervention deterministically", () => {
