@@ -1,15 +1,3 @@
-/*
- * File: reducer.test.ts
- * Project: merc-ui
- * Created Date: 2026-05-28
- * Author: Matthew Carroll
- * -----
- * Last Modified: 2026-05-28
- * Modified By: Matthew Carroll
- * -----
- * Copyright (c) 2026 Your Company
- */
-
 import { inputs, type Inputs } from "../../app/features/simulation/model";
 import {
     addIntervention,
