@@ -24,7 +24,7 @@ function Tab({ intervention }: { intervention: Intervention }) {
                     })
                 }
             >
-                {intervention.name}
+                {intervention.name ? intervention.name : "<no name>"}
                 {intervention.id > 0 && (
                     <button
                         className="delete-button"

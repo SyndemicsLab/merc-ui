@@ -21,7 +21,13 @@ import {
     CollapsibleTrigger,
 } from "@radix-ui/react-collapsible";
 
-function InterventionInfo({ intervention }: { intervention: Intervention }) {
+function InterventionInfo({
+    intervention,
+    nameError,
+}: {
+    intervention: Intervention;
+    nameError?: string;
+}) {
     const dispatch = useInputsDispatch();
     const [name] = useState(intervention.name);
     return (
@@ -32,7 +38,9 @@ function InterventionInfo({ intervention }: { intervention: Intervention }) {
             ) : (
                 <input
                     type="text"
-                    defaultValue={intervention.name}
+                    value={intervention.name}
+                    className={nameError ? "intervention-name-input-error" : ""}
+                    aria-invalid={nameError ? true : undefined}
                     onChange={(event) =>
                         dispatch({
                             type: "intervention rename",
@@ -42,6 +50,12 @@ function InterventionInfo({ intervention }: { intervention: Intervention }) {
                     }
                 />
             )}
+            {nameError && !intervention.info ? (
+                <p className="intervention-name-error" role="alert">
+                    {nameError} The simulation cannot run until this is
+                    resolved.
+                </p>
+            ) : null}
             {intervention.description && !intervention.info ? (
                 <p className="intervention-description">
                     {intervention.description}
@@ -67,6 +81,12 @@ function InterventionInfo({ intervention }: { intervention: Intervention }) {
                     </DialogContent>
                 </Dialog>
             ) : null}
+            {nameError && intervention.info ? (
+                <p className="intervention-name-error" role="alert">
+                    {nameError} The simulation cannot run until this is
+                    resolved.
+                </p>
+            ) : null}
         </>
     );
 }
@@ -74,9 +94,11 @@ function InterventionInfo({ intervention }: { intervention: Intervention }) {
 function Content({
     intervention,
     transitions,
+    nameError,
 }: {
     intervention: Intervention;
     transitions: Transition[];
+    nameError?: string;
 }) {
     const dispatch = useInputsDispatch();
     return (
@@ -84,7 +106,10 @@ function Content({
             <div
                 className={`interventionContent${intervention.active ? " active" : ""}`}
             >
-                <InterventionInfo intervention={intervention} />
+                <InterventionInfo
+                    intervention={intervention}
+                    nameError={nameError}
+                />
                 <Slider
                     inputText="Intervention Population Size"
                     inputVar={`${intervention.name}_population`}
@@ -155,8 +180,10 @@ function Content({
 
 export default function Contents({
     interventions,
+    nameErrorsById,
 }: {
     interventions: Intervention[];
+    nameErrorsById: Record<number, string>;
 }) {
     return (
         <>
@@ -166,6 +193,7 @@ export default function Contents({
                         key={intervention.id}
                         intervention={intervention}
                         transitions={intervention.transitions}
+                        nameError={nameErrorsById[intervention.id]}
                     />
                 ))}
             </div>

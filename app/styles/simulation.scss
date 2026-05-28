@@ -393,6 +393,16 @@ button:hover {
     font-size: 14px;
 }
 
+input[type="text"].intervention-name-input-error {
+    border: 2px solid var(--secondary-color);
+}
+
+.intervention-name-error {
+    color: var(--secondary-color);
+    font-size: 0.85rem;
+    margin-top: 0.35rem;
+}
+
 .intervention-info {
     @include buttons.info-button($font-size: 11px);
     display: inline-flex;
@@ -535,6 +545,15 @@ button:hover {
     justify-content: center;
     width: 100%;
     font-size: 24px;
+
+    &[disabled] {
+        background-color: var(--accent-darkgray);
+        cursor: not-allowed;
+    }
+}
+
+.run-status[role="alert"] {
+    color: var(--secondary-color);
 }
 
 #show-advanced {

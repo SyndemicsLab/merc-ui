@@ -25,16 +25,16 @@ describe("Simulation reducer domain transitions", () => {
         const next = renameIntervention(state, 1, "");
 
         const renamed = next.interventions.find((i) => i.id === 1);
-        expect(renamed?.name).toBe("<no name>");
+        expect(renamed?.name).toBe("");
 
         const postTransition = renamed?.transitions.find((t) => t.id === 1);
-        expect(postTransition?.name).toBe("Post-<no name>");
+        expect(postTransition?.name).toBe("Post-");
 
         const naltrexone = next.interventions.find((i) => i.id === 2);
         const transitionToRenamed = naltrexone?.transitions.find(
             (t) => t.id === 1,
         );
-        expect(transitionToRenamed?.name).toBe("<no name>");
+        expect(transitionToRenamed?.name).toBe("");
     });
 
     it("adds a blank intervention deterministically", () => {
