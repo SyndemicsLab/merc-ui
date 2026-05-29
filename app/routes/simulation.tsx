@@ -713,10 +713,23 @@ function Input({
                     </button>
                 </DialogTrigger>
                 {nameValidationError ? (
-                    <p className="run-status" role="alert" aria-live="polite">
-                        There is at least one error related to intervention
-                        names. Resolve all errors to run the simulation.
-                    </p>
+                    <>
+                        <p className="run-status" role="alert" aria-live="polite">
+                            There is at least one error. Resolve all errors to
+                            run the simulation.
+                        </p>
+                        {Object.keys(interventionNameErrors).length ? (
+                        <ul>
+                            {Object.keys(interventionNameErrors).map((key, index) => {
+                                return(
+                                    <li key={index}>
+                                        {`${index+1}: ${interventionNameErrors[key]}`}
+                                    </li>
+                                );
+                            })}
+                        </ul>
+                        ): null}
+                    </>
                 ) : null}
                 <DialogContent className="rounded-2xl bg-white">
                     <DialogHeader>
