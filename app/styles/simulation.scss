@@ -1,5 +1,6 @@
 @use "components/buttons" as buttons;
 @use "components/dropdown" as dropdown;
+@use "components/centered_list" as cl;
 @use "effects/bounce";
 
 /* SIMULATION */
@@ -362,7 +363,6 @@ button:hover {
         justify-content: center;
         align-items: center;
 
-
         height: 20px;
         width: 20px;
         color: #fff;
@@ -375,7 +375,6 @@ button:hover {
         filter: brightness(120%);
     }
 }
-
 
 .interventionTab {
 }
@@ -484,6 +483,18 @@ input[type="text"].intervention-name-input-error {
         animation: reveal-down 700ms;
         margin-bottom: 1rem;
     }
+}
+
+.run-error-list {
+    @include cl.centered-ol();
+    // display: flex;
+    // flex-direction: column;
+    // justify-content: center;
+
+    color: var(--secondary-color);
+    // & > * {
+    //     align-content: center;
+    // }
 }
 
 #results {

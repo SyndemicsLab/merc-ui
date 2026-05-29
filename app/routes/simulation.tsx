@@ -19,7 +19,7 @@ import {
 } from "@components/input-contexts";
 import Interventions, {
     validateInterventionNames,
-    getInterventionNameErrors
+    getInterventionNameErrors,
 } from "@simulation/interventions";
 import {
     Dialog,
@@ -714,21 +714,29 @@ function Input({
                 </DialogTrigger>
                 {nameValidationError ? (
                     <>
-                        <p className="run-status" role="alert" aria-live="polite">
+                        <p
+                            className="run-status"
+                            role="alert"
+                            aria-live="polite"
+                        >
                             There is at least one error. Resolve all errors to
-                            run the simulation.
+                            run the simulation:
                         </p>
                         {Object.keys(interventionNameErrors).length ? (
-                        <ul>
-                            {Object.keys(interventionNameErrors).map((key, index) => {
-                                return(
-                                    <li key={index}>
-                                        {`${index+1}: ${interventionNameErrors[key]}`}
-                                    </li>
-                                );
-                            })}
-                        </ul>
-                        ): null}
+                            <div className="run-error-list">
+                            <ol>
+                                {Object.keys(interventionNameErrors).map(
+                                    (key, index) => {
+                                        return (
+                                            <li key={index}>
+                                                {`${interventionNameErrors[key]}`}
+                                            </li>
+                                        );
+                                    },
+                                )}
+                            </ol>
+                            </div>
+                        ) : null}
                     </>
                 ) : null}
                 <DialogContent className="rounded-2xl bg-white">

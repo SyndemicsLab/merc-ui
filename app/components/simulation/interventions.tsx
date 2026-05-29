@@ -9,14 +9,9 @@ import { useInputsDispatch } from "@components/input-contexts";
 //     DropdownMenuSeparator,
 //     DropdownMenuTrigger,
 // } from "@components/ui/dropdown-menu";
-import type {
-    Intervention,
-    Transition
-} from "~/features/simulation/model";
+import type { Intervention, Transition, Overdose } from "~/features/simulation/model";
 import { useState } from "react";
 import Slider from "~/components/ui/slider";
-import Transitions from "@simulation/interventions/transitions";
-import Overdoses from "@simulation/interventions/overdose";
 import {
     Dialog,
     DialogContent,
@@ -33,6 +28,7 @@ import {
     CollapsibleContent,
     CollapsibleTrigger,
 } from "@radix-ui/react-collapsible";
+import { PROPORTION_MIN, PROPORTION_STEP, PROPORTION_MAX } from "~/globals";
 
 function normalizeInterventionName(name: string): string {
     return name.trim().replace(/\s+/g, " ");
@@ -84,13 +80,13 @@ export function getInterventionNameErrors(
     return errors;
 }
 
-function Tab(
-    { intervention, nameError }:
-    {
-        intervention: Intervention;
-        nameError?: string;
-    }
-) {
+function Tab({
+    intervention,
+    nameError,
+}: {
+    intervention: Intervention;
+    nameError?: string;
+}) {
     // commented temporarily for alpha
     const dispatch = useInputsDispatch();
     return (
@@ -105,9 +101,7 @@ function Tab(
                 }
             >
                 {nameError ? (
-                    <div className="intervention-name-error">
-                        !
-                    </div>
+                    <div className="intervention-name-error">!</div>
                 ) : null}
                 {intervention.name ? intervention.name : "<no name>"}
                 {intervention.id > 0 && (
@@ -204,6 +198,78 @@ function Tabs({
                 </DropdownMenu>
                  */}
             </div>
+        </>
+    );
+}
+
+function Transitions({
+    transitions,
+    onTransitionChange,
+}: {
+    transitions: Transition[];
+    onTransitionChange: (value: number, transitionID: number) => void;
+}) {
+    const summer = (accumulator: number, transition: Transition): number => {
+        const p =
+            typeof transition.probability == "string"
+                ? parseFloat(transition.probability)
+                : transition.probability;
+        return accumulator + p;
+    };
+    const sumProbs: number = transitions.reduce(summer, 0);
+
+    return (
+        <>
+            {transitions.map((transition) => (
+                <Slider
+                    key={transition.id}
+                    inputVar={`${transition.id}_transition`}
+                    inputText={`Percent of Population Moving to ${transition.name} Per Week`}
+                    min={PROPORTION_MIN}
+                    max={PROPORTION_MAX}
+                    step={PROPORTION_STEP}
+                    defaultValue={transition.probability}
+                    managementFunction={(value) =>
+                        onTransitionChange(value, transition.id)
+                    }
+                />
+            ))}
+            <Slider
+                inputVar="retention_rate"
+                inputText="Retention Rate"
+                min={PROPORTION_MIN}
+                max={PROPORTION_MAX}
+                step={PROPORTION_STEP}
+                defaultValue={Math.max(PROPORTION_MAX - sumProbs, 0)}
+                readOnly={true}
+            />
+        </>
+    );
+}
+
+function Overdoses({
+    overdoses,
+    onOverdoseChange,
+}: {
+    overdoses: Overdose[];
+    onOverdoseChange: (value: number, injection: boolean) => void;
+}) {
+    return (
+        <>
+            {overdoses.map((overdose) => (
+                <Slider
+                    key={overdose.injection ? 1 : 0}
+                    inputVar={`overdose_${overdose.injection ? "injector" : "non_injector"}`}
+                    inputText={`Percent of Active ${overdose.injection ? "Injector" : "Non-injector"} Population that Overdoses Per Week`}
+                    min={PROPORTION_MIN}
+                    max={PROPORTION_MAX}
+                    step={PROPORTION_STEP}
+                    defaultValue={overdose.probability}
+                    managementFunction={(value) =>
+                        onOverdoseChange(value, overdose.injection)
+                    }
+                />
+            ))}
         </>
     );
 }
@@ -391,7 +457,9 @@ function Contents({
 export default function Interventions() {
     const inputs = useInputs();
     const interventions: Intervention[] = inputs.interventions;
-    const nameErrorsById: Record<number, string> = getInterventionNameErrors(inputs.interventions);
+    const nameErrorsById: Record<number, string> = getInterventionNameErrors(
+        inputs.interventions,
+    );
 
     return (
         <div id="interventions">
