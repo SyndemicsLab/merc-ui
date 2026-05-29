@@ -9,7 +9,11 @@ import { useInputsDispatch } from "@components/input-contexts";
 //     DropdownMenuSeparator,
 //     DropdownMenuTrigger,
 // } from "@components/ui/dropdown-menu";
-import type { Intervention, Transition, Overdose } from "~/features/simulation/model";
+import type {
+    Intervention,
+    Transition,
+    Overdose,
+} from "~/features/simulation/model";
 import { useState } from "react";
 import Slider from "~/components/ui/slider";
 import {

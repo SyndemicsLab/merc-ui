@@ -724,17 +724,17 @@ function Input({
                         </p>
                         {Object.keys(interventionNameErrors).length ? (
                             <div className="run-error-list">
-                            <ol>
-                                {Object.keys(interventionNameErrors).map(
-                                    (key, index) => {
-                                        return (
-                                            <li key={index}>
-                                                {`${interventionNameErrors[key]}`}
-                                            </li>
-                                        );
-                                    },
-                                )}
-                            </ol>
+                                <ol>
+                                    {Object.entries(interventionNameErrors).map(
+                                        (value: [string, string]) => {
+                                            return (
+                                                <li key={value[0]}>
+                                                    {`${value[1]}`}
+                                                </li>
+                                            );
+                                        },
+                                    )}
+                                </ol>
                             </div>
                         ) : null}
                     </>
