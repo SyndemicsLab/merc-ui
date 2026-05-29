@@ -17,8 +17,10 @@ import {
     useInputsDispatch,
     useInputs,
 } from "@components/input-contexts";
-import Contents from "@simulation/interventions/contents";
-import Tabs from "@simulation/interventions/tabs";
+import Interventions, {
+    validateInterventionNames,
+    getInterventionNameErrors
+} from "@simulation/interventions";
 import {
     Dialog,
     DialogContent,
@@ -53,56 +55,6 @@ export interface SimulationRunResponse {
     status: number;
     result?: string;
     error?: string;
-}
-
-function normalizeInterventionName(name: string): string {
-    return name.trim().replace(/\s+/g, " ");
-}
-
-function validateInterventionNames(
-    interventions: Intervention[],
-): string | null {
-    const seen = new Set<string>();
-
-    for (const intervention of interventions) {
-        const normalizedName = normalizeInterventionName(intervention.name);
-
-        if (normalizedName === "") {
-            return "Intervention names cannot be blank.";
-        }
-
-        if (seen.has(normalizedName)) {
-            return "Intervention names must be unique.";
-        }
-
-        seen.add(normalizedName);
-    }
-
-    return null;
-}
-
-function getInterventionNameErrors(
-    interventions: Intervention[],
-): Record<number, string> {
-    const counts = new Map<string, number>();
-
-    for (const intervention of interventions) {
-        const normalizedName = normalizeInterventionName(intervention.name);
-        counts.set(normalizedName, (counts.get(normalizedName) ?? 0) + 1);
-    }
-
-    const errors: Record<number, string> = {};
-    for (const intervention of interventions) {
-        const normalizedName = normalizeInterventionName(intervention.name);
-        if (normalizedName === "") {
-            errors[intervention.id] = "Intervention names cannot be blank.";
-        } else if ((counts.get(normalizedName) ?? 0) > 1) {
-            errors[intervention.id] =
-                "Intervention names must be unique. This name is duplicated.";
-        }
-    }
-
-    return errors;
 }
 
 interface SimulationSessionMeta {
@@ -744,18 +696,7 @@ function Input({
                 ))}
             </div>
             <h1>Intervention Inputs</h1>
-            <div id="interventions">
-                {/*
-                   Commenting out temporarily for Alpha - replace Tabs below
-                   with
-                   <Tabs interventions={inputs.interventions} presets={presets} />
-                  */}
-                <Tabs interventions={inputs.interventions} />
-                <Contents
-                    interventions={inputs.interventions}
-                    nameErrorsById={interventionNameErrors}
-                />
-            </div>
+            <Interventions />
             <Dialog open={resultsOpen} onOpenChange={resetResults}>
                 <DialogTrigger asChild>
                     <button
