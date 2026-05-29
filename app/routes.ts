@@ -6,5 +6,5 @@ export default [
     route("respond", "routes/respond.tsx"),
     route("glossary", "routes/glossary.tsx"),
     // temporarily disable contact route for alpha
-    // route("contact", "routes/contact.tsx"),
+    route("contact", "routes/contact.tsx"),
 ] satisfies RouteConfig;
