@@ -21,8 +21,8 @@ export const sitemap: Path[] = [
         displayName: "Glossary",
     },
     // removing temporarily for alpha
-    // {
-    //     name: "contact",
-    //     displayName: "Contact",
-    // },
+    {
+        name: "contact",
+        displayName: "Contact",
+    },
 ];
