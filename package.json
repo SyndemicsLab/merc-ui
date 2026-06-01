@@ -41,7 +41,7 @@
         "tailwindcss-animate": "^1.0.7"
     },
     "devDependencies": {
-        "@eslint/js": "^9.39.1",
+        "@eslint/js": "^10.0.1",
         "@react-router/dev": "^7.15.1",
         "@testing-library/react": "^16.3.2",
         "@types/d3": "^7.4.3",
