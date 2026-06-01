@@ -1,6 +1,7 @@
 {
     "include": ["**/*.ts", "**/*.tsx", ".react-router/types/**/*"],
     "compilerOptions": {
+        "baseUrl": ".",
         "lib": ["DOM", "DOM.Iterable", "ES2022"],
         "types": [
             "@react-router/node",
@@ -16,7 +17,8 @@
         "paths": {
             "~/*": ["./app/*"],
             "@components/*": ["./app/components/*"],
-            "@simulation/*": ["./app/components/simulation/*"]
+            "@simulation/*": ["./app/components/simulation/*"],
+            "@tests/*": ["./tests/*"]
         },
         "esModuleInterop": true,
         "verbatimModuleSyntax": true,
