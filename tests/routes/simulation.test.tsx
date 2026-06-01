@@ -1,9 +1,9 @@
-import { inputs } from "../../app/features/simulation/model";
+import inputs from "@tests/data/inputs";
 import {
     clearSessionInputsFromStorage,
     persistSessionInputsToStorage,
     readSessionInputsFromStorage,
-} from "../../app/routes/simulation";
+} from "~/routes/simulation";
 
 function createMockStorage() {
     const store = new Map<string, string>();

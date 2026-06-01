@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import { createRoutesStub } from "react-router";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
-import ContactPage, { action } from "../../app/routes/contact";
+import ContactPage, { action } from "~/routes/contact";
 
 const ContactStub = createRoutesStub([
     {
