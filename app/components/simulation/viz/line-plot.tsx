@@ -116,7 +116,7 @@ export default function LinePlot(props: LinePlotProps) {
         const yMax = d3.max(data, (d) => d[1]) ?? 0;
         const y = d3
             .scaleLinear()
-            .domain([yMin >= 0 ? 0 : yMin, yMax])
+            .domain([yMin >= 0 ? 0 : yMin, yMin == yMax ? yMin + 1 : yMax])
             .range([height - margin.bottom, margin.top + 15])
             .nice();
         const line = d3

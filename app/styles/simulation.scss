@@ -1,5 +1,6 @@
 @use "components/buttons" as buttons;
 @use "components/dropdown" as dropdown;
+@use "components/centered_list" as cl;
 @use "effects/bounce";
 
 /* SIMULATION */
@@ -313,48 +314,69 @@ button:hover {
             background-color: gray;
         }
     }
-}
 
-.interventionTab.active {
-    background-color: var(--tertiary-color);
-}
+    & > .delete-button {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
 
-.interventionTab:hover {
-    background-color: var(--secondary-color);
-    transform: scale(1.05);
-}
+        height: 20px;
+        width: 20px;
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        background-color: rgba(from var(--tertiary-color) r g b / 80%);
+        border: none;
+        border-radius: 50%;
+        color: #fff;
+        cursor: pointer;
+        font-size: 12px;
+        padding: 5px;
+        opacity: 0;
+        transition:
+            opacity var(--transition-duration),
+            background-color var(--transition-duration);
 
-.interventionTab .delete-button {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
+        &:hover {
+            background-color: var(--primary-color);
+            transform: none;
+        }
+    }
 
-    height: 20px;
-    width: 20px;
-    position: absolute;
-    top: -5px;
-    right: -5px;
-    background-color: rgba(from var(--tertiary-color) r g b / 80%);
-    border: none;
-    border-radius: 50%;
-    color: #fff;
-    cursor: pointer;
-    font-size: 12px;
-    padding: 5px;
-    opacity: 0;
-    transition:
-        opacity var(--transition-duration),
-        background-color var(--transition-duration);
+    &.active {
+        background-color: var(--tertiary-color);
+    }
 
     &:hover {
-        background-color: var(--primary-color);
-        transform: none;
+        background-color: var(--secondary-color);
+        transform: scale(1.05);
+
+        & > .delete-button {
+            opacity: 1;
+        }
+    }
+
+    & .intervention-name-error {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+
+        height: 20px;
+        width: 20px;
+        color: #fff;
+        background-color: var(--secondary-color);
+        position: absolute;
+        top: -5px;
+        left: -5px;
+        border: none;
+        border-radius: 50%;
+        filter: brightness(120%);
     }
 }
 
-.interventionTab:hover .delete-button {
-    opacity: 1;
+.interventionTab {
 }
 
 .interventionContents {
@@ -395,6 +417,9 @@ button:hover {
 
 input[type="text"].intervention-name-input-error {
     border: 2px solid var(--secondary-color);
+    &:focus {
+        outline: 1px solid var(--secondary-color);
+    }
 }
 
 .intervention-name-error {
@@ -460,6 +485,12 @@ input[type="text"].intervention-name-input-error {
     }
 }
 
+.run-error-list {
+    @include cl.centered-ol();
+
+    color: var(--secondary-color);
+}
+
 #results {
 }
 
@@ -474,6 +505,7 @@ input[type="text"].intervention-name-input-error {
         font-size: 1rem;
         font-weight: 600;
         color: var(--tertiary-color);
+        text-align: center;
     }
 
     @media (max-width: 700px) {
@@ -503,7 +535,6 @@ input[type="text"].intervention-name-input-error {
         display: flex;
         flex-direction: column;
         align-items: center;
-        height: 100%;
     }
 
     & > svg:not(.load-indicator) {

@@ -11,3 +11,14 @@
         margin-bottom: calc(var(--spacing) * 3);
     }
 }
+
+@mixin centered-ol() {
+    display: block;
+    width: fit-content;
+    margin: auto;
+
+    ol {
+        list-style-type: decimal;
+        list-style-position: inside;
+    }
+}
