@@ -25,9 +25,14 @@
         background: white;
         border: 1px solid var(--accent-gray);
         border-radius: 5px;
+        resize: none;
 
         &::placeholder {
             color: rgba(from var(--accent-gray) r g b / 70%);
+        }
+
+        &:focus {
+            outline: 1px solid var(--tertiary-color);
         }
     }
     input[type="text"] {
