@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { inputs } from "../../app/features/simulation/model";
+import inputs from "@tests/data/inputs";
 import {
     applySessionInputsToLoaderData,
     makeLoaderData,
@@ -8,7 +8,7 @@ import {
     normalizeLoaderData,
     parseCachedDefaults,
     RunStatus,
-} from "../../app/routes/simulation";
+} from "~/routes/simulation";
 
 describe("Simulation route contract", () => {
     it("maps loader defaults into explicit initialInputs and presets", () => {

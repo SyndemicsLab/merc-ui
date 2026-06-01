@@ -16,7 +16,8 @@
         "paths": {
             "~/*": ["./app/*"],
             "@components/*": ["./app/components/*"],
-            "@simulation/*": ["./app/components/simulation/*"]
+            "@simulation/*": ["./app/components/simulation/*"],
+            "@tests/*": ["./tests/*"]
         },
         "esModuleInterop": true,
         "verbatimModuleSyntax": true,

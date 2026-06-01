@@ -8,6 +8,7 @@ export default defineConfig(({ mode }) => ({
             "~": "/app",
             "@components": "/app/components",
             "@simulation": "/app/components/simulation",
+            "@tests": "/tests",
         },
     },
     plugins: [tailwindcss(), ...(mode === "test" ? [] : [reactRouter()])],

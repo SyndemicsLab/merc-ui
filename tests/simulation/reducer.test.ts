@@ -1,4 +1,5 @@
-import { inputs, type Inputs } from "../../app/features/simulation/model";
+import { type Inputs } from "~/features/simulation/model";
+import inputs from "@tests/data/inputs";
 import {
     addIntervention,
     changeChangingPopulation,
@@ -11,8 +12,8 @@ import {
     deleteIntervention,
     inputsReducer,
     renameIntervention,
-} from "../../app/features/simulation/reducer";
-import { PROPORTION_MAX } from "../../app/globals";
+} from "~/features/simulation/reducer";
+import { PROPORTION_MAX } from "~/globals";
 
 function makeState(): Inputs {
     return JSON.parse(JSON.stringify(inputs)) as Inputs;

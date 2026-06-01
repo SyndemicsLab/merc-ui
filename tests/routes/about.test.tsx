@@ -1,4 +1,4 @@
-import { default as About } from "../../app/routes/respond";
+import { default as About } from "~/routes/respond";
 import { render } from "@testing-library/react";
 import { MemoryRouter } from "react-router";
 
