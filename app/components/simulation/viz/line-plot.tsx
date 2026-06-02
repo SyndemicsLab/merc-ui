@@ -178,13 +178,17 @@ export default function LinePlot(props: LinePlotProps) {
 
         // discrete data points
         const points = svg.append("g").attr("fill", `${SYNDEMICS_BLUE}`);
-        points
-            .selectAll<SVGCircleElement, Point>("circle")
-            .data(data)
-            .join("circle")
-            .attr("cx", (d) => x(d[0]))
-            .attr("cy", (d) => y(d[1]))
-            .attr("r", 1.5);
+        // disable individual data points if there is > 3 years of data
+        // (the zeroth week + 52 weeks * 3 years)
+        if (data.length <= 157) {
+            points
+                .selectAll<SVGCircleElement, Point>("circle")
+                .data(data)
+                .join("circle")
+                .attr("cx", (d) => x(d[0]))
+                .attr("cy", (d) => y(d[1]))
+                .attr("r", 1.5);
+        }
 
         const currentPoint = svg
             .append("circle")
