@@ -32,10 +32,10 @@ export default function GeneralInputs({
         {
             inputVar: "duration",
             inputText: "Simulation Duration (Weeks)",
-            min: 1,
+            min: DURATION_MIN,
             // limiting duration to 7 years in Alpha
-            max: 364,
-            step: 1,
+            max: DURATION_MAX,
+            step: DURATION_STEP,
             defaultValue: inputs.duration,
             action: (value: number) =>
                 dispatch({
@@ -46,9 +46,9 @@ export default function GeneralInputs({
         {
             inputVar: "total_population",
             inputText: "Initial Total Population",
-            min: 0,
-            max: 300000,
-            step: 500,
+            min: POPULATION_MIN,
+            max: POPULATION_MAX,
+            step: POPULATION_STEP,
             defaultValue: inputs.total_population,
             action: (value: number) =>
                 dispatch({
@@ -59,9 +59,9 @@ export default function GeneralInputs({
         {
             inputVar: "changing_population",
             inputText: "Change in Population Per Week (Count)",
-            min: -10000,
-            max: 50000,
-            step: 100,
+            min: CHANGING_POP_MIN,
+            max: CHANGING_POP_MAX,
+            step: CHANGING_POP_STEP,
             defaultValue: inputs.changing_population,
             action: (value: number) =>
                 dispatch({
@@ -72,9 +72,9 @@ export default function GeneralInputs({
         {
             inputVar: "fatal_overdoses",
             inputText: "Percent of Overdoses That Result in Death",
-            min: 0,
-            max: 100,
-            step: 0.25,
+            min: FATAL_OD_MIN,
+            max: FATAL_OD_MAX,
+            step: FATAL_OD_STEP,
             defaultValue: inputs.fatal_overdoses,
             action: (value: number) =>
                 dispatch({
