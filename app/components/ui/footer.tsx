@@ -59,28 +59,27 @@ const Footer = () => {
                     </div>
                 </div>
 
+                <div>
+                    <p className="privacy-policy">
+                        This tool only stores your data for the duration of the
+                        model run and then immediately deletes it. No data
+                        (input or output) is persisted in our records.
+                    </p>
 
-                <div>                
-                <p className="privacy-policy">
-                    This tool only stores your data for the duration of the 
-                    model run and then immediately deletes it. No data 
-                    (input or output) is persisted in our records.
-                </p>
+                    <p>&nbsp;</p>
 
-                <p>&nbsp;</p>
-
-                <p className="footer-description">
-                    This application is part of a collaboration between Weill
-                    Cornell Medicine, Boston Medical Center, and Brown
-                    University School of Public Health. RESPOND is funded by the
-                    National Institute on Drug Abuse (NIDA) R01DA046527. This
-                    web application is also funded by NIDA as a HEAL Data2Action
-                    Modeling and Economic Resource Center (HEAL D2A MERC)
-                    U24DA057650 project and by the Center for Health Economics
-                    of Treatment Interventions for Substance Use Disorder, HCV,
-                    and HIV (CHERISH) P30DA040500.
-                </p>
-
+                    <p className="footer-description">
+                        This application is part of a collaboration between
+                        Weill Cornell Medicine, Boston Medical Center, and Brown
+                        University School of Public Health. RESPOND is funded by
+                        the National Institute on Drug Abuse (NIDA) R01DA046527.
+                        This web application is also funded by NIDA as a HEAL
+                        Data2Action Modeling and Economic Resource Center (HEAL
+                        D2A MERC) U24DA057650 project and by the Center for
+                        Health Economics of Treatment Interventions for
+                        Substance Use Disorder, HCV, and HIV (CHERISH)
+                        P30DA040500.
+                    </p>
                 </div>
             </div>
             <div className="utility-wrapper">
