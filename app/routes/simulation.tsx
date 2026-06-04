@@ -743,7 +743,7 @@ function Input({
                     <DialogHeader>
                         <DialogTitle>Simulation Results</DialogTitle>
                         <DialogDescription>
-                            It may take several minutes for the model to execute
+                            Hi Ryon! It may take several minutes for the model to execute
                             and for results to populate.
                         </DialogDescription>
                     </DialogHeader>
