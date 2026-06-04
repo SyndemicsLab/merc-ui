@@ -34,7 +34,7 @@ import {
     DropdownMenuTrigger,
 } from "@components/ui/dropdown-menu";
 // import EmailIntake from "@simulation/emailintake";
-import LinePlot, { MultiLinePlot } from "@components/simulation/viz/line-plot";
+import LinePlot, { MultiLinePlot } from "@simulation/viz/line-plot";
 import { LoadIndicator } from "@components/ui/mock/timed-loader";
 import GeneralInputs from "@simulation/general-inputs";
 
@@ -522,11 +522,11 @@ export function RunStatus({
         modelOutcome["intervention_admission"].map(accumulateTimesteps);
 
     return (
-        <div role="result-visualization">
+        <>
             <MultiLinePlot
                 data={[
                     { value: cumulativeBGDeathData, name: "Cumulative" },
-                    { value: bgDeathData, name: "Timestep" },
+                    { value: bgDeathData, name: "Per-Timestep" },
                 ]}
                 title="Background Death Count Over Time"
                 xTitle="Week"
@@ -580,7 +580,7 @@ export function RunStatus({
                 xTitle="Week"
                 yTitle="Admissions"
             />
-        </div>
+        </>
     );
 }
 

@@ -350,8 +350,7 @@ export function MultiLinePlot(props: MultiLinePlotProps) {
         const line = d3
             .line<Point>()
             .x((d) => x(d[0]))
-            .y((d) => y(d[1]))
-            .curve(d3.curveNatural);
+            .y((d) => y(d[1]));
 
         // line
         svg.append("g")
@@ -362,6 +361,22 @@ export function MultiLinePlot(props: MultiLinePlotProps) {
             .attr("d", (d) => line(d.value))
             .attr("fill", "transparent")
             .attr("stroke", (_, i: number): string => colors(i));
+
+        // line labels
+        svg.append("g")
+            .selectAll("text.label")
+            .data(data)
+            .join("text")
+            .attr("class", "label")
+            .attr("x", (d) => x(d.value[d.value.length - 1][0]))
+            .attr("y", (d) => y(d.value[d.value.length - 1][1]) - 10)
+            .attr("alignment-baseline", "middle")
+            .attr("text-anchor", "end")
+            .style("fill", (_, i: number): string => colors(i))
+            .style("font-family", "sans-serif")
+            .style("font-size", "8px")
+            .style("font-weight", 700)
+            .text(d => d.name);
     }, [data, xTitle, yTitle, width, height, margin, plotContainer]);
 
     return (
