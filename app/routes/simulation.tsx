@@ -11,12 +11,7 @@ import { useRef, useState, useEffect, Suspense } from "react";
 import ScrollIndicator, {
     ScrollDirection,
 } from "@components/ui/scroll-indicator";
-import Slider from "@components/ui/slider";
-import {
-    InputProvider,
-    useInputsDispatch,
-    useInputs,
-} from "@components/input-contexts";
+import { InputProvider, useInputs } from "@components/input-contexts";
 import Interventions, {
     validateInterventionNames,
     getInterventionNameErrors,
@@ -606,8 +601,6 @@ function Input({
     pending: boolean;
     runResult?: SimulationRunResponse;
 }) {
-    const inputs = useInputs();
-    const dispatch = useInputsDispatch();
     const [resultsOpen, setResultsOpen] = useState(false);
 
     // prevents the last set of results from flashing in before a new simulation

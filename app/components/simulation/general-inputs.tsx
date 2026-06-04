@@ -2,10 +2,7 @@
 import type { Inputs } from "~/features/simulation/model";
 
 // Component imports
-import {
-    useInputsDispatch,
-    useInputs,
-} from "@components/input-contexts";
+import { useInputsDispatch, useInputs } from "@components/input-contexts";
 import {
     DURATION_MIN,
     DURATION_STEP,
@@ -18,14 +15,12 @@ import {
     CHANGING_POP_MAX,
     FATAL_OD_MIN,
     FATAL_OD_STEP,
-    FATAL_OD_MAX
+    FATAL_OD_MAX,
 } from "~/globals";
 import Slider from "@components/ui/slider";
 
-export default function GeneralInputs({
-}: {
-}) {
-    const inputs = useInputs();
+export default function GeneralInputs() {
+    const inputs: Inputs = useInputs();
     const dispatch = useInputsDispatch();
 
     const slider_defaults = [
@@ -84,7 +79,7 @@ export default function GeneralInputs({
         },
     ];
 
-    return(
+    return (
         <div id="global-inputs">
             {slider_defaults.map((slider) => (
                 <Slider
@@ -99,5 +94,5 @@ export default function GeneralInputs({
                 />
             ))}
         </div>
-    )
+    );
 }
