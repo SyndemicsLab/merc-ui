@@ -62,7 +62,6 @@ const Footer = () => {
                     This tool only stores your data for the duration of the 
                     model run and then immediately deletes it. No data 
                     (input or output) is persisted in our records.
-                    
                     This application is part of a collaboration between Weill
                     Cornell Medicine, Boston Medical Center, and Brown
                     University School of Public Health. RESPOND is funded by the
