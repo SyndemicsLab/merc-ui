@@ -745,10 +745,10 @@ function Input({
                         <DialogDescription>
                             It may take several minutes for the model to execute
                             and for results to populate. This tool is a
-                            simulation model. The accuracy of the numbers are
+                            simulation model. The accuracy of the numbers is
                             reflective of the provided data and the assumptions
                             made in the model structure. These results should
-                            not be used as a guaranteed outcome.
+                            not be considered guaranteed outcomes.
                         </DialogDescription>
                     </DialogHeader>
                     <div className="results-main flex flex-col">
