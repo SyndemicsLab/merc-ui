@@ -65,9 +65,6 @@ const Footer = () => {
                         model run and then immediately deletes it. No data
                         (input or output) is persisted in our records.
                     </p>
-
-                    <br />
-
                     <p className="footer-description">
                         This application is part of a collaboration between
                         Weill Cornell Medicine, Boston Medical Center, and Brown
