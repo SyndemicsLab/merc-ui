@@ -322,8 +322,11 @@ a {
     flex-grow: 1;
     font-size: var(--font-size);
     line-height: 1.5;
-    margin-bottom: 2rem;
     text-align: justify;
+}
+
+.privacy-policy {
+    margin-bottom: 2rem;
 }
 
 input,
