@@ -61,7 +61,7 @@ function Dropdown({
                         placeholder="Search..."
                         className="h-2 px-2"
                     />
-                    <CommandList>
+                    <CommandList onWheel={(e) => e.stopPropagation()}>
                         <CommandEmpty>Not found.</CommandEmpty>
                         <CommandGroup heading="US States">
                             {options.map((option) => (
