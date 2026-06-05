@@ -66,7 +66,7 @@ const Footer = () => {
                         (input or output) is persisted in our records.
                     </p>
 
-                    <p>&nbsp;</p>
+                    <br/>
 
                     <p className="footer-description">
                         This application is part of a collaboration between
