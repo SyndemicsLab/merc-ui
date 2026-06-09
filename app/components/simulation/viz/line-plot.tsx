@@ -377,6 +377,65 @@ export function MultiLinePlot(props: MultiLinePlotProps) {
             .style("font-size", "8px")
             .style("font-weight", 700)
             .text(d => d.name);
+
+        const tooltip = svg
+            .append("text")
+            .attr("x", margin.left)
+            .attr("y", margin.top)
+            .style("fill", "#777")
+            .text("Use your cursor to see detailed values");
+
+        const currentPoint = svg
+            .append("circle")
+            // .attr("fill", `${SYNDEMICS_PINK}`)
+            .attr("fill", `#000`)
+            .attr("r", 2.5)
+            .attr("visibility", "hidden");
+
+        const dpt = data[0].value;
+
+        const regions: Region[] = [];
+        for (let i = 0; i < dpt.length; i++) {
+            const center = x(dpt[i][0]);
+            let regionWidth;
+            if (i === 0) {
+                regionWidth =
+                    dpt.length === 1
+                        ? width - margin.left - margin.right
+                        : x(dpt[i + 1][0]) - x(dpt[i][0]);
+            } else if (i === dpt.length - 1) {
+                regionWidth = x(dpt[i][0]) - x(dpt[i - 1][0]);
+            } else {
+                regionWidth = (x(dpt[i + 1][0]) - x(dpt[i - 1][0])) / 2;
+            }
+            regions.push({
+                position: center - regionWidth / 2,
+                width: regionWidth,
+                point: dpt[i],
+            });
+        }
+
+        svg.append("g")
+            .attr("pointer-events", "all")
+            .attr("fill", "none")
+            .selectAll<SVGRectElement, Region>("rect")
+            .data(regions)
+            .join("rect")
+            .attr("x", (d) => d.position)
+            .attr("y", margin.bottom)
+            .attr("width", (d) => d.width)
+            .attr("height", height - margin.top - margin.bottom)
+            .on("mouseover", (_event, d) => {
+                tooltip.text(`(${d.point[0]}, ${d.point[1]})`);
+                currentPoint
+                    .attr("cx", x(d.point[0]))
+                    .attr("cy", y(d.point[1]))
+                    .attr("visibility", "visible");
+            })
+            .on("mouseout", () => {
+                tooltip.text("Use your cursor to see detailed values");
+                currentPoint.attr("visibility", "hidden");
+            });
     }, [data, xTitle, yTitle, width, height, margin, plotContainer]);
 
     return (

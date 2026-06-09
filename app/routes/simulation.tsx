@@ -525,8 +525,10 @@ export function RunStatus({
         <>
             <MultiLinePlot
                 data={[
-                    { value: cumulativeBGDeathData, name: "Cumulative" },
-                    { value: bgDeathData, name: "Per-Timestep" },
+                    { value: cumulativeBGDeathData, name: "Cumulative BG" },
+                    { value: bgDeathData, name: "Per-Timestep BG" },
+                    { value: cumulativeFatalOD, name: "Cumulative FOD" },
+                    { value: fatalOD, name: "Per-Timestep FOD" },
                 ]}
                 title="Background Death Count Over Time"
                 xTitle="Week"
