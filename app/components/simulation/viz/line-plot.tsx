@@ -308,7 +308,7 @@ export function MultiLinePlot(props: MultiLinePlotProps) {
             .range([SYNDEMICS_PINK, SYNDEMICS_BLUE, SYNDEMICS_CYAN]);
 
         // put all plotted data into a single, flat array
-        const points = data.flatMap((d) =>
+        const points: (number | string)[][] = data.flatMap((d) =>
             d.value.map((pt) => [x(pt[0]), y(pt[1]), d.name, pt[0], pt[1]]),
         );
 
@@ -372,7 +372,12 @@ export function MultiLinePlot(props: MultiLinePlotProps) {
             .join("path")
             .style("mix-blend-mode", "multiply")
             .attr("stroke", (_, i: number): string => colors(i))
-            .attr("d", line);
+            .attr("d", (group) => {
+                const pts = group.map(
+                    ([x, y]) => [x as number, y as number] as Point,
+                );
+                return line(pts);
+            });
 
         const currentPoint = svg.append("g").attr("visibility", "hidden");
 
@@ -391,11 +396,15 @@ export function MultiLinePlot(props: MultiLinePlotProps) {
             .on("pointerleave", pointerleft)
             .on("touchstart", (e) => e.preventDefault());
 
-        function pointermoved(event) {
+        function pointermoved(event: MouseEvent) {
             const [xm, ym] = d3.pointer(event);
-            const index = d3.leastIndex(points, ([x, y]) =>
-                Math.hypot(x - xm, y - ym),
+            const index: number | undefined = d3.leastIndex(
+                points as Iterable<[number, number]>,
+                ([x, y]: [number, number]) => Math.hypot(x - xm, y - ym),
             );
+            if (index === undefined) {
+                return;
+            }
             const [x, y, name, v0, v1] = points[index];
             path.style("stroke", ({ z }) => (z === name ? null : "#ddd"))
                 .filter(({ z }) => z === name)
