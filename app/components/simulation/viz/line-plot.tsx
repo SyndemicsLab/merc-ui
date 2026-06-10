@@ -167,7 +167,7 @@ export default function LinePlot(props: LinePlotProps) {
             .attr("x", margin.left)
             .attr("y", margin.top)
             .style("fill", "#777")
-            .text("Use your cursor to see detailed values");
+            .text("Use your cursor for detailed information");
 
         // line
         svg.append("path")
@@ -235,7 +235,7 @@ export default function LinePlot(props: LinePlotProps) {
                     .attr("visibility", "visible");
             })
             .on("mouseout", () => {
-                tooltip.text("Use your cursor to see detailed values");
+                tooltip.text("Use your cursor for detailed information");
                 currentPoint.attr("visibility", "hidden");
             });
     }, [data, xTitle, yTitle, width, height, margin, plotContainer]);
@@ -307,6 +307,13 @@ export function MultiLinePlot(props: MultiLinePlotProps) {
             .scaleOrdinal<number, string, never>()
             .range([SYNDEMICS_PINK, SYNDEMICS_BLUE, SYNDEMICS_CYAN]);
 
+        // put all plotted data into a single, flat array
+        const points = data.flatMap((d) => d.value.map(
+            (pt) => [x(pt[0]), y(pt[1]), d.name, pt[0], pt[1]]
+        ));
+
+        // check the highest data point count across all data, use that to
+        // decide how to draw ticks on the x-axis
         const maxPoints = Math.max(...data.map((p) => p.value.length));
 
         // add the x-axis
@@ -347,95 +354,72 @@ export function MultiLinePlot(props: MultiLinePlotProps) {
                 .text(yTitle);
         }
 
-        const line = d3
-            .line<Point>()
-            .x((d) => x(d[0]))
-            .y((d) => y(d[1]));
+        // group the points by series
+        const groups = d3.rollup(
+            points,
+            v => Object.assign(v, {z: v[0][2]}),
+            d => d[2]
+        );
 
-        // line
-        svg.append("g")
-            .attr("stroke-width", 2)
+        // draw each curve in data as paths
+        const line = d3.line<Point>();
+        const path = svg.append("g")
+                .attr("stroke-width", 2)
+                .attr("fill", "transparent")
             .selectAll("path")
-            .data(data)
+            .data(groups.values())
             .join("path")
-            .attr("d", (d) => line(d.value))
-            .attr("fill", "transparent")
-            .attr("stroke", (_, i: number): string => colors(i));
+                .style("mix-blend-mode", "multiply")
+                .attr("stroke", (_, i: number): string => colors(i))
+                .attr("d", line);
 
-        // line labels
-        svg.append("g")
-            .selectAll("text.label")
-            .data(data)
-            .join("text")
-            .attr("class", "label")
-            .attr("x", (d) => x(d.value[d.value.length - 1][0]))
-            .attr("y", (d) => y(d.value[d.value.length - 1][1]) - 10)
-            .attr("alignment-baseline", "middle")
-            .attr("text-anchor", "end")
-            .style("fill", (_, i: number): string => colors(i))
-            .style("font-family", "sans-serif")
-            .style("font-size", "8px")
-            .style("font-weight", 700)
-            .text(d => d.name);
+        const currentPoint = svg.append("g")
+            .attr("visibility", "hidden");
 
-        const tooltip = svg
-            .append("text")
+        currentPoint.append("circle")
+            .attr("fill", `#000`)
+            .attr("r", 2.5);
+
+        currentPoint.append("text")
+            .attr("text-anchor", "middle")
+            .attr("y", -8);
+
+        const tooltip = svg.append("g");
+        tooltip.append("text")
             .attr("x", margin.left)
             .attr("y", margin.top)
             .style("fill", "#777")
-            .text("Use your cursor to see detailed values");
+            .text("Use your cursor for detailed information");
 
-        const currentPoint = svg
-            .append("circle")
-            // .attr("fill", `${SYNDEMICS_PINK}`)
-            .attr("fill", `#000`)
-            .attr("r", 2.5)
-            .attr("visibility", "hidden");
+        svg
+            .on("pointerenter", pointerentered)
+            .on("pointermove", pointermoved)
+            .on("pointerleave", pointerleft)
+            .on("touchstart", (e) => e.preventDefault());
 
-        const dpt = data[0].value;
-
-        const regions: Region[] = [];
-        for (let i = 0; i < dpt.length; i++) {
-            const center = x(dpt[i][0]);
-            let regionWidth;
-            if (i === 0) {
-                regionWidth =
-                    dpt.length === 1
-                        ? width - margin.left - margin.right
-                        : x(dpt[i + 1][0]) - x(dpt[i][0]);
-            } else if (i === dpt.length - 1) {
-                regionWidth = x(dpt[i][0]) - x(dpt[i - 1][0]);
-            } else {
-                regionWidth = (x(dpt[i + 1][0]) - x(dpt[i - 1][0])) / 2;
-            }
-            regions.push({
-                position: center - regionWidth / 2,
-                width: regionWidth,
-                point: dpt[i],
-            });
+        function pointermoved(event) {
+            const [xm, ym] = d3.pointer(event);
+            const index = d3.leastIndex(points, ([x, y]) =>
+                Math.hypot(x - xm, y - ym));
+            const [x, y, name, v0, v1] = points[index];
+            path.style("stroke", ({z}) => z === name ? null : "#ddd")
+                .filter(({z}) => z === name)
+                .raise();
+            currentPoint.attr("transform", `translate(${x}, ${y})`);
+            tooltip.select("text").text(`${name}: ${v0}, ${v1}`);
         }
 
-        svg.append("g")
-            .attr("pointer-events", "all")
-            .attr("fill", "none")
-            .selectAll<SVGRectElement, Region>("rect")
-            .data(regions)
-            .join("rect")
-            .attr("x", (d) => d.position)
-            .attr("y", margin.bottom)
-            .attr("width", (d) => d.width)
-            .attr("height", height - margin.top - margin.bottom)
-            .on("mouseover", (_event, d) => {
-                tooltip.text(`(${d.point[0]}, ${d.point[1]})`);
-                currentPoint
-                    .attr("cx", x(d.point[0]))
-                    .attr("cy", y(d.point[1]))
-                    .attr("visibility", "visible");
-            })
-            .on("mouseout", () => {
-                tooltip.text("Use your cursor to see detailed values");
-                currentPoint.attr("visibility", "hidden");
-            });
+        function pointerentered() {
+            path.style("mix-blend-mode", null).style("stroke", "#ddd");
+            currentPoint.attr("visibility", "visible");
+        }
+
+        function pointerleft() {
+            path.style("mix-blend-mode", "multiply").style("stroke", null);
+            currentPoint.attr("visibility", "hidden");
+            tooltip.select("text")
+                .text("Use your cursor for detailed information");
+        }
     }, [data, xTitle, yTitle, width, height, margin, plotContainer]);
 
     return (
