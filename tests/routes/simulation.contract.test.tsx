@@ -179,7 +179,9 @@ describe("Simulation route contract", () => {
             />,
         );
 
-        expect(screen.getByRole("result-visualization")).toBeTruthy();
+                expect(screen.getAllByText(
+                    "Background Death Count Over Time"
+                )).toBeTruthy();
     });
 
     it("renders error run status", () => {
