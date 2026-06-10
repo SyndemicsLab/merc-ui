@@ -308,9 +308,9 @@ export function MultiLinePlot(props: MultiLinePlotProps) {
             .range([SYNDEMICS_PINK, SYNDEMICS_BLUE, SYNDEMICS_CYAN]);
 
         // put all plotted data into a single, flat array
-        const points = data.flatMap((d) => d.value.map(
-            (pt) => [x(pt[0]), y(pt[1]), d.name, pt[0], pt[1]]
-        ));
+        const points = data.flatMap((d) =>
+            d.value.map((pt) => [x(pt[0]), y(pt[1]), d.name, pt[0], pt[1]]),
+        );
 
         // check the highest data point count across all data, use that to
         // decide how to draw ticks on the x-axis
@@ -357,42 +357,36 @@ export function MultiLinePlot(props: MultiLinePlotProps) {
         // group the points by series
         const groups = d3.rollup(
             points,
-            v => Object.assign(v, {z: v[0][2]}),
-            d => d[2]
+            (v) => Object.assign(v, { z: v[0][2] }),
+            (d) => d[2],
         );
 
         // draw each curve in data as paths
         const line = d3.line<Point>();
-        const path = svg.append("g")
-                .attr("stroke-width", 2)
-                .attr("fill", "transparent")
+        const path = svg
+            .append("g")
+            .attr("stroke-width", 2)
+            .attr("fill", "transparent")
             .selectAll("path")
             .data(groups.values())
             .join("path")
-                .style("mix-blend-mode", "multiply")
-                .attr("stroke", (_, i: number): string => colors(i))
-                .attr("d", line);
+            .style("mix-blend-mode", "multiply")
+            .attr("stroke", (_, i: number): string => colors(i))
+            .attr("d", line);
 
-        const currentPoint = svg.append("g")
-            .attr("visibility", "hidden");
+        const currentPoint = svg.append("g").attr("visibility", "hidden");
 
-        currentPoint.append("circle")
-            .attr("fill", `#000`)
-            .attr("r", 2.5);
-
-        currentPoint.append("text")
-            .attr("text-anchor", "middle")
-            .attr("y", -8);
+        currentPoint.append("circle").attr("fill", `#000`).attr("r", 2.5);
 
         const tooltip = svg.append("g");
-        tooltip.append("text")
+        tooltip
+            .append("text")
             .attr("x", margin.left)
             .attr("y", margin.top)
             .style("fill", "#777")
             .text("Use your cursor for detailed information");
 
-        svg
-            .on("pointerenter", pointerentered)
+        svg.on("pointerenter", pointerentered)
             .on("pointermove", pointermoved)
             .on("pointerleave", pointerleft)
             .on("touchstart", (e) => e.preventDefault());
@@ -400,10 +394,11 @@ export function MultiLinePlot(props: MultiLinePlotProps) {
         function pointermoved(event) {
             const [xm, ym] = d3.pointer(event);
             const index = d3.leastIndex(points, ([x, y]) =>
-                Math.hypot(x - xm, y - ym));
+                Math.hypot(x - xm, y - ym),
+            );
             const [x, y, name, v0, v1] = points[index];
-            path.style("stroke", ({z}) => z === name ? null : "#ddd")
-                .filter(({z}) => z === name)
+            path.style("stroke", ({ z }) => (z === name ? null : "#ddd"))
+                .filter(({ z }) => z === name)
                 .raise();
             currentPoint.attr("transform", `translate(${x}, ${y})`);
             tooltip.select("text").text(`${name}: ${v0}, ${v1}`);
@@ -417,7 +412,8 @@ export function MultiLinePlot(props: MultiLinePlotProps) {
         function pointerleft() {
             path.style("mix-blend-mode", "multiply").style("stroke", null);
             currentPoint.attr("visibility", "hidden");
-            tooltip.select("text")
+            tooltip
+                .select("text")
                 .text("Use your cursor for detailed information");
         }
     }, [data, xTitle, yTitle, width, height, margin, plotContainer]);

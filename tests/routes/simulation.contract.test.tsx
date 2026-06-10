@@ -179,9 +179,9 @@ describe("Simulation route contract", () => {
             />,
         );
 
-                expect(screen.getAllByText(
-                    "Background Death Count Over Time"
-                )).toBeTruthy();
+        expect(
+            screen.getAllByText("Background Death Count Over Time"),
+        ).toBeTruthy();
     });
 
     it("renders error run status", () => {
