@@ -1,4 +1,4 @@
-import { useState, type ChangeEvent } from "react";
+import { useEffect, useState, type ChangeEvent } from "react";
 
 export default function Slider({
     inputVar,
@@ -19,17 +19,23 @@ export default function Slider({
     managementFunction?: (arg0: number) => void;
     readOnly?: boolean;
 }) {
-    const [value, setValue] = useState(Number(defaultValue));
+    const [value, setValue] = useState<number | "">(Number(defaultValue));
 
-    const hasManagementFunction = typeof managementFunction === "function";
-    const displayValue = hasManagementFunction ? defaultValue : value;
-    // when there's no external management function, simply use the state setter
-    if (!managementFunction) {
-        managementFunction = setValue;
-    }
+    useEffect(() => {
+        setValue(Number(defaultValue));
+    }, [defaultValue]);
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-        managementFunction(Number(event.target.value));
+        const rawValue = event.target.value;
+
+        if (rawValue === "") {
+            setValue("");
+            return;
+        }
+
+        const nextValue = Number(rawValue);
+        setValue(nextValue);
+        managementFunction?.(nextValue);
     };
 
     return (
@@ -62,7 +68,7 @@ export default function Slider({
                         min={min}
                         max={max}
                         step={step}
-                        value={displayValue}
+                        value={value === 0 ? "" : value}
                         name={`${inputVar}`}
                         onChange={handleChange}
                     />
@@ -71,7 +77,7 @@ export default function Slider({
                         min={min}
                         max={max}
                         step={step}
-                        value={displayValue}
+                        value={typeof value === "number" ? value : 0}
                         onChange={handleChange}
                     />
                 </div>
