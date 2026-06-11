@@ -521,16 +521,54 @@ export function RunStatus({
     const moudAdmissions =
         modelOutcome["intervention_admission"].map(accumulateTimesteps);
 
+    function sumResults(a, b) {
+        // let `a` always be the longer array if relevant
+        const [x, y] = a.length >= b.length ? [a, b] : [b, a];
+        console.log(x);
+        console.log(y);
+        return (x.map((v, i) => [v[0], v[1] + (y[i][1] ?? 0)]));
+    }
+
     return (
         <>
             <MultiLinePlot
                 data={[
-                    { value: cumulativeBGDeathData, name: "Cumulative BG" },
-                    { value: bgDeathData, name: "Per-Timestep BG" },
-                    { value: cumulativeFatalOD, name: "Cumulative FOD" },
-                    { value: fatalOD, name: "Per-Timestep FOD" },
+                    {
+                        value: bgDeathData,
+                        name: "Per-Timestep Background Death"
+                    },
+                    {
+                        value: fatalOD,
+                        name: "Per-Timestep Fatal Overdose Death"
+                    },
+                    {
+                        value: sumResults(bgDeathData, fatalOD),
+                        name: "Per-Timestep Total Death"
+                    },
                 ]}
-                title="Background Death Count Over Time"
+                title="Death by Simulation Timestep"
+                xTitle="Week"
+                yTitle="Deaths"
+            />
+            <MultiLinePlot
+                data={[
+                    {
+                        value: cumulativeBGDeathData,
+                        name: "Cumulative Background Death"
+                    },
+                    {
+                        value: cumulativeFatalOD,
+                        name: "Cumulative Fatal Overdose Death"
+                    },
+                    {
+                        value: sumResults(
+                            cumulativeBGDeathData,
+                            cumulativeFatalOD
+                        ),
+                        name: "Cumulative Total Death"
+                    },
+                ]}
+                title="Cumulative Death by Simulation Timestep"
                 xTitle="Week"
                 yTitle="Deaths"
             />
