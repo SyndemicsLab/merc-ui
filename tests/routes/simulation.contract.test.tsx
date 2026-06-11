@@ -180,7 +180,7 @@ describe("Simulation route contract", () => {
         );
 
         expect(
-            screen.getAllByText("Background Death Count Over Time"),
+            screen.getAllByText("Population Count Over Time"),
         ).toBeTruthy();
     });
 
