@@ -2,6 +2,8 @@ import * as d3 from "d3";
 import { useRef, useEffect } from "react";
 import { SYNDEMICS_PINK, SYNDEMICS_CYAN, SYNDEMICS_BLUE } from "~/globals";
 
+const TOOLTIP_TEXT = "Use your cursor for detailed information";
+
 export type Point = [number, number];
 
 interface Region {
@@ -63,6 +65,20 @@ function pointRange(
     const min = d3.min(values) ?? 0;
     const max = d3.max(values) ?? 0;
     return [min, max];
+}
+
+function createTooltip(
+    svg: d3.Selection<SVGSVGElement, unknown, null, undefined>,
+    margin: PlotMargins,
+) {
+    const tooltip = svg.append("g");
+    tooltip
+        .append("text")
+        .attr("x", margin.left)
+        .attr("y", margin.top)
+        .style("fill", "#777")
+        .text(TOOLTIP_TEXT);
+    return tooltip;
 }
 
 /*
@@ -162,13 +178,7 @@ export default function LinePlot(props: LinePlotProps) {
                 .text(yTitle);
         }
 
-        const tooltip = svg
-            .append("text")
-            .attr("x", margin.left)
-            .attr("y", margin.top)
-            .style("fill", "#777")
-            .text("Use your cursor to see detailed values");
-
+        const tooltip = createTooltip(svg, margin);
         // line
         svg.append("path")
             .attr("fill", "none")
@@ -178,13 +188,17 @@ export default function LinePlot(props: LinePlotProps) {
 
         // discrete data points
         const points = svg.append("g").attr("fill", `${SYNDEMICS_BLUE}`);
-        points
-            .selectAll<SVGCircleElement, Point>("circle")
-            .data(data)
-            .join("circle")
-            .attr("cx", (d) => x(d[0]))
-            .attr("cy", (d) => y(d[1]))
-            .attr("r", 1.5);
+        // disable individual data points if there is > 3 years of data
+        // (the zeroth week + 52 weeks * 3 years)
+        if (data.length <= 157) {
+            points
+                .selectAll<SVGCircleElement, Point>("circle")
+                .data(data)
+                .join("circle")
+                .attr("cx", (d) => x(d[0]))
+                .attr("cy", (d) => y(d[1]))
+                .attr("r", 1.5);
+        }
 
         const currentPoint = svg
             .append("circle")
@@ -224,14 +238,14 @@ export default function LinePlot(props: LinePlotProps) {
             .attr("width", (d) => d.width)
             .attr("height", height - margin.top - margin.bottom)
             .on("mouseover", (_event, d) => {
-                tooltip.text(`(${d.point[0]}, ${d.point[1]})`);
+                tooltip.select("text").text(`(${d.point[0]}, ${d.point[1]})`);
                 currentPoint
                     .attr("cx", x(d.point[0]))
                     .attr("cy", y(d.point[1]))
                     .attr("visibility", "visible");
             })
             .on("mouseout", () => {
-                tooltip.text("Use your cursor to see detailed values");
+                tooltip.select("text").text(TOOLTIP_TEXT);
                 currentPoint.attr("visibility", "hidden");
             });
     }, [data, xTitle, yTitle, width, height, margin, plotContainer]);
@@ -303,6 +317,13 @@ export function MultiLinePlot(props: MultiLinePlotProps) {
             .scaleOrdinal<number, string, never>()
             .range([SYNDEMICS_PINK, SYNDEMICS_BLUE, SYNDEMICS_CYAN]);
 
+        // put all plotted data into a single, flat array
+        const points: (number | string)[][] = data.flatMap((d) =>
+            d.value.map((pt) => [x(pt[0]), y(pt[1]), d.name, pt[0], pt[1]]),
+        );
+
+        // check the highest data point count across all data, use that to
+        // decide how to draw ticks on the x-axis
         const maxPoints = Math.max(...data.map((p) => p.value.length));
 
         // add the x-axis
@@ -343,21 +364,68 @@ export function MultiLinePlot(props: MultiLinePlotProps) {
                 .text(yTitle);
         }
 
-        const line = d3
-            .line<Point>()
-            .x((d) => x(d[0]))
-            .y((d) => y(d[1]))
-            .curve(d3.curveNatural);
+        // group the points by series
+        const groups = d3.rollup(
+            points,
+            (v) => Object.assign(v, { z: v[0][2] }),
+            (d) => d[2],
+        );
 
-        // line
-        svg.append("g")
+        // draw each curve in data as paths
+        const line = d3.line<Point>();
+        const path = svg
+            .append("g")
             .attr("stroke-width", 2)
-            .selectAll("path")
-            .data(data)
-            .join("path")
-            .attr("d", (d) => line(d.value))
             .attr("fill", "transparent")
-            .attr("stroke", (_, i: number): string => colors(i));
+            .selectAll("path")
+            .data(groups.values())
+            .join("path")
+            .style("mix-blend-mode", "multiply")
+            .attr("stroke", (_, i: number): string => colors(i))
+            .attr("d", (group) => {
+                const pts = group.map(
+                    ([x, y]) => [x as number, y as number] as Point,
+                );
+                return line(pts);
+            });
+
+        const currentPoint = svg.append("g").attr("visibility", "hidden");
+
+        currentPoint.append("circle").attr("fill", `#000`).attr("r", 2.5);
+
+        const tooltip = createTooltip(svg, margin);
+        svg.on("pointerenter", pointerentered)
+            .on("pointermove", pointermoved)
+            .on("pointerleave", pointerleft)
+            .on("touchstart", (e) => e.preventDefault());
+
+        function pointermoved(event: MouseEvent) {
+            const [xm, ym] = d3.pointer(event);
+            const index: number | undefined = d3.leastIndex(
+                points as Iterable<[number, number]>,
+                ([x, y]: [number, number]) => Math.hypot(x - xm, y - ym),
+            );
+            if (index === undefined) {
+                return;
+            }
+            const [x, y, name, v0, v1] = points[index];
+            path.style("stroke", ({ z }) => (z === name ? null : "#ddd"))
+                .filter(({ z }) => z === name)
+                .raise();
+            currentPoint.attr("transform", `translate(${x}, ${y})`);
+            tooltip.select("text").text(`${name}: ${v0}, ${v1}`);
+        }
+
+        function pointerentered() {
+            path.style("mix-blend-mode", null).style("stroke", "#ddd");
+            currentPoint.attr("visibility", "visible");
+        }
+
+        function pointerleft() {
+            path.style("mix-blend-mode", "multiply").style("stroke", null);
+            currentPoint.attr("visibility", "hidden");
+            tooltip.select("text").text(TOOLTIP_TEXT);
+        }
     }, [data, xTitle, yTitle, width, height, margin, plotContainer]);
 
     return (

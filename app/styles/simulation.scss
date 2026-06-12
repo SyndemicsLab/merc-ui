@@ -496,9 +496,8 @@ input[type="text"].intervention-name-input-error {
 
 .results-main {
     overflow-y: scroll;
-    aspect-ratio: 8.5 / 11;
     width: 85%;
-    height: auto;
+    height: 100vh;
     margin: auto;
 
     h2 {
@@ -530,11 +529,12 @@ input[type="text"].intervention-name-input-error {
         background-color: #aaa;
     }
 
-    & > .line-plot,
-    & > .bar-plot {
+    & .line-plot,
+    & .bar-plot {
         display: flex;
         flex-direction: column;
         align-items: center;
+        max-height: 100%;
     }
 
     & > svg:not(.load-indicator) {

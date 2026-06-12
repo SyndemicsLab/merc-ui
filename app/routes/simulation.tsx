@@ -34,7 +34,7 @@ import {
     DropdownMenuTrigger,
 } from "@components/ui/dropdown-menu";
 // import EmailIntake from "@simulation/emailintake";
-import LinePlot, { MultiLinePlot } from "@components/simulation/viz/line-plot";
+import LinePlot, { MultiLinePlot } from "@simulation/viz/line-plot";
 import { LoadIndicator } from "@components/ui/mock/timed-loader";
 import GeneralInputs from "@simulation/general-inputs";
 
@@ -521,28 +521,19 @@ export function RunStatus({
     const moudAdmissions =
         modelOutcome["intervention_admission"].map(accumulateTimesteps);
 
+    function sumResults(a: [number, number][], b: [number, number][]): Point[] {
+        // let `a` always be the longer array if relevant
+        const [x, y] = a.length >= b.length ? [a, b] : [b, a];
+        return x.map((v, i) => [v[0], v[1] + (y[i][1] ?? 0)]);
+    }
+
     return (
-        <div role="result-visualization">
-            <MultiLinePlot
-                data={[
-                    { value: cumulativeBGDeathData, name: "Cumulative" },
-                    { value: bgDeathData, name: "Timestep" },
-                ]}
-                title="Background Death Count Over Time"
-                xTitle="Week"
-                yTitle="Deaths"
-            />
+        <>
             <LinePlot
-                data={bgDeathData}
-                title="Background Death Count Over Time"
+                data={population}
+                title="Population Count Over Time"
                 xTitle="Week"
-                yTitle="Deaths"
-            />
-            <LinePlot
-                data={cumulativeBGDeathData}
-                title="Cumulative Background Death Count Over Time"
-                xTitle="Week"
-                yTitle="Deaths"
+                yTitle="Population"
             />
             <LinePlot
                 data={totalOD}
@@ -557,30 +548,53 @@ export function RunStatus({
                 yTitle="Overdoses"
             />
             <LinePlot
-                data={fatalOD}
-                title="Fatal Overdose Count Over Time"
-                xTitle="Week"
-                yTitle="Overdose Deaths"
-            />
-            <LinePlot
-                data={cumulativeFatalOD}
-                title="Cumulative Fatal Overdose Count Over Time"
-                xTitle="Week"
-                yTitle="Overdose Deaths"
-            />
-            <LinePlot
-                data={population}
-                title="Population Count Over Time"
-                xTitle="Week"
-                yTitle="Population"
-            />
-            <LinePlot
                 data={moudAdmissions}
                 title="MOUD Admissions Per Timestep"
                 xTitle="Week"
                 yTitle="Admissions"
             />
-        </div>
+            <MultiLinePlot
+                data={[
+                    {
+                        value: bgDeathData,
+                        name: "Per-Timestep Background Death",
+                    },
+                    {
+                        value: fatalOD,
+                        name: "Per-Timestep Fatal Overdose Death",
+                    },
+                    {
+                        value: sumResults(bgDeathData, fatalOD),
+                        name: "Per-Timestep Total Death",
+                    },
+                ]}
+                title="Death by Simulation Timestep"
+                xTitle="Week"
+                yTitle="Deaths"
+            />
+            <MultiLinePlot
+                data={[
+                    {
+                        value: cumulativeBGDeathData,
+                        name: "Cumulative Background Death",
+                    },
+                    {
+                        value: cumulativeFatalOD,
+                        name: "Cumulative Fatal Overdose Death",
+                    },
+                    {
+                        value: sumResults(
+                            cumulativeBGDeathData,
+                            cumulativeFatalOD,
+                        ),
+                        name: "Cumulative Total Death",
+                    },
+                ]}
+                title="Cumulative Death by Simulation Timestep"
+                xTitle="Week"
+                yTitle="Deaths"
+            />
+        </>
     );
 }
 

@@ -179,7 +179,7 @@ describe("Simulation route contract", () => {
             />,
         );
 
-        expect(screen.getByRole("result-visualization")).toBeTruthy();
+        expect(screen.getAllByText("Population Count Over Time")).toBeTruthy();
     });
 
     it("renders error run status", () => {
