@@ -74,7 +74,7 @@ export default function GeneralInputs() {
             action: (value: number) =>
                 dispatch({
                     type: "change fatal overdose proportion",
-                    value: value,
+                    value: parseFloat(value.toString()),
                 }),
         },
     ];
