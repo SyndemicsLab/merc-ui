@@ -2,6 +2,8 @@ import * as d3 from "d3";
 import { useRef, useEffect } from "react";
 import { SYNDEMICS_PINK, SYNDEMICS_CYAN, SYNDEMICS_BLUE } from "~/globals";
 
+const TOOLTIP_TEXT = "Use your cursor for detailed information";
+
 export type Point = [number, number];
 
 interface Region {
@@ -63,6 +65,20 @@ function pointRange(
     const min = d3.min(values) ?? 0;
     const max = d3.max(values) ?? 0;
     return [min, max];
+}
+
+function createTooltip(
+    svg: d3.Selection<SVGSVGElement, unknown, null, undefined>,
+    margin: PlotMargins,
+) {
+    const tooltip = svg.append("g");
+    tooltip
+        .append("text")
+        .attr("x", margin.left)
+        .attr("y", margin.top)
+        .style("fill", "#777")
+        .text(TOOLTIP_TEXT);
+    return tooltip;
 }
 
 /*
@@ -162,13 +178,7 @@ export default function LinePlot(props: LinePlotProps) {
                 .text(yTitle);
         }
 
-        const tooltip = svg
-            .append("text")
-            .attr("x", margin.left)
-            .attr("y", margin.top)
-            .style("fill", "#777")
-            .text("Use your cursor for detailed information");
-
+        const tooltip = createTooltip(svg, margin);
         // line
         svg.append("path")
             .attr("fill", "none")
@@ -228,14 +238,14 @@ export default function LinePlot(props: LinePlotProps) {
             .attr("width", (d) => d.width)
             .attr("height", height - margin.top - margin.bottom)
             .on("mouseover", (_event, d) => {
-                tooltip.text(`(${d.point[0]}, ${d.point[1]})`);
+                tooltip.select("text").text(`(${d.point[0]}, ${d.point[1]})`);
                 currentPoint
                     .attr("cx", x(d.point[0]))
                     .attr("cy", y(d.point[1]))
                     .attr("visibility", "visible");
             })
             .on("mouseout", () => {
-                tooltip.text("Use your cursor for detailed information");
+                tooltip.select("text").text(TOOLTIP_TEXT);
                 currentPoint.attr("visibility", "hidden");
             });
     }, [data, xTitle, yTitle, width, height, margin, plotContainer]);
@@ -383,14 +393,7 @@ export function MultiLinePlot(props: MultiLinePlotProps) {
 
         currentPoint.append("circle").attr("fill", `#000`).attr("r", 2.5);
 
-        const tooltip = svg.append("g");
-        tooltip
-            .append("text")
-            .attr("x", margin.left)
-            .attr("y", margin.top)
-            .style("fill", "#777")
-            .text("Use your cursor for detailed information");
-
+        const tooltip = createTooltip(svg, margin);
         svg.on("pointerenter", pointerentered)
             .on("pointermove", pointermoved)
             .on("pointerleave", pointerleft)
@@ -421,9 +424,7 @@ export function MultiLinePlot(props: MultiLinePlotProps) {
         function pointerleft() {
             path.style("mix-blend-mode", "multiply").style("stroke", null);
             currentPoint.attr("visibility", "hidden");
-            tooltip
-                .select("text")
-                .text("Use your cursor for detailed information");
+            tooltip.select("text").text(TOOLTIP_TEXT);
         }
     }, [data, xTitle, yTitle, width, height, margin, plotContainer]);
 
