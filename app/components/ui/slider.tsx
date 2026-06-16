@@ -43,16 +43,8 @@ export default function Slider({
     const clamp = (nextValue: number) => Math.min(max, Math.max(min, nextValue));
 
     const sanitizeNumberInput = (rawValue: string) => {
-        // Keep only digits and one decimal point. Minus signs are disallowed for this mode.
-        let sanitized = rawValue.replace(/[^0-9.]/g, "");
-        const firstDot = sanitized.indexOf(".");
-        if (firstDot !== -1) {
-            sanitized =
-                sanitized.slice(0, firstDot + 1) +
-                sanitized.slice(firstDot + 1).replace(/\./g, "");
-        }
-
-        return sanitized;
+        // Keep only digits and decimals. Minus signs are disallowed for this mode.
+        return rawValue.replace(/[^0-9.]/g, "");
     };
 
     const commitTextValue = (rawValue: string) => {
