@@ -71,6 +71,7 @@ export default function GeneralInputs() {
             max: FATAL_OD_MAX,
             step: FATAL_OD_STEP,
             defaultValue: inputs.fatal_overdoses,
+            numberInputMode: "deferred" as const,
             action: (value: number) =>
                 dispatch({
                     type: "change fatal overdose proportion",
@@ -91,6 +92,7 @@ export default function GeneralInputs() {
                     step={slider.step}
                     managementFunction={slider.action}
                     defaultValue={slider.defaultValue}
+                    numberInputMode={slider.numberInputMode}
                 />
             ))}
         </div>
