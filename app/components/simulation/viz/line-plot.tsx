@@ -1,4 +1,5 @@
 import * as d3 from "d3";
+import type { LetterText } from "lucide-react";
 import { useRef, useEffect } from "react";
 import { SYNDEMICS_PINK, SYNDEMICS_CYAN, SYNDEMICS_BLUE } from "~/globals";
 
@@ -120,6 +121,18 @@ export default function LinePlot(props: LinePlotProps) {
             return;
         }
 
+        let plottedData = data;
+        if (plottedData.length === 0) {
+            return;
+        }
+
+        if (title.includes("Timestep")) {
+            plottedData = data.filter((pt) => pt[0] >= 1);
+            if (plottedData.length === 0) {
+                return;
+            }
+        }
+
         const xMin = d3.min(data, (d) => d[0]) ?? 0;
         const xMax = d3.max(data, (d) => d[0]) ?? 0;
 
@@ -184,16 +197,16 @@ export default function LinePlot(props: LinePlotProps) {
             .attr("fill", "none")
             .attr("stroke", `${SYNDEMICS_CYAN}`)
             .attr("stroke-width", 2)
-            .attr("d", line(data));
+            .attr("d", line(plottedData));
 
         // discrete data points
         const points = svg.append("g").attr("fill", `${SYNDEMICS_BLUE}`);
         // disable individual data points if there is > 3 years of data
         // (the zeroth week + 52 weeks * 3 years)
-        if (data.length <= 157) {
+        if (plottedData.length <= 157) {
             points
                 .selectAll<SVGCircleElement, Point>("circle")
-                .data(data)
+                .data(plottedData)
                 .join("circle")
                 .attr("cx", (d) => x(d[0]))
                 .attr("cy", (d) => y(d[1]))
@@ -207,23 +220,24 @@ export default function LinePlot(props: LinePlotProps) {
             .attr("visibility", "hidden");
 
         const regions: Region[] = [];
-        for (let i = 0; i < data.length; i++) {
-            const center = x(data[i][0]);
+        for (let i = 0; i < plottedData.length; i++) {
+            const center = x(plottedData[i][0]);
             let regionWidth;
             if (i === 0) {
                 regionWidth =
-                    data.length === 1
+                    plottedData.length === 1
                         ? width - margin.left - margin.right
-                        : x(data[i + 1][0]) - x(data[i][0]);
-            } else if (i === data.length - 1) {
-                regionWidth = x(data[i][0]) - x(data[i - 1][0]);
+                        : x(plottedData[i + 1][0]) - x(plottedData[i][0]);
+            } else if (i === plottedData.length - 1) {
+                regionWidth = x(plottedData[i][0]) - x(plottedData[i - 1][0]);
             } else {
-                regionWidth = (x(data[i + 1][0]) - x(data[i - 1][0])) / 2;
+                regionWidth =
+                    (x(plottedData[i + 1][0]) - x(plottedData[i - 1][0])) / 2;
             }
             regions.push({
                 position: center - regionWidth / 2,
                 width: regionWidth,
-                point: data[i],
+                point: plottedData[i],
             });
         }
 
@@ -292,10 +306,14 @@ export function MultiLinePlot(props: MultiLinePlotProps) {
         }
 
         // Keep the axis domain based on the full data, but do not plot week 0.
-        const plottedData = data.map((series) => ({
-            ...series,
-            value: series.value.filter((pt) => pt[0] >= 1),
-        }));
+        let plottedData = data;
+
+        if (title.includes("Timestep")) {
+            plottedData = data.map((series) => ({
+                ...series,
+                value: series.value.filter((pt) => pt[0] >= 1),
+            }));
+        }
 
         const xRange = pointRange(data, 0);
         if (!xRange) {
