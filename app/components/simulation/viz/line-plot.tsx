@@ -1,5 +1,4 @@
 import * as d3 from "d3";
-import type { LetterText } from "lucide-react";
 import { useRef, useEffect } from "react";
 import { SYNDEMICS_PINK, SYNDEMICS_CYAN, SYNDEMICS_BLUE } from "~/globals";
 
