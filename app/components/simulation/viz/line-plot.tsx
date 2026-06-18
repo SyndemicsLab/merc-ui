@@ -291,6 +291,12 @@ export function MultiLinePlot(props: MultiLinePlotProps) {
             return;
         }
 
+        // Keep the axis domain based on the full data, but do not plot week 0.
+        const plottedData = data.map((series) => ({
+            ...series,
+            value: series.value.filter((pt) => pt[0] >= 1),
+        }));
+
         const xRange = pointRange(data, 0);
         if (!xRange) {
             return;
@@ -318,13 +324,13 @@ export function MultiLinePlot(props: MultiLinePlotProps) {
             .range([SYNDEMICS_PINK, SYNDEMICS_BLUE, SYNDEMICS_CYAN]);
 
         // put all plotted data into a single, flat array
-        const points: (number | string)[][] = data.flatMap((d) =>
+        const points: (number | string)[][] = plottedData.flatMap((d) =>
             d.value.map((pt) => [x(pt[0]), y(pt[1]), d.name, pt[0], pt[1]]),
         );
 
         // check the highest data point count across all data, use that to
         // decide how to draw ticks on the x-axis
-        const maxPoints = Math.max(...data.map((p) => p.value.length));
+        const maxPoints = Math.max(...plottedData.map((p) => p.value.length));
 
         // add the x-axis
         // the constant 80 was chosen arbitrarily
