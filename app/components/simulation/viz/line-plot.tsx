@@ -21,6 +21,7 @@ export interface PlotMargins {
 
 interface LinePlotProps {
     data: Point[];
+    perTimestep?: boolean;
     title: string;
     xTitle?: string;
     yTitle?: string;
@@ -36,6 +37,7 @@ interface MultiLineData {
 
 interface MultiLinePlotProps {
     data: MultiLineData[];
+    perTimestep?: boolean;
     title: string;
     xTitle?: string;
     yTitle?: string;
@@ -90,6 +92,7 @@ function createTooltip(
 export default function LinePlot(props: LinePlotProps) {
     const {
         data,
+        perTimestep,
         title,
         xTitle,
         yTitle,
@@ -125,7 +128,7 @@ export default function LinePlot(props: LinePlotProps) {
             return;
         }
 
-        if (title.includes("Timestep")) {
+        if (perTimestep === true) {
             plottedData = data.filter((pt) => pt[0] >= 1);
             if (plottedData.length === 0) {
                 return;
@@ -274,6 +277,7 @@ export default function LinePlot(props: LinePlotProps) {
 export function MultiLinePlot(props: MultiLinePlotProps) {
     const {
         data,
+        perTimestep,
         title,
         xTitle,
         yTitle,
@@ -307,7 +311,7 @@ export function MultiLinePlot(props: MultiLinePlotProps) {
         // Keep the axis domain based on the full data, but do not plot week 0.
         let plottedData = data;
 
-        if (title.includes("Timestep")) {
+        if (perTimestep === true) {
             plottedData = data.map((series) => ({
                 ...series,
                 value: series.value.filter((pt) => pt[0] >= 1),

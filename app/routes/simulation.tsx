@@ -531,24 +531,28 @@ export function RunStatus({
         <>
             <LinePlot
                 data={population}
+                perTimestep={false}
                 title="Population Count Over Time"
                 xTitle="Week"
                 yTitle="Population"
             />
             <LinePlot
                 data={totalOD}
+                perTimestep={true}
                 title="Total Overdose Count Over Time"
                 xTitle="Week"
                 yTitle="Overdoses"
             />
             <LinePlot
                 data={cumulativeTotalOD}
+                perTimestep={false}
                 title="Cumulative Total Overdose Count Over Time"
                 xTitle="Week"
                 yTitle="Overdoses"
             />
             <LinePlot
                 data={moudAdmissions}
+                perTimestep={true}
                 title="MOUD Admissions Per Timestep"
                 xTitle="Week"
                 yTitle="Admissions"
@@ -568,6 +572,7 @@ export function RunStatus({
                         name: "Per-Timestep Total Death",
                     },
                 ]}
+                perTimestep={true}
                 title="Death by Simulation Timestep"
                 xTitle="Week"
                 yTitle="Deaths"
@@ -590,6 +595,7 @@ export function RunStatus({
                         name: "Cumulative Total Death",
                     },
                 ]}
+                perTimestep={false}
                 title="Cumulative Death by Simulation Timestep"
                 xTitle="Week"
                 yTitle="Deaths"
