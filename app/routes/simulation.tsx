@@ -42,6 +42,8 @@ import GeneralInputs from "@simulation/general-inputs";
 import respond from "~/images/diagram/system.svg";
 import { getSliderConstraintError } from "~/features/simulation/reducer";
 
+import "~/styles/simulation.scss";
+
 export interface SimulationLoaderData {
     initialInputs: Inputs;
     presets: Intervention[];
