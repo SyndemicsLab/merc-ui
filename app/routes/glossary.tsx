@@ -1,5 +1,6 @@
 import type { GlossaryTable } from "@components/ui/glossary/glossary-table";
 import { GlossarySection } from "@components/ui/glossary/glossary-table";
+import "~/styles/glossary.scss";
 
 const treatments: GlossaryTable = {
     section: "Treatment States",

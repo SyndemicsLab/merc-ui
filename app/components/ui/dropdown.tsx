@@ -48,7 +48,7 @@ function Dropdown({
                     variant="secondary"
                     role="combobox"
                     aria-expanded={dropdownOpen}
-                    className={cn("w-[300px] justify-between", className)}
+                    className={cn(`w-[300px] justify-between ${name}`, className)}
                 >
                     {selected
                         ? options.find((option) => option.value === selected)
