@@ -1,5 +1,6 @@
 import type { ActionFunctionArgs } from "react-router";
 import ContactUs from "@components/contact/contactus";
+import "~/styles/contact.scss";
 
 export async function action({ request }: ActionFunctionArgs) {
     const formData = await request.formData();

@@ -17,6 +17,7 @@
 
     h1 {
         font-size: 24px;
+        font-weight: 600;
     }
 }
 
@@ -700,21 +701,6 @@ input[type="text"].intervention-name-input-error {
 
 #show-advanced {
     display: none;
-}
-
-.advanced-inputs {
-    margin-bottom: var(--spacing-large);
-}
-
-#advanced-options {
-    @include buttons.info-button();
-    display: inline-block;
-}
-
-.advanced-options-text {
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 #disclaimers {
