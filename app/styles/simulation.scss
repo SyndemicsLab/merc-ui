@@ -20,6 +20,62 @@
     }
 }
 
+.simulation-toc {
+    position: sticky;
+    top: 0;
+    background-color: #f2f2f2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.15rem;
+    width: min(100%, 30rem);
+    margin: var(--spacing-small) auto;
+    padding: 0.35rem 0.5rem;
+    z-index: 10;
+
+    .simulation-toc-title {
+        color: var(--tertiary-color);
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-align: center;
+        margin: 0;
+        line-height: 1.1;
+    }
+
+    .simulation-toc-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        display: grid;
+        justify-items: center;
+        gap: 0.1rem;
+
+        li {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+    }
+
+    .simulation-toc-list a {
+        color: var(--primary-color);
+        font-size: 0.6rem;
+        font-weight: 500;
+        text-decoration: none;
+        text-align: center;
+        line-height: 1.1;
+    }
+
+    .simulation-toc-list a:hover {
+        text-decoration: underline;
+    }
+}
+
+.line-plot h2 {
+    scroll-margin-top: 6rem;
+}
+
 .system-image {
     width: 100%;
 }
