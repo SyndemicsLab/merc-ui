@@ -123,11 +123,12 @@ export default function LinePlot(props: LinePlotProps) {
             return;
         }
 
-        const plottedData = perTimestep ? data.filter((pt) => pt[0] >= 1) : data;
+        const plottedData = perTimestep
+            ? data.filter((pt) => pt[0] >= 1)
+            : data;
         if (plottedData.length === 0) {
             return;
         }
-        
 
         const xMin = d3.min(data, (d) => d[0]) ?? 0;
         const xMax = d3.max(data, (d) => d[0]) ?? 0;
