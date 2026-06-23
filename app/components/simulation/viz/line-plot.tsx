@@ -123,17 +123,11 @@ export default function LinePlot(props: LinePlotProps) {
             return;
         }
 
-        let plottedData = data;
+        const plottedData = perTimestep ? data.filter((pt) => pt[0] >= 1) : data;
         if (plottedData.length === 0) {
             return;
         }
-
-        if (perTimestep === true) {
-            plottedData = data.filter((pt) => pt[0] >= 1);
-            if (plottedData.length === 0) {
-                return;
-            }
-        }
+        
 
         const xMin = d3.min(data, (d) => d[0]) ?? 0;
         const xMax = d3.max(data, (d) => d[0]) ?? 0;
@@ -311,7 +305,7 @@ export function MultiLinePlot(props: MultiLinePlotProps) {
         // Keep the axis domain based on the full data, but do not plot week 0.
         let plottedData = data;
 
-        if (perTimestep === true) {
+        if (perTimestep) {
             plottedData = data.map((series) => ({
                 ...series,
                 value: series.value.filter((pt) => pt[0] >= 1),
