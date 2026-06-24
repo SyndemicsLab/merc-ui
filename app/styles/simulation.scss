@@ -25,21 +25,20 @@
     top: 0;
     background-color: #f2f2f2;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    gap: 0.15rem;
-    width: min(100%, 30rem);
-    margin: var(--spacing-small) auto;
-    padding: 0.35rem 0.5rem;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.4rem 1rem;
     z-index: 10;
 
     .simulation-toc-title {
         color: var(--tertiary-color);
         font-size: 0.7rem;
         font-weight: 700;
-        text-align: center;
+        text-align: nowrap;
         margin: 0;
-        line-height: 1.1;
+        flex-shrink: 0;
     }
 
     .simulation-toc-list {
@@ -47,14 +46,14 @@
         margin: 0;
         padding: 0;
         width: 100%;
-        display: grid;
-        justify-items: center;
-        gap: 0.1rem;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 0.15rem 0.75rem;
+        align-items: center;
 
         li {
-            width: 100%;
             display: flex;
-            justify-content: center;
         }
     }
 
@@ -63,8 +62,8 @@
         font-size: 0.6rem;
         font-weight: 500;
         text-decoration: none;
-        text-align: center;
-        line-height: 1.1;
+        text-align: nowrap;
+        line-height: 1.2;
     }
 
     .simulation-toc-list a:hover {
@@ -73,7 +72,7 @@
 }
 
 .line-plot h2 {
-    scroll-margin-top: 6rem;
+    scroll-margin-top: 2.1rem;
 }
 
 .system-image {
