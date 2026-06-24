@@ -21,6 +21,7 @@ export interface PlotMargins {
 
 interface LinePlotProps {
     data: Point[];
+    perTimestep?: boolean;
     title: string;
     xTitle?: string;
     yTitle?: string;
@@ -36,6 +37,7 @@ interface MultiLineData {
 
 interface MultiLinePlotProps {
     data: MultiLineData[];
+    perTimestep?: boolean;
     title: string;
     xTitle?: string;
     yTitle?: string;
@@ -90,6 +92,7 @@ function createTooltip(
 export default function LinePlot(props: LinePlotProps) {
     const {
         data,
+        perTimestep,
         title,
         xTitle,
         yTitle,
@@ -117,6 +120,13 @@ export default function LinePlot(props: LinePlotProps) {
         svg.selectAll("*").remove();
 
         if (data.length === 0) {
+            return;
+        }
+
+        const plottedData = perTimestep
+            ? data.filter((pt) => pt[0] >= 1)
+            : data;
+        if (plottedData.length === 0) {
             return;
         }
 
@@ -184,16 +194,16 @@ export default function LinePlot(props: LinePlotProps) {
             .attr("fill", "none")
             .attr("stroke", `${SYNDEMICS_CYAN}`)
             .attr("stroke-width", 2)
-            .attr("d", line(data));
+            .attr("d", line(plottedData));
 
         // discrete data points
         const points = svg.append("g").attr("fill", `${SYNDEMICS_BLUE}`);
         // disable individual data points if there is > 3 years of data
         // (the zeroth week + 52 weeks * 3 years)
-        if (data.length <= 157) {
+        if (plottedData.length <= 157) {
             points
                 .selectAll<SVGCircleElement, Point>("circle")
-                .data(data)
+                .data(plottedData)
                 .join("circle")
                 .attr("cx", (d) => x(d[0]))
                 .attr("cy", (d) => y(d[1]))
@@ -207,23 +217,24 @@ export default function LinePlot(props: LinePlotProps) {
             .attr("visibility", "hidden");
 
         const regions: Region[] = [];
-        for (let i = 0; i < data.length; i++) {
-            const center = x(data[i][0]);
+        for (let i = 0; i < plottedData.length; i++) {
+            const center = x(plottedData[i][0]);
             let regionWidth;
             if (i === 0) {
                 regionWidth =
-                    data.length === 1
+                    plottedData.length === 1
                         ? width - margin.left - margin.right
-                        : x(data[i + 1][0]) - x(data[i][0]);
-            } else if (i === data.length - 1) {
-                regionWidth = x(data[i][0]) - x(data[i - 1][0]);
+                        : x(plottedData[i + 1][0]) - x(plottedData[i][0]);
+            } else if (i === plottedData.length - 1) {
+                regionWidth = x(plottedData[i][0]) - x(plottedData[i - 1][0]);
             } else {
-                regionWidth = (x(data[i + 1][0]) - x(data[i - 1][0])) / 2;
+                regionWidth =
+                    (x(plottedData[i + 1][0]) - x(plottedData[i - 1][0])) / 2;
             }
             regions.push({
                 position: center - regionWidth / 2,
                 width: regionWidth,
-                point: data[i],
+                point: plottedData[i],
             });
         }
 
@@ -261,6 +272,7 @@ export default function LinePlot(props: LinePlotProps) {
 export function MultiLinePlot(props: MultiLinePlotProps) {
     const {
         data,
+        perTimestep,
         title,
         xTitle,
         yTitle,
@@ -291,6 +303,16 @@ export function MultiLinePlot(props: MultiLinePlotProps) {
             return;
         }
 
+        // Keep the axis domain based on the full data, but do not plot week 0.
+        let plottedData = data;
+
+        if (perTimestep) {
+            plottedData = data.map((series) => ({
+                ...series,
+                value: series.value.filter((pt) => pt[0] >= 1),
+            }));
+        }
+
         const xRange = pointRange(data, 0);
         if (!xRange) {
             return;
@@ -318,13 +340,13 @@ export function MultiLinePlot(props: MultiLinePlotProps) {
             .range([SYNDEMICS_PINK, SYNDEMICS_BLUE, SYNDEMICS_CYAN]);
 
         // put all plotted data into a single, flat array
-        const points: (number | string)[][] = data.flatMap((d) =>
+        const points: (number | string)[][] = plottedData.flatMap((d) =>
             d.value.map((pt) => [x(pt[0]), y(pt[1]), d.name, pt[0], pt[1]]),
         );
 
         // check the highest data point count across all data, use that to
         // decide how to draw ticks on the x-axis
-        const maxPoints = Math.max(...data.map((p) => p.value.length));
+        const maxPoints = Math.max(...plottedData.map((p) => p.value.length));
 
         // add the x-axis
         // the constant 80 was chosen arbitrarily
