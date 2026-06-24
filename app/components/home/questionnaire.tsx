@@ -120,10 +120,10 @@ const Questionnaire = () => {
                 <DialogHeader>
                     <DialogTitle>Questionnaire</DialogTitle>
                     <DialogDescription>
-                        Your answers to the following questions are optional
-                        and serve only to help us understand the way this tool
-                        is being used. This information will let us know how we
-                        can best update and expand the tool to be as useful as
+                        Your answers to the following questions are optional and
+                        serve only to help us understand the way this tool is
+                        being used. This information will let us know how we can
+                        best update and expand the tool to be as useful as
                         possible. The answers you do or do not provide will not
                         impact your use of the tool in any way.
                     </DialogDescription>
