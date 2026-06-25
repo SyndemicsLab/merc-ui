@@ -32,7 +32,7 @@
     padding: 0.4rem 1rem;
     z-index: 10;
 
-    & .title {
+    .simulation-toc-title {
         color: var(--tertiary-color);
         font-size: 1rem;
         font-weight: 700;
@@ -45,7 +45,7 @@
         gap: 0.6rem;
     }
 
-    & .close {
+    .simulation-toc-close {
         margin-left: auto;
         flex-shrink: 0;
         width: 1.1rem;
@@ -67,7 +67,7 @@
         }
     }
 
-    & .expand {
+    .simulation-toc-expand {
         background: none;
         border: none;
         color: var(--primary-color);
@@ -81,7 +81,7 @@
         }
     }
 
-    & .list {
+    .simulation-toc-list {
         list-style: none;
         margin: 0;
         padding: 0;
@@ -97,7 +97,7 @@
         }
     }
 
-    & .list a {
+    .simulation-toc-list a {
         color: var(--primary-color);
         font-size: 0.75em;
         font-weight: 500;
@@ -106,7 +106,7 @@
         line-height: 1.2;
     }
 
-    & .list a:hover {
+    .simulation-toc-list a:hover {
         text-decoration: underline;
     }
 }
