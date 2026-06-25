@@ -560,21 +560,12 @@ export function RunStatus({
         <>
             <nav
                 aria-label="Table of contents"
-                className={`simulation-toc ${!isExpanded ? "simulation-toc--collapsed" : ""}`}
+                className={`simulation-toc${!isExpanded ? " collapsed" : ""}`}
             >
-                <p className="simulation-toc-title">
+                <h3 className="toc-title">
                     Jump To A Graph
-                    {!isExpanded && (
-                        <button
-                            className="simulation-toc-expand"
-                            onClick={() => setIsExpanded(true)}
-                            aria-label="Expand table of contents"
-                        >
-                            ›
-                        </button>
-                    )}
-                </p>
-                {isExpanded && (
+                </h3>
+                {isExpanded ? (
                     <>
                         <ul className="simulation-toc-list">
                             {simulationSections.map((section) => (
@@ -585,15 +576,15 @@ export function RunStatus({
                                 </li>
                             ))}
                         </ul>
-                        <button
-                            className="simulation-toc-close"
-                            onClick={() => setIsExpanded(false)}
-                            aria-label="Collapse table of contents"
-                        >
-                            ×
-                        </button>
                     </>
-                )}
+                ) : null}
+                <button
+                        className=`${isExpanded ? "collapse" : "expand"}`
+                        onClick={() => setIsExpanded(!isExpanded)}
+                        aria-label=`${isExpanded ? "Collapse" : "Expand"} table of contents`
+                >
+                    {isExpanded ? "‹" : "›"}
+                </button>
             </nav>
 
             <LinePlot
