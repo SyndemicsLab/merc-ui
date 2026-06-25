@@ -505,7 +505,6 @@ export function RunStatus({
     if (resultBody === "") {
         return <p>There was an issue with the simulation outcomes.</p>;
     }
-
     const modelOutcome = JSON.parse(resultBody)["result"][0];
     // background death
     const bgDeathData =
@@ -560,12 +559,21 @@ export function RunStatus({
         <>
             <nav
                 aria-label="Table of contents"
-                className={`simulation-toc${!isExpanded ? " collapsed" : ""}`}
+                className={`simulation-toc ${!isExpanded ? "simulation-toc--collapsed" : ""}`}
             >
-                <h3 className="toc-title">
+                <p className="simulation-toc-title">
                     Jump To A Graph
-                </h3>
-                {isExpanded ? (
+                    {!isExpanded && (
+                        <button
+                            className="simulation-toc-expand"
+                            onClick={() => setIsExpanded(true)}
+                            aria-label="Expand table of contents"
+                        >
+                            ›
+                        </button>
+                    )}
+                </p>
+                {isExpanded && (
                     <>
                         <ul className="simulation-toc-list">
                             {simulationSections.map((section) => (
@@ -576,15 +584,15 @@ export function RunStatus({
                                 </li>
                             ))}
                         </ul>
+                        <button
+                            className="simulation-toc-close"
+                            onClick={() => setIsExpanded(false)}
+                            aria-label="Collapse table of contents"
+                        >
+                            ×
+                        </button>
                     </>
-                ) : null}
-                <button
-                        className=`${isExpanded ? "collapse" : "expand"}`
-                        onClick={() => setIsExpanded(!isExpanded)}
-                        aria-label=`${isExpanded ? "Collapse" : "Expand"} table of contents`
-                >
-                    {isExpanded ? "‹" : "›"}
-                </button>
+                )}
             </nav>
 
             <LinePlot
