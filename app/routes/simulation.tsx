@@ -474,6 +474,8 @@ export function RunStatus({
     reset: boolean;
     result?: SimulationRunResponse;
 }) {
+    const [isExpanded, setIsExpanded] = useState(true);
+
     if (pending || reset) {
         return <LoadIndicator />;
     }
@@ -556,16 +558,42 @@ export function RunStatus({
 
     return (
         <>
-            <nav aria-label="Table of contents" className="simulation-toc">
-                <p className="simulation-toc-title">Jump To A Graph</p>
-
-                <ul className="simulation-toc-list">
-                    {simulationSections.map((section) => (
-                        <li key={section.id}>
-                            <a href={`#${section.id}`}>{section.label}</a>
-                        </li>
-                    ))}
-                </ul>
+            <nav
+                aria-label="Table of contents"
+                className={`simulation-toc ${!isExpanded ? "simulation-toc--collapsed" : ""}`}
+            >
+                <p className="simulation-toc-title">
+                    Jump To A Graph
+                    {!isExpanded && (
+                        <button
+                            className="simulation-toc-expand"
+                            onClick={() => setIsExpanded(true)}
+                            aria-label="Expand table of contents"
+                        >
+                            ›
+                        </button>
+                    )}
+                </p>
+                {isExpanded && (
+                    <>
+                        <ul className="simulation-toc-list">
+                            {simulationSections.map((section) => (
+                                <li key={section.id}>
+                                    <a href={`#${section.id}`}>
+                                        {section.label}
+                                    </a>
+                                </li>
+                            ))}
+                        </ul>
+                        <button
+                            className="simulation-toc-close"
+                            onClick={() => setIsExpanded(false)}
+                            aria-label="Collapse table of contents"
+                        >
+                            ×
+                        </button>
+                    </>
+                )}
             </nav>
 
             <LinePlot
