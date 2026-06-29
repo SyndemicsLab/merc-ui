@@ -28,7 +28,11 @@ function DropdownQuestion({
     return (
         <div className="questionnaire-question">
             <span className="dialog-question">{question}</span>
-            <Dropdown name={name} options={options} />
+            <Dropdown
+                name={name}
+                options={options}
+                className="h-[40px] w-[220px] justify-between"
+            />
             <input id={name} type="hidden" name={name} />
         </div>
     );
@@ -138,7 +142,7 @@ const Questionnaire = () => {
                         />
                         <DropdownQuestion
                             name="us_state"
-                            question="What US State are you most interested in researching?"
+                            question="Which US State are you most interested in researching?"
                             options={States}
                         />
                         <MultiResponseQuestion

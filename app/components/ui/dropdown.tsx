@@ -24,9 +24,11 @@ interface DropdownOption {
 function Dropdown({
     name,
     options,
+    className,
 }: {
     name: string;
     options: DropdownOption[];
+    className?: string;
 }) {
     const [dropdownOpen, dropdownSetOpen] = useState(false);
     const [selected, setSelected] = useState("");
@@ -46,7 +48,7 @@ function Dropdown({
                     variant="secondary"
                     role="combobox"
                     aria-expanded={dropdownOpen}
-                    className="w-[300px] justify-between"
+                    className={cn("w-[300px] justify-between", className)}
                 >
                     {selected
                         ? options.find((option) => option.value === selected)

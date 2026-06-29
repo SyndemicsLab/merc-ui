@@ -34,11 +34,12 @@
     max-width: 98%;
     padding: 0.4rem 1rem;
     z-index: 10;
-    transition: width var(--transition-duration),
-                height var(--transition-duration);
+    transition:
+        width var(--transition-duration),
+        height var(--transition-duration);
     height: 50px;
 
-    &:not(.collapsed){
+    &:not(.collapsed) {
         width: 98%;
         height: fit-content;
     }
@@ -55,7 +56,8 @@
         gap: 0.6rem;
     }
 
-    & .expanded, & .collapsed {
+    & .expanded,
+    & .collapsed {
         background: none;
         border: none;
         color: var(--primary-color);
