@@ -23,51 +23,39 @@
 .simulation-toc {
     position: sticky;
     top: 0;
+    left: -3rem;
     background-color: #f2f2f2;
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 0.5rem;
-    width: 100%;
+    border-radius: var(--border-radius);
+    width: 170px;
+    max-width: 98%;
     padding: 0.4rem 1rem;
     z-index: 10;
+    transition: width var(--transition-duration),
+                height var(--transition-duration);
+    height: 50px;
 
-    .simulation-toc-title {
+    &:not(.collapsed){
+        width: 98%;
+        height: fit-content;
+    }
+
+    & .toc-title {
         color: var(--tertiary-color);
         font-size: 1rem;
         font-weight: 700;
         text-align: nowrap;
         margin: 0;
-        margin-left: -0.7rem;
         flex-shrink: 0;
         display: flex;
         align-items: center;
         gap: 0.6rem;
     }
 
-    .simulation-toc-close {
-        margin-left: auto;
-        flex-shrink: 0;
-        width: 1.1rem;
-        height: 1.1rem;
-        border-radius: 50%;
-        border: 1px solid #bbb;
-        background: white;
-        color: #666;
-        font-size: 0.75rem;
-        line-height: 1;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 0;
-
-        &:hover {
-            background: #e0e0e0;
-        }
-    }
-
-    .simulation-toc-expand {
+    & .expanded, & .collapsed {
         background: none;
         border: none;
         color: var(--primary-color);
