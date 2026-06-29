@@ -474,6 +474,8 @@ export function RunStatus({
     reset: boolean;
     result?: SimulationRunResponse;
 }) {
+    const [isExpanded, setIsExpanded] = useState(true);
+
     if (pending || reset) {
         return <LoadIndicator />;
     }
@@ -503,7 +505,6 @@ export function RunStatus({
     if (resultBody === "") {
         return <p>There was an issue with the simulation outcomes.</p>;
     }
-
     const modelOutcome = JSON.parse(resultBody)["result"][0];
     // background death
     const bgDeathData =
@@ -527,12 +528,67 @@ export function RunStatus({
         return x.map((v, i) => [v[0], v[1] + (y[i][1] ?? 0)]);
     }
 
+    const simulationSections = [
+        {
+            id: "population-count-over-time",
+            label: "Population Count Over Time",
+        },
+        {
+            id: "total-overdose-count-over-time",
+            label: "Total Overdose Count Over Time",
+        },
+        {
+            id: "cumulative-total-overdose-count-over-time",
+            label: "Cumulative Total Overdose Count Over Time",
+        },
+        {
+            id: "moud-admissions-per-timestep",
+            label: "MOUD Admissions Per Timestep",
+        },
+        {
+            id: "death-by-simulation-timestep",
+            label: "Death by Simulation Timestep",
+        },
+        {
+            id: "cumulative-death-by-simulation-timestep",
+            label: "Cumulative Death by Simulation Timestep",
+        },
+    ] as const;
+
     return (
         <>
+            <nav
+                aria-label="Table of contents"
+                className={`simulation-toc${!isExpanded ? " collapsed" : ""}`}
+            >
+                <h3 className="toc-title">Jump To A Graph</h3>
+                {isExpanded ? (
+                    <>
+                        <ul className="simulation-toc-list">
+                            {simulationSections.map((section) => (
+                                <li key={section.id}>
+                                    <a href={`#${section.id}`}>
+                                        {section.label}
+                                    </a>
+                                </li>
+                            ))}
+                        </ul>
+                    </>
+                ) : null}
+                <button
+                    className={`${isExpanded ? "collapsed" : "expanded"}`}
+                    onClick={() => setIsExpanded(!isExpanded)}
+                    aria-label={`${isExpanded ? "Collapse" : "Expand"} table of contents`}
+                >
+                    {isExpanded ? "‹" : "›"}
+                </button>
+            </nav>
+
             <LinePlot
                 data={population}
                 perTimestep={false}
                 title="Population Count Over Time"
+                id={simulationSections[0].id}
                 xTitle="Week"
                 yTitle="Population"
             />
@@ -540,6 +596,7 @@ export function RunStatus({
                 data={totalOD}
                 perTimestep={true}
                 title="Total Overdose Count Over Time"
+                id={simulationSections[1].id}
                 xTitle="Week"
                 yTitle="Overdoses"
             />
@@ -547,6 +604,7 @@ export function RunStatus({
                 data={cumulativeTotalOD}
                 perTimestep={false}
                 title="Cumulative Total Overdose Count Over Time"
+                id={simulationSections[2].id}
                 xTitle="Week"
                 yTitle="Overdoses"
             />
@@ -554,6 +612,7 @@ export function RunStatus({
                 data={moudAdmissions}
                 perTimestep={true}
                 title="MOUD Admissions Per Timestep"
+                id={simulationSections[3].id}
                 xTitle="Week"
                 yTitle="Admissions"
             />
@@ -574,6 +633,7 @@ export function RunStatus({
                 ]}
                 perTimestep={true}
                 title="Death by Simulation Timestep"
+                id={simulationSections[4].id}
                 xTitle="Week"
                 yTitle="Deaths"
             />
@@ -597,6 +657,7 @@ export function RunStatus({
                 ]}
                 perTimestep={false}
                 title="Cumulative Death by Simulation Timestep"
+                id={simulationSections[5].id}
                 xTitle="Week"
                 yTitle="Deaths"
             />

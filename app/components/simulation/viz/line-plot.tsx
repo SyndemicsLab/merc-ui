@@ -23,6 +23,7 @@ interface LinePlotProps {
     data: Point[];
     perTimestep?: boolean;
     title: string;
+    id?: string;
     xTitle?: string;
     yTitle?: string;
     width?: number;
@@ -39,6 +40,7 @@ interface MultiLinePlotProps {
     data: MultiLineData[];
     perTimestep?: boolean;
     title: string;
+    id?: string;
     xTitle?: string;
     yTitle?: string;
     width?: number;
@@ -94,6 +96,7 @@ export default function LinePlot(props: LinePlotProps) {
         data,
         perTimestep,
         title,
+        id,
         xTitle,
         yTitle,
         width = 650,
@@ -263,7 +266,7 @@ export default function LinePlot(props: LinePlotProps) {
 
     return (
         <div className="line-plot">
-            {title ? <h2>{title}</h2> : null}
+            {title ? <h2 id={id}>{title}</h2> : null}
             <svg viewBox={`0 0 ${width} ${height}`} ref={plotContainer} />
         </div>
     );
@@ -274,6 +277,7 @@ export function MultiLinePlot(props: MultiLinePlotProps) {
         data,
         perTimestep,
         title,
+        id,
         xTitle,
         yTitle,
         width = 650,
@@ -452,7 +456,7 @@ export function MultiLinePlot(props: MultiLinePlotProps) {
 
     return (
         <div className="line-plot">
-            {title ? <h2>{title}</h2> : null}
+            {title ? <h2 id={id}>{title}</h2> : null}
             <svg viewBox={`0 0 ${width} ${height}`} ref={plotContainer} />
         </div>
     );
