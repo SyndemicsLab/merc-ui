@@ -85,6 +85,12 @@ function getNewInterventionName(
     return `New ${baseName} ${num}`;
 }
 
+export type SliderConstraintViolation = {
+    hasViolation: boolean;
+    field: string;
+    message: string;
+};
+
 function constrainValues(
     values: number[],
     limit: number,
@@ -100,6 +106,54 @@ function constrainValues(
         return true;
     }
     return false;
+}
+
+export function getSliderConstraintError(
+    simulationInputs: Inputs,
+    field: string,
+): SliderConstraintViolation {
+    const treatedPopulation = simulationInputs.interventions
+        .filter((i) => i.id !== 0)
+        .reduce((accumulator, intervention) => {
+            if (!intervention.postPopulation) {
+                return accumulator + intervention.population;
+            }
+            return (
+                accumulator +
+                intervention.population +
+                intervention.postPopulation
+            );
+        }, 0);
+
+    if (
+        field === "intervention_population" &&
+        treatedPopulation > simulationInputs.total_population
+    ) {
+        return {
+            hasViolation: true,
+            field,
+            message:
+                "Intervention populations now exceed the total population.",
+        };
+    }
+
+    if (
+        field === "transition_probability" &&
+        treatedPopulation > simulationInputs.total_population
+    ) {
+        return {
+            hasViolation: true,
+            field,
+            message:
+                "Transition probabilities push the intervention total above the total population.",
+        };
+    }
+
+    return {
+        hasViolation: false,
+        field,
+        message: "",
+    };
 }
 
 // Domain helpers: intervention identity and structure
@@ -289,16 +343,15 @@ export function changeTotalPopulation(
             );
         }, 0);
 
-    if (constrainValues([value], currentMinPopulation, "min")) {
-        return simulationInputs;
-    }
-
     const newInterventions: Intervention[] = simulationInputs.interventions.map(
         (i) => {
             if (i.id !== 0) {
                 return i;
             }
-            return { ...i, population: value - currentMinPopulation };
+            return {
+                ...i,
+                population: Math.max(value - currentMinPopulation, 0),
+            };
         },
     );
 
@@ -359,21 +412,6 @@ export function changeInterventionPopulation(
         },
     );
 
-    if (
-        constrainValues(
-            newInterventions
-                .filter((i) => i.id !== 0)
-                .map((i) =>
-                    i.postPopulation
-                        ? i.population + i.postPopulation
-                        : i.population,
-                ),
-            simulationInputs.total_population,
-        )
-    ) {
-        return simulationInputs;
-    }
-
     const treatedPopulation: number = newInterventions
         .filter((i) => i.id !== 0)
         .reduce((accumulator, intervention) => {
@@ -388,7 +426,10 @@ export function changeInterventionPopulation(
         }, 0);
     newInterventions[0] = {
         ...newInterventions[0],
-        population: simulationInputs.total_population - treatedPopulation,
+        population: Math.max(
+            simulationInputs.total_population - treatedPopulation,
+            0,
+        ),
     };
     return {
         ...simulationInputs,
@@ -446,23 +487,17 @@ export function changeInterventionTransition(
             i.postPopulation ? i.population + i.postPopulation : i.population,
         );
 
-    if (constrainValues(treatedPopulation, simulationInputs.total_population)) {
-        return simulationInputs;
-    }
-
-    if (constrainValues(newTransitionProbabilities, PROPORTION_MAX)) {
-        return simulationInputs;
-    }
-
     const noTreatment: Intervention | undefined = newInterventions.find(
         (i) => i.id === 0,
     );
     if (noTreatment) {
-        noTreatment.population =
+        noTreatment.population = Math.max(
             simulationInputs.total_population -
-            treatedPopulation.reduce((accumulator, value) => {
-                return accumulator + value;
-            }, 0);
+                treatedPopulation.reduce((accumulator, value) => {
+                    return accumulator + value;
+                }, 0),
+            0,
+        );
     }
 
     return {

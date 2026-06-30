@@ -10,6 +10,7 @@ import {
     changeInterventionTransition,
     changeTotalPopulation,
     deleteIntervention,
+    getSliderConstraintError,
     inputsReducer,
     renameIntervention,
 } from "~/features/simulation/reducer";
@@ -113,16 +114,31 @@ describe("Simulation reducer domain transitions", () => {
         expect(noTreatment?.population).toBe(next.total_population - treated);
     });
 
-    it("rejects intervention population when it exceeds total population", () => {
+    it("reports a slider constraint violation when intervention populations exceed total population", () => {
         const state = makeState();
+
+        const violation = getSliderConstraintError(
+            state,
+            "intervention_population",
+        );
+
+        expect(violation.hasViolation).toBe(false);
 
         const next = changeInterventionPopulation(
             state,
             1,
             state.total_population + 1,
         );
+        const updatedViolation = getSliderConstraintError(
+            next,
+            "intervention_population",
+        );
 
-        expect(next).toBe(state);
+        expect(next.interventions.find((i) => i.id === 1)?.population).toBe(
+            state.total_population + 1,
+        );
+        expect(updatedViolation.hasViolation).toBe(true);
+        expect(updatedViolation.message).toContain("total population");
     });
 
     it("changes intervention transition probability with rounding", () => {

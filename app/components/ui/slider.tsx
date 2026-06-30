@@ -9,6 +9,7 @@ export default function Slider({
     defaultValue,
     managementFunction,
     readOnly = false,
+    validationMessage,
 }: {
     inputVar: string;
     inputText: string;
@@ -18,6 +19,7 @@ export default function Slider({
     defaultValue: number;
     managementFunction?: (arg0: number) => void;
     readOnly?: boolean;
+    validationMessage?: string;
 }) {
     const [value, setValue] = useState(Number(defaultValue));
 
@@ -34,7 +36,17 @@ export default function Slider({
 
     return (
         <>
-            <div className="inputName">{inputText}</div>
+            <div className="inputName">
+                {inputText}
+                {validationMessage ? (
+                    <span className="intervention-name-error">!</span>
+                ) : null}
+            </div>
+            {validationMessage ? (
+                <p className="intervention-name-error" role="alert">
+                    {validationMessage}
+                </p>
+            ) : null}
             {readOnly ? (
                 <div className="slider">
                     <input
