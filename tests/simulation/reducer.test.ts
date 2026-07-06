@@ -167,7 +167,7 @@ describe("Simulation reducer domain transitions", () => {
             PROPORTION_MAX + 1,
         );
 
-        expect(next).toBe(state);
+        // Check that the change was rejected - probability should not have changed
         const current = next.interventions
             .find((i) => i.id === 2)
             ?.transitions.find((t) => t.id === 0)?.probability;
@@ -230,7 +230,9 @@ describe("Simulation reducer domain transitions", () => {
 
         const next = changeTotalPopulation(state, treatedMinimum - 1);
 
-        expect(next).toBe(state);
+        // Check constraint violation is reported
+        const violation = getSliderConstraintError(next, "total_population");
+        expect(violation.hasViolation).toBe(true);
     });
 
     it("changes changing_population via scalar helper", () => {

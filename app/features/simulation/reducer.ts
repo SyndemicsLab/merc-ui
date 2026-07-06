@@ -4,7 +4,6 @@ import {
     type Inputs,
     makeEmptyTransition,
 } from "~/features/simulation/model";
-import { PROPORTION_MAX } from "~/globals";
 
 export type SimulationAction =
     | { type: "change duration"; value: number }
@@ -90,23 +89,6 @@ export type SliderConstraintViolation = {
     field: string;
     message: string;
 };
-
-function constrainValues(
-    values: number[],
-    limit: number,
-    comparison: string = "max",
-): boolean {
-    const sumValues: number = values.reduce(
-        (accumulator: number, value: number) => accumulator + Number(value),
-        0,
-    );
-    if (comparison === "max" && sumValues > limit) {
-        return true;
-    } else if (comparison === "min" && sumValues < limit) {
-        return true;
-    }
-    return false;
-}
 
 export function getSliderConstraintError(
     simulationInputs: Inputs,
@@ -494,8 +476,6 @@ export function changeInterventionTransition(
     if (activeIntervention === undefined) {
         return simulationInputs;
     }
-    const newTransitionProbabilities: number[] =
-        activeIntervention.transitions.map((t) => t.probability);
 
     const treatedPopulation = newInterventions
         .filter((i) => i.id !== 0)
