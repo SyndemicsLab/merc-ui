@@ -4,6 +4,7 @@ import {
     type Inputs,
     makeEmptyTransition,
 } from "~/features/simulation/model";
+import { PROPORTION_MAX } from "~/globals";
 
 export type SimulationAction =
     | { type: "change duration"; value: number }
@@ -447,6 +448,11 @@ export function changeInterventionTransition(
             return i;
         }
         const newTransition = Number(Number(value).toFixed(4));
+
+        if (newTransition > PROPORTION_MAX) {
+            return i;
+        }
+
         const postPopulation =
             transitionID === i.id
                 ? {
