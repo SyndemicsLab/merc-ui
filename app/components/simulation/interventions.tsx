@@ -33,7 +33,6 @@ import {
     CollapsibleTrigger,
 } from "@radix-ui/react-collapsible";
 import { PROPORTION_MIN, PROPORTION_STEP, PROPORTION_MAX } from "~/globals";
-import { getSliderConstraintError } from "~/features/simulation/reducer";
 
 function normalizeInterventionName(name: string): string {
     return name.trim().replace(/\s+/g, " ");
@@ -359,12 +358,6 @@ function Content({
     nameError?: string;
 }) {
     const dispatch = useInputsDispatch();
-    const inputs = useInputs();
-    const populationViolation = getSliderConstraintError(
-        inputs,
-        "intervention_population",
-    );
-
     return (
         <>
             <div
@@ -389,12 +382,6 @@ function Content({
                         })
                     }
                     readOnly={intervention.id === 0 ? true : false}
-                    validationMessage={
-                        populationViolation.hasViolation &&
-                        intervention.id !== 0
-                            ? populationViolation.message
-                            : undefined
-                    }
                 />
                 {intervention.id !== 0 ? (
                     <Slider

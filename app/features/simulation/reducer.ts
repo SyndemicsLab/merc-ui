@@ -115,38 +115,54 @@ export function getSliderConstraintError(
     const treatedPopulation = simulationInputs.interventions
         .filter((i) => i.id !== 0)
         .reduce((accumulator, intervention) => {
-            if (!intervention.postPopulation) {
-                return accumulator + intervention.population;
-            }
-            return (
-                accumulator +
-                intervention.population +
-                intervention.postPopulation
-            );
+            const population = intervention.population ?? 0;
+            const postPopulation = intervention.postPopulation ?? 0;
+            return accumulator + population + postPopulation;
         }, 0);
 
-    if (
-        field === "intervention_population" &&
-        treatedPopulation > simulationInputs.total_population
-    ) {
-        return {
-            hasViolation: true,
-            field,
-            message:
-                "Intervention populations now exceed the total population.",
-        };
+    if (field === "total_population") {
+        return treatedPopulation > simulationInputs.total_population
+            ? {
+                  hasViolation: true,
+                  field,
+                  message:
+                      "Initial total population is smaller than the intervention totals.",
+              }
+            : {
+                  hasViolation: false,
+                  field,
+                  message: "",
+              };
     }
 
-    if (
-        field === "transition_probability" &&
-        treatedPopulation > simulationInputs.total_population
-    ) {
-        return {
-            hasViolation: true,
-            field,
-            message:
-                "Transition probabilities push the intervention total above the total population.",
-        };
+    if (field === "intervention_population") {
+        return treatedPopulation > simulationInputs.total_population
+            ? {
+                  hasViolation: true,
+                  field,
+                  message:
+                      "Intervention populations now exceed the total population.",
+              }
+            : {
+                  hasViolation: false,
+                  field,
+                  message: "",
+              };
+    }
+
+    if (field === "transition_probability") {
+        return treatedPopulation > simulationInputs.total_population
+            ? {
+                  hasViolation: true,
+                  field,
+                  message:
+                      "Transition probabilities push the intervention total above the total population.",
+              }
+            : {
+                  hasViolation: false,
+                  field,
+                  message: "",
+              };
     }
 
     return {

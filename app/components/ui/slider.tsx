@@ -39,11 +39,11 @@ export default function Slider({
             <div className="inputName">
                 {inputText}
                 {validationMessage ? (
-                    <span className="intervention-name-error">!</span>
+                    <span className="slider-validation-badge">!</span>
                 ) : null}
             </div>
             {validationMessage ? (
-                <p className="intervention-name-error" role="alert">
+                <p className="slider-validation-message" role="alert">
                     {validationMessage}
                 </p>
             ) : null}

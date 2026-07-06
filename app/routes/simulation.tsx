@@ -40,6 +40,7 @@ import GeneralInputs from "@simulation/general-inputs";
 
 // Asset imports
 import respond from "~/images/diagram/system.svg";
+import { getSliderConstraintError } from "~/features/simulation/reducer";
 
 export interface SimulationLoaderData {
     initialInputs: Inputs;
@@ -669,6 +670,7 @@ function Input({
     handleSubmit,
     nameValidationError,
     interventionNameErrors,
+    populationConstraintError,
     // temporarily commenting for Alpha
     // presets,
     pending,
@@ -677,6 +679,7 @@ function Input({
     handleSubmit: () => boolean;
     nameValidationError: string | null;
     interventionNameErrors: Record<number, string>;
+    populationConstraintError: string | null;
     // temporarily commenting for Alpha
     // presets: Intervention[];
     pending: boolean;
@@ -713,12 +716,16 @@ function Input({
                                 event.preventDefault();
                             }
                         }}
-                        disabled={pending || nameValidationError !== null}
+                        disabled={
+                            pending ||
+                            nameValidationError !== null ||
+                            populationConstraintError !== null
+                        }
                     >
                         {pending ? "Running..." : "Run"}
                     </button>
                 </DialogTrigger>
-                {nameValidationError ? (
+                {nameValidationError || populationConstraintError ? (
                     <>
                         <p
                             className="run-status"
@@ -740,6 +747,13 @@ function Input({
                                             );
                                         },
                                     )}
+                                </ol>
+                            </div>
+                        ) : null}
+                        {populationConstraintError ? (
+                            <div className="run-error-list">
+                                <ol>
+                                    <li>{populationConstraintError}</li>
                                 </ol>
                             </div>
                         ) : null}
@@ -786,9 +800,16 @@ function SimulationContent() {
     const interventionNameErrors = getInterventionNameErrors(
         inputs.interventions,
     );
+    const populationConstraintError = getSliderConstraintError(
+        inputs,
+        "total_population",
+    );
 
     const handleSubmit = (): boolean => {
-        if (nameValidationError !== null) {
+        if (
+            nameValidationError !== null ||
+            populationConstraintError.hasViolation
+        ) {
             return false;
         }
 
@@ -904,6 +925,11 @@ function SimulationContent() {
                     handleSubmit={handleSubmit}
                     nameValidationError={nameValidationError}
                     interventionNameErrors={interventionNameErrors}
+                    populationConstraintError={
+                        populationConstraintError.hasViolation
+                            ? populationConstraintError.message
+                            : null
+                    }
                     pending={pending}
                     runResult={fetcher.data}
                 />

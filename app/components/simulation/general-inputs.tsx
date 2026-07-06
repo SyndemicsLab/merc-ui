@@ -18,10 +18,15 @@ import {
     FATAL_OD_MAX,
 } from "~/globals";
 import Slider from "@components/ui/slider";
+import { getSliderConstraintError } from "~/features/simulation/reducer";
 
 export default function GeneralInputs() {
     const inputs: Inputs = useInputs();
     const dispatch = useInputsDispatch();
+    const totalPopulationViolation = getSliderConstraintError(
+        inputs,
+        "total_population",
+    );
 
     const slider_defaults = [
         {
@@ -91,6 +96,12 @@ export default function GeneralInputs() {
                     step={slider.step}
                     managementFunction={slider.action}
                     defaultValue={slider.defaultValue}
+                    validationMessage={
+                        slider.inputVar === "total_population" &&
+                        totalPopulationViolation.hasViolation
+                            ? totalPopulationViolation.message
+                            : undefined
+                    }
                 />
             ))}
         </div>
