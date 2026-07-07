@@ -747,13 +747,9 @@ function Input({
                                             );
                                         },
                                     )}
-                                </ol>
-                            </div>
-                        ) : null}
-                        {populationConstraintError ? (
-                            <div className="run-error-list">
-                                <ol>
-                                    <li>{populationConstraintError}</li>
+                                    {populationConstraintError ? (
+                                        <li>{populationConstraintError}</li>
+                                    ) : null}
                                 </ol>
                             </div>
                         ) : null}
