@@ -63,21 +63,22 @@ export function validateInterventionNames(
 export function getInterventionNameErrors(
     interventions: Intervention[],
 ): Record<number, string> {
-    const counts = new Map<string, number>();
-
-    for (const intervention of interventions) {
-        const normalizedName = normalizeInterventionName(intervention.name);
-        counts.set(normalizedName, (counts.get(normalizedName) ?? 0) + 1);
-    }
-
+    const seenNames = new Map<string, number>();
     const errors: Record<number, string> = {};
+
     for (const intervention of interventions) {
         const normalizedName = normalizeInterventionName(intervention.name);
+
         if (normalizedName === "") {
             errors[intervention.id] = "Intervention names cannot be blank.";
-        } else if ((counts.get(normalizedName) ?? 0) > 1) {
+            continue;
+        }
+
+        if (seenNames.has(normalizedName)) {
             errors[intervention.id] =
                 "Intervention names must be unique. This name is duplicated.";
+        } else {
+            seenNames.set(normalizedName, intervention.id);
         }
     }
 

@@ -735,7 +735,8 @@ function Input({
                             There is at least one error. Resolve all errors to
                             run the simulation:
                         </p>
-                        {Object.keys(interventionNameErrors).length ? (
+                        {Object.keys(interventionNameErrors).length ||
+                        populationConstraintError ? (
                             <div className="run-error-list">
                                 <ol>
                                     {Object.entries(interventionNameErrors).map(
