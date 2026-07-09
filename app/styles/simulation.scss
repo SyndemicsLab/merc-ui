@@ -517,6 +517,28 @@ input[type="text"].intervention-name-input-error {
     margin-top: 0.35rem;
 }
 
+.slider-validation-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 0.5rem;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background-color: var(--secondary-color);
+    color: #fff;
+    font-size: 0.85rem;
+    font-weight: 700;
+    vertical-align: middle;
+}
+
+.slider-validation-message {
+    color: var(--secondary-color);
+    font-size: 0.9rem;
+    margin: 0 0 0.75rem 0;
+    font-weight: 600;
+}
+
 .intervention-info {
     @include buttons.info-button($font-size: 11px);
     display: inline-flex;

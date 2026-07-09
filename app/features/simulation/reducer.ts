@@ -85,21 +85,74 @@ function getNewInterventionName(
     return `New ${baseName} ${num}`;
 }
 
-function constrainValues(
-    values: number[],
-    limit: number,
-    comparison: string = "max",
-): boolean {
-    const sumValues: number = values.reduce(
-        (accumulator: number, value: number) => accumulator + Number(value),
-        0,
-    );
-    if (comparison === "max" && sumValues > limit) {
-        return true;
-    } else if (comparison === "min" && sumValues < limit) {
-        return true;
+export type SliderConstraintViolation = {
+    hasViolation: boolean;
+    field: string;
+    message: string;
+};
+
+export function getSliderConstraintError(
+    simulationInputs: Inputs,
+    field: string,
+): SliderConstraintViolation {
+    const treatedPopulation = simulationInputs.interventions
+        .filter((i) => i.id !== 0)
+        .reduce((accumulator, intervention) => {
+            const population = intervention.population ?? 0;
+            const postPopulation = intervention.postPopulation ?? 0;
+            return accumulator + population + postPopulation;
+        }, 0);
+
+    if (field === "total_population") {
+        return treatedPopulation > simulationInputs.total_population
+            ? {
+                  hasViolation: true,
+                  field,
+                  message:
+                      "Initial total population is smaller than the intervention totals.",
+              }
+            : {
+                  hasViolation: false,
+                  field,
+                  message: "",
+              };
     }
-    return false;
+
+    if (field === "intervention_population") {
+        return treatedPopulation > simulationInputs.total_population
+            ? {
+                  hasViolation: true,
+                  field,
+                  message:
+                      "Intervention populations now exceed the total population.",
+              }
+            : {
+                  hasViolation: false,
+                  field,
+                  message: "",
+              };
+    }
+
+    if (field === "transition_probability") {
+        return treatedPopulation > simulationInputs.total_population
+            ? {
+                  hasViolation: true,
+                  field,
+                  message:
+                      "Transition probabilities push the intervention total above the total population.",
+              }
+            : {
+                  hasViolation: false,
+                  field,
+                  message: "",
+              };
+    }
+
+    return {
+        hasViolation: false,
+        field,
+        message: "",
+    };
 }
 
 // Domain helpers: intervention identity and structure
@@ -289,16 +342,15 @@ export function changeTotalPopulation(
             );
         }, 0);
 
-    if (constrainValues([value], currentMinPopulation, "min")) {
-        return simulationInputs;
-    }
-
     const newInterventions: Intervention[] = simulationInputs.interventions.map(
         (i) => {
             if (i.id !== 0) {
                 return i;
             }
-            return { ...i, population: value - currentMinPopulation };
+            return {
+                ...i,
+                population: Math.max(value - currentMinPopulation, 0),
+            };
         },
     );
 
@@ -359,21 +411,6 @@ export function changeInterventionPopulation(
         },
     );
 
-    if (
-        constrainValues(
-            newInterventions
-                .filter((i) => i.id !== 0)
-                .map((i) =>
-                    i.postPopulation
-                        ? i.population + i.postPopulation
-                        : i.population,
-                ),
-            simulationInputs.total_population,
-        )
-    ) {
-        return simulationInputs;
-    }
-
     const treatedPopulation: number = newInterventions
         .filter((i) => i.id !== 0)
         .reduce((accumulator, intervention) => {
@@ -388,7 +425,10 @@ export function changeInterventionPopulation(
         }, 0);
     newInterventions[0] = {
         ...newInterventions[0],
-        population: simulationInputs.total_population - treatedPopulation,
+        population: Math.max(
+            simulationInputs.total_population - treatedPopulation,
+            0,
+        ),
     };
     return {
         ...simulationInputs,
@@ -408,6 +448,11 @@ export function changeInterventionTransition(
             return i;
         }
         const newTransition = Number(Number(value).toFixed(4));
+
+        if (newTransition > PROPORTION_MAX) {
+            return i;
+        }
+
         const postPopulation =
             transitionID === i.id
                 ? {
@@ -437,8 +482,6 @@ export function changeInterventionTransition(
     if (activeIntervention === undefined) {
         return simulationInputs;
     }
-    const newTransitionProbabilities: number[] =
-        activeIntervention.transitions.map((t) => t.probability);
 
     const treatedPopulation = newInterventions
         .filter((i) => i.id !== 0)
@@ -446,23 +489,17 @@ export function changeInterventionTransition(
             i.postPopulation ? i.population + i.postPopulation : i.population,
         );
 
-    if (constrainValues(treatedPopulation, simulationInputs.total_population)) {
-        return simulationInputs;
-    }
-
-    if (constrainValues(newTransitionProbabilities, PROPORTION_MAX)) {
-        return simulationInputs;
-    }
-
     const noTreatment: Intervention | undefined = newInterventions.find(
         (i) => i.id === 0,
     );
     if (noTreatment) {
-        noTreatment.population =
+        noTreatment.population = Math.max(
             simulationInputs.total_population -
-            treatedPopulation.reduce((accumulator, value) => {
-                return accumulator + value;
-            }, 0);
+                treatedPopulation.reduce((accumulator, value) => {
+                    return accumulator + value;
+                }, 0),
+            0,
+        );
     }
 
     return {
