@@ -1,4 +1,5 @@
 import {
+    type DurationRange,
     type Intervention,
     type Transition,
     type Inputs,
@@ -7,7 +8,7 @@ import {
 import { PROPORTION_MAX } from "~/globals";
 
 export type SimulationAction =
-    | { type: "change duration"; value: number }
+    | { type: "change duration"; value: DurationRange }
     | { type: "change total population"; value: number }
     | { type: "change changing population"; value: number }
     | { type: "change fatal overdose proportion"; value: number }
@@ -316,7 +317,7 @@ export function deleteIntervention(
 // Updates simulation duration.
 export function changeDuration(
     simulationInputs: Inputs,
-    value: number,
+    value: DurationRange,
 ): Inputs {
     return {
         ...simulationInputs,

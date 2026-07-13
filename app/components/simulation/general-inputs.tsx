@@ -1,5 +1,9 @@
 // Package types
-import type { Inputs } from "~/features/simulation/model";
+import {
+    coerceDurationRange,
+    type DurationRange,
+    type Inputs,
+} from "~/features/simulation/model";
 
 // Component imports
 import { useInputsDispatch, useInputs } from "@components/input-contexts";
@@ -19,6 +23,7 @@ import {
 } from "~/globals";
 import Slider from "@components/ui/slider";
 import { getSliderConstraintError } from "~/features/simulation/reducer";
+import { useEffect, useState } from "react";
 
 export default function GeneralInputs() {
     const inputs: Inputs = useInputs();
@@ -27,22 +32,43 @@ export default function GeneralInputs() {
         inputs,
         "total_population",
     );
+    const [durationRange, setDurationRange] = useState<DurationRange>(() =>
+        coerceDurationRange(inputs.duration),
+    );
+
+    useEffect(() => {
+        setDurationRange(coerceDurationRange(inputs.duration));
+    }, [inputs.duration]);
+
+    const handleDurationChange = (
+        bound: keyof DurationRange,
+        value: number,
+    ) => {
+        const nextRange = {
+            ...durationRange,
+            [bound]: value,
+        } as DurationRange;
+
+        if (bound === "min") {
+            nextRange.min = Math.min(
+                Math.max(value, DURATION_MIN),
+                durationRange.max,
+            );
+        } else {
+            nextRange.max = Math.max(
+                Math.min(value, DURATION_MAX),
+                durationRange.min,
+            );
+        }
+
+        setDurationRange(nextRange);
+        dispatch({
+            type: "change duration",
+            value: nextRange,
+        });
+    };
 
     const slider_defaults = [
-        {
-            inputVar: "duration",
-            inputText: "Simulation Duration (Weeks)",
-            min: DURATION_MIN,
-            // limiting duration to 7 years in Alpha
-            max: DURATION_MAX,
-            step: DURATION_STEP,
-            defaultValue: inputs.duration,
-            action: (value: number) =>
-                dispatch({
-                    type: "change duration",
-                    value: value,
-                }),
-        },
         {
             inputVar: "total_population",
             inputText: "Initial Total Population",
@@ -86,6 +112,54 @@ export default function GeneralInputs() {
 
     return (
         <div id="global-inputs">
+            <div className="inputName">Simulation Duration (Weeks)</div>
+            <div className="slider">
+                <input
+                    type="number"
+                    min={DURATION_MIN}
+                    max={DURATION_MAX}
+                    step={DURATION_STEP}
+                    value={durationRange.min}
+                    name="duration-min"
+                    onChange={(event) =>
+                        handleDurationChange("min", Number(event.target.value))
+                    }
+                />
+                <input
+                    type="range"
+                    min={DURATION_MIN}
+                    max={DURATION_MAX}
+                    step={DURATION_STEP}
+                    value={durationRange.min}
+                    onChange={(event) =>
+                        handleDurationChange("min", Number(event.target.value))
+                    }
+                />
+                <input
+                    type="number"
+                    min={DURATION_MIN}
+                    max={DURATION_MAX}
+                    step={DURATION_STEP}
+                    value={durationRange.max}
+                    name="duration-max"
+                    onChange={(event) =>
+                        handleDurationChange("max", Number(event.target.value))
+                    }
+                />
+                <input
+                    type="range"
+                    min={DURATION_MIN}
+                    max={DURATION_MAX}
+                    step={DURATION_STEP}
+                    value={durationRange.max}
+                    onChange={(event) =>
+                        handleDurationChange("max", Number(event.target.value))
+                    }
+                />
+            </div>
+            <div className="slider-validation-message" role="status">
+                Selected duration: {durationRange.min}–{durationRange.max} weeks
+            </div>
             {slider_defaults.map((slider) => (
                 <Slider
                     key={slider.inputVar}

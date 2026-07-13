@@ -21,8 +21,13 @@ interface Overdose {
     injection: boolean;
 }
 
+interface DurationRange {
+    min: number;
+    max: number;
+}
+
 interface Inputs {
-    duration: number;
+    duration: DurationRange;
     total_population: number;
     changing_population: number;
     fatal_overdoses: number;
@@ -33,5 +38,24 @@ function makeEmptyTransition(id: number, name: string): Transition {
     return { id: id, name: name, probability: 0 };
 }
 
-export type { Intervention, Transition, Overdose, Inputs };
-export { makeEmptyTransition };
+function coerceDurationRange(duration: number | DurationRange): DurationRange {
+    if (typeof duration === "number") {
+        return { min: duration, max: duration };
+    }
+
+    return {
+        min: duration.min,
+        max: duration.max,
+    };
+}
+
+function serializeDurationForRun(duration: number | DurationRange): number {
+    if (typeof duration === "number") {
+        return duration;
+    }
+
+    return Math.max(duration.min, duration.max);
+}
+
+export type { Intervention, Transition, Overdose, Inputs, DurationRange };
+export { makeEmptyTransition, coerceDurationRange, serializeDurationForRun };

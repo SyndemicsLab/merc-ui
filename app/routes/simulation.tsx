@@ -1,6 +1,12 @@
 // Package types
 import type { Route } from "./+types/simulation";
-import type { Inputs, Intervention } from "~/features/simulation/model";
+import {
+    coerceDurationRange,
+    serializeDurationForRun,
+    type DurationRange,
+    type Inputs,
+    type Intervention,
+} from "~/features/simulation/model";
 import type { Point } from "@simulation/viz/line-plot";
 
 // Node, React, and React Router imports
@@ -80,6 +86,7 @@ function cloneIntervention(intervention: Intervention): Intervention {
 function cloneInputs(inputs: Inputs): Inputs {
     return {
         ...inputs,
+        duration: coerceDurationRange(inputs.duration),
         interventions: inputs.interventions.map(cloneIntervention),
     };
 }
@@ -160,8 +167,12 @@ function isInputsLike(value: unknown): value is Inputs {
         interventions?: unknown;
     };
 
+    const durationCandidate = coerceDurationRange(
+        candidate.duration as number | DurationRange,
+    );
+
     if (
-        typeof candidate.duration !== "number" ||
+        durationCandidate === null ||
         typeof candidate.total_population !== "number" ||
         typeof candidate.changing_population !== "number" ||
         typeof candidate.fatal_overdoses !== "number" ||
@@ -338,7 +349,11 @@ export function makeLoaderData(inputs: Inputs): SimulationLoaderData {
 
 export function mapRunRequest(inputs: Inputs): unknown {
     // Enforce a plain JSON payload shape before sending to the action.
-    return JSON.parse(JSON.stringify(inputs));
+    const payload = JSON.parse(JSON.stringify(inputs));
+    return {
+        ...payload,
+        duration: serializeDurationForRun(inputs.duration),
+    };
 }
 
 export function mapRunResponse(
@@ -483,8 +498,8 @@ export function RunStatus({
     if (!result || !result.ok) {
         return (
             <p className="run-status" role="alert">
-                An error happened while attempting to run the simulation. Please
-                try again.
+                {result?.error ||
+                    "An error happened while attempting to run the simulation. Please try again."}
             </p>
         );
     }
