@@ -562,7 +562,7 @@ export function RunStatus({
         <>
             <nav
                 aria-label="Table of contents"
-                className={`simulation-toc${!isExpanded ? " collapsed" : ""}`}
+                className={`simulation-toc ${!isExpanded ? "collapsed" : "expanded"}`}
             >
                 <h3 className="toc-title">Jump To A Graph</h3>
                 {isExpanded ? (

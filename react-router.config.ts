@@ -2,9 +2,9 @@ import type { Config } from "@react-router/dev/config";
 
 export default {
     ssr: true,
+    splitRouteModules: true,
     allowedActionOrigins: ["respond.syndemicslab.org"],
     async prerender() {
-        // temporarily removing `/contact` for alpha
-        return ["/respond", "/glossary"];
+        return ["/respond", "/glossary", "/contact"];
     },
 } satisfies Config;
