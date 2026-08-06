@@ -2,16 +2,9 @@ import type { Config } from "@react-router/dev/config";
 
 export default {
     ssr: true,
-    future: {
-        v8_middleware: true,
-        v8_splitRouteModules: true,
-        v8_viteEnvironmentApi: true,
-        v8_passThroughRequests: true,
-        v8_trailingSlashAwareDataRequests: true,
-    },
+    splitRouteModules: true,
     allowedActionOrigins: ["respond.syndemicslab.org"],
     async prerender() {
-        // temporarily removing `/contact` for alpha
-        return ["/respond", "/glossary"];
+        return ["/respond", "/glossary", "/contact"];
     },
 } satisfies Config;
