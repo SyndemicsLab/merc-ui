@@ -1,6 +1,7 @@
 @use "components/buttons" as buttons;
 @use "components/dropdown" as dropdown;
 @use "components/centered_list" as cl;
+@use "effects/fade" as fade;
 @use "effects/bounce";
 
 /* SIMULATION */
@@ -68,8 +69,14 @@
         line-height: 1;
 
         &:hover {
+            color: var(--primary-color);
             opacity: 0.7;
+            background-color: unset;
         }
+    }
+
+    &.expanded .simulation-toc-list {
+        animation: fade-in 800ms;
     }
 
     .simulation-toc-list {
@@ -82,6 +89,9 @@
         flex-wrap: wrap;
         gap: 0.15rem 0.75rem;
         align-items: center;
+        animation-delay: 0ms;
+        animation: fade-out 100ms;
+        animation-fill-mode: forwards;
 
         li {
             display: flex;
