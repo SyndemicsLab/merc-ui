@@ -83,6 +83,14 @@
 
 @font-face {
     font-family: "Plex Sans";
+    src: url("/fonts/ttf/plex/IBMPlexSans-Light.ttf") format("truetype");
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Plex Sans";
     src: url("/fonts/ttf/plex/IBMPlexSans-Regular.ttf") format("truetype");
     font-weight: 400;
     font-style: normal;
