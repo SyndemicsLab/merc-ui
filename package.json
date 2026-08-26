@@ -33,7 +33,7 @@
         "cmdk": "^1.1.1",
         "d3": "^7.9.0",
         "isbot": "^5.2.1",
-        "lucide-react": "^1.30.0",
+        "lucide-react": "^1.33.0",
         "react": "^19.2.8",
         "react-dom": "^19.2.8",
         "react-router": "^8.3.0",
@@ -48,16 +48,16 @@
         "@types/node": "^26.2.0",
         "@types/react": "^19.2.18",
         "@types/react-dom": "^19.2.4",
-        "eslint": "^10.8.1",
-        "globals": "^17.9.0",
+        "eslint": "^10.9.0",
+        "globals": "^17.11.0",
         "jiti": "^2.7.0",
         "jsdom": "^30.0.1",
         "prettier": "3.9.6",
-        "sass-embedded": "^1.100.0",
+        "sass-embedded": "^1.103.1",
         "tailwindcss": "^4.0.0",
         "typescript": "^6.0.3",
-        "typescript-eslint": "^8.66.0",
-        "vitest": "^4.1.10"
+        "typescript-eslint": "^8.67.0",
+        "vitest": "^4.1.11"
     },
     "engines": {
         "node": ">=20.19.0"
