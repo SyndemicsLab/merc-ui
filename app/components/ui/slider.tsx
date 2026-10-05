@@ -1,18 +1,10 @@
 import { useState, type ChangeEvent } from "react";
+import Tooltip from "@components/ui/tooltip";
 
-export default function Slider({
-    inputVar,
-    inputText,
-    min,
-    max,
-    step,
-    defaultValue,
-    managementFunction,
-    readOnly = false,
-    validationMessage,
-}: {
+interface SliderProps {
     inputVar: string;
     inputText: string;
+    inputDescription?: string;
     min: number;
     max: number;
     step: number;
@@ -20,7 +12,20 @@ export default function Slider({
     managementFunction?: (arg0: number) => void;
     readOnly?: boolean;
     validationMessage?: string;
-}) {
+};
+
+export default function Slider({
+    inputVar,
+    inputText,
+    inputDescription = null,
+    min,
+    max,
+    step,
+    defaultValue,
+    managementFunction,
+    readOnly = false,
+    validationMessage,
+}: SliderProps) {
     const [value, setValue] = useState(Number(defaultValue));
 
     const hasManagementFunction = typeof managementFunction === "function";
@@ -38,6 +43,8 @@ export default function Slider({
         <>
             <div className="inputName">
                 {inputText}
+                {inputDescription ?
+                    <Tooltip inputName={inputText} body={inputDescription} /> : null}
                 {validationMessage ? (
                     <span className="slider-validation-badge">!</span>
                 ) : null}

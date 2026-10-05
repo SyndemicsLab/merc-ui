@@ -269,7 +269,9 @@ input::-ms-thumb:hover {
 
 .inputName,
 .advancedInputName {
-    display: block;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
     font-size: 16px;
     font-weight: 600;
     margin-bottom: var(--spacing-small);
@@ -736,4 +738,11 @@ input[type="text"].intervention-name-input-error {
 .sim-result {
     margin: 0 auto;
     flex-grow: 1;
+}
+
+.input-tooltip-trigger {
+    @include buttons.circular-button($size: 1rem, $font-size: 0.5rem);
+    display: inline-flex;
+    color: #fff;
+    transition-duration: var(--transition-duration);
 }

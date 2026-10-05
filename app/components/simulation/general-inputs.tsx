@@ -32,6 +32,7 @@ export default function GeneralInputs() {
         {
             inputVar: "duration",
             inputText: "Simulation Duration (Weeks)",
+            inputDescription: "The number of weeks for the simulation to run.",
             min: DURATION_MIN,
             // limiting duration to 7 years in Alpha
             max: DURATION_MAX,
@@ -91,6 +92,7 @@ export default function GeneralInputs() {
                     key={slider.inputVar}
                     inputVar={slider.inputVar}
                     inputText={slider.inputText}
+                    inputDescription={slider.inputDescription}
                     min={slider.min}
                     max={slider.max}
                     step={slider.step}
