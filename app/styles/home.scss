@@ -198,12 +198,13 @@ h1 {
 
         .moud-cards {
             display: grid;
-            grid-template: repeat(auto-fit, minmax(0, 1fr)) /
-                           repeat(auto-fit, minmax(0, 1fr));
+            grid-template:
+                repeat(auto-fit, minmax(0, 1fr)) /
+                repeat(auto-fit, minmax(0, 1fr));
             gap: 2rem;
             margin: 2rem 0;
 
-            @media(max-width: 1200px) {
+            @media (max-width: 1200px) {
                 display: flex;
                 flex-direction: column;
                 min-width: 350px;

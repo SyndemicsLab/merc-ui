@@ -1,4 +1,5 @@
 import { Link } from "react-router";
+import type { ReactNode } from "react";
 
 interface MOUDCardProps {
     name: string;
@@ -7,15 +8,13 @@ interface MOUDCardProps {
     children?: ReactNode;
 }
 
-function MOUDCard({ name, caption, className = "", children }: MOUDCardProps) {
+function MOUDCard({ name, className = "", children }: MOUDCardProps) {
     const classes = className === "" ? className : ` ${className}`;
     return (
         <div className={`moud-card${classes}`}>
             <div className="moud-card-content">
                 <h3>{name}</h3>
-                <div className="moud-body">
-                    {children}
-                </div>
+                <div className="moud-body">{children}</div>
             </div>
         </div>
     );
@@ -42,32 +41,32 @@ export default function AboutTool() {
                     in Massachusetts. Our baseline settings include:
                 </p>
                 <div className="moud-cards">
-                    <MOUDCard
-                        name="No treatment"
-                        >
-                        The population not currently receiving treatment
-                        for opioid use disorder
+                    <MOUDCard name="No treatment">
+                        The population not currently receiving treatment for
+                        opioid use disorder
                     </MOUDCard>
-                    <MOUDCard
-                        name="Medications for opioid use disorder"
-                        >
+                    <MOUDCard name="Medications for opioid use disorder">
                         Populations receiving medication for opioid use
                         disorder. The baseline includes:
                         <div className="centered-ul">
                             <ul>
-                                <li>buprenorphine</li>
-                                <li>naltrexone</li>
-                                <li>methadone</li>
+                                <li>Buprenorphine</li>
+                                <li>Naltrexone</li>
+                                <li>Methadone</li>
                             </ul>
                         </div>
-                        </MOUDCard>
-                    <MOUDCard
-                        name="Community interventions"
-                        >
-                           Populations in community-provided care settings,
-                           including detox facilities, or "detention",
-                           interfacing with the corrections syste
-                        </MOUDCard>
+                    </MOUDCard>
+                    <MOUDCard name="Community interventions">
+                        Populations in community-provided care settings,
+                        including
+                        <div className="centered-ul">
+                            <ul>
+                                <li>Withdrawal management</li>
+                                <li>Inpatent residential facilities</li>
+                                <li>The carceral system</li>
+                            </ul>
+                        </div>
+                    </MOUDCard>
                 </div>
                 <p>
                     With data, users of the tool can add new treatment states
