@@ -510,6 +510,11 @@ button:hover {
     }
 }
 
+.intervention-name {
+    display: flex;
+    flex-direction: column;
+}
+
 .intervention-description {
     margin: calc(var(--spacing)) 0;
     font-weight: 300;

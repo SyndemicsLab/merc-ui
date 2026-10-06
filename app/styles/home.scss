@@ -16,6 +16,7 @@ h1 {
 
     button {
         @include buttons.info_button();
+        aspect-ratio: 3 / 2;
     }
 }
 

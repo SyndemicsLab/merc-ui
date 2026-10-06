@@ -47,6 +47,7 @@ export default function GeneralInputs() {
         {
             inputVar: "total_population",
             inputText: "Initial Total Population",
+            inputDescription: "The total number of people in the population at the start of the simulation.",
             min: POPULATION_MIN,
             max: POPULATION_MAX,
             step: POPULATION_STEP,
