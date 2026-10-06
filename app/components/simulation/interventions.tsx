@@ -289,8 +289,10 @@ function InterventionInfo({
     const dispatch = useInputsDispatch();
     const [name] = useState(intervention.name);
     return (
-        <>
-            <h2 className="inputName">Intervention Name</h2>
+        <div className="intervention-name">
+            <div className="inputName">
+                <h2>Intervention Name</h2>
+            </div>
             {intervention.id == 0 ? (
                 <input type="text" value={intervention.name} readOnly={true} />
             ) : (
@@ -345,7 +347,7 @@ function InterventionInfo({
                     resolved.
                 </p>
             ) : null}
-        </>
+        </div>
     );
 }
 

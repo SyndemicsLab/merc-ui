@@ -22,7 +22,7 @@ export default function Tooltip({ inputName, body }: TooltipProps) {
                     <FontAwesomeIcon icon={faInfo} />
                 </div>
             </DialogTrigger>
-            <DialogContent className="rounded-2xl bg-white">
+            <DialogContent className="rounded-2xl bg-white max-w-1/2">
                 <DialogTitle>{`About "${inputName}"`}</DialogTitle>
                 <div className="input-tooltip-body">
                     {body}
