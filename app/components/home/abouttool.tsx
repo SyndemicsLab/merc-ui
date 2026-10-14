@@ -1,5 +1,7 @@
 import { Link } from "react-router";
 import type { ReactNode } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faInfo } from "@fortawesome/free-solid-svg-icons";
 
 interface MOUDCardProps {
     name: string;
@@ -8,13 +10,18 @@ interface MOUDCardProps {
     children?: ReactNode;
 }
 
-function MOUDCard({ name, className = "", children }: MOUDCardProps) {
+function MOUDCard({ name, icon = null, className = "", children }: MOUDCardProps) {
     const classes = className === "" ? className : ` ${className}`;
     return (
         <div className={`moud-card${classes}`}>
-            <div className="moud-card-content">
-                <h3>{name}</h3>
-                <div className="moud-body">{children}</div>
+            <div className="moud-card-body-wrapper">
+                <div className="moud-card-heading">
+                    {icon ? <FontAwesomeIcon icon={icon} /> : null}
+                    <h3>{name}</h3>
+                </div>
+                <div className="moud-card-content">
+                    {children}
+                </div>
             </div>
         </div>
     );

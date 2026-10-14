@@ -12,13 +12,27 @@ import { faInfo } from "@fortawesome/free-solid-svg-icons";
 interface TooltipProps {
     inputName: string;
     body: string;
+    hover?: boolean;
 };
 
-export default function Tooltip({ inputName, body }: TooltipProps) {
+function HoverTooltip({ body }: { body: string }) {
+    return (
+        <>
+            <div className="input-tooltip">
+                <FontAwesomeIcon icon={faInfo} />
+                <div className="input-tooltip-hover">
+                    {body}
+                </div>
+            </div>
+        </>
+    );
+}
+
+function DialogTooltip({ inputName, body }: { inputName: string, body: string }) {
     return(
         <Dialog>
             <DialogTrigger asChild>
-                <div className="input-tooltip-trigger">
+                <div className="input-tooltip">
                     <FontAwesomeIcon icon={faInfo} />
                 </div>
             </DialogTrigger>
@@ -29,5 +43,12 @@ export default function Tooltip({ inputName, body }: TooltipProps) {
                 </div>
             </DialogContent>
         </Dialog>
+    );
+}
+
+export default function Tooltip({ inputName, body, hover }: TooltipProps) {
+    const tooltip = hover ? <HoverTooltip body={body} /> : <DialogTooltip inputName={inputName} body={body} />;
+    return(
+        tooltip
     );
 }

@@ -745,9 +745,29 @@ input[type="text"].intervention-name-input-error {
     flex-grow: 1;
 }
 
-.input-tooltip-trigger {
+.input-tooltip {
     @include buttons.circular-button($size: 1rem, $font-size: 0.5rem);
     display: inline-flex;
+    position: relative;
     color: #fff;
     transition-duration: var(--transition-duration);
+
+    & .input-tooltip-hover {
+        position: absolute;
+        display: block;
+        bottom: 1.5rem;
+        padding: 1rem;
+        background-color: var(--tertiary-color);
+        border-radius: var(--border-radius);
+        width: 30rem;
+        height: auto;
+        opacity: 0;
+        transition: opacity;
+        transition-duration: var(--transition-duration);
+        pointer-events: none;
+    }
+
+    &:hover .input-tooltip-hover {
+        opacity: 1;
+    }
 }

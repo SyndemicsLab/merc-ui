@@ -44,7 +44,7 @@ export default function Slider({
             <div className="inputName">
                 {inputText}
                 {inputDescription ?
-                    <Tooltip inputName={inputText} body={inputDescription} /> : null}
+                    <Tooltip inputName={inputText} body={inputDescription} hover={true} /> : null}
                 {validationMessage ? (
                     <span className="slider-validation-badge">!</span>
                 ) : null}

@@ -185,7 +185,7 @@ h1 {
         border-radius: var(--border-radius);
 
         p {
-            margin-bottom: 20px;
+            margin: 20px 0;
         }
 
         h2 {
@@ -205,18 +205,7 @@ h1 {
             gap: 2rem;
             margin: 2rem 0;
 
-            @media (max-width: 1200px) {
-                display: flex;
-                flex-direction: column;
-                min-width: 350px;
-                align-items: center;
-
-                .moud-card-content {
-                    min-width: 350px;
-                }
-            }
-
-            .moud-card-content {
+            .moud-card {
                 display: flex;
                 flex-direction: column;
                 background-color: var(--tertiary-color);
@@ -225,9 +214,10 @@ h1 {
                 max-height: 320px;
                 aspect-ratio: 1;
                 padding: 2rem;
+                border: solid 2px var(--primary-color);
                 border-radius: var(--border-radius);
                 font-size: 1rem;
-                overflow: hidden;
+                box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
 
                 h3 {
                     text-align: center;
@@ -235,7 +225,7 @@ h1 {
                     margin-bottom: 1rem;
                 }
 
-                .moud-body {
+                .moud-card-content {
                     text-align: left;
                     flex-grow: 1;
                     align-content: center;
@@ -243,6 +233,24 @@ h1 {
 
                 .centered-ul {
                     @include centered.centered-ul();
+                }
+            }
+
+            @media (max-width: 1300px) {
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+                align-items: center;
+                margin: auto;
+
+                .moud-card {
+                    width: 100%;
+                    height: unset;
+                    aspect-ratio: unset;
+
+                    .moud-card-content {
+                        text-align: center;
+                    }
                 }
             }
         }
