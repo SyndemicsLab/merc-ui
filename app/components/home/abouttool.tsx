@@ -45,7 +45,7 @@ export default function AboutTool() {
                 </p>
                 <p>
                     At default, our model represents individuals who use opioids
-                    in Massachusetts. Our baseline settings include:
+                    in Massachusetts. Our default settings include:
                 </p>
                 <div className="moud-cards">
                     <MOUDCard name="No treatment">
@@ -54,7 +54,7 @@ export default function AboutTool() {
                     </MOUDCard>
                     <MOUDCard name="Medications for opioid use disorder">
                         Populations receiving medication for opioid use
-                        disorder. The baseline includes:
+                        disorder. The default includes:
                         <div className="centered-ul">
                             <ul>
                                 <li>Buprenorphine</li>

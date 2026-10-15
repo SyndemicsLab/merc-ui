@@ -755,7 +755,7 @@ input[type="text"].intervention-name-input-error {
     & .input-tooltip-hover {
         position: absolute;
         display: block;
-        bottom: 1.5rem;
+        left: 1.5rem;
         padding: 1rem;
         background-color: var(--tertiary-color);
         border-radius: var(--border-radius);
@@ -768,6 +768,6 @@ input[type="text"].intervention-name-input-error {
     }
 
     &:hover .input-tooltip-hover {
-        opacity: 1;
+        opacity: 0.9;
     }
 }
