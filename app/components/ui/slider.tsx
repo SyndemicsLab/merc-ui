@@ -4,7 +4,7 @@ import Tooltip from "@components/ui/tooltip";
 interface SliderProps {
     inputVar: string;
     inputText: string;
-    inputDescription?: string;
+    inputDescription?: string | null;
     min: number;
     max: number;
     step: number;

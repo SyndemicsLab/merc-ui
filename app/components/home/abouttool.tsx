@@ -1,10 +1,14 @@
+//types
+import type { IconProp } from "@fortawesome/fontawesome-svg-core";
+
+// components
 import { Link } from "react-router";
 import type { ReactNode } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface MOUDCardProps {
     name: string;
-    icon?: ReactNode;
+    icon?: IconProp | null;
     className?: string;
     children?: ReactNode;
 }

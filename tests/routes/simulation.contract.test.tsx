@@ -7,8 +7,8 @@ import {
     mapRunResponse,
     normalizeLoaderData,
     parseCachedDefaults,
-    RunStatus,
 } from "~/routes/simulation";
+import { RunStatus } from "@simulation/inputs";
 
 describe("Simulation route contract", () => {
     it("maps loader defaults into explicit initialInputs and presets", () => {

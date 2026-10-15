@@ -15,6 +15,7 @@ import {
     DialogDescription,
     // DialogFooter,
 } from "@components/ui/dialog";
+import type { Point } from "@simulation/viz/line-plot";
 import Interventions from "@simulation/interventions";
 import { LoadIndicator } from "@components/ui/mock/timed-loader";
 import LinePlot, { MultiLinePlot } from "@simulation/viz/line-plot";
