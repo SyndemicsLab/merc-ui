@@ -1,7 +1,5 @@
 // Package types
-import type {
-    SimulationRunResponse,
-} from "@components/simulation/types";
+import type { SimulationRunResponse } from "@components/simulation/types";
 
 // Node, React, and React Router imports
 import { useState } from "react";
@@ -17,10 +15,7 @@ import {
     DialogDescription,
     // DialogFooter,
 } from "@components/ui/dialog";
-import Interventions, {
-    validateInterventionNames,
-    getInterventionNameErrors,
-} from "@simulation/interventions";
+import Interventions from "@simulation/interventions";
 import { LoadIndicator } from "@components/ui/mock/timed-loader";
 import LinePlot, { MultiLinePlot } from "@simulation/viz/line-plot";
 // import EmailIntake from "@simulation/emailintake";
@@ -228,7 +223,6 @@ export function RunStatus({
         </>
     );
 }
-
 
 export default function Input({
     handleSubmit,

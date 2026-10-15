@@ -12,7 +12,7 @@ interface SliderProps {
     managementFunction?: (arg0: number) => void;
     readOnly?: boolean;
     validationMessage?: string;
-};
+}
 
 export default function Slider({
     inputVar,
@@ -43,8 +43,13 @@ export default function Slider({
         <>
             <div className="inputName">
                 {inputText}
-                {inputDescription ?
-                    <Tooltip inputName={inputText} body={inputDescription} hover={true} /> : null}
+                {inputDescription ? (
+                    <Tooltip
+                        inputName={inputText}
+                        body={inputDescription}
+                        hover={true}
+                    />
+                ) : null}
                 {validationMessage ? (
                     <span className="slider-validation-badge">!</span>
                 ) : null}

@@ -1,6 +1,5 @@
 // Package types
 import type { Route } from "./+types/simulation";
-import type { Point } from "@simulation/viz/line-plot";
 import type { Inputs, Intervention } from "~/features/simulation/model";
 import type {
     SimulationLoaderData,
@@ -18,19 +17,10 @@ import ScrollIndicator, {
     ScrollDirection,
 } from "@components/ui/scroll-indicator";
 import { InputProvider, useInputs } from "@components/input-contexts";
-import Interventions, {
+import {
     validateInterventionNames,
     getInterventionNameErrors,
 } from "@simulation/interventions";
-import {
-    Dialog,
-    DialogContent,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-    DialogDescription,
-    // DialogFooter,
-} from "@components/ui/dialog";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -450,9 +440,6 @@ export async function action({ request }: Route.ActionArgs) {
         } as SimulationRunResponse;
     }
 }
-
-
-
 
 // temporarily commenting out for Alpha
 // function SimulationContent({ presets }: { presets: Intervention[] }) {

@@ -295,12 +295,18 @@ function InterventionInfo({
             </div>
             <div className="input-name-field">
                 {intervention.id == 0 ? (
-                    <input type="text" value={intervention.name} readOnly={true} />
+                    <input
+                        type="text"
+                        value={intervention.name}
+                        readOnly={true}
+                    />
                 ) : (
                     <input
                         type="text"
                         value={intervention.name}
-                        className={nameError ? "intervention-name-input-error" : ""}
+                        className={
+                            nameError ? "intervention-name-input-error" : ""
+                        }
                         aria-invalid={nameError ? true : undefined}
                         onChange={(event) =>
                             dispatch({
@@ -325,7 +331,10 @@ function InterventionInfo({
                 {intervention.description && intervention.info ? (
                     <Dialog>
                         <DialogTrigger asChild>
-                            <Button variant="outline" className="intervention-info">
+                            <Button
+                                variant="outline"
+                                className="intervention-info"
+                            >
                                 <FontAwesomeIcon icon={faInfo} />
                             </Button>
                         </DialogTrigger>
