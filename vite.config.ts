@@ -11,6 +11,10 @@ export default defineConfig(({ mode }) => ({
             "@tests": "/tests",
         },
     },
+    build: {
+        cssCodeSplit: true,
+        minify: "oxc",
+    },
     plugins: [tailwindcss(), ...(mode === "test" ? [] : [reactRouter()])],
     test: {
         globals: true,
