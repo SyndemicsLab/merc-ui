@@ -289,63 +289,76 @@ function InterventionInfo({
     const dispatch = useInputsDispatch();
     const [name] = useState(intervention.name);
     return (
-        <>
-            <h2 className="inputName">Intervention Name</h2>
-            {intervention.id == 0 ? (
-                <input type="text" value={intervention.name} readOnly={true} />
-            ) : (
-                <input
-                    type="text"
-                    value={intervention.name}
-                    className={nameError ? "intervention-name-input-error" : ""}
-                    aria-invalid={nameError ? true : undefined}
-                    onChange={(event) =>
-                        dispatch({
-                            type: "intervention rename",
-                            name: event.target.value,
-                            id: intervention.id,
-                        })
-                    }
-                />
-            )}
-            {nameError && !intervention.info ? (
-                <p className="intervention-name-error" role="alert">
-                    {nameError} The simulation cannot run until this is
-                    resolved.
-                </p>
-            ) : null}
-            {intervention.description && !intervention.info ? (
-                <p className="intervention-description">
-                    {intervention.description}
-                </p>
-            ) : null}
-            {intervention.description && intervention.info ? (
-                <Dialog>
-                    <DialogTrigger asChild>
-                        <Button variant="outline" className="intervention-info">
-                            <FontAwesomeIcon icon={faInfo} />
-                        </Button>
-                    </DialogTrigger>
-                    <DialogContent className="bg-white lg:max-w-[1000px] max-w-[425px] p-9">
-                        <DialogHeader>
-                            <DialogTitle>{name}</DialogTitle>
-                            <DialogDescription>
-                                {`More information about ${name}.`}
-                            </DialogDescription>
-                        </DialogHeader>
-                        <div className="grid gap-4 py-4">
-                            {intervention.description}
-                        </div>
-                    </DialogContent>
-                </Dialog>
-            ) : null}
+        <div className="intervention-name">
+            <div className="inputName">
+                <h2>Intervention Name</h2>
+            </div>
+            <div className="input-name-field">
+                {intervention.id == 0 ? (
+                    <input
+                        type="text"
+                        value={intervention.name}
+                        readOnly={true}
+                    />
+                ) : (
+                    <input
+                        type="text"
+                        value={intervention.name}
+                        className={
+                            nameError ? "intervention-name-input-error" : ""
+                        }
+                        aria-invalid={nameError ? true : undefined}
+                        onChange={(event) =>
+                            dispatch({
+                                type: "intervention rename",
+                                name: event.target.value,
+                                id: intervention.id,
+                            })
+                        }
+                    />
+                )}
+                {nameError && !intervention.info ? (
+                    <p className="intervention-name-error" role="alert">
+                        {nameError} The simulation cannot run until this is
+                        resolved.
+                    </p>
+                ) : null}
+                {intervention.description && !intervention.info ? (
+                    <p className="intervention-description">
+                        {intervention.description}
+                    </p>
+                ) : null}
+                {intervention.description && intervention.info ? (
+                    <Dialog>
+                        <DialogTrigger asChild>
+                            <Button
+                                variant="outline"
+                                className="intervention-info"
+                            >
+                                <FontAwesomeIcon icon={faInfo} />
+                            </Button>
+                        </DialogTrigger>
+                        <DialogContent className="bg-white lg:max-w-[1000px] max-w-[425px] p-9">
+                            <DialogHeader>
+                                <DialogTitle>{name}</DialogTitle>
+                                <DialogDescription>
+                                    {`More information about ${name}.`}
+                                </DialogDescription>
+                            </DialogHeader>
+                            <div className="grid gap-4 py-4">
+                                {intervention.description}
+                            </div>
+                        </DialogContent>
+                    </Dialog>
+                ) : null}
+            </div>
             {nameError && intervention.info ? (
                 <p className="intervention-name-error" role="alert">
                     {nameError} The simulation cannot run until this is
                     resolved.
                 </p>
             ) : null}
-        </>
+        </div>
     );
 }
 

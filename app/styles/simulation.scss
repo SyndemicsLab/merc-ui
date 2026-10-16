@@ -1,6 +1,7 @@
 @use "components/buttons" as buttons;
 @use "components/dropdown" as dropdown;
 @use "components/centered_list" as cl;
+@use "effects/fade" as fade;
 @use "effects/bounce";
 
 /* SIMULATION */
@@ -17,6 +18,7 @@
 
     h1 {
         font-size: 24px;
+        font-weight: 600;
     }
 }
 
@@ -67,8 +69,14 @@
         line-height: 1;
 
         &:hover {
+            color: var(--primary-color);
             opacity: 0.7;
+            background-color: unset;
         }
+    }
+
+    &.expanded .simulation-toc-list {
+        animation: fade-in 800ms;
     }
 
     .simulation-toc-list {
@@ -81,6 +89,9 @@
         flex-wrap: wrap;
         gap: 0.15rem 0.75rem;
         align-items: center;
+        animation-delay: 0ms;
+        animation: fade-out 100ms;
+        animation-fill-mode: forwards;
 
         li {
             display: flex;
@@ -258,7 +269,9 @@ input::-ms-thumb:hover {
 
 .inputName,
 .advancedInputName {
-    display: block;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
     font-size: 16px;
     font-weight: 600;
     margin-bottom: var(--spacing-small);
@@ -497,6 +510,11 @@ button:hover {
     }
 }
 
+.intervention-name {
+    display: flex;
+    flex-direction: column;
+}
+
 .intervention-description {
     margin: calc(var(--spacing)) 0;
     font-weight: 300;
@@ -702,21 +720,6 @@ input[type="text"].intervention-name-input-error {
     display: none;
 }
 
-.advanced-inputs {
-    margin-bottom: var(--spacing-large);
-}
-
-#advanced-options {
-    @include buttons.info-button();
-    display: inline-block;
-}
-
-.advanced-options-text {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
 #disclaimers {
     padding: calc(3 * var(--spacing));
     background-color: rgb(from var(--secondary-color) r g b / 20%);
@@ -740,4 +743,31 @@ input[type="text"].intervention-name-input-error {
 .sim-result {
     margin: 0 auto;
     flex-grow: 1;
+}
+
+.input-tooltip {
+    @include buttons.circular-button($size: 1rem, $font-size: 0.5rem);
+    display: inline-flex;
+    position: relative;
+    color: #fff;
+    transition-duration: var(--transition-duration);
+
+    & .input-tooltip-hover {
+        position: absolute;
+        display: block;
+        left: 1.5rem;
+        padding: 1rem;
+        background-color: var(--tertiary-color);
+        border-radius: var(--border-radius);
+        width: 30rem;
+        height: auto;
+        opacity: 0;
+        transition: opacity;
+        transition-duration: var(--transition-duration);
+        pointer-events: none;
+    }
+
+    &:hover .input-tooltip-hover {
+        opacity: 0.9;
+    }
 }
