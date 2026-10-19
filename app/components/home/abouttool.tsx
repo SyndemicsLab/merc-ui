@@ -50,8 +50,9 @@ export default function AboutTool() {
                     hypotheses.
                 </p>
                 <p>
-                    At default, our model represents individuals who use opioids
-                    in Massachusetts. Our default settings include:
+                    With data, users of the tool can add new treatment states
+                    and ask even more questions. RESPOND models individuals who
+                    use opioids in Massachusetts. The default settings include:
                 </p>
                 <div className="moud-cards">
                     <MOUDCard name="No treatment">
@@ -81,10 +82,6 @@ export default function AboutTool() {
                         </div>
                     </MOUDCard>
                 </div>
-                <p>
-                    With data, users of the tool can add new treatment states
-                    and ask even more questions.
-                </p>
             </div>
         </div>
     );
