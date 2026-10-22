@@ -1,4 +1,37 @@
+//types
+import type { IconProp } from "@fortawesome/fontawesome-svg-core";
+
+// components
 import { Link } from "react-router";
+import type { ReactNode } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+interface MOUDCardProps {
+    name: string;
+    icon?: IconProp | null;
+    className?: string;
+    children?: ReactNode;
+}
+
+function MOUDCard({
+    name,
+    icon = null,
+    className = "",
+    children,
+}: MOUDCardProps) {
+    const classes = className === "" ? className : ` ${className}`;
+    return (
+        <div className={`moud-card${classes}`}>
+            <div className="moud-card-body-wrapper">
+                <div className="moud-card-heading">
+                    {icon ? <FontAwesomeIcon icon={icon} /> : null}
+                    <h3>{name}</h3>
+                </div>
+                <div className="moud-card-content">{children}</div>
+            </div>
+        </div>
+    );
+}
 
 export default function AboutTool() {
     return (
@@ -6,24 +39,49 @@ export default function AboutTool() {
             <div className="home-tile">
                 <h2>About This Tool</h2>
                 <p>
-                    This website provides a simplified version of the RESPOND
-                    simulation model and aims to be a user-friendly interface
-                    for modeling the health and health economic effects of the
-                    opioid use epidemic. The goal of this tool is to help anyone
+                    This website is a user-friendly, simplified version of the
+                    RESPOND model. The goal of this tool is to help anyone
                     interested, such as academic researchers, policy-makers, and
                     more, understand the impact of and make decisions about
                     research and implementation of interventions related to
                     opioid use. Use the <Link to="/simulation">Simulation</Link>{" "}
-                    page to run our default values, or update the values to test
-                    your hypotheses.
+                    page to run our default data, which represent the state of
+                    Massachusetts, or update the values to test your own
+                    hypotheses.
                 </p>
                 <p>
-                    At default, our model represents individuals who use opioids
-                    in Massachusetts. Our baseline treatment states include: No
-                    Treatment, Methadone, Buprenorphine, Naltrexone, Detox, and
-                    Detention. With data, users of the tool can add new
-                    treatment states and ask even more questions.
+                    With data, users of the tool can add new treatment states
+                    and ask even more questions. RESPOND models individuals who
+                    use opioids in Massachusetts. The default settings include:
                 </p>
+                <div className="moud-cards">
+                    <MOUDCard name="No treatment">
+                        The population not currently receiving treatment for
+                        opioid use disorder
+                    </MOUDCard>
+                    <MOUDCard name="Medications for opioid use disorder">
+                        Populations receiving medication for opioid use
+                        disorder. The default includes:
+                        <div className="centered-ul">
+                            <ul>
+                                <li>Buprenorphine</li>
+                                <li>Naltrexone</li>
+                                <li>Methadone</li>
+                            </ul>
+                        </div>
+                    </MOUDCard>
+                    <MOUDCard name="Community interventions">
+                        Populations in community-provided care settings,
+                        including
+                        <div className="centered-ul">
+                            <ul>
+                                <li>Withdrawal management</li>
+                                <li>Inpatent residential facilities</li>
+                                <li>The carceral system</li>
+                            </ul>
+                        </div>
+                    </MOUDCard>
+                </div>
             </div>
         </div>
     );

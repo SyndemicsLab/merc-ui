@@ -2,6 +2,7 @@ import React from "react";
 import type { Route } from "./+types/root";
 import {
     isRouteErrorResponse,
+    Links,
     Outlet,
     Scripts,
     ScrollRestoration,
@@ -41,6 +42,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
                 <link rel="stylesheet" href={tailwindStyle} />
                 <link rel="stylesheet" href={appStylesHref} />
                 <link rel="icon" sizes="32x32" href="/favicon.ico" />
+                <Links />
                 <title>RESPOND — Syndemics Lab</title>
             </head>
             <body>
