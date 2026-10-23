@@ -21,6 +21,70 @@ import { LoadIndicator } from "@components/ui/mock/timed-loader";
 import LinePlot, { MultiLinePlot } from "@simulation/viz/line-plot";
 // import EmailIntake from "@simulation/emailintake";
 
+function ResultsTOC() {
+    const [isExpanded, setIsExpanded] = useState(true);
+
+    const simulationSections = [
+        {
+            id: "population-count-over-time",
+            label: "Population Count Over Time",
+        },
+        {
+            id: "total-overdose-count-over-time",
+            label: "Total Overdose Count Over Time",
+        },
+        {
+            id: "cumulative-total-overdose-count-over-time",
+            label: "Cumulative Total Overdose Count Over Time",
+        },
+        {
+            id: "moud-admissions-per-timestep",
+            label: "MOUD Admissions Per Timestep",
+        },
+        {
+            id: "death-by-simulation-timestep",
+            label: "Death by Simulation Timestep",
+        },
+        {
+            id: "cumulative-death-by-simulation-timestep",
+            label: "Cumulative Death by Simulation Timestep",
+        },
+    ] as const;
+
+    let tocExpanded = isExpanded ? "Collapse" : "Expand";
+    const navClass = isExpanded ? "expanded" : "collapsed";
+    tocExpanded += " table of contents";
+
+    return (
+        <nav
+            aria-label="Table of contents"
+                className={`simulation-toc ${navClass}`}
+>
+            <h3 className="toc-title">Jump To A Graph</h3>
+            {isExpanded ? (
+                <>
+                    <ul className="simulation-toc-list">
+                        {simulationSections.map((section) => (
+                            <li key={section.id}>
+                                <a href={`#${section.id}`}>
+                                    {section.label}
+                                </a>
+                            </li>
+                            ))}
+                    </ul>
+                </>
+                            ) : null}
+            <button
+                className={`${navClass}`}
+                onClick={() => setIsExpanded(!isExpanded)}
+                aria-label={tocExpanded}
+                >
+                    {isExpanded ? "‹" : "›"}
+                        </button>
+        </nav>
+    );
+}
+
 export function RunStatus({
     pending,
     reset,
@@ -30,8 +94,6 @@ export function RunStatus({
     reset: boolean;
     result?: SimulationRunResponse;
 }) {
-    const [isExpanded, setIsExpanded] = useState(true);
-
     if (pending || reset) {
         return <LoadIndicator />;
     }
@@ -84,71 +146,13 @@ export function RunStatus({
     const moudAdmissions =
         modelOutcome["intervention_admission"].map(accumulateTimesteps);
 
-    const simulationSections = [
-        {
-            id: "population-count-over-time",
-            label: "Population Count Over Time",
-        },
-        {
-            id: "total-overdose-count-over-time",
-            label: "Total Overdose Count Over Time",
-        },
-        {
-            id: "cumulative-total-overdose-count-over-time",
-            label: "Cumulative Total Overdose Count Over Time",
-        },
-        {
-            id: "moud-admissions-per-timestep",
-            label: "MOUD Admissions Per Timestep",
-        },
-        {
-            id: "death-by-simulation-timestep",
-            label: "Death by Simulation Timestep",
-        },
-        {
-            id: "cumulative-death-by-simulation-timestep",
-            label: "Cumulative Death by Simulation Timestep",
-        },
-    ] as const;
-
-    let tocExpanded = isExpanded ? "Collapse" : "Expand";
-    const navClass = isExpanded ? "expanded" : "collapsed";
-    tocExpanded += " table of contents";
-
     return (
         <>
-            <nav
-                aria-label="Table of contents"
-                className={`simulation-toc ${navClass}`}
-            >
-                <h3 className="toc-title">Jump To A Graph</h3>
-                {isExpanded ? (
-                    <>
-                        <ul className="simulation-toc-list">
-                            {simulationSections.map((section) => (
-                                <li key={section.id}>
-                                    <a href={`#${section.id}`}>
-                                        {section.label}
-                                    </a>
-                                </li>
-                            ))}
-                        </ul>
-                    </>
-                ) : null}
-                <button
-                    className={`${navClass}`}
-                    onClick={() => setIsExpanded(!isExpanded)}
-                    aria-label={tocExpanded}
-                >
-                    {isExpanded ? "‹" : "›"}
-                </button>
-            </nav>
-
             <LinePlot
                 data={population}
                 perTimestep={false}
                 title="Population Count Over Time"
-                id={simulationSections[0].id}
+                id="population-count-over-time"
                 xTitle="Week"
                 yTitle="Population"
             />
@@ -156,7 +160,7 @@ export function RunStatus({
                 data={totalOD}
                 perTimestep={true}
                 title="Total Overdose Count Over Time"
-                id={simulationSections[1].id}
+                id="total-overdose-count-over-time"
                 xTitle="Week"
                 yTitle="Overdoses"
             />
@@ -164,7 +168,7 @@ export function RunStatus({
                 data={cumulativeTotalOD}
                 perTimestep={false}
                 title="Cumulative Total Overdose Count Over Time"
-                id={simulationSections[2].id}
+                id="cumulative-total-overdose-count-over-time"
                 xTitle="Week"
                 yTitle="Overdoses"
             />
@@ -172,7 +176,7 @@ export function RunStatus({
                 data={moudAdmissions}
                 perTimestep={true}
                 title="MOUD Admissions Per Timestep"
-                id={simulationSections[3].id}
+                id="moud-admissions-per-timestep"
                 xTitle="Week"
                 yTitle="Admissions"
             />
@@ -193,7 +197,7 @@ export function RunStatus({
                 ]}
                 perTimestep={true}
                 title="Death by Simulation Timestep"
-                id={simulationSections[4].id}
+                id="death-by-simulation-timestep"
                 xTitle="Week"
                 yTitle="Deaths"
             />
@@ -217,7 +221,7 @@ export function RunStatus({
                 ]}
                 perTimestep={false}
                 title="Cumulative Death by Simulation Timestep"
-                id={simulationSections[5].id}
+                id="cumulative-death-by-simulation-timestep"
                 xTitle="Week"
                 yTitle="Deaths"
             />
@@ -327,6 +331,7 @@ export default function Input({
                             not be considered guaranteed outcomes.
                         </DialogDescription>
                     </DialogHeader>
+                    <ResultsTOC />
                     <div className="results-main flex flex-col">
                         <RunStatus
                             pending={pending}
