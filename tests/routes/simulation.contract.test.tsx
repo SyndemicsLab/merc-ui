@@ -128,26 +128,8 @@ describe("Simulation route contract", () => {
         expect(mapped.error).toBe("backend error");
     });
 
-    it("renders pending run loading", () => {
-        render(<RunStatus pending={true} reset={false} />);
-
-        expect(screen.getByRole("loading-placeholder")).toBeTruthy();
-    });
-
-    it("renders reset run loading", () => {
-        render(<RunStatus pending={false} reset={true} />);
-
-        expect(screen.getByRole("loading-placeholder")).toBeTruthy();
-    });
-
     it("renders empty run body", () => {
-        render(
-            <RunStatus
-                pending={false}
-                reset={false}
-                result={{ ok: true, status: 200 }}
-            />,
-        );
+        render(<RunStatus result={{ ok: true, status: 200 }} />);
 
         expect(
             screen.getByText(
@@ -159,8 +141,6 @@ describe("Simulation route contract", () => {
     it("renders successful run results", () => {
         render(
             <RunStatus
-                pending={false}
-                reset={false}
                 result={{
                     ok: true,
                     status: 200,
@@ -184,11 +164,7 @@ describe("Simulation route contract", () => {
 
     it("renders error run status", () => {
         render(
-            <RunStatus
-                pending={false}
-                reset={false}
-                result={{ ok: false, status: 500, error: "Failed" }}
-            />,
+            <RunStatus result={{ ok: false, status: 500, error: "Failed" }} />,
         );
 
         expect(
