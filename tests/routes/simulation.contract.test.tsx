@@ -129,13 +129,7 @@ describe("Simulation route contract", () => {
     });
 
     it("renders empty run body", () => {
-        render(
-            <RunStatus
-                pending={false}
-                reset={false}
-                result={{ ok: true, status: 200 }}
-            />,
-        );
+        render(<RunStatus result={{ ok: true, status: 200 }} />);
 
         expect(
             screen.getByText(
@@ -147,8 +141,6 @@ describe("Simulation route contract", () => {
     it("renders successful run results", () => {
         render(
             <RunStatus
-                pending={false}
-                reset={false}
                 result={{
                     ok: true,
                     status: 200,
@@ -172,11 +164,7 @@ describe("Simulation route contract", () => {
 
     it("renders error run status", () => {
         render(
-            <RunStatus
-                pending={false}
-                reset={false}
-                result={{ ok: false, status: 500, error: "Failed" }}
-            />,
+            <RunStatus result={{ ok: false, status: 500, error: "Failed" }} />,
         );
 
         expect(

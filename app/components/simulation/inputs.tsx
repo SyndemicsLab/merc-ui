@@ -332,11 +332,7 @@ export default function Input({
                             <>
                                 <ResultsTOC />
                                 <div className="results-main flex flex-col">
-                                    <RunStatus
-                                        pending={pending}
-                                        reset={resultsReset}
-                                        result={runResult}
-                                    />
+                                    <RunStatus result={runResult} />
                                 </div>
                             </>
                         )}
