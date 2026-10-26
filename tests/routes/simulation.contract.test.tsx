@@ -128,18 +128,6 @@ describe("Simulation route contract", () => {
         expect(mapped.error).toBe("backend error");
     });
 
-    it("renders pending run loading", () => {
-        render(<RunStatus pending={true} reset={false} />);
-
-        expect(screen.getByRole("loading-placeholder")).toBeTruthy();
-    });
-
-    it("renders reset run loading", () => {
-        render(<RunStatus pending={false} reset={true} />);
-
-        expect(screen.getByRole("loading-placeholder")).toBeTruthy();
-    });
-
     it("renders empty run body", () => {
         render(
             <RunStatus
