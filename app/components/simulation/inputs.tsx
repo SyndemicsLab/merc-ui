@@ -17,6 +17,7 @@ import {
 } from "@components/ui/dialog";
 import type { Point } from "@simulation/viz/line-plot";
 import Interventions from "@simulation/interventions";
+import { Link } from "react-router";
 import { LoadIndicator } from "@components/ui/mock/timed-loader";
 import LinePlot, { MultiLinePlot } from "@simulation/viz/line-plot";
 // import EmailIntake from "@simulation/emailintake";
@@ -66,9 +67,13 @@ function ResultsTOC() {
                     <ul className="simulation-toc-list">
                         {simulationSections.map((section) => (
                             <li key={section.id}>
-                                <a href={`#${section.id}`}>
+                                <Link
+                                    to={`#${section.id}`}
+                                    mask="/simulation"
+                                    replace
+                                >
                                     {section.label}
-                                </a>
+                                </Link>
                             </li>
                             ))}
                     </ul>
@@ -94,9 +99,6 @@ export function RunStatus({
     reset: boolean;
     result?: SimulationRunResponse;
 }) {
-    if (pending || reset) {
-        return <LoadIndicator />;
-    }
     if (!result || !result.ok) {
         return (
             <p className="run-status" role="alert">
@@ -331,13 +333,19 @@ export default function Input({
                             not be considered guaranteed outcomes.
                         </DialogDescription>
                     </DialogHeader>
-                    <ResultsTOC />
-                    <div className="results-main flex flex-col">
-                        <RunStatus
-                            pending={pending}
-                            reset={resultsReset}
-                            result={runResult}
-                        />
+                    <div id="results">
+                        {(pending || resultsReset) ? (<LoadIndicator />) : (
+                            <>
+                                <ResultsTOC />
+                                <div className="results-main flex flex-col">
+                                    <RunStatus
+                                        pending={pending}
+                                        reset={resultsReset}
+                                        result={runResult}
+                                    />
+                                </div>
+                            </>
+                        )}
                     </div>
                     {/*
                        Commenting out the email intake until it's functional

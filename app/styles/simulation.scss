@@ -23,6 +23,7 @@
 }
 
 .simulation-toc {
+    flex-shrink: 1;
     position: sticky;
     top: 0;
     left: 15%;
@@ -40,6 +41,11 @@
     transition:
         width var(--transition-duration);
     height: 50px;
+
+    // prevent text selection within element
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 
     &:not(.collapsed) {
         width: 75%;
@@ -107,6 +113,18 @@
 
     .simulation-toc-list a:hover {
         text-decoration: underline;
+    }
+
+    @media (max-width: 1700px) {
+        height: fit-content;
+        overflow: visible;
+        transition:
+            width var(--transition-duration),
+            height var(--transition-duration);
+
+        .simulation-toc-list {
+            grid-template-columns: 1fr;
+        }
     }
 }
 
@@ -619,12 +637,20 @@ input[type="text"].intervention-name-input-error {
 }
 
 #results {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    height: 100vh;
+    min-height: 0;
+    min-width: 0;
 }
 
 .results-main {
+    flex-grow: 1;
     overflow-y: scroll;
+    scroll-snap-type: y mandatory;
     width: 85%;
-    height: 100vh;
+    height: 100%;
     margin: auto;
 
     h2 {
@@ -658,6 +684,8 @@ input[type="text"].intervention-name-input-error {
 
     & .line-plot,
     & .bar-plot {
+        scroll-margin-top: 0;
+        scroll-snap-align: start;
         display: flex;
         flex-direction: column;
         align-items: center;
