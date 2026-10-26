@@ -59,8 +59,8 @@ function ResultsTOC() {
     return (
         <nav
             aria-label="Table of contents"
-                className={`simulation-toc ${navClass}`}
->
+            className={`simulation-toc ${navClass}`}
+        >
             <h3 className="toc-title">Jump To A Graph</h3>
             {isExpanded ? (
                 <>
@@ -75,30 +75,22 @@ function ResultsTOC() {
                                     {section.label}
                                 </Link>
                             </li>
-                            ))}
+                        ))}
                     </ul>
                 </>
-                            ) : null}
+            ) : null}
             <button
                 className={`${navClass}`}
                 onClick={() => setIsExpanded(!isExpanded)}
                 aria-label={tocExpanded}
-                >
-                    {isExpanded ? "‹" : "›"}
-                        </button>
+            >
+                {isExpanded ? "‹" : "›"}
+            </button>
         </nav>
     );
 }
 
-export function RunStatus({
-    pending,
-    reset,
-    result,
-}: {
-    pending: boolean;
-    reset: boolean;
-    result?: SimulationRunResponse;
-}) {
+export function RunStatus({ result }: { result?: SimulationRunResponse }) {
     if (!result || !result.ok) {
         return (
             <p className="run-status" role="alert">
@@ -334,7 +326,9 @@ export default function Input({
                         </DialogDescription>
                     </DialogHeader>
                     <div id="results">
-                        {(pending || resultsReset) ? (<LoadIndicator />) : (
+                        {pending || resultsReset ? (
+                            <LoadIndicator />
+                        ) : (
                             <>
                                 <ResultsTOC />
                                 <div className="results-main flex flex-col">
