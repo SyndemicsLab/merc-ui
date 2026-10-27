@@ -280,7 +280,7 @@ export default function GroupedBarPlot(props: BarPlotProps) {
             .on("mouseover", (_event, d) =>
                 tooltip.text(
                     `${String(d[primaryKey])}, ${String(d[groupKey])}: ${String(
-                        d[valueKey],
+                        Number(d[valueKey]).toFixed(2),
                     )}`,
                 ),
             )

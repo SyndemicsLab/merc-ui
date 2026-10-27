@@ -252,7 +252,7 @@ export default function LinePlot(props: LinePlotProps) {
             .attr("width", (d) => d.width)
             .attr("height", height - margin.top - margin.bottom)
             .on("mouseover", (_event, d) => {
-                tooltip.select("text").text(`(${d.point[0]}, ${d.point[1]})`);
+            tooltip.select("text").text(`(${d.point[0]}, ${Number(d.point[1]).toFixed(2)})`);
                 currentPoint
                     .attr("cx", x(d.point[0]))
                     .attr("cy", y(d.point[1]))
@@ -439,7 +439,7 @@ export function MultiLinePlot(props: MultiLinePlotProps) {
                 .filter(({ z }) => z === name)
                 .raise();
             currentPoint.attr("transform", `translate(${x}, ${y})`);
-            tooltip.select("text").text(`${name}: ${v0}, ${v1}`);
+            tooltip.select("text").text(`${name}: ${v0}, ${Number(v1).toFixed(2)}`);
         }
 
         function pointerentered() {
