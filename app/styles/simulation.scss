@@ -179,14 +179,22 @@
     }
 }
 
-.input-menu {
-    outline: none;
+.input-button-wrapper {
     position: absolute;
     right: 0;
-}
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
 
-.more-inputs {
-    @include dropdown.dropdown();
+    .glossary-button {
+        @include buttons.info-button($hover-color: var(--primary-color));
+        margin: unset;
+    }
+
+    .reset-data-button {
+        @include buttons.info-button($color: var(--secondary-color));
+        margin: unset;
+    }
 }
 
 input[type="text"] {
@@ -271,92 +279,13 @@ input::-ms-thumb:hover {
     margin-bottom: var(--spacing-large);
 }
 
-.loading-inputs {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-
-    width: 100%;
-    min-height: 10rem;
-    font-size: 1.5rem;
-}
-
-.inputName,
-.advancedInputName {
+.inputName {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
     font-size: 16px;
     font-weight: 600;
     margin-bottom: var(--spacing-small);
-}
-
-#advanced {
-    --horizontal-padding: var(--spacing-large);
-    height: 0;
-    overflow: hidden;
-    background-color: rgba(from var(--primary-color) r g b/ 40%);
-    transition:
-        height 700ms,
-        padding linear 400ms 300ms;
-    padding: 0 var(--horizontal-padding);
-    @media (min-width: 1500px) {
-        --horizontal-padding: calc(var(--spacing-large) * 3);
-    }
-    border: 0px;
-    border-radius: var(--border-radius);
-
-    &.unhidden {
-        height: auto;
-        padding: var(--spacing-large) var(--horizontal-padding);
-        animation: reveal-down 700ms linear;
-        transition: padding 0ms 0ms;
-    }
-
-    h2 {
-        font-weight: 700;
-        font-size: 20px;
-    }
-
-    .more-info {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        margin: 0.5rem 0;
-
-        .info-button {
-            height: 4rem;
-            width: -webkit-fill-available;
-            justify-content: center;
-        }
-    }
-
-    input[type="file"] {
-        background-color: white;
-        width: 100%;
-        border-radius: 5px;
-        border: solid 1px var(--accent-gray);
-        font-weight: 500;
-        margin-bottom: var(--spacing-small);
-        cursor: pointer;
-
-        &::file-selector-button {
-            color: #fff;
-            padding: 8px;
-            background: var(--primary-color);
-            transition-duration: var(--transition-duration);
-            cursor: pointer;
-        }
-
-        &:hover::file-selector-button {
-            background: var(--secondary-color);
-        }
-    }
-}
-
-.advancedInputName {
-    cursor: pointer;
 }
 
 .slider {
@@ -423,13 +352,6 @@ button:hover {
     &.addTab {
         background-color: var(--secondary-color);
         outline: none;
-
-        // only for alpha
-        cursor: not-allowed;
-        // only for alpha
-        &.disabled {
-            background-color: gray;
-        }
     }
 
     & > .delete-button {

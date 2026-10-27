@@ -1,14 +1,13 @@
 import { useInputs } from "@components/input-contexts";
 import { useInputsDispatch } from "@components/input-contexts";
-// commented temporarily for alpha
-// import {
-//     DropdownMenu,
-//     DropdownMenuContent,
-//     DropdownMenuItem,
-//     DropdownMenuLabel,
-//     DropdownMenuSeparator,
-//     DropdownMenuTrigger,
-// } from "@components/ui/dropdown-menu";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@components/ui/dropdown-menu";
 import type {
     Intervention,
     Transition,
@@ -133,16 +132,13 @@ function Tab({
 function Tabs({
     interventions,
     nameErrorsById,
-    // commented temporarily for alpha
-    // presets,
+    presets,
 }: {
     interventions: Intervention[];
     nameErrorsById: Record<number, string>;
-    // commented temporarily for alpha
-    // presets: Intervention[];
+    presets: Intervention[];
 }) {
-    // commented temporarily for alpha
-    // const dispatch = useInputsDispatch();
+    const dispatch = useInputsDispatch();
     return (
         <>
             <div className="interventionTabs">
@@ -153,15 +149,6 @@ function Tabs({
                         nameError={nameErrorsById[intervention.id]}
                     />
                 ))}
-                {/* Remove this button and uncomment the dropdown menu after
-                    alpha */}
-                <button
-                    className="interventionTab addTab disabled"
-                    disabled={true}
-                >
-                    + New Intervention
-                </button>
-                {/* Temporarily commenting out this element for Alpha
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <button className="interventionTab addTab disabled">
@@ -201,7 +188,6 @@ function Tabs({
                         ))}
                     </DropdownMenuContent>
                 </DropdownMenu>
-                 */}
             </div>
         </>
     );
@@ -472,7 +458,7 @@ function Contents({
     );
 }
 
-export default function Interventions() {
+export default function Interventions({ presets }: { presets: Intervention[] }) {
     const inputs = useInputs();
     const interventions: Intervention[] = inputs.interventions;
     const nameErrorsById: Record<number, string> = getInterventionNameErrors(
@@ -481,16 +467,10 @@ export default function Interventions() {
 
     return (
         <div id="interventions">
-            {/*
-               Temporarily commenting for Alpha - replace the element below with
-               <Tabs
-               interventions={interventions}
-               nameErrorsById={nameErrorsById}
-               presets={interventions} />
-             */}
             <Tabs
                 interventions={interventions}
                 nameErrorsById={nameErrorsById}
+                presets={presets}
             />
             <Contents
                 interventions={interventions}

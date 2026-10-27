@@ -9,7 +9,7 @@ import type {
 } from "@components/simulation/types";
 
 // Node, React, and React Router imports
-import { useFetcher, Await, useLoaderData, useNavigate } from "react-router";
+import { useFetcher, Await, Link, useLoaderData, useNavigate } from "react-router";
 import { useRef, useState, useEffect, Suspense } from "react";
 
 // Component imports
@@ -442,8 +442,7 @@ export async function action({ request }: Route.ActionArgs) {
 }
 
 // temporarily commenting out for Alpha
-// function SimulationContent({ presets }: { presets: Intervention[] }) {
-function SimulationContent() {
+function SimulationContent({ presets }: { presets: Intervention[] }) {
     const inputs = useInputs();
     const fetcher = useFetcher<SimulationRunResponse>();
     const navigate = useNavigate();
@@ -528,34 +527,20 @@ function SimulationContent() {
                when this section is visible.
              */}
             <div id="inputs" ref={inputRef}>
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <button className="input-menu">More</button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent className="more-inputs" align="end">
-                        <DropdownMenuLabel className="dropdown-label">
-                            Input Settings
-                        </DropdownMenuLabel>
-                        <DropdownMenuItem
-                            className="reset-data"
-                            onSelect={handleReset}
-                        >
-                            Reset Data
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuLabel className="dropdown-label">
-                            Information
-                        </DropdownMenuLabel>
-                        <DropdownMenuItem
-                            className="to-glossary"
-                            onSelect={() => {
-                                navigate("/glossary");
-                            }}
-                        >
-                            Glossary
-                        </DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
+                <div className="input-button-wrapper">
+                    <Link
+                        className="glossary-button"
+                        to="/glossary"
+                    >
+                        Glossary
+                    </Link>
+                    <button
+                        className="reset-data-button"
+                        onClick={handleReset}
+                    >
+                        Reset Data
+                    </button>
+                </div>
                 <ScrollIndicator
                     destination="/simulation#inputs"
                     options={{
@@ -563,15 +548,6 @@ function SimulationContent() {
                         direction: direction,
                     }}
                 />
-                {/*
-                   Temporarily commenting out for Alpha
-                   <Input
-                   handleSubmit={handleSubmit}
-                   presets={presets}
-                   pending={pending}
-                   runResult={fetcher.data}
-                   />
-                 */}
                 <Input
                     handleSubmit={handleSubmit}
                     nameValidationError={nameValidationError}
@@ -582,6 +558,7 @@ function SimulationContent() {
                             : null
                     }
                     pending={pending}
+                    presets={presets}
                     runResult={fetcher.data}
                 />
             </div>
@@ -599,13 +576,9 @@ export default function Simulation() {
                     <InputProvider
                         initialState={resolvedLoaderData.initialInputs}
                     >
-                        {/*
-                           Temporarily commenting out for Alpha
                         <SimulationContent
                                 presets={resolvedLoaderData.presets}
                         />
-                         */}
-                        <SimulationContent />
                     </InputProvider>
                 )}
             </Await>
