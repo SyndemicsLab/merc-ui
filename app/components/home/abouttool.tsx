@@ -22,13 +22,11 @@ function MOUDCard({
     const classes = className === "" ? className : ` ${className}`;
     return (
         <div className={`moud-card${classes}`}>
-            <div className="moud-card-body-wrapper">
-                <div className="moud-card-heading">
-                    {icon ? <FontAwesomeIcon icon={icon} /> : null}
-                    <h3>{name}</h3>
-                </div>
-                <div className="moud-card-content">{children}</div>
+            <div className="moud-card-heading">
+                {icon ? <FontAwesomeIcon icon={icon} /> : null}
+                <h3>{name}</h3>
             </div>
+            <div className="moud-card-content">{children}</div>
         </div>
     );
 }
