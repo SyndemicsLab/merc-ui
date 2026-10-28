@@ -1,9 +1,15 @@
 #glossary {
+    position: relative;
+    display: flex;
+    flex: 1;
+    flex-direction: row;
     margin: auto;
     margin-top: 20px;
     margin-bottom: 20px;
     width: 80%;
+    overflow-y: scroll;
     max-width: 1200px;
+    gap: 1rem;
 
     h2 {
         font-size: 2rem;
@@ -13,34 +19,56 @@
         color: var(--tertiary-color);
     }
 
-    table,
-    th,
-    td {
-        border: 2px solid #fff;
-        margin: auto;
-        background-color: rgb(from var(--accent-gray) r g b / 20%);
+    .glossary-toc {
+        position: sticky;
+        top: 0;
+        align-self: flex-start;
+        flex: 0 0 200px;
+        padding: 1rem;
+        background-color: var(--accent-gray);
+        border-radius: var(--border-radius);
+        overflow-y: auto;
+        box-sizing: border-box;
     }
 
-    table {
-        margin-bottom: calc(var(--spacing) * 3);
+    .glossary-content-wrapper {
+        display: flex;
+        flex: 1 1 auto;
+        min-width: 0;
+        flex-direction: column;
+        gap: 1rem;
     }
 
-    th,
-    td {
-        padding: 8px;
-    }
+    .glossary-item {
+        display: flex;
+        flex-direction: column;
+        color: #fff;
+        background-color: var(--tertiary-color);
+        border-radius: var(--border-radius);
 
-    th {
-        background-color: rgb(from var(--primary-color) r g b / 40%);
-    }
+        h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin: 0.5rem 1rem;
+        }
 
-    table th:first-of-type {
-        width: 20%;
-    }
+        .glossary-body {
+            background-color: white;
+            border-radius: calc(var(--border-radius) / 2);
+            padding: 2rem;
+            margin: 0 1rem 1rem 1rem;
+            color: initial;
 
-    table tr td:first-of-type {
-        background-color: rgb(from var(--primary-color) r g b / 40%);
-        text-align: center;
-        font-weight: 500;
+            * + p {
+
+                &:before {
+                    font-size: 1.5rem;
+                    display: block;
+                    content: "⋆ ⋆ ⋆";
+                    text-align: center;
+                    margin: 1rem 0;
+                }
+            }
+        }
     }
 }
