@@ -472,8 +472,10 @@ function SimulationContent({ presets }: { presets: Intervention[] }) {
     };
 
     const handleReset = () => {
-        clearSessionInputsFromStorage();
-        window.location.reload();
+        if (window.confirm("Confirm request to reset data.")) {
+            clearSessionInputsFromStorage();
+            window.location.reload();
+        }
     };
 
     const pending = fetcher.state !== "idle";
