@@ -53,11 +53,11 @@ export default function AboutTool() {
                     use opioids in Massachusetts. The default settings include:
                 </p>
                 <div className="moud-cards">
-                    <MOUDCard name="No treatment">
+                    <MOUDCard name="No Treatment">
                         The population not currently receiving treatment for
                         opioid use disorder
                     </MOUDCard>
-                    <MOUDCard name="Medications for opioid use disorder">
+                    <MOUDCard name="Medications for Opioid Use Disorder">
                         Populations receiving medication for opioid use
                         disorder. The default includes:
                         <div className="centered-ul">
@@ -68,13 +68,13 @@ export default function AboutTool() {
                             </ul>
                         </div>
                     </MOUDCard>
-                    <MOUDCard name="Community interventions">
+                    <MOUDCard name="Community Interventions">
                         Populations in community-provided care settings,
                         including
                         <div className="centered-ul">
                             <ul>
                                 <li>Withdrawal management</li>
-                                <li>Inpatent residential facilities</li>
+                                <li>Inpatient residential facilities</li>
                                 <li>The carceral system</li>
                             </ul>
                         </div>
