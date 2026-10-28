@@ -9,7 +9,7 @@ import type {
 } from "@components/simulation/types";
 
 // Node, React, and React Router imports
-import { useFetcher, Await, Link, useLoaderData, useNavigate } from "react-router";
+import { useFetcher, Await, Link, useLoaderData } from "react-router";
 import { useRef, useState, useEffect, Suspense } from "react";
 
 // Component imports
@@ -21,14 +21,6 @@ import {
     validateInterventionNames,
     getInterventionNameErrors,
 } from "@simulation/interventions";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "@components/ui/dropdown-menu";
 import Input from "@simulation/inputs";
 
 // Asset imports
@@ -445,7 +437,6 @@ export async function action({ request }: Route.ActionArgs) {
 function SimulationContent({ presets }: { presets: Intervention[] }) {
     const inputs = useInputs();
     const fetcher = useFetcher<SimulationRunResponse>();
-    const navigate = useNavigate();
     const nameValidationError = validateInterventionNames(inputs.interventions);
     const interventionNameErrors = getInterventionNameErrors(
         inputs.interventions,
