@@ -7,28 +7,45 @@
     margin-top: 20px;
     margin-bottom: 20px;
     width: 80%;
-    overflow-y: scroll;
     max-width: 1200px;
-    gap: 1rem;
+    gap: 2rem;
 
     h2 {
         font-size: 2rem;
         font-weight: 600;
         font-family: "IBM Plex Sans", sans-serif;
-        margin-bottom: 20px;
         color: var(--tertiary-color);
     }
 
     .glossary-toc {
         position: sticky;
-        top: 0;
+        top: 1rem;
         align-self: flex-start;
-        flex: 0 0 200px;
+        flex: 0 0 250px;
+        font-weight: 500;
         padding: 1rem;
-        background-color: var(--accent-gray);
+        max-height: calc(100vh - 120px - 5em);
+        background-color: rgba(from var(--accent-gray) r g b / 70%);
         border-radius: var(--border-radius);
-        overflow-y: auto;
+        overflow-y: scroll;
         box-sizing: border-box;
+
+        a {
+            color: var(--tertiary-color);
+
+            &:hover {
+                color: var(--secondary-color);
+            }
+        }
+
+        ul > ul {
+            list-style: square;
+            margin-left: 1.2rem;
+
+            ::marker {
+                color: var(--tertiary-color);
+            }
+        }
     }
 
     .glossary-content-wrapper {
@@ -52,6 +69,12 @@
             margin: 0.5rem 1rem;
         }
 
+        h4 {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--tertiary-color);
+        }
+
         .glossary-body {
             background-color: white;
             border-radius: calc(var(--border-radius) / 2);
@@ -59,12 +82,13 @@
             margin: 0 1rem 1rem 1rem;
             color: initial;
 
-            * + p {
-
+            & > * + * {
                 &:before {
-                    font-size: 1.5rem;
+                    color: var(--secondary-color);
+                    font-size: 0.5rem;
+                    font-weight: 600;
                     display: block;
-                    content: "⋆ ⋆ ⋆";
+                    content: "⨉ ⨉ ⨉ ⨉ ⨉";
                     text-align: center;
                     margin: 1rem 0;
                 }
