@@ -83,16 +83,19 @@
             color: initial;
 
             & > * + * {
-                &:before {
-                    color: var(--secondary-color);
-                    font-size: 0.5rem;
-                    font-weight: 600;
-                    display: block;
-                    content: "⨉ ⨉ ⨉ ⨉ ⨉";
-                    text-align: center;
-                    margin: 1rem 0;
-                }
+                margin: 0.5rem 0 0.5rem 0;
             }
+            // & > * + * {
+            //     &:before {
+            //         color: var(--secondary-color);
+            //         font-size: 0.5rem;
+            //         font-weight: 600;
+            //         display: block;
+            //         content: "⨉ ⨉ ⨉ ⨉ ⨉";
+            //         text-align: center;
+            //         margin: 1rem 0;
+            //     }
+            // }
         }
     }
 }
