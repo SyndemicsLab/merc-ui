@@ -53,6 +53,7 @@ interface TreatmentItem {
     administration?: ReactNode | ReactNode[];
     brands?: ReactNode | ReactNode[];
     names?: ReactNode | ReactNode[];
+    moreInformation?: ReactNode | ReactNode[];
     sources?: (string | typeof Link)[];
 }
 
@@ -65,9 +66,29 @@ const treatment: TreatmentItem[] = [
         title: "Buprenorphine (Bup)",
         mainBody: <p>This treatment setting is for individuals who are engaged with buprenorphine, a medication for opioid use disorder, in the community.</p>,
         howItWorks: (<p>Buprenorphine is a 'partial opioid agonist,' and 'diminish[es] the effects of physical dependency to opioids, such as withdrawal symptoms and cravings' (<Link to="https://www.samhsa.gov/substance-use/treatment/options/buprenorphine">SAMHSA</Link>).</p>),
-        treatment: (<p>'To begin treatment, an OUD patient must abstain from using opioids for at least 12 to 24 hours and be in the early stages of opioid withdrawal. [...] The length of time a patient receives buprenorphine is tailored to meet the needs of each patient, and in some cases, treatment can be indefinite.' (<Link to="https://www.samhsa.gov/substance-use/treatment/options/buprenorphine">SAMHSA</Link>).</p>)
+        treatment: (<p>'To begin treatment, an OUD patient must abstain from using opioids for at least 12 to 24 hours and be in the early stages of opioid withdrawal. [...] The length of time a patient receives buprenorphine is tailored to meet the needs of each patient, and in some cases, treatment can be indefinite.' (<Link to="https://www.samhsa.gov/substance-use/treatment/options/buprenorphine">SAMHSA</Link>).</p>),
+        administration: (<p>sublingual tablets, buccal films, transdermal films, and injections, alone or in combination with naloxone. How often are doctors' visits? How much take home can you get?</p>),
+        brands: (<p>Belbuca, Brixadi, Buprenex, Buprenorphine, Butrans, Sublocade, Suboxone, Subutex, Zubsolv</p>),
+        names: (<p>big whites, buse, oranges, small whites, sobos, stops, strips, sub, subs</p>),
     },
 ];
+
+const treatmentAttributes: string[] = [
+    "howItWorks",
+    "treatment",
+    "administration",
+    "brands",
+    "names",
+    "moreInformation",
+];
+
+const treatmentSectionMap: { [name : string] : string } = {};
+treatmentSectionMap["howItWorks"] = "How It Works";
+treatmentSectionMap["treatment"] = "Treatment";
+treatmentSectionMap["administration"] = "Administration Pathways";
+treatmentSectionMap["brands"] = "Brand Names";
+treatmentSectionMap["names"] = "Lay/Street Names";
+treatmentSectionMap["moreInformation"] = "More Information";
 
 export default function Glossary() {
     return (
@@ -111,22 +132,19 @@ export default function Glossary() {
                         {item.mainBody.constructor === Array ? (
                             item.mainBody.map((element) => element)
                         ): item.mainBody}
-                        {"howItWorks" in item ? (
-                            <div className="how-it-works">
-                                <h4>How It Works</h4>
-                                {item.howItWorks.constructor === Array ? (
-                                    item.howItWorks.map((element) => element)
-                                ): item.howItWorks}
+                        {treatmentAttributes.map((attr) => {
+                        if (attr in item) {
+                            return(
+                                <div className={attr}>
+                                    <h4>{treatmentSectionMap[attr]}</h4>
+                                {item[attr].constructor === Array ? (
+                                    item[attr].map((element) => element)
+                                ): item[attr]}
                             </div>
-                        ): null}
-                        {"treatment" in item ? (
-                            <div className="treatment">
-                                <h4>Treatment</h4>
-                                {item.treatment.constructor === Array ? (
-                                    item.treatment.map((element) => element)
-                                ): item.treatment}
-                            </div>
-                        ): null}
+                            );
+                        }
+                        return (null);
+                    })}
                     </GlossaryItem>
                 )
                 )}
