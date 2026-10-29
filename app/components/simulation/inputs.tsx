@@ -1,5 +1,6 @@
 // Package types
 import type { SimulationRunResponse } from "@components/simulation/types";
+import type { Intervention } from "~/features/simulation/model";
 
 // Node, React, and React Router imports
 import { useState } from "react";
