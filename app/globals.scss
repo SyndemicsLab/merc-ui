@@ -235,6 +235,7 @@ a {
 /* FOOTER */
 
 .footer {
+    font-size: calc(var(--font-size) * 0.75);
     position: relative;
     bottom: 0;
     background-color: #f8f8f8;
@@ -328,7 +329,6 @@ a {
 
 .footer-description {
     flex-grow: 1;
-    font-size: var(--font-size);
     line-height: 1.5;
     text-align: justify;
 }
