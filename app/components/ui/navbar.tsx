@@ -68,7 +68,7 @@ export default function Navbar({ paths }: { paths: Path[] }) {
     // used for controlling the navigation menu when on a smaller screen
     const [menuOpen, setMenuOpen] = useState(false);
     return (
-        <header className="header">
+        <header id="header" className="header">
             <Link to="/">
                 <img
                     className="navbarlogo"

@@ -1,3 +1,6 @@
+@use "components/buttons" as buttons;
+@use "effects/bounce";
+
 #glossary {
     position: relative;
     display: flex;
@@ -21,11 +24,29 @@
         color: var(--tertiary-color);
     }
 
+    .nav-wrapper {
+        display: flex;
+        flex-direction: column;
+        flex: 0 0 250px;
+
+        .top {
+            @include buttons.circular-button($size: 2rem);
+            color: white;
+            position: fixed;
+            bottom: 1rem;
+            transition-duration: var(--transition-duration);
+            z-index: 10000000;
+            animation: bounce 500ms;
+            animation-direction: alternate;
+            animation-iteration-count: infinite;
+            border: solid 2px white;
+        }
+    }
+
     .glossary-toc {
         position: sticky;
         top: 1rem;
         align-self: flex-start;
-        flex: 0 0 250px;
         font-weight: 500;
         padding: 1rem;
         max-height: calc(100vh - 120px - 5em);
@@ -66,8 +87,7 @@
             min-height: fit-content;
 
             ul {
-                width: fit-content;
-                margin: auto;
+                width: 100%;
             }
         }
     }

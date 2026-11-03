@@ -1,6 +1,12 @@
-// type imports
+// types
 import type { ReactNode } from "react";
+
+// components
 import { Link } from "react-router";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
+
+// assets
 import "~/styles/glossary.scss";
 
 function generateGlossaryID(title: string) {
@@ -543,66 +549,73 @@ treatmentSectionMap["moreInformation"] = "More Information";
 export default function Glossary() {
     return (
         <main id="glossary">
-            <div className="glossary-toc">
-                <ul>
-                    <li className="heading">
-                        <Link to="#general" mask="/glossary" replace>
-                            General Terminology
-                        </Link>
-                    </li>
-                    <hr />
+            <div className="nav-wrapper">
+                <div className="glossary-toc">
                     <ul>
-                        {general.map((item) => (
-                            <li key={item.title}>
-                                <Link
-                                    to={`#${generateGlossaryID(item.title)}`}
-                                    mask="/glossary"
-                                    replace
-                                >
-                                    {item.title}
-                                </Link>
-                            </li>
-                        ))}
+                        <li className="heading">
+                            <Link to="#general" mask="/glossary" replace>
+                                General Terminology
+                            </Link>
+                        </li>
+                        <hr />
+                        <ul>
+                            {general.map((item) => (
+                                <li key={item.title}>
+                                    <Link
+                                        to={`#${generateGlossaryID(item.title)}`}
+                                        mask="/glossary"
+                                        replace
+                                    >
+                                        {item.title}
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                        <li className="heading">
+                            <Link to="#treatment" mask="/glossary" replace>
+                                Treatment Settings
+                            </Link>
+                        </li>
+                        <hr />
+                        <ul>
+                            {treatment.map((item) => (
+                                <li key={item.title}>
+                                    <Link
+                                        to={`#${generateGlossaryID(item.title)}`}
+                                        mask="/glossary"
+                                        replace
+                                    >
+                                        {item.title}
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                        <li className="heading">
+                            <Link to="#oud" mask="/glossary" replace>
+                                Opioid Use Settings
+                            </Link>
+                        </li>
+                        <hr />
+                        <ul>
+                            {oud.map((item) => (
+                                <li>
+                                    <Link
+                                        to={`#${generateGlossaryID(item.title)}`}
+                                        mask="/glossary"
+                                        replace
+                                    >
+                                        {item.title}
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
                     </ul>
-                    <li className="heading">
-                        <Link to="#treatment" mask="/glossary" replace>
-                            Treatment Settings
-                        </Link>
-                    </li>
-                    <hr />
-                    <ul>
-                        {treatment.map((item) => (
-                            <li key={item.title}>
-                                <Link
-                                    to={`#${generateGlossaryID(item.title)}`}
-                                    mask="/glossary"
-                                    replace
-                                >
-                                    {item.title}
-                                </Link>
-                            </li>
-                        ))}
-                    </ul>
-                    <li className="heading">
-                        <Link to="#oud" mask="/glossary" replace>
-                            Opioid Use Settings
-                        </Link>
-                    </li>
-                    <hr />
-                    <ul>
-                        {oud.map((item) => (
-                            <li>
-                                <Link
-                                    to={`#${generateGlossaryID(item.title)}`}
-                                    mask="/glossary"
-                                    replace
-                                >
-                                    {item.title}
-                                </Link>
-                            </li>
-                        ))}
-                    </ul>
-                </ul>
+                </div>
+                <Link to="#header" mask="/glossary" replace>
+                    <button type="button" className="top">
+                        <FontAwesomeIcon icon={faArrowUp} />
+                    </button>
+                </Link>
             </div>
             <div className="glossary-content-wrapper">
                 <h2 id="general">General Terminology</h2>
