@@ -521,16 +521,10 @@ function SimulationContent({ presets }: { presets: Intervention[] }) {
              */}
             <div id="inputs" ref={inputRef}>
                 <div className="input-button-wrapper">
-                    <Link
-                        className="glossary-button"
-                        to="/glossary"
-                    >
+                    <Link className="glossary-button" to="/glossary">
                         Glossary
                     </Link>
-                    <button
-                        className="reset-data-button"
-                        onClick={handleReset}
-                    >
+                    <button className="reset-data-button" onClick={handleReset}>
                         Reset Data
                     </button>
                 </div>
@@ -570,7 +564,7 @@ export default function Simulation() {
                         initialState={resolvedLoaderData.initialInputs}
                     >
                         <SimulationContent
-                                presets={resolvedLoaderData.presets}
+                            presets={resolvedLoaderData.presets}
                         />
                     </InputProvider>
                 )}

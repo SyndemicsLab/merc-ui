@@ -458,7 +458,11 @@ function Contents({
     );
 }
 
-export default function Interventions({ presets }: { presets: Intervention[] }) {
+export default function Interventions({
+    presets,
+}: {
+    presets: Intervention[];
+}) {
     const inputs = useInputs();
     const interventions: Intervention[] = inputs.interventions;
     const nameErrorsById: Record<number, string> = getInterventionNameErrors(
