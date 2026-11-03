@@ -42,9 +42,18 @@
             }
         }
 
+        .heading {
+            font-weight: 600;
+        }
+
+        hr {
+            color: var(--accent-darkgray);
+        }
+
         ul > ul {
             list-style: square;
             margin-left: 1.2rem;
+            margin-bottom: 0.5rem;
 
             ::marker {
                 color: var(--tertiary-color);

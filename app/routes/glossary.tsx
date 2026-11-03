@@ -545,11 +545,12 @@ export default function Glossary() {
         <main id="glossary">
             <div className="glossary-toc">
                 <ul>
-                    <li>
+                    <li className="heading">
                         <Link to="#general" mask="/glossary" replace>
                             General Terminology
                         </Link>
                     </li>
+                    <hr />
                     <ul>
                         {general.map((item) => (
                             <li key={item.title}>
@@ -563,11 +564,12 @@ export default function Glossary() {
                             </li>
                         ))}
                     </ul>
-                    <li>
+                    <li className="heading">
                         <Link to="#treatment" mask="/glossary" replace>
                             Treatment Settings
                         </Link>
                     </li>
+                    <hr />
                     <ul>
                         {treatment.map((item) => (
                             <li key={item.title}>
@@ -581,11 +583,12 @@ export default function Glossary() {
                             </li>
                         ))}
                     </ul>
-                    <li>
+                    <li className="heading">
                         <Link to="#oud" mask="/glossary" replace>
                             Opioid Use Settings
                         </Link>
                     </li>
+                    <hr />
                     <ul>
                         {oud.map((item) => (
                             <li>
