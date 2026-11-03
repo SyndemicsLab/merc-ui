@@ -231,8 +231,10 @@ h1 {
                     text-align: left;
                 }
 
-                .centered-ul {
-                    @include centered.centered-ul();
+                .moud-list {
+                    margin-top: 0.5rem;
+                    list-style: square;
+                    list-style-position: inside;
                 }
             }
 

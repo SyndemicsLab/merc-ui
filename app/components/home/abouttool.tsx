@@ -59,25 +59,21 @@ export default function AboutTool() {
                     </MOUDCard>
                     <MOUDCard name="Medications for Opioid Use Disorder">
                         Populations receiving medication for opioid use
-                        disorder. The default includes:
-                        <div className="centered-ul">
-                            <ul>
-                                <li>Buprenorphine</li>
-                                <li>Naltrexone</li>
-                                <li>Methadone</li>
-                            </ul>
-                        </div>
+                        disorder, including:
+                        <ul className="moud-list">
+                            <li>Buprenorphine</li>
+                            <li>Naltrexone</li>
+                            <li>Methadone</li>
+                        </ul>
                     </MOUDCard>
                     <MOUDCard name="Community Interventions">
                         Populations in community-provided care settings,
-                        including
-                        <div className="centered-ul">
-                            <ul>
-                                <li>Withdrawal management</li>
-                                <li>Inpatient residential facilities</li>
-                                <li>The carceral system</li>
-                            </ul>
-                        </div>
+                        including:
+                        <ul className="moud-list">
+                            <li>Withdrawal management</li>
+                            <li>Inpatient residential facilities</li>
+                            <li>The carceral system</li>
+                        </ul>
                     </MOUDCard>
                 </div>
             </div>
