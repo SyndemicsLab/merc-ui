@@ -1,5 +1,6 @@
 // Package types
 import type { SimulationRunResponse } from "@components/simulation/types";
+import type { Intervention } from "~/features/simulation/model";
 
 // Node, React, and React Router imports
 import { useState } from "react";
@@ -228,8 +229,7 @@ export default function Input({
     nameValidationError,
     interventionNameErrors,
     populationConstraintError,
-    // temporarily commenting for Alpha
-    // presets,
+    presets,
     pending,
     runResult,
 }: {
@@ -237,8 +237,7 @@ export default function Input({
     nameValidationError: string | null;
     interventionNameErrors: Record<number, string>;
     populationConstraintError: string | null;
-    // temporarily commenting for Alpha
-    // presets: Intervention[];
+    presets: Intervention[];
     pending: boolean;
     runResult?: SimulationRunResponse;
 }) {
@@ -262,7 +261,7 @@ export default function Input({
             <h1>General Inputs</h1>
             <GeneralInputs />
             <h1>Intervention Inputs</h1>
-            <Interventions />
+            <Interventions presets={presets} />
             <Dialog open={resultsOpen} onOpenChange={resetResults}>
                 <DialogTrigger asChild>
                     <button

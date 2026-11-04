@@ -22,13 +22,11 @@ function MOUDCard({
     const classes = className === "" ? className : ` ${className}`;
     return (
         <div className={`moud-card${classes}`}>
-            <div className="moud-card-body-wrapper">
-                <div className="moud-card-heading">
-                    {icon ? <FontAwesomeIcon icon={icon} /> : null}
-                    <h3>{name}</h3>
-                </div>
-                <div className="moud-card-content">{children}</div>
+            <div className="moud-card-heading">
+                {icon ? <FontAwesomeIcon icon={icon} /> : null}
+                <h3>{name}</h3>
             </div>
+            <div className="moud-card-content">{children}</div>
         </div>
     );
 }
@@ -55,31 +53,27 @@ export default function AboutTool() {
                     use opioids in Massachusetts. The default settings include:
                 </p>
                 <div className="moud-cards">
-                    <MOUDCard name="No treatment">
+                    <MOUDCard name="No Treatment">
                         The population not currently receiving treatment for
                         opioid use disorder
                     </MOUDCard>
-                    <MOUDCard name="Medications for opioid use disorder">
+                    <MOUDCard name="Medications for Opioid Use Disorder">
                         Populations receiving medication for opioid use
-                        disorder. The default includes:
-                        <div className="centered-ul">
-                            <ul>
-                                <li>Buprenorphine</li>
-                                <li>Naltrexone</li>
-                                <li>Methadone</li>
-                            </ul>
-                        </div>
+                        disorder, including:
+                        <ul className="moud-list">
+                            <li>Buprenorphine</li>
+                            <li>Naltrexone</li>
+                            <li>Methadone</li>
+                        </ul>
                     </MOUDCard>
-                    <MOUDCard name="Community interventions">
+                    <MOUDCard name="Community Interventions">
                         Populations in community-provided care settings,
-                        including
-                        <div className="centered-ul">
-                            <ul>
-                                <li>Withdrawal management</li>
-                                <li>Inpatent residential facilities</li>
-                                <li>The carceral system</li>
-                            </ul>
-                        </div>
+                        including:
+                        <ul className="moud-list">
+                            <li>Withdrawal management</li>
+                            <li>Inpatient residential facilities</li>
+                            <li>The carceral system</li>
+                        </ul>
                     </MOUDCard>
                 </div>
             </div>

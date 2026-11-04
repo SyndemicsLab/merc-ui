@@ -104,8 +104,8 @@ export default function Home({ loaderData }: Route.ComponentProps) {
                 <div className="home-content">
                     <h1 className="welcome-text">
                         <span>
-                            Welcome to <br />
-                            RESPOND!
+                            RESPOND to the <br />
+                            opioid epidemic.
                         </span>
                     </h1>
                     <p className="home-description">

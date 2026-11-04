@@ -1,46 +1,140 @@
+@use "components/buttons" as buttons;
+@use "effects/bounce";
+
 #glossary {
+    position: relative;
+    display: flex;
+    flex: 1;
+    flex-direction: row;
     margin: auto;
     margin-top: 20px;
     margin-bottom: 20px;
     width: 80%;
     max-width: 1200px;
+    gap: 2rem;
+
+    @media (max-width: 700px) {
+        flex-direction: column;
+    }
 
     h2 {
         font-size: 2rem;
         font-weight: 600;
         font-family: "IBM Plex Sans", sans-serif;
-        margin-bottom: 20px;
         color: var(--tertiary-color);
     }
 
-    table,
-    th,
-    td {
-        border: 2px solid #fff;
-        margin: auto;
-        background-color: rgb(from var(--accent-gray) r g b / 20%);
+    .nav-wrapper {
+        display: flex;
+        flex-direction: column;
+        flex: 0 0 250px;
+
+        .top {
+            @include buttons.circular-button($size: 2rem);
+            color: white;
+            position: fixed;
+            bottom: 1rem;
+            transition-duration: var(--transition-duration);
+            z-index: 10000000;
+            animation: bounce 500ms;
+            animation-direction: alternate;
+            animation-iteration-count: infinite;
+            border: solid 2px white;
+        }
     }
 
-    table {
-        margin-bottom: calc(var(--spacing) * 3);
-    }
-
-    th,
-    td {
-        padding: 8px;
-    }
-
-    th {
-        background-color: rgb(from var(--primary-color) r g b / 40%);
-    }
-
-    table th:first-of-type {
-        width: 20%;
-    }
-
-    table tr td:first-of-type {
-        background-color: rgb(from var(--primary-color) r g b / 40%);
-        text-align: center;
+    .glossary-toc {
+        position: sticky;
+        top: 1rem;
+        align-self: flex-start;
         font-weight: 500;
+        padding: 1rem;
+        max-height: calc(100vh - 120px - 5em);
+        background-color: rgba(from var(--accent-gray) r g b / 70%);
+        border-radius: var(--border-radius);
+        overflow-y: scroll;
+        box-sizing: border-box;
+
+        a {
+            color: var(--tertiary-color);
+
+            &:hover {
+                color: var(--secondary-color);
+            }
+        }
+
+        .heading {
+            font-weight: 600;
+        }
+
+        hr {
+            color: var(--accent-darkgray);
+        }
+
+        ul > ul {
+            list-style: square;
+            margin-left: 1.2rem;
+            margin-bottom: 0.5rem;
+
+            ::marker {
+                color: var(--tertiary-color);
+            }
+        }
+
+        @media (max-width: 700px) {
+            position: static;
+            width: 100%;
+            min-height: fit-content;
+
+            ul {
+                width: 100%;
+            }
+        }
+    }
+
+    .glossary-content-wrapper {
+        display: flex;
+        flex: 1 1 auto;
+        min-width: 0;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .glossary-item {
+        display: flex;
+        flex-direction: column;
+        color: #fff;
+        background-color: var(--tertiary-color);
+        border-radius: var(--border-radius);
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4);
+
+        h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin: 0.5rem 1rem;
+        }
+
+        h4 {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--secondary-color);
+        }
+
+        ol {
+            list-style-type: decimal;
+            list-style-position: inside;
+        }
+
+        .glossary-body {
+            background-color: white;
+            border-radius: calc(var(--border-radius) / 2);
+            padding: 2rem;
+            margin: 0 1rem 1rem 1rem;
+            color: initial;
+
+            & > * + * {
+                margin: 0.5rem 0 0.5rem 0;
+            }
+        }
     }
 }
